@@ -1,5 +1,5 @@
 # taxexclusive
-# Welcome to [Your CA Firm Name]
+# Welcome to [Taxclusive]
 
 We are a Chartered Accountancy firm committed to delivering excellence in financial and taxation services.
 
@@ -20,5 +20,5 @@ We are a Chartered Accountancy firm committed to delivering excellence in financ
 - Customized Solutions for Individuals & Businesses
 - Strong Data Security and Compliance
 
-📍 Based in [City], serving clients PAN India.
+📍 Based in noida, serving clients PAN India.
 
