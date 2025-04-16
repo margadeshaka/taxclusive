@@ -42,7 +42,7 @@ export default function Home() {
                 <div className="ethnic-border p-4">
                   <Image
                     //  src="https://placehold.co/550x550"
-                      src="/home.jpg"
+                      src="/home.png"
                     width={550}
                     height={550}
                     alt="Professional accountants working together in a modern office environment"

@@ -63,7 +63,7 @@ export default function AboutPage() {
               <div className="ethnic-border p-4">
                 <Image
                   // src="https://placehold.co/550x550"
-                  src="/about.jpg"
+                  src="/about.png"
                   width={550}
                   height={550}
                   alt="Sudarshan Mehta, founder of Sudarshan & Associates"
