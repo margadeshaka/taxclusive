@@ -1,0 +1,128 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 36 33% 97%;
+    --foreground: 20 14.3% 4.1%;
+    --card: 0 0% 100%;
+    --card-foreground: 20 14.3% 4.1%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 20 14.3% 4.1%;
+    --primary: 24 89.3% 48%;
+    --primary-foreground: 60 9.1% 97.8%;
+    --secondary: 60 4.8% 95.9%;
+    --secondary-foreground: 24 9.8% 10%;
+    --muted: 12 6.5% 94.1%;
+    --muted-foreground: 25 5.3% 44.7%;
+    --accent: 12 6.5% 94.1%;
+    --accent-foreground: 24 9.8% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 60 9.1% 97.8%;
+    --border: 20 5.9% 90%;
+    --input: 20 5.9% 90%;
+    --ring: 24 89.3% 48%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 20 14.3% 4.1%;
+    --foreground: 60 9.1% 97.8%;
+    --card: 20 14.3% 4.1%;
+    --card-foreground: 60 9.1% 97.8%;
+    --popover: 20 14.3% 4.1%;
+    --popover-foreground: 60 9.1% 97.8%;
+    --primary: 20.5 90.2% 48.2%;
+    --primary-foreground: 60 9.1% 97.8%;
+    --secondary: 12 6.5% 15.1%;
+    --secondary-foreground: 60 9.1% 97.8%;
+    --muted: 12 6.5% 15.1%;
+    --muted-foreground: 24 5.4% 63.9%;
+    --accent: 12 6.5% 15.1%;
+    --accent-foreground: 60 9.1% 97.8%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 60 9.1% 97.8%;
+    --border: 12 6.5% 15.1%;
+    --input: 12 6.5% 15.1%;
+    --ring: 20.5 90.2% 48.2%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d2a863' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+}
+
+.ethnic-border {
+  @apply relative;
+}
+
+.ethnic-border::before,
+.ethnic-border::after {
+  content: "";
+  @apply absolute w-8 h-8 border-primary;
+}
+
+.ethnic-border::before {
+  @apply top-0 left-0 border-t-2 border-l-2;
+}
+
+.ethnic-border::after {
+  @apply bottom-0 right-0 border-b-2 border-r-2;
+}
+
+.ethnic-divider {
+  @apply relative flex items-center;
+}
+
+.ethnic-divider::before,
+.ethnic-divider::after {
+  content: "";
+  @apply flex-grow border-t border-primary/30;
+}
+
+.ethnic-divider::before {
+  @apply mr-4;
+}
+
+.ethnic-divider::after {
+  @apply ml-4;
+}
+
+.ethnic-pattern {
+  background-color: rgba(210, 168, 99, 0.1);
+  background-image: url("data:image/svg+xml,%3Csvg width='52' height='26' viewBox='0 0 52 26' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d2a863' fill-opacity='0.15'%3E%3Cpath d='M10 10c0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6h2c0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4v2c-3.314 0-6-2.686-6-6 0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6zm25.464-1.95l8.486 8.486-1.414 1.414-8.486-8.486 1.414-1.414z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* Pulse animation for contact button */
+.ethnic-pulse {
+  position: relative;
+}
+
+.ethnic-pulse::before {
+  content: "";
+  position: absolute;
+  border: 1px solid hsl(var(--primary));
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
