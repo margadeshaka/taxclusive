@@ -32,7 +32,7 @@ export const metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL("https://www.sudarshanassociates.com"),
+  metadataBase: new URL("https://www.Taxclusive.com"),
   alternates: {
     canonical: "/",
     languages: {
@@ -44,7 +44,7 @@ export const metadata = {
     title: "Taxclusive - Professional Chartered Accountancy Services",
     description:
       "Professional chartered accountancy firm providing comprehensive accounting, taxation, and financial advisory services with cultural expertise.",
-    url: "https://www.sudarshanassociates.com",
+    url: "https://www.Taxclusive.com",
     siteName: "Taxclusive",
     images: [
       {

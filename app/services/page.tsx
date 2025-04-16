@@ -5,7 +5,7 @@ import Header from "@/components/header"
 import Footer from "@/components/footer"
 
 export const metadata = {
-  title: "Our Services - Sudarshan & Associates",
+  title: "Our Services - Taxclusive",
   description:
     "Comprehensive accounting, taxation, and financial advisory services tailored to meet your unique needs.",
 }
@@ -531,7 +531,7 @@ export default function ServicesPage() {
                     </svg>
                   </div>
                   <p className="text-muted-foreground italic">
-                    "I've been working with Sudarshan & Associates for over 10 years, and their financial guidance has
+                    "I've been working with Taxclusive for over 10 years, and their financial guidance has
                     been invaluable. They truly understand my business and provide tailored solutions."
                   </p>
                   <div className="pt-4">
@@ -600,7 +600,7 @@ export default function ServicesPage() {
                     </svg>
                   </div>
                   <p className="text-muted-foreground italic">
-                    "As a nonprofit organization, we have unique financial needs. Sudarshan & Associates understands
+                    "As a nonprofit organization, we have unique financial needs. Taxclusive understands
                     these challenges and provides expert guidance that helps us fulfill our mission."
                   </p>
                   <div className="pt-4">

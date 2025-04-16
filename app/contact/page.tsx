@@ -294,7 +294,7 @@ export default function ContactPage() {
               </div>
             </div>
             <div className="mx-auto grid max-w-5xl gap-6 pt-12 lg:grid-cols-2">
-              /* <div className="space-y-2 p-6 border border-border rounded-lg hover:border-primary/30 transition-colors">
+               <div className="space-y-2 p-6 border border-border rounded-lg hover:border-primary/30 transition-colors">
                 <h3 className="text-xl font-bold">What services do you offer?</h3>
                 <p className="text-muted-foreground">
                 We provide a wide range of services including tax planning and filing, GST compliance, business registration, audit and assurance, financial advisory, and bookkeeping for individuals and businesses.

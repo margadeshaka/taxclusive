@@ -66,7 +66,7 @@ export default function AboutPage() {
                   src="/about.jpg"
                   width={550}
                   height={550}
-                  alt="Sudarshan Mehta, founder of Sudarshan & Associates"
+                  alt="founder of Taxclusive"
                   className="rounded-lg object-cover"
                 />
               </div>
