@@ -8,7 +8,7 @@ import { usePathname } from "next/navigation"
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
-  const [language, setLanguage] = useState("English")
+  // const [language, setLanguage] = useState("English")
   const pathname = usePathname()
 
   useEffect(() => {
@@ -98,10 +98,10 @@ export default function Header() {
         </nav>
         <div className="hidden md:flex items-center gap-4">
           <div className="relative group">
-            <button className="flex items-center gap-1 text-sm font-medium text-muted-foreground hover:text-foreground">
-              <Globe className="h-4 w-4" />
-              <span>{language}</span>
-            </button>
+            {/*<button className="flex items-center gap-1 text-sm font-medium text-muted-foreground hover:text-foreground">*/}
+            {/*  <Globe className="h-4 w-4" />*/}
+            {/*  <span>{language}</span>*/}
+            {/*</button>*/}
             {/* <div className="absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-background border border-border hidden group-hover:block">
               <div className="py-1" role="menu" aria-orientation="vertical">
                 <button
