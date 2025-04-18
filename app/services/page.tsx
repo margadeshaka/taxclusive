@@ -68,7 +68,7 @@ export default function ServicesPage() {
                 <div className="ethnic-border p-4">
                   <Image
                     // src="https://placehold.co/550x550"
-                    src="/services.jpg"
+                    src="/TailoredFinancialSolutions.png"
                     width={550}
                     height={550}
                     alt="Professional accountants providing financial services to clients"

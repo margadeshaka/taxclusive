@@ -45,7 +45,7 @@ export default function InsightsPage() {
                   <div className="aspect-video overflow-hidden">
                     <Image
                       // src="https://placehold.co/1200x600"
-                      src="/latestfinancial.jpg"
+                      src="/latestfinancial.png"
                       width={1200}
                       height={600}
                       alt="Tax planning strategies for small businesses"
@@ -96,7 +96,7 @@ export default function InsightsPage() {
                     <div className="aspect-video overflow-hidden">
                       <Image
                         //src="https://placehold.co/600x400"
-                        src="/insights1.jpg"
+                        src="/insights1.png"
                         width={600}
                         height={400}
                         alt="Financial forecasting guide for business growth"
@@ -126,7 +126,7 @@ export default function InsightsPage() {
                     <div className="aspect-video overflow-hidden">
                       <Image
                         // src="https://placehold.co/600x400"
-                        src="/insights2.jpg"
+                        src="/insights2.png"
                         width={600}
                         height={400}
                         alt="The importance of regular financial audits"
@@ -155,7 +155,7 @@ export default function InsightsPage() {
                     <div className="aspect-video overflow-hidden">
                       <Image
                         // src="https://placehold.co/600x400"
-                        src="/insights3.jpg"
+                        src="/insights3.png"
                         width={600}
                         height={400}
                         alt="Navigating business succession planning"
@@ -185,7 +185,7 @@ export default function InsightsPage() {
                     <div className="aspect-video overflow-hidden">
                       <Image
                         // src="https://placehold.co/600x400"
-                        src="/insights4.jpg"
+                        src="/insights4.png"
 
                         width={600}
                         height={400}

@@ -313,7 +313,7 @@ export default function Home() {
                 <div className="aspect-video overflow-hidden">
                   <Image
                     // src="https://placehold.co/600x400"
-                    src="/insights1.jpg"
+                    src="/extra.png"
                     width={600}
                     height={400}
                     alt="Tax planning strategies for small businesses"
@@ -344,7 +344,7 @@ export default function Home() {
                 <div className="aspect-video overflow-hidden">
                   <Image
                     // src="https://placehold.co/600x400"
-                    src="insights2.jpg"
+                    src="insights2.png"
                     width={600}
                     height={400}
                     alt="Financial forecasting guide for business growth"
@@ -376,7 +376,7 @@ export default function Home() {
                 <div className="aspect-video overflow-hidden">
                   <Image
                     // src="https://placehold.co/600x400"
-                    src="/insights3.jpg"
+                    src="/insights3.png"
                     width={600}
                     height={400}
                     alt="The importance of regular financial audits"
