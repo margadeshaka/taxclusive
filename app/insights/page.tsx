@@ -164,7 +164,7 @@ export default function InsightsPage() {
                     </div>
                     <div className="p-6">
                       <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <time dateTime="2023-02-15">February 15, 2023</time>
+                        <time dateTime="2023-02-15">February 15, 2025</time>
                         <span>•</span>
                         <span>Business Advisory</span>
                       </div>
