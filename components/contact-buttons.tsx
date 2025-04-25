@@ -5,7 +5,7 @@ import { useState } from "react"
 
 export default function ContactButtons() {
   const [isExpanded, setIsExpanded] = useState(false)
-  const phoneNumber = "+15551234567" // Replace with your actual phone number
+  const phoneNumber = "(+91)97739-79042" // Replace with your actual phone number
   const whatsappMessage = encodeURIComponent("Hello, I'd like to inquire about your services.")
 
   const toggleExpand = () => {

@@ -28,6 +28,9 @@ export default function ContactPage() {
                         <Link href="/insights" className="text-sm font-medium transition-colors hover:text-primary">
                             Insights
                         </Link>
+                        <Link href="/faq" className="text-sm font-medium transition-colors hover:text-primary">
+                        FAQ
+                        </Link>
                         <Link href="/contact"
                               className="text-sm font-medium transition-colors hover:text-primary font-bold">
                             Contact
@@ -121,7 +124,7 @@ export default function ContactPage() {
                                         <p className="text-sm text-muted-foreground">Have questions about tax planning,
                                             compliance, or our services?</p>
                                         <p className="text-muted-foreground">Reach out to us anytime
-                                            at <strong>support@taxclusive.in</strong> — we're here to provide expert
+                                            at <strong>contact@taxclusive.com</strong> — we're here to provide expert
                                             guidance and timely responses.</p>
                                     </div>
                                 </div>
@@ -135,7 +138,7 @@ export default function ContactPage() {
                                             consultation services.
                                         </p>
                                         <p className="text-muted-foreground"> JMD , Megapolis Sector 48</p>
-                                        <p className="text-muted-foreground">Sohna Road – Gurugram</p>
+                                        <p className="text-muted-foreground">Sohna Road, Gurugram-122001 , HARYANA</p>
                                     </div>
                                 </div>
                             </div>
@@ -160,7 +163,7 @@ export default function ContactPage() {
                                         </svg>
                                         <span className="sr-only">Facebook</span>
                                     </Link>
-                                    <Link href="#" className="text-muted-foreground hover:text-foreground">
+                                    <Link href="https://facebook.com/" className="text-muted-foreground hover:text-foreground">
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             width="24"
@@ -313,7 +316,7 @@ export default function ContactPage() {
               </div>
             </div>
             <div className="mx-auto grid max-w-5xl gap-6 pt-12 lg:grid-cols-2">
-              /* <div className="space-y-2 p-6 border border-border rounded-lg hover:border-primary/30 transition-colors">
+              <div className="space-y-2 p-6 border border-border rounded-lg hover:border-primary/30 transition-colors">
                 <h3 className="text-xl font-bold">What services do you offer?</h3>
                 <p className="text-muted-foreground">
                 We provide a wide range of services including tax planning and filing, GST compliance, business registration, audit and assurance, financial advisory, and bookkeeping for individuals and businesses.
@@ -360,14 +363,14 @@ export default function ContactPage() {
               &copy; {new Date().getFullYear()} Taxclusive. All rights reserved.
             </p>
           </div>
-          <div className="flex gap-4">
+          {/* <div className="flex gap-4">
             <Link href="/terms" className="text-sm text-muted-foreground hover:text-foreground">
               Terms of Service
             </Link>
             <Link href="/privacy" className="text-sm text-muted-foreground hover:text-foreground">
               Privacy Policy
             </Link>
-          </div>
+          </div> */}
         </div>
       </footer>
     </div>

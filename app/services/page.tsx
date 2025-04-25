@@ -123,12 +123,12 @@ export default function ServicesPage() {
                       <span>Tax compliance</span>
                     </li>
                   </ul>
-                  <Link
+                  {/* <Link
                     href="/services/taxation"
                     className="mt-4 inline-flex items-center text-sm font-medium text-primary"
                   >
                     Learn more <ChevronRight className="ml-1 h-4 w-4" />
-                  </Link>
+                  </Link> */}
                 </div>
               </div>
               <div className="group relative overflow-hidden rounded-lg border bg-background p-6 shadow-sm transition-all hover:shadow-md hover:border-primary/50">
@@ -159,12 +159,12 @@ export default function ServicesPage() {
                       <span>Compliance audits</span>
                     </li>
                   </ul>
-                  <Link
+                  {/* <Link
                     href="/services/audit"
                     className="mt-4 inline-flex items-center text-sm font-medium text-primary"
                   >
                     Learn more <ChevronRight className="ml-1 h-4 w-4" />
-                  </Link>
+                  </Link> */}
                 </div>
               </div>
               <div className="group relative overflow-hidden rounded-lg border bg-background p-6 shadow-sm transition-all hover:shadow-md hover:border-primary/50">
@@ -195,12 +195,12 @@ export default function ServicesPage() {
                       <span>Succession planning</span>
                     </li>
                   </ul>
-                  <Link
+                  {/* <Link
                     href="/services/advisory"
                     className="mt-4 inline-flex items-center text-sm font-medium text-primary"
                   >
                     Learn more <ChevronRight className="ml-1 h-4 w-4" />
-                  </Link>
+                  </Link> */}
                 </div>
               </div>
               <div className="group relative overflow-hidden rounded-lg border bg-background p-6 shadow-sm transition-all hover:shadow-md hover:border-primary/50">
@@ -231,12 +231,12 @@ export default function ServicesPage() {
                       <span>Bank reconciliations</span>
                     </li>
                   </ul>
-                  <Link
+                  {/* <Link
                     href="/services/bookkeeping"
                     className="mt-4 inline-flex items-center text-sm font-medium text-primary"
                   >
                     Learn more <ChevronRight className="ml-1 h-4 w-4" />
-                  </Link>
+                  </Link> */}
                 </div>
               </div>
               <div className="group relative overflow-hidden rounded-lg border bg-background p-6 shadow-sm transition-all hover:shadow-md hover:border-primary/50">
@@ -267,12 +267,12 @@ export default function ServicesPage() {
                       <span>Compliance reporting</span>
                     </li>
                   </ul>
-                  <Link
+                  {/* <Link
                     href="/services/payroll"
                     className="mt-4 inline-flex items-center text-sm font-medium text-primary"
                   >
                     Learn more <ChevronRight className="ml-1 h-4 w-4" />
-                  </Link>
+                  </Link> */}
                 </div>
               </div>
               <div className="group relative overflow-hidden rounded-lg border bg-background p-6 shadow-sm transition-all hover:shadow-md hover:border-primary/50">
@@ -303,12 +303,12 @@ export default function ServicesPage() {
                       <span>Strategic planning</span>
                     </li>
                   </ul>
-                  <Link
+                  {/* <Link
                     href="/services/consulting"
                     className="mt-4 inline-flex items-center text-sm font-medium text-primary"
                   >
                     Learn more <ChevronRight className="ml-1 h-4 w-4" />
-                  </Link>
+                  </Link> */}
                 </div>
               </div>
             </div>
@@ -338,12 +338,12 @@ export default function ServicesPage() {
                     Specialized accounting, tax planning, and financial advisory services for real estate developers,
                     construction companies, and property managers.
                   </p>
-                  <Link
+                  {/* <Link
                     href="/expertise/real-estate"
                     className="mt-4 inline-flex items-center text-sm font-medium text-primary"
                   >
                     Learn more <ChevronRight className="ml-1 h-4 w-4" />
-                  </Link>
+                  </Link> */}
                 </div>
               </div>
               <div className="group relative overflow-hidden rounded-lg border bg-background p-6 shadow-sm transition-all hover:shadow-md hover:border-primary/50">
@@ -353,12 +353,12 @@ export default function ServicesPage() {
                     Financial services tailored for tech companies and startups, including funding assistance, R&D tax
                     credits, and growth strategies.
                   </p>
-                  <Link
+                  {/* <Link
                     href="/expertise/technology"
                     className="mt-4 inline-flex items-center text-sm font-medium text-primary"
                   >
                     Learn more <ChevronRight className="ml-1 h-4 w-4" />
-                  </Link>
+                  </Link> */}
                 </div>
               </div>
               <div className="group relative overflow-hidden rounded-lg border bg-background p-6 shadow-sm transition-all hover:shadow-md hover:border-primary/50">
@@ -368,12 +368,12 @@ export default function ServicesPage() {
                     Specialized financial services for healthcare providers, medical practices, and life science
                     companies.
                   </p>
-                  <Link
+                  {/* <Link
                     href="/expertise/healthcare"
                     className="mt-4 inline-flex items-center text-sm font-medium text-primary"
                   >
                     Learn more <ChevronRight className="ml-1 h-4 w-4" />
-                  </Link>
+                  </Link> */}
                 </div>
               </div>
             </div>
