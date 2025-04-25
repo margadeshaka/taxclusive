@@ -6,7 +6,64 @@ import Footer from "@/components/footer"
 export default function ExpertisePage() {
   return (
     <div className="flex min-h-screen flex-col">
-      <Header />
+      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className="container flex h-16 items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Link href="/" className="font-serif font-bold text-xl">
+              <span className="text-primary">Taxclusive</span>
+            </Link>
+          </div>
+          <nav className="hidden md:flex gap-6">
+            <Link href="/" className="text-sm font-medium transition-colors hover:text-primary">
+              Home
+            </Link>
+            <Link href="/about" className="text-sm font-medium transition-colors hover:text-primary">
+              About Us
+            </Link>
+            <Link href="/services" className="text-sm font-medium transition-colors hover:text-primary">
+              Services
+            </Link>
+            <Link href="/expertise" className="text-sm font-medium transition-colors hover:text-primary font-bold">
+              Expertise
+            </Link>
+            <Link href="/insights" className="text-sm font-medium transition-colors hover:text-primary">
+              Insights
+            </Link>
+            <Link href="/faq" className="text-sm font-medium transition-colors hover:text-primary">
+              FAQ
+            </Link>
+            <Link href="/contact" className="text-sm font-medium transition-colors hover:text-primary">
+              Contact
+            </Link>
+          </nav>
+          <div className="hidden md:block">
+            <Link
+              href="/contact"
+              className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-6 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+            >
+              Get in Touch
+            </Link>
+          </div>
+          <button className="flex items-center space-x-2 md:hidden">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="h-6 w-6"
+            >
+              <line x1="4" x2="20" y1="12" y2="12" />
+              <line x1="4" x2="20" y1="6" y2="6" />
+              <line x1="4" x2="20" y1="18" y2="18" />
+            </svg>
+          </button>
+        </div>
+      </header>
       <main className="flex-1">
         <section className="w-full py-12 md:py-24 lg:py-32 ethnic-pattern">
           <div className="container px-4 md:px-6">
@@ -357,7 +414,23 @@ export default function ExpertisePage() {
           </div>
         </section>
       </main>
-      <Footer />
+      <footer className="w-full border-t bg-background">
+        <div className="container flex flex-col items-center justify-between gap-4 py-10 md:h-24 md:flex-row md:py-0">
+          <div className="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
+            <p className="text-center text-sm leading-loose text-muted-foreground md:text-left">
+              &copy; {new Date().getFullYear()} Taxclusive. All rights reserved.
+            </p>
+          </div>
+          {/* <div className="flex gap-4">
+            <Link href="/terms" className="text-sm text-muted-foreground hover:text-foreground">
+              Terms of Service
+            </Link>
+            <Link href="/privacy" className="text-sm text-muted-foreground hover:text-foreground">
+              Privacy Policy
+            </Link>
+          </div> */}
+        </div>
+      </footer>
     </div>
   )
 }
