@@ -28,6 +28,9 @@ export default function ContactPage() {
                         <Link href="/insights" className="text-sm font-medium transition-colors hover:text-primary">
                             Insights
                         </Link>
+                        <Link href="/faq" className="text-sm font-medium transition-colors hover:text-primary">
+                        FAQ
+                        </Link>
                         <Link href="/contact"
                               className="text-sm font-medium transition-colors hover:text-primary font-bold">
                             Contact
@@ -121,7 +124,7 @@ export default function ContactPage() {
                                         <p className="text-sm text-muted-foreground">Have questions about tax planning,
                                             compliance, or our services?</p>
                                         <p className="text-muted-foreground">Reach out to us anytime
-                                            at <strong>support@taxclusive.in</strong> — we're here to provide expert
+                                            at <strong>contact@taxclusive.com</strong> — we're here to provide expert
                                             guidance and timely responses.</p>
                                     </div>
                                 </div>
@@ -135,7 +138,7 @@ export default function ContactPage() {
                                             consultation services.
                                         </p>
                                         <p className="text-muted-foreground"> JMD , Megapolis Sector 48</p>
-                                        <p className="text-muted-foreground">Sohna Road – Gurugram</p>
+                                        <p className="text-muted-foreground">Sohna Road, Gurugram-122001 , HARYANA</p>
                                     </div>
                                 </div>
                             </div>
@@ -160,7 +163,7 @@ export default function ContactPage() {
                                         </svg>
                                         <span className="sr-only">Facebook</span>
                                     </Link>
-                                    <Link href="#" className="text-muted-foreground hover:text-foreground">
+                                    <Link href="https://facebook.com/" className="text-muted-foreground hover:text-foreground">
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             width="24"
@@ -297,98 +300,80 @@ export default function ContactPage() {
                     </div>
                 </section>
 
-                <section className="w-full py-12 md:py-24 lg:py-32 ethnic-pattern">
-                    <div className="container px-4 md:px-6">
-                        <div className="flex flex-col items-center justify-center space-y-4 text-center">
-                            <div className="space-y-2">
-                                <div className="ethnic-divider">
-                                    <span className="text-primary font-serif px-4">FAQ</span>
-                                </div>
-                                <h2 className="text-3xl font-bold tracking-tighter font-serif sm:text-4xl">
-                                    Frequently Asked Questions
-                                </h2>
-                                <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                                    Find answers to common questions about our services and how we can help your
-                                    business.
-                                </p>
-                            </div>
-                        </div>
-                        <div className="mx-auto grid max-w-5xl gap-6 pt-12 lg:grid-cols-2">
-                            <div
-                                className="space-y-2 p-6 border border-border rounded-lg hover:border-primary/30 transition-colors">
-                                <h3 className="text-xl font-bold">What services do you offer?</h3>
-                                <p className="text-muted-foreground">
-                                    We provide a wide range of services including tax planning and filing, GST
-                                    compliance, business registration, audit and assurance, financial advisory, and
-                                    bookkeeping for individuals and businesses.
-                                </p>
-                            </div>
-                            <div
-                                className="space-y-2 p-6 border border-border rounded-lg hover:border-primary/30 transition-colors">
-                                <h3 className="text-xl font-bold">How often should I meet with my accountant?</h3>
-                                <p className="text-muted-foreground">
-                                    We recommend quarterly reviews for most businesses to ensure compliance and optimize
-                                    tax planning. However, the frequency can be customized based on your business needs.
-                                </p>
-                            </div>
-                            <div
-                                className="space-y-2 p-6 border border-border rounded-lg hover:border-primary/30 transition-colors">
-                                <h3 className="text-xl font-bold">Do you work with businesses of all sizes?</h3>
-                                <p className="text-muted-foreground">
-                                    Yes, we cater to startups, SMEs, and large enterprises across various sectors,
-                                    offering tailored financial and compliance solutions to match your scale and
-                                    complexity.
-                                </p>
-                            </div>
-                            <div
-                                className="space-y-2 p-6 border border-border rounded-lg hover:border-primary/30 transition-colors">
-                                <h3 className="text-xl font-bold">What industries do you specialize in?</h3>
-                                <p className="text-muted-foreground">
-                                    We have experience serving clients in IT, manufacturing, healthcare, retail,
-                                    education, and real estate, among others. Our team understands the nuances of each
-                                    industry’s regulatory and financial landscape.
-                                </p>
-                            </div>
-                            <div
-                                className="space-y-2 p-6 border border-border rounded-lg hover:border-primary/30 transition-colors">
-                                <h3 className="text-xl font-bold">How do your fees work?</h3>
-                                <p className="text-muted-foreground">
-                                    Our fee structure is transparent and flexible. We offer both fixed and customized
-                                    packages based on the scope of work, complexity, and duration of engagement.
-                                </p>
-                            </div>
-                            <div
-                                className="space-y-2 p-6 border border-border rounded-lg hover:border-primary/30 transition-colors">
-                                <h3 className="text-xl font-bold">Can you help with tax planning throughout the
-                                    year?</h3>
-                                <p className="text-muted-foreground">
-                                    Absolutely. We offer proactive tax planning services year-round to help you reduce
-                                    liabilities, ensure timely compliance, and make informed financial decisions.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            </main>
-            <footer className="w-full border-t bg-background">
-                <div
-                    className="container flex flex-col items-center justify-between gap-4 py-10 md:h-24 md:flex-row md:py-0">
-                    <div className="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
-                        <p className="text-center text-sm leading-loose text-muted-foreground md:text-left">
-                            &copy; {new Date().getFullYear()} Taxclusive. All rights reserved.
-                        </p>
-                    </div>
-                    <div className="flex gap-4">
-                        <Link href="/terms" className="text-sm text-muted-foreground hover:text-foreground">
-                            Terms of Service
-                        </Link>
-                        <Link href="/privacy" className="text-sm text-muted-foreground hover:text-foreground">
-                            Privacy Policy
-                        </Link>
-                    </div>
+        <section className="w-full py-12 md:py-24 lg:py-32 ethnic-pattern">
+          <div className="container px-4 md:px-6">
+            <div className="flex flex-col items-center justify-center space-y-4 text-center">
+              <div className="space-y-2">
+                <div className="ethnic-divider">
+                  <span className="text-primary font-serif px-4">FAQ</span>
                 </div>
-            </footer>
+                <h2 className="text-3xl font-bold tracking-tighter font-serif sm:text-4xl">
+                  Frequently Asked Questions
+                </h2>
+                <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                  Find answers to common questions about our services and how we can help your business.
+                </p>
+              </div>
+            </div>
+            <div className="mx-auto grid max-w-5xl gap-6 pt-12 lg:grid-cols-2">
+              <div className="space-y-2 p-6 border border-border rounded-lg hover:border-primary/30 transition-colors">
+                <h3 className="text-xl font-bold">What services do you offer?</h3>
+                <p className="text-muted-foreground">
+                We provide a wide range of services including tax planning and filing, GST compliance, business registration, audit and assurance, financial advisory, and bookkeeping for individuals and businesses.
+                </p>
+              </div>
+              <div className="space-y-2 p-6 border border-border rounded-lg hover:border-primary/30 transition-colors">
+                <h3 className="text-xl font-bold">How often should I meet with my accountant?</h3>
+                <p className="text-muted-foreground">
+                We recommend quarterly reviews for most businesses to ensure compliance and optimize tax planning. However, the frequency can be customized based on your business needs.
+                </p>
+              </div>
+              <div className="space-y-2 p-6 border border-border rounded-lg hover:border-primary/30 transition-colors">
+                <h3 className="text-xl font-bold">Do you work with businesses of all sizes?</h3>
+                <p className="text-muted-foreground">
+                Yes, we cater to startups, SMEs, and large enterprises across various sectors, offering tailored financial and compliance solutions to match your scale and complexity.
+                </p>
+              </div>
+              <div className="space-y-2 p-6 border border-border rounded-lg hover:border-primary/30 transition-colors">
+                <h3 className="text-xl font-bold">What industries do you specialize in?</h3>
+                <p className="text-muted-foreground">
+                We have experience serving clients in IT, manufacturing, healthcare, retail, education, and real estate, among others. Our team understands the nuances of each industry’s regulatory and financial landscape.
+                </p>
+              </div>
+              <div className="space-y-2 p-6 border border-border rounded-lg hover:border-primary/30 transition-colors">
+                <h3 className="text-xl font-bold">How do your fees work?</h3>
+                <p className="text-muted-foreground">
+                Our fee structure is transparent and flexible. We offer both fixed and customized packages based on the scope of work, complexity, and duration of engagement.
+                </p>
+              </div>
+              <div className="space-y-2 p-6 border border-border rounded-lg hover:border-primary/30 transition-colors">
+                <h3 className="text-xl font-bold">Can you help with tax planning throughout the year?</h3>
+                <p className="text-muted-foreground">
+                Absolutely. We offer proactive tax planning services year-round to help you reduce liabilities, ensure timely compliance, and make informed financial decisions.
+                </p>
+              </div>
+            </div>
+          </div> 
+        </section>
+      </main>
+      <footer className="w-full border-t bg-background">
+        <div className="container flex flex-col items-center justify-between gap-4 py-10 md:h-24 md:flex-row md:py-0">
+          <div className="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
+            <p className="text-center text-sm leading-loose text-muted-foreground md:text-left">
+              &copy; {new Date().getFullYear()} Taxclusive. All rights reserved.
+            </p>
+          </div>
+          {/* <div className="flex gap-4">
+            <Link href="/terms" className="text-sm text-muted-foreground hover:text-foreground">
+              Terms of Service
+            </Link>
+            <Link href="/privacy" className="text-sm text-muted-foreground hover:text-foreground">
+              Privacy Policy
+            </Link>
+          </div> */}
         </div>
-    );
+      </footer>
+    </div>
+  );
 }
 

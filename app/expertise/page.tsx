@@ -27,6 +27,9 @@ export default function ExpertisePage() {
             <Link href="/insights" className="text-sm font-medium transition-colors hover:text-primary">
               Insights
             </Link>
+            <Link href="/faq" className="text-sm font-medium transition-colors hover:text-primary">
+              FAQ
+            </Link>
             <Link href="/contact" className="text-sm font-medium transition-colors hover:text-primary">
               Contact
             </Link>
@@ -103,12 +106,12 @@ export default function ExpertisePage() {
                       <span>Project-based accounting</span>
                     </li>
                   </ul>
-                  <Link
+                  {/* <Link
                     href="/expertise/real-estate"
                     className="mt-4 inline-flex items-center text-sm font-medium text-primary"
                   >
                     Learn more <ChevronRight className="ml-1 h-4 w-4" />
-                  </Link>
+                  </Link> */}
                 </div>
               </div>
               <div className="group relative overflow-hidden rounded-lg border bg-background p-6 shadow-sm transition-all hover:shadow-md hover:border-primary/50">
@@ -136,12 +139,12 @@ export default function ExpertisePage() {
                       <span>SaaS revenue recognition</span>
                     </li>
                   </ul>
-                  <Link
+                  {/* <Link
                     href="/expertise/technology"
                     className="mt-4 inline-flex items-center text-sm font-medium text-primary"
                   >
                     Learn more <ChevronRight className="ml-1 h-4 w-4" />
-                  </Link>
+                  </Link> */}
                 </div>
               </div>
               <div className="group relative overflow-hidden rounded-lg border bg-background p-6 shadow-sm transition-all hover:shadow-md hover:border-primary/50">
@@ -169,12 +172,12 @@ export default function ExpertisePage() {
                       <span>International tax planning</span>
                     </li>
                   </ul>
-                  <Link
+                  {/* <Link
                     href="/expertise/manufacturing"
                     className="mt-4 inline-flex items-center text-sm font-medium text-primary"
                   >
                     Learn more <ChevronRight className="ml-1 h-4 w-4" />
-                  </Link>
+                  </Link> */}
                 </div>
               </div>
               <div className="group relative overflow-hidden rounded-lg border bg-background p-6 shadow-sm transition-all hover:shadow-md hover:border-primary/50">
@@ -202,12 +205,12 @@ export default function ExpertisePage() {
                       <span>Biotech financial planning</span>
                     </li>
                   </ul>
-                  <Link
+                  {/* <Link
                     href="/expertise/healthcare"
                     className="mt-4 inline-flex items-center text-sm font-medium text-primary"
                   >
                     Learn more <ChevronRight className="ml-1 h-4 w-4" />
-                  </Link>
+                  </Link> */}
                 </div>
               </div>
               <div className="group relative overflow-hidden rounded-lg border bg-background p-6 shadow-sm transition-all hover:shadow-md hover:border-primary/50">
@@ -235,12 +238,12 @@ export default function ExpertisePage() {
                       <span>Cash flow forecasting</span>
                     </li>
                   </ul>
-                  <Link
+                  {/* <Link
                     href="/expertise/retail"
                     className="mt-4 inline-flex items-center text-sm font-medium text-primary"
                   >
                     Learn more <ChevronRight className="ml-1 h-4 w-4" />
-                  </Link>
+                  </Link> */}
                 </div>
               </div>
               <div className="group relative overflow-hidden rounded-lg border bg-background p-6 shadow-sm transition-all hover:shadow-md hover:border-primary/50">
@@ -268,12 +271,12 @@ export default function ExpertisePage() {
                       <span>Board financial reporting</span>
                     </li>
                   </ul>
-                  <Link
+                  {/* <Link
                     href="/expertise/nonprofit"
                     className="mt-4 inline-flex items-center text-sm font-medium text-primary"
                   >
                     Learn more <ChevronRight className="ml-1 h-4 w-4" />
-                  </Link>
+                  </Link> */}
                 </div>
               </div>
               <div className="group relative overflow-hidden rounded-lg border bg-background p-6 shadow-sm transition-all hover:shadow-md hover:border-primary/50">
@@ -301,12 +304,12 @@ export default function ExpertisePage() {
                       <span>Succession planning</span>
                     </li>
                   </ul>
-                  <Link
+                  {/* <Link
                     href="/expertise/professional-services"
                     className="mt-4 inline-flex items-center text-sm font-medium text-primary"
                   >
                     Learn more <ChevronRight className="ml-1 h-4 w-4" />
-                  </Link>
+                  </Link> */}
                 </div>
               </div>
               <div className="group relative overflow-hidden rounded-lg border bg-background p-6 shadow-sm transition-all hover:shadow-md hover:border-primary/50">
@@ -333,12 +336,12 @@ export default function ExpertisePage() {
                       <span>Franchise accounting</span>
                     </li>
                   </ul>
-                  <Link
+                  {/* <Link
                     href="/expertise/hospitality"
                     className="mt-4 inline-flex items-center text-sm font-medium text-primary"
                   >
                     Learn more <ChevronRight className="ml-1 h-4 w-4" />
-                  </Link>
+                  </Link> */}
                 </div>
               </div>
               <div className="group relative overflow-hidden rounded-lg border bg-background p-6 shadow-sm transition-all hover:shadow-md hover:border-primary/50">
@@ -366,12 +369,12 @@ export default function ExpertisePage() {
                       <span>Risk management</span>
                     </li>
                   </ul>
-                  <Link
+                  {/* <Link
                     href="/expertise/financial-services"
                     className="mt-4 inline-flex items-center text-sm font-medium text-primary"
                   >
                     Learn more <ChevronRight className="ml-1 h-4 w-4" />
-                  </Link>
+                  </Link> */}
                 </div>
               </div>
             </div>
@@ -416,14 +419,14 @@ export default function ExpertisePage() {
               &copy; {new Date().getFullYear()} Taxclusive. All rights reserved.
             </p>
           </div>
-          <div className="flex gap-4">
+          {/* <div className="flex gap-4">
             <Link href="/terms" className="text-sm text-muted-foreground hover:text-foreground">
               Terms of Service
             </Link>
             <Link href="/privacy" className="text-sm text-muted-foreground hover:text-foreground">
               Privacy Policy
             </Link>
-          </div>
+          </div> */}
         </div>
       </footer>
     </div>

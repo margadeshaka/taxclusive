@@ -4,7 +4,7 @@ import Header from "@/components/header"
 import Footer from "@/components/footer"
 
 export const metadata = {
-  title: "Frequently Asked Questions - Sudarshan & Associates",
+  title: "Frequently Asked Questions - Taxclusive",
   description: "Find answers to common questions about our accounting, taxation, and financial advisory services.",
 }
 
@@ -65,7 +65,7 @@ export default function FAQPage() {
                   <div className="space-y-4">
                     <details className="group rounded-lg border border-border p-4 [&[open]]:bg-muted/50 transition-all hover:border-primary/30">
                       <summary className="flex cursor-pointer items-center justify-between font-medium">
-                        <span>What services does Sudarshan & Associates offer?</span>
+                        <span>What services does Taxclusive?</span>
                         <span className="transition duration-300 group-open:rotate-180">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"

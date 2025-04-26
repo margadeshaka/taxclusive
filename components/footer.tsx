@@ -64,7 +64,7 @@ export default function Footer() {
             <ul className="space-y-2">
               <li>
                 <Link
-                  href="/services/taxation"
+                  href="/services"
                   className="text-sm text-muted-foreground hover:text-primary transition-colors"
                 >
                   Taxation Services
@@ -72,7 +72,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/services/audit"
+                  href="/services"
                   className="text-sm text-muted-foreground hover:text-primary transition-colors"
                 >
                   Audit & Assurance
@@ -80,7 +80,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/services/advisory"
+                  href="/services"
                   className="text-sm text-muted-foreground hover:text-primary transition-colors"
                 >
                   Financial Advisory
@@ -88,7 +88,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/services/bookkeeping"
+                  href="/services"
                   className="text-sm text-muted-foreground hover:text-primary transition-colors"
                 >
                   Bookkeeping
@@ -96,7 +96,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/services/payroll"
+                  href="/services"
                   className="text-sm text-muted-foreground hover:text-primary transition-colors"
                 >
                   Payroll Services
@@ -104,7 +104,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/services/consulting"
+                  href="/services"
                   className="text-sm text-muted-foreground hover:text-primary transition-colors"
                 >
                   Business Consulting
@@ -118,14 +118,14 @@ export default function Footer() {
               <li className="flex items-start">
                 <MapPin className="h-5 w-5 text-primary mr-2 mt-0.5 flex-shrink-0" />
                 <span className="text-sm text-muted-foreground">
-                 JMD , megapolis Sector 48
+                 JMD , Megapolis Sector 48 ,Sohna road
                   <br />
-                  Sohna road ,Gurugram
+                Gurugram -122001, HARYANA
                 </span>
               </li>
               <li className="flex items-center">
                 <Phone className="h-5 w-5 text-primary mr-2 flex-shrink-0" />
-                <span className="text-sm text-muted-foreground">(+91)..........</span>
+                <span className="text-sm text-muted-foreground">(+91)97739-79042</span>
               </li>
               <li className="flex items-center">
                 <Mail className="h-5 w-5 text-primary mr-2 flex-shrink-0" />
@@ -148,7 +148,7 @@ export default function Footer() {
             <p className="text-sm text-muted-foreground">
               &copy; {new Date().getFullYear()} Taxclusive. All rights reserved.
             </p>
-            <div className="flex gap-6 mt-4 md:mt-0">
+            {/* <div className="flex gap-6 mt-4 md:mt-0">
               <Link href="/privacy" className="text-xs text-muted-foreground hover:text-foreground">
                 Privacy Policy
               </Link>
@@ -158,7 +158,7 @@ export default function Footer() {
               <Link href="/sitemap.xml" className="text-xs text-muted-foreground hover:text-foreground">
                 Sitemap
               </Link>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

@@ -4,7 +4,7 @@
 // import Footer from "@/components/footer"
 
 // export const metadata = {
-//   title: "Book an Appointment - Sudarshan & Associates",
+//   title: "Book an Appointment - Taxclusive",
 //   description: "Schedule a consultation with our expert accountants to discuss your financial needs and goals.",
 // }
 
@@ -256,7 +256,7 @@ import Header from "@/components/header"
 import Footer from "@/components/footer"
 
 export const metadata = {
-  title: "Book an Appointment - Sudarshan & Associates",
+  title: "Book an Appointment - Taxclusive",
   description: "Schedule a consultation with our expert accountants to discuss your financial needs and goals.",
 }
 

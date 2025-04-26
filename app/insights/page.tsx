@@ -45,7 +45,7 @@ export default function InsightsPage() {
                   <div className="aspect-video overflow-hidden">
                     <Image
                       // src="https://placehold.co/1200x600"
-                      src="/latestfinancial.jpg"
+                      src="/latestfinancial.png"
                       width={1200}
                       height={600}
                       alt="Tax planning strategies for small businesses"
@@ -73,13 +73,13 @@ export default function InsightsPage() {
                         2025 Updates
                       </span>
                     </div>
-                    <Link
+                    {/* <Link
                       href="/insights/tax-planning-strategies"
                       className="mt-4 inline-flex items-center text-sm font-medium text-primary"
                     >
-                      {/* Read more  */}
+                      Read more 
                       <ChevronRight className="ml-1 h-4 w-4" />
-                    </Link>
+                    </Link> */}
                   </div>
                 </div>
 
@@ -96,7 +96,7 @@ export default function InsightsPage() {
                     <div className="aspect-video overflow-hidden">
                       <Image
                         //src="https://placehold.co/600x400"
-                        src="/insights1.jpg"
+                        src="/insights1.png"
                         width={600}
                         height={400}
                         alt="Financial forecasting guide for business growth"
@@ -113,20 +113,20 @@ export default function InsightsPage() {
                       <p className="mt-2 line-clamp-3 text-muted-foreground">
                       Accurate financial forecasting is key to driving sustainable business growth. By analyzing trends, anticipating cash flow, and setting realistic goals, businesses can make informed decisions with confidence. Our trusted expertise empowers you with innovative tools and insights to stay ahead in a dynamic market.
                       </p>
-                      <Link
+                      {/* <Link
                         href="/insights/financial-forecasting"
                         className="mt-4 inline-flex items-center text-sm font-medium text-primary"
                       >
-                        {/* Read more  */}
+                        Read more 
                         <ChevronRight className="ml-1 h-4 w-4" />
-                      </Link>
+                      </Link> */}
                     </div>
                   </article>
                   <article className="group relative overflow-hidden rounded-lg border bg-background shadow-sm transition-all hover:shadow-md">
                     <div className="aspect-video overflow-hidden">
                       <Image
                         // src="https://placehold.co/600x400"
-                        src="/insights2.jpg"
+                        src="/insights2.png"
                         width={600}
                         height={400}
                         alt="The importance of regular financial audits"
@@ -143,19 +143,19 @@ export default function InsightsPage() {
                       <p className="mt-2 line-clamp-3 text-muted-foreground">
                       Regular financial audits ensure accuracy, compliance, and transparency in your business operations. They help detect discrepancies early, strengthen stakeholder confidence, and provide actionable insights for strategic planning. As a trusted partner, we bring an insightful and innovative approach to every audit we conduct.
                       </p>
-                      <Link
+                      {/* <Link
                         href="/insights/importance-of-audits"
                         className="mt-4 inline-flex items-center text-sm font-medium text-primary"
                       >
                         Read more <ChevronRight className="ml-1 h-4 w-4" />
-                      </Link>
+                      </Link> */}
                     </div>
                   </article>
                   <article className="group relative overflow-hidden rounded-lg border bg-background shadow-sm transition-all hover:shadow-md">
                     <div className="aspect-video overflow-hidden">
                       <Image
                         // src="https://placehold.co/600x400"
-                        src="/insights3.jpg"
+                        src="/insights3.png"
                         width={600}
                         height={400}
                         alt="Navigating business succession planning"
@@ -164,7 +164,7 @@ export default function InsightsPage() {
                     </div>
                     <div className="p-6">
                       <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <time dateTime="2023-02-15">February 15, 2023</time>
+                        <time dateTime="2023-02-15">February 15, 2025</time>
                         <span>•</span>
                         <span>Business Advisory</span>
                       </div>
@@ -172,20 +172,20 @@ export default function InsightsPage() {
                       <p className="mt-2 line-clamp-3 text-muted-foreground">
                       Effective succession planning ensures a smooth transition of leadership, minimizes disruptions, and safeguards your business legacy. Our trusted advisors provide insightful strategies that align with your long-term goals, helping you plan with confidence and clarity for the future.
                       </p>
-                      <Link
+                      {/* <Link
                         href="/insights/succession-planning"
                         className="mt-4 inline-flex items-center text-sm font-medium text-primary"
                       >
-                        {/* Read more  */}
+                        Read more 
                         <ChevronRight className="ml-1 h-4 w-4" />
-                      </Link>
+                      </Link> */}
                     </div>
                   </article>
                   <article className="group relative overflow-hidden rounded-lg border bg-background shadow-sm transition-all hover:shadow-md">
                     <div className="aspect-video overflow-hidden">
                       <Image
                         // src="https://placehold.co/600x400"
-                        src="/insights4.jpg"
+                        src="/insights4.png"
 
                         width={600}
                         height={400}
@@ -203,13 +203,13 @@ export default function InsightsPage() {
                       <p className="mt-2 line-clamp-3 text-muted-foreground">
                       Embracing digital tools is reshaping the future of accounting, enabling real-time insights, enhanced accuracy, and greater efficiency. Our innovative approach integrates advanced technology with trusted financial expertise to deliver streamlined and future-ready accounting solutions.
                       </p>
-                      <Link
+                      {/* <Link
                         href="/insights/digital-transformation"
                         className="mt-4 inline-flex items-center text-sm font-medium text-primary"
                       >
-                        {/* Read more */}
+                        Read more
                          <ChevronRight className="ml-1 h-4 w-4" />
-                      </Link>
+                      </Link> */}
                     </div>
                   </article>
                 </div>
@@ -228,56 +228,56 @@ export default function InsightsPage() {
                     <h3 className="text-lg font-bold mb-4">Categories</h3>
                     <ul className="space-y-2">
                       <li>
-                        <Link
+                        {/* <Link
                           href="/insights/category/taxation"
                           className="text-muted-foreground hover:text-primary transition-colors"
-                        >
+                        > */}
                           Taxation (12)
-                        </Link>
+                        {/* </Link> */}
                       </li>
                       <li>
-                        <Link
+                        {/* <Link
                           href="/insights/category/audit"
                           className="text-muted-foreground hover:text-primary transition-colors"
-                        >
+                        > */}
                           Audit & Assurance (8)
-                        </Link>
+                        {/* </Link> */}
                       </li>
                       <li>
-                        <Link
+                        {/* <Link
                           href="/insights/category/advisory"
                           className="text-muted-foreground hover:text-primary transition-colors"
-                        >
+                        > */}
                           Financial Advisory (10)
-                        </Link>
+                        {/* </Link> */}
                       </li>
                       <li>
-                        <Link
+                        {/* <Link
                           href="/insights/category/business"
                           className="text-muted-foreground hover:text-primary transition-colors"
-                        >
+                        > */}
                           Business Consulting (7)
-                        </Link>
+                        {/* </Link> */}
                       </li>
                       <li>
-                        <Link
+                        {/* <Link
                           href="/insights/category/technology"
                           className="text-muted-foreground hover:text-primary transition-colors"
-                        >
+                        > */}
                           Technology (5)
-                        </Link>
+                        {/* </Link> */}
                       </li>
                       <li>
-                        <Link
+                        {/* <Link
                           href="/insights/category/industry"
                           className="text-muted-foreground hover:text-primary transition-colors"
-                        >
+                        > */}
                           Industry Insights (9)
-                        </Link>
+                        {/* </Link> */}
                       </li>
                     </ul>
                   </div>
-                  <div className="rounded-lg border bg-background p-6 shadow-sm">
+                  {/* <div className="rounded-lg border bg-background p-6 shadow-sm">
                     <h3 className="text-lg font-bold mb-4">Popular Tags</h3>
                     <div className="flex flex-wrap gap-2">
                       <Link
@@ -285,11 +285,11 @@ export default function InsightsPage() {
                         className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors hover:bg-muted focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
                       >
                         Tax Planning
-                      </Link>
-                      <Link
+                      </Link> 
+                       <Link 
                         href="/insights/tag/small-business"
                         className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors hover:bg-muted focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
-                      >
+                      > 
                         Small Business
                       </Link>
                       <Link
@@ -323,7 +323,7 @@ export default function InsightsPage() {
                         Succession Planning
                       </Link>
                     </div>
-                  </div>
+                  </div> */}
                   <div className="rounded-lg border bg-background p-6 shadow-sm">
                     <h3 className="text-lg font-bold mb-4">Subscribe to Our Newsletter</h3>
                     <p className="text-muted-foreground mb-4">
@@ -393,12 +393,12 @@ export default function InsightsPage() {
                   <div className="text-primary font-medium">May 15, 2025 • 2:00 PM EST</div>
                   <h3 className="text-xl font-bold">Tax Planning Strategies for Small Businesses</h3>
                   <p className="text-muted-foreground"> Discover practical and insightful tax planning strategies designed to help small businesses minimize liabilities, stay compliant, and maximize growth. Our trusted experts break down key tax-saving opportunities tailored for the evolving financial landscape of 2025.</p>
-                  <Link
+                  {/* <Link
                     href="/events/tax-planning-webinar"
                     className="mt-4 inline-flex items-center text-sm font-medium text-primary"
                   >
                     Register Now <ChevronRight className="ml-1 h-4 w-4" />
-                  </Link>
+                  </Link> */}
                 </div>
               </div>
               <div className="group relative overflow-hidden rounded-lg border bg-background p-6 shadow-sm transition-all hover:shadow-md hover:border-primary/50">
@@ -406,12 +406,12 @@ export default function InsightsPage() {
                   <div className="text-primary font-medium">June 8, 2025 • 1:00 PM EST</div>
                   <h3 className="text-xl font-bold">Financial Forecasting Workshop</h3>
                   <p className="text-muted-foreground">  Learn how to forecast with confidence and drive strategic growth through data-driven financial planning.</p>
-                  <Link
+                  {/* <Link
                     href="/events/forecasting-workshop"
                     className="mt-4 inline-flex items-center text-sm font-medium text-primary"
                   >
                     Register Now <ChevronRight className="ml-1 h-4 w-4" />
-                  </Link>
+                  </Link> */}
                 </div>
               </div>
               <div className="group relative overflow-hidden rounded-lg border bg-background p-6 shadow-sm transition-all hover:shadow-md hover:border-primary/50">
@@ -419,12 +419,12 @@ export default function InsightsPage() {
                   <div className="text-primary font-medium">June 22, 2025 • 3:00 PM EST</div>
                   <h3 className="text-xl font-bold">Digital Transformation in Accounting</h3>
                   <p className="text-muted-foreground">Explore how technology is reshaping accounting practices and driving innovation in financial management.</p>
-                  <Link
+                  {/* <Link
                     href="/events/digital-transformation-webinar"
                     className="mt-4 inline-flex items-center text-sm font-medium text-primary"
                   >
                     Register Now <ChevronRight className="ml-1 h-4 w-4" />
-                  </Link>
+                  </Link> */}
                 </div>
               </div>
             </div>

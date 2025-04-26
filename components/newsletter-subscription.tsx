@@ -38,7 +38,7 @@ export default function NewsletterSubscription({ className }: { className?: stri
         </div>
         <p className="text-xs text-muted-foreground">
           By subscribing, you agree to our{" "}
-          <a href="/privacy" className="text-primary hover:underline">
+          <a href="#" className="text-primary hover:underline">
             Privacy Policy
           </a>{" "}
           and consent to receive updates from our company.

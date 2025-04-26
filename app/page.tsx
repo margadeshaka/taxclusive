@@ -100,9 +100,9 @@ export default function Home() {
                   Expert tax planning and compliance services to help you minimize liabilities and stay ahead of regulations.
                   </p>
                 </div>
-                <Link href="/services/taxation" className="inline-flex items-center text-sm font-medium text-primary">
+                {/* <Link href="/services/taxation" className="inline-flex items-center text-sm font-medium text-primary">
                   Learn more <ChevronRight className="ml-1 h-4 w-4" aria-hidden="true" />
-                </Link>
+                </Link> */}
               </div>
               <div className="flex flex-col justify-center space-y-4">
                 <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary text-primary-foreground relative after:absolute after:content-[''] after:w-full after:h-full after:border after:border-primary/30 after:rounded-lg after:-right-1 after:-bottom-1">
@@ -130,9 +130,9 @@ export default function Home() {
                   Delivering trusted audit insights to ensure transparency, accuracy, and confidence in your financial reporting.
                   </p>
                 </div>
-                <Link href="/services/audit" className="inline-flex items-center text-sm font-medium text-primary">
+                {/* <Link href="/services/audit" className="inline-flex items-center text-sm font-medium text-primary">
                   Learn more <ChevronRight className="ml-1 h-4 w-4" aria-hidden="true" />
-                </Link>
+                </Link> */}
               </div>
               <div className="flex flex-col justify-center space-y-4">
                 <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary text-primary-foreground relative after:absolute after:content-[''] after:w-full after:h-full after:border after:border-primary/30 after:rounded-lg after:-right-1 after:-bottom-1">
@@ -159,9 +159,9 @@ export default function Home() {
                   {/* We offer expert guidance on budgeting, investment strategies, tax planning, and risk management. Whether you're planning for expansion, managing assets, or preparing for the future, our team ensures you have the right financial roadmap in place. */}
                   </p>
                 </div>
-                <Link href="/services/advisory" className="inline-flex items-center text-sm font-medium text-primary">
+                {/* <Link href="/services/advisory" className="inline-flex items-center text-sm font-medium text-primary">
                   Learn more <ChevronRight className="ml-1 h-4 w-4" aria-hidden="true" />
-                </Link>
+                </Link> */}
               </div>
             </div>
             <div className="flex justify-center">
@@ -197,13 +197,13 @@ export default function Home() {
                   <p className="text-muted-foreground">
                   We offer specialized financial and compliance solutions for the real estate and construction sector, addressing the unique challenges of project financing, cost control, regulatory approvals, and tax structuring. 
                   </p>
-                  <Link
+                  {/* <Link
                     href="/expertise/real-estate"
                     className="inline-flex items-center text-sm font-medium text-primary"
                     aria-label="Learn more about Real Estate & Construction expertise"
                   >
                     Learn more <ChevronRight className="ml-1 h-4 w-4" aria-hidden="true" />
-                  </Link>
+                  </Link> */}
                 </div>
               </div>
               <div className="group relative overflow-hidden rounded-lg border bg-background p-6 shadow-sm transition-all hover:shadow-md">
@@ -212,13 +212,13 @@ export default function Home() {
                   <p className="text-muted-foreground">
                   Our team provides comprehensive solutions to address your unique financial needs. We assist with optimizing business operations, ensuring compliance, and maximizing financial growth. 
                   </p>
-                  <Link
+                  {/* <Link
                     href="/expertise/technology"
                     className="inline-flex items-center text-sm font-medium text-primary"
                     aria-label="Learn more about Technology & Startups expertise"
                   >
                     Learn more <ChevronRight className="ml-1 h-4 w-4" aria-hidden="true" />
-                  </Link>
+                  </Link> */}
                 </div>
               </div>
               <div className="group relative overflow-hidden rounded-lg border bg-background p-6 shadow-sm transition-all hover:shadow-md">
@@ -227,13 +227,13 @@ export default function Home() {
                   <p className="text-muted-foreground">
                   We provide tailored financial solutions for the manufacturing and distribution industries, focusing on cost optimization, inventory management, and supply chain efficiency. 
                   </p>
-                  <Link
+                  {/* <Link
                     href="/expertise/manufacturing"
                     className="inline-flex items-center text-sm font-medium text-primary"
                     aria-label="Learn more about Manufacturing & Distribution expertise"
                   >
                     Learn more <ChevronRight className="ml-1 h-4 w-4" aria-hidden="true" />
-                  </Link>
+                  </Link> */}
                 </div>
               </div>
               <div className="group relative overflow-hidden rounded-lg border bg-background p-6 shadow-sm transition-all hover:shadow-md">
@@ -242,13 +242,13 @@ export default function Home() {
                   <p className="text-muted-foreground">
                   Our financial advisory services in the healthcare and life sciences sectors focus on optimizing revenue cycles, navigating regulatory compliance, and managing healthcare reimbursements. 
                   </p>
-                  <Link
+                  {/* <Link
                     href="/expertise/healthcare"
                     className="inline-flex items-center text-sm font-medium text-primary"
                     aria-label="Learn more about Healthcare & Life Sciences expertise"
                   >
                     Learn more <ChevronRight className="ml-1 h-4 w-4" aria-hidden="true" />
-                  </Link>
+                  </Link> */}
                 </div>
               </div>
               <div className="group relative overflow-hidden rounded-lg border bg-background p-6 shadow-sm transition-all hover:shadow-md">
@@ -257,13 +257,13 @@ export default function Home() {
                   <p className="text-muted-foreground">
                   We offer strategic financial solutions to retail and e-commerce businesses, helping them optimize operations, enhance supply chain management, and maximize profitability.
                   </p>
-                  <Link
+                  {/* <Link
                     href="/expertise/retail"
                     className="inline-flex items-center text-sm font-medium text-primary"
                     aria-label="Learn more about Retail & E-commerce expertise"
                   >
                     Learn more <ChevronRight className="ml-1 h-4 w-4" aria-hidden="true" />
-                  </Link>
+                  </Link> */}
                 </div>
               </div>
               <div className="group relative overflow-hidden rounded-lg border bg-background p-6 shadow-sm transition-all hover:shadow-md">
@@ -272,13 +272,13 @@ export default function Home() {
                   <p className="text-muted-foreground">
                   We provide dedicated financial advisory services for nonprofit organizations, helping them maximize their impact through strategic financial planning, fundraising, and compliance management.
                   </p>
-                  <Link
+                  {/* <Link
                     href="/expertise/nonprofit"
                     className="inline-flex items-center text-sm font-medium text-primary"
                     aria-label="Learn more about Nonprofit Organizations expertise"
                   >
                     Learn more <ChevronRight className="ml-1 h-4 w-4" aria-hidden="true" />
-                  </Link>
+                  </Link> */}
                 </div>
               </div>
             </div>
@@ -313,7 +313,7 @@ export default function Home() {
                 <div className="aspect-video overflow-hidden">
                   <Image
                     // src="https://placehold.co/600x400"
-                    src="/insights1.jpg"
+                    src="/extra.png"
                     width={600}
                     height={400}
                     alt="Tax planning strategies for small businesses"
@@ -330,21 +330,21 @@ export default function Home() {
                   <p className="mt-2 line-clamp-3 text-muted-foreground">
                   With tax reforms underway, small businesses must adapt to new deductions and exemptions. Our expert tips help you optimize your tax strategy, ensuring you maximize savings while remaining compliant with the latest regulations.
                   </p>
-                  <Link
+                  {/* <Link
                     href="/insights/tax-planning-strategies"
                     className="mt-4 inline-flex items-center text-sm font-medium text-primary"
                     aria-label="Read more about Tax Planning Strategies for Small Businesses in 2023"
                   >
-                    {/* Read more  */}
+                    Read more 
                     <ChevronRight className="ml-1 h-4 w-4" aria-hidden="true" />
-                  </Link>
+                  </Link> */}
                 </div>
               </article>
               <article className="group relative overflow-hidden rounded-lg border bg-background shadow-sm transition-all hover:shadow-md">
                 <div className="aspect-video overflow-hidden">
                   <Image
                     // src="https://placehold.co/600x400"
-                    src="insights2.jpg"
+                    src="insights2.png"
                     width={600}
                     height={400}
                     alt="Financial forecasting guide for business growth"
@@ -362,21 +362,21 @@ export default function Home() {
                   With a volatile global economy, accurate financial forecasting has never been more critical. This article explores techniques to help businesses predict financial outcomes, adapt to market changes, and make informed investment decisions.
                   
                   </p>
-                  <Link
+                  {/* <Link
                     href="/insights/financial-forecasting"
                     className="mt-4 inline-flex items-center text-sm font-medium text-primary"
                     aria-label="Read more about Financial Forecasting: A Guide for Business Growth"
                   >
-                    {/* Read more  */}
+                    Read more 
                     <ChevronRight className="ml-1 h-4 w-4" aria-hidden="true" />
-                  </Link>
+                  </Link> */}
                 </div>
               </article>
               <article className="group relative overflow-hidden rounded-lg border bg-background shadow-sm transition-all hover:shadow-md">
                 <div className="aspect-video overflow-hidden">
                   <Image
                     // src="https://placehold.co/600x400"
-                    src="/insights3.jpg"
+                    src="/insights3.png"
                     width={600}
                     height={400}
                     alt="The importance of regular financial audits"
@@ -394,14 +394,14 @@ export default function Home() {
                   As businesses face increasing scrutiny, regular financial audits ensure transparency and build trust with stakeholders. Learn why audits are more important than ever and how they can help safeguard your company’s future.
                   </p>
                   
-                  <Link
+                  {/* <Link
                     href="/insights/importance-of-audits"
                     className="mt-4 inline-flex items-center text-sm font-medium text-primary"
                     aria-label="Read more about The Importance of Regular Financial Audits"
                   >
-                    {/* Read more */}
+                    Read more
                      <ChevronRight className="ml-1 h-4 w-4" aria-hidden="true" />
-                  </Link>
+                  </Link> */}
                 </div>
               </article>
             </div>
@@ -446,7 +446,7 @@ export default function Home() {
                     </svg>
                     <div className="space-y-1">
                       <h3 className="font-bold">Phone</h3>
-                      <p className="text-muted-foreground">(+91)..........</p>
+                      <p className="text-muted-foreground">(+91)97739-79042</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-4">
@@ -493,7 +493,7 @@ export default function Home() {
                       <p className="text-muted-foreground">
                         JMD Megapolis, Sector 48
                         <br />
-                       Sohna road Gurugram
+                       Sohna road ,Gurugram - 122001 ,HARYANA
                       </p>
                     </div>
                   </div>

@@ -4,7 +4,7 @@ import Header from "@/components/header"
 import Footer from "@/components/footer"
 
 export const metadata = {
-  title: "Ask a Query - Sudarshan & Associates",
+  title: "Ask a Query - Taxclusive",
   description:
     "Submit your accounting, taxation, or financial questions to our expert team for personalized assistance.",
 }
@@ -271,7 +271,7 @@ export default function AskQueryPage() {
                     required
                   />
                   <label htmlFor="consent" className="text-sm text-muted-foreground">
-                    I consent to Sudarshan & Associates processing my personal data to respond to my query. I understand
+                    I consent to Taxclusive processing my personal data to respond to my query. I understand
                     that my information will be handled in accordance with the{" "}
                     <Link href="/privacy" className="text-primary hover:underline">
                       Privacy Policy
