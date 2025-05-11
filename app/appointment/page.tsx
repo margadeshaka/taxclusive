@@ -402,12 +402,12 @@ export default function AppointmentPage() {
                   Book Appointment
                 </button>
 
-                <p className="text-xs text-muted-foreground text-center">
+                {/* <p className="text-xs text-muted-foreground text-center">
                   By booking an appointment, you agree to our{" "}
                   <Link href="/terms" className="text-primary hover:underline">Terms of Service</Link>{" "}
                   and{" "}
                   <Link href="/privacy" className="text-primary hover:underline">Privacy Policy</Link>.
-                </p>
+                </p> */}
               </form>
             </div>
           </div>
@@ -463,3 +463,6 @@ export default function AppointmentPage() {
     </div>
   )
 }
+
+
+

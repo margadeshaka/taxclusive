@@ -4,7 +4,8 @@ import { Facebook, Twitter, Linkedin, Instagram, Youtube } from "lucide-react"
 
 export default function SocialLinks({ className }: { className?: string }) {
   return (
-    <div className={`flex gap-4 ${className}`}>
+   <div className={`flex gap-4 ${className}`}>
+
       <Link
         href="https://facebook.com"
         className="text-muted-foreground hover:text-primary transition-colors"
@@ -50,6 +51,8 @@ export default function SocialLinks({ className }: { className?: string }) {
       >
         <Youtube className="h-5 w-5" />
       </Link>
+
+
     </div>
   )
 }

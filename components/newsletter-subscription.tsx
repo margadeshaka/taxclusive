@@ -36,13 +36,13 @@ export default function NewsletterSubscription({ className }: { className?: stri
             </button>
           </div>
         </div>
-        <p className="text-xs text-muted-foreground">
+        {/* <p className="text-xs text-muted-foreground">
           By subscribing, you agree to our{" "}
           <a href="#" className="text-primary hover:underline">
             Privacy Policy
           </a>{" "}
           and consent to receive updates from our company.
-        </p>
+        </p> */}
       </form>
     </div>
   )

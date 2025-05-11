@@ -17,7 +17,7 @@ export default function Footer() {
             <p className="text-sm text-muted-foreground max-w-xs">
             Trusted by clients, driven by insight. Taxclusive delivers innovative tax solutions with precision, integrity, and a commitment to excellence.
             </p>
-            <SocialLinks />
+            {/* <SocialLinks /> */}
           </div>
           <div>
             <h3 className="text-sm font-semibold mb-4">Quick Links</h3>

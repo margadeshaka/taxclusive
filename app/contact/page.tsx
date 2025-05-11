@@ -142,7 +142,7 @@ export default function ContactPage() {
                                     </div>
                                 </div>
                             </div>
-                            <div className="space-y-2">
+                            {/* <div className="space-y-2">
                                 <h3 className="text-xl font-bold">Follow Us</h3>
                                 <div className="flex gap-4">
                                     <Link href="#" className="text-muted-foreground hover:text-foreground">
@@ -202,7 +202,7 @@ export default function ContactPage() {
                                         <span className="sr-only">LinkedIn</span>
                                     </Link>
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
                         <div className="rounded-lg border bg-background p-8 shadow-sm">
                             <h3 className="text-xl font-bold mb-6">Send us a Message</h3>
