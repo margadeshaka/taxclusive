@@ -49,10 +49,10 @@ export function BlogList() {
           className="group flex flex-col overflow-hidden rounded-lg border bg-background shadow-sm transition-all hover:shadow-md"
         >
           <div className="aspect-video relative overflow-hidden">
-            {blog.attributes.featuredImage?.data?.attributes?.url ? (
+            {blog.cover?.url ? (
               <Image
-                src={blog.attributes.featuredImage.data.attributes.url}
-                alt={blog.attributes.title}
+                src={blog.cover.url}
+                alt={blog.title || "Blog post"}
                 fill
                 className="object-cover transition-transform group-hover:scale-105"
               />
@@ -63,19 +63,28 @@ export function BlogList() {
             )}
           </div>
           <div className="flex flex-1 flex-col p-4 sm:p-6">
-            <h3 className="text-xl font-bold">{blog.attributes.title}</h3>
-            <p className="mt-2 line-clamp-3 text-muted-foreground">
-              {blog.attributes.excerpt || blog.attributes.content.substring(0, 150) + '...'}
-            </p>
-            <div className="mt-4 flex items-center text-sm text-muted-foreground">
-              <time dateTime={blog.attributes.publishedAt}>
-                {new Date(blog.attributes.publishedAt).toLocaleDateString('en-US', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric',
-                })}
-              </time>
-            </div>
+            <h3 className="text-xl font-bold">{blog.title || "Untitled Blog Post"}</h3>
+            {(blog.description) && (
+              <p className="mt-2 line-clamp-3 text-muted-foreground">
+                {blog.description}
+              </p>
+            )}
+            {!blog.description && blog.blocks && blog.blocks.length > 0 && blog.blocks[0].__component === "shared.rich-text" && (
+              <p className="mt-2 line-clamp-3 text-muted-foreground">
+                {blog.blocks[0].body && blog.blocks[0].body.substring(0, 150) + '...'}
+              </p>
+            )}
+            {blog.publishedAt && (
+              <div className="mt-4 flex items-center text-sm text-muted-foreground">
+                <time dateTime={blog.publishedAt}>
+                  {new Date(blog.publishedAt).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                  })}
+                </time>
+              </div>
+            )}
           </div>
         </Link>
       ))}

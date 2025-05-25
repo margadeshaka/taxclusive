@@ -5,6 +5,19 @@ import Header from "@/components/header"
 import Footer from "@/components/footer"
 import NewsletterSubscription from "@/components/newsletter-subscription"
 import { BlogDetail } from "../components/blog-detail"
+import { fetchBlogs } from "@/lib/strapi"
+
+export async function generateStaticParams() {
+  try {
+    const blogs = await fetchBlogs();
+    return blogs.map((blog) => ({
+      id: blog.id.toString(),
+    }));
+  } catch (error) {
+    console.error('Error generating static params for blogs:', error);
+    return [];
+  }
+}
 
 export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
   try {

@@ -54,42 +54,58 @@ export function BlogDetail({ id }: BlogDetailProps) {
 
   return (
     <article className="prose prose-lg max-w-none dark:prose-invert">
-      {blog.attributes.featuredImage?.data?.attributes?.url && (
+      {blog.cover?.url ? (
         <div className="mb-8 aspect-video relative overflow-hidden rounded-lg">
           <Image
-            src={blog.attributes.featuredImage.data.attributes.url}
-            alt={blog.attributes.title}
+            src={blog.cover.url}
+            alt={blog.title || "Blog post"}
             fill
             className="object-cover"
             priority
           />
         </div>
+      ) : (
+        <div className="mb-8 aspect-video relative overflow-hidden rounded-lg">
+          <div className="flex h-full w-full items-center justify-center bg-muted">
+            <span className="text-muted-foreground">No image available</span>
+          </div>
+        </div>
       )}
-      
+
       <h1 className="text-3xl font-bold tracking-tighter font-serif sm:text-4xl md:text-5xl">
-        {blog.attributes.title}
+        {blog.title || "Untitled Blog Post"}
       </h1>
-      
-      <div className="mt-4 flex items-center text-sm text-muted-foreground">
-        <time dateTime={blog.attributes.publishedAt}>
-          {new Date(blog.attributes.publishedAt).toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-          })}
-        </time>
-      </div>
-      
-      {blog.attributes.excerpt && (
+
+      {blog.publishedAt && (
+        <div className="mt-4 flex items-center text-sm text-muted-foreground">
+          <time dateTime={blog.publishedAt}>
+            {new Date(blog.publishedAt).toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+            })}
+          </time>
+        </div>
+      )}
+
+      {blog.description && (
         <p className="mt-4 text-xl text-muted-foreground">
-          {blog.attributes.excerpt}
+          {blog.description}
         </p>
       )}
-      
-      <div 
-        className="mt-8"
-        dangerouslySetInnerHTML={{ __html: blog.attributes.content }}
-      />
+
+      {blog.blocks && blog.blocks.length > 0 && (
+        <div className="mt-8">
+          {blog.blocks.map((block, index) => {
+            if (block.__component === "shared.rich-text") {
+              return (
+                <div key={index} dangerouslySetInnerHTML={{ __html: block.body }} />
+              );
+            }
+            return null;
+          })}
+        </div>
+      )}
     </article>
   )
 }
