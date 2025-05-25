@@ -84,6 +84,12 @@ export default function Header() {
             Insights
           </Link>
           <Link
+            href="/blogs"
+            className={`text-sm font-medium transition-colors hover:text-primary ${isActive("/blogs") ? "text-primary font-bold" : ""}`}
+          >
+            Blogs
+          </Link>
+          <Link
             href="/faq"
             className={`text-sm font-medium transition-colors hover:text-primary ${isActive("/faq") ? "text-primary font-bold" : ""}`}
           >
@@ -184,6 +190,13 @@ export default function Header() {
               Insights
             </Link>
             <Link
+              href="/blogs"
+              className={`text-lg font-medium ${isActive("/blogs") ? "text-primary font-bold" : ""}`}
+              onClick={closeMenu}
+            >
+              Blogs
+            </Link>
+            <Link
               href="/faq"
               className={`text-lg font-medium ${isActive("/faq") ? "text-primary font-bold" : ""}`}
               onClick={closeMenu}
@@ -245,4 +258,3 @@ export default function Header() {
     </header>
   )
 }
-
