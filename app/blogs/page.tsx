@@ -1,49 +1,68 @@
-import { Metadata } from "next"
+"use client"
+
+import { useSearchParams } from "next/navigation"
+import Link from "next/link"
+import { ChevronLeft } from "lucide-react"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import NewsletterSubscription from "@/components/newsletter-subscription"
 import { BlogList } from "./components/blog-list"
-
-export const metadata: Metadata = {
-  title: "Blogs - Taxclusive",
-  description: "Read our latest blogs on taxation, accounting, and financial advisory services.",
-}
+import { BlogDetail } from "./components/blog-detail"
 
 export default function BlogsPage() {
+  const searchParams = useSearchParams()
+  const blogId = searchParams.get('id')
   return (
     <div className="flex min-h-screen flex-col">
       <Header />
       <main className="flex-1">
-        <section className="w-full py-12 md:py-24 lg:py-32 ethnic-pattern">
-          <div className="container px-4 md:px-6">
-            <div className="flex flex-col items-center justify-center space-y-4 text-center">
-              <div className="space-y-2">
-                <div className="ethnic-divider">
-                  <span className="text-primary font-serif px-4">Our Blogs</span>
+        {!blogId ? (
+          <>
+            <section className="w-full py-12 md:py-24 lg:py-32 ethnic-pattern">
+              <div className="container px-4 md:px-6">
+                <div className="flex flex-col items-center justify-center space-y-4 text-center">
+                  <div className="space-y-2">
+                    <div className="ethnic-divider">
+                      <span className="text-primary font-serif px-4">Our Blogs</span>
+                    </div>
+                    <h1 className="text-3xl font-bold tracking-tighter font-serif sm:text-5xl">
+                      Insights & Knowledge
+                    </h1>
+                    <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                      Stay updated with the latest trends, insights, and expert advice on taxation, accounting, and financial management.
+                    </p>
+                  </div>
                 </div>
-                <h1 className="text-3xl font-bold tracking-tighter font-serif sm:text-5xl">
-                  Insights & Knowledge
-                </h1>
-                <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  Stay updated with the latest trends, insights, and expert advice on taxation, accounting, and financial management.
-                </p>
+              </div>
+            </section>
+
+            <section className="w-full py-12 md:py-24 lg:py-32">
+              <div className="container px-4 md:px-6">
+                <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                  <BlogList />
+                </div>
+              </div>
+            </section>
+          </>
+        ) : (
+          <section className="w-full py-12 md:py-24 lg:py-32">
+            <div className="container px-4 md:px-6">
+              <div className="mx-auto max-w-3xl">
+                <Link 
+                  href="/blogs" 
+                  className="mb-8 inline-flex items-center text-sm font-medium text-primary hover:underline"
+                >
+                  <ChevronLeft className="mr-1 h-4 w-4" />
+                  Back to Blogs
+                </Link>
+                <BlogDetail id={blogId} />
               </div>
             </div>
-          </div>
-        </section>
-
-        <section className="w-full py-12 md:py-24 lg:py-32">
-          <div className="container px-4 md:px-6">
-            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-              {/* This will be replaced with actual blog data from Strapi */}
-              <BlogList />
-            </div>
-          </div>
-        </section>
+          </section>
+        )}
       </main>
       <Footer />
       <NewsletterSubscription />
     </div>
   )
 }
-

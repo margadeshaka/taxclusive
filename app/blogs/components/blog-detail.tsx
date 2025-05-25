@@ -3,15 +3,16 @@
 import Image from "next/image"
 import Link from "next/link"
 import { ChevronLeft } from "lucide-react"
-import { useBlog } from "@/hooks/use-blogs"
+import { useBlogs } from "@/hooks/use-blogs"
 
 interface BlogDetailProps {
   id: string
 }
 
 export function BlogDetail({ id }: BlogDetailProps) {
-  const { blog, isLoading, isError } = useBlog(id)
-
+  const { blogs, isLoading, isError } = useBlogs()
+  const blog = blogs?.find(blog => blog.id === parseInt(id))
+console.log(blogs, id)
   if (isLoading) {
     return (
       <div className="flex justify-center py-12">

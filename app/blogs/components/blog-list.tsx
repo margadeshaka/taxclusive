@@ -45,7 +45,7 @@ export function BlogList() {
       {blogs.map((blog) => (
         <Link 
           key={blog.id} 
-          href={`/blogs/${blog.id}`}
+          href={`/blogs?id=${blog.id}`}
           className="group flex flex-col overflow-hidden rounded-lg border bg-background shadow-sm transition-all hover:shadow-md"
         >
           <div className="aspect-video relative overflow-hidden">
