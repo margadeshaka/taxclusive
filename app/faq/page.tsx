@@ -1,12 +1,21 @@
-import Link from "next/link"
-import { Search } from "lucide-react"
-import Header from "@/components/header"
-import Footer from "@/components/footer"
+import { Search } from "lucide-react";
+import { Metadata } from "next";
+import Link from "next/link";
+import Script from "next/script";
 
-export const metadata = {
-  title: "Frequently Asked Questions - Taxclusive",
-  description: "Find answers to common questions about our accounting, taxation, and financial advisory services.",
-}
+import Footer from "@/components/footer";
+import Header from "@/components/header";
+import { generateMetadata, generateStructuredData } from "@/lib/metadata";
+
+
+export const metadata: Metadata = generateMetadata({
+  title: "Frequently Asked Questions | Taxclusive",
+  description:
+    "Find answers to common questions about our accounting, taxation, and financial advisory services. Get clarity on tax planning, audit services, and more.",
+  keywords:
+    "tax FAQ, accounting questions, financial services FAQ, tax planning questions, audit services FAQ, bookkeeping questions, payroll services FAQ",
+  canonical: "/faq",
+});
 
 export default function FAQPage() {
   return (
@@ -61,7 +70,9 @@ export default function FAQPage() {
 
               <div className="space-y-8">
                 <div>
-                  <h2 className="text-2xl font-bold tracking-tighter font-serif mb-6">General Questions</h2>
+                  <h2 className="text-2xl font-bold tracking-tighter font-serif mb-6">
+                    General Questions
+                  </h2>
                   <div className="space-y-4">
                     <details className="group rounded-lg border border-border p-4 [&[open]]:bg-muted/50 transition-all hover:border-primary/30">
                       <summary className="flex cursor-pointer items-center justify-between font-medium">
@@ -85,8 +96,8 @@ export default function FAQPage() {
                       </summary>
                       <div className="mt-4 text-muted-foreground">
                         <p>
-                          Taxclisive offers a comprehensive range of accounting and financial services,
-                          including:
+                          Taxclisive offers a comprehensive range of accounting and financial
+                          services, including:
                         </p>
                         <ul className="list-disc pl-6 mt-2 space-y-1">
                           <li>Tax planning and preparation for individuals and businesses</li>
@@ -130,13 +141,13 @@ export default function FAQPage() {
                               appointment page
                             </Link>
                           </li>
-                          <li>Call our office at (+91)97739-79042  during business hours</li>
+                          <li>Call our office at (+91)97739-79042 during business hours</li>
                           <li>Email us at info@taxclusive.com</li>
                           <li>Visit our office in person</li>
                         </ul>
                         <p className="mt-2">
-                          We offer flexible scheduling options, including in-person meetings, video conferences, and
-                          phone calls.
+                          We offer flexible scheduling options, including in-person meetings, video
+                          conferences, and phone calls.
                         </p>
                       </div>
                     </details>
@@ -163,8 +174,9 @@ export default function FAQPage() {
                       </summary>
                       <div className="mt-4 text-muted-foreground">
                         <p>
-                          We have expertise across various industries, providing specialized accounting and financial
-                          services with cultural understanding. Our key industry specializations include:
+                          We have expertise across various industries, providing specialized
+                          accounting and financial services with cultural understanding. Our key
+                          industry specializations include:
                         </p>
                         <ul className="list-disc pl-6 mt-2 space-y-1">
                           <li>Real Estate & Construction</li>
@@ -209,8 +221,8 @@ export default function FAQPage() {
                       </summary>
                       <div className="mt-4 text-muted-foreground">
                         <p>
-                          Our fee structure varies based on the services provided and the complexity of your needs. We
-                          offer:
+                          Our fee structure varies based on the services provided and the complexity
+                          of your needs. We offer:
                         </p>
                         <ul className="list-disc pl-6 mt-2 space-y-1">
                           <li>Fixed-fee arrangements for many standard services</li>
@@ -219,9 +231,9 @@ export default function FAQPage() {
                           <li>Customized fee structures for complex projects</li>
                         </ul>
                         <p className="mt-2">
-                          We believe in transparent pricing and will discuss all fees upfront before beginning any work.
-                          During your initial consultation, we'll assess your specific needs and provide a clear fee
-                          estimate.
+                          We believe in transparent pricing and will discuss all fees upfront before
+                          beginning any work. During your initial consultation, we&apos;ll assess your
+                          specific needs and provide a clear fee estimate.
                         </p>
                       </div>
                     </details>
@@ -229,7 +241,9 @@ export default function FAQPage() {
                 </div>
 
                 <div>
-                  <h2 className="text-2xl font-bold tracking-tighter font-serif mb-6">Tax Services</h2>
+                  <h2 className="text-2xl font-bold tracking-tighter font-serif mb-6">
+                    Tax Services
+                  </h2>
                   <div className="space-y-4">
                     <details className="group rounded-lg border border-border p-4 [&[open]]:bg-muted/50 transition-all hover:border-primary/30">
                       <summary className="flex cursor-pointer items-center justify-between font-medium">
@@ -252,7 +266,10 @@ export default function FAQPage() {
                         </span>
                       </summary>
                       <div className="mt-4 text-muted-foreground">
-                        <p>We offer comprehensive tax services for individuals and businesses, including:</p>
+                        <p>
+                          We offer comprehensive tax services for individuals and businesses,
+                          including:
+                        </p>
                         <ul className="list-disc pl-6 mt-2 space-y-1">
                           <li>Tax planning and strategy development</li>
                           <li>Individual tax return preparation</li>
@@ -289,19 +306,20 @@ export default function FAQPage() {
                       </summary>
                       <div className="mt-4 text-muted-foreground">
                         <p>
-                          We recommend quarterly tax planning meetings for most businesses to ensure you're taking
-                          advantage of all available tax strategies and to adjust your plan as needed throughout the
-                          year. For individuals with complex financial situations, we typically suggest semi-annual
-                          meetings.
+                          We recommend quarterly tax planning meetings for most businesses to ensure
+                          you&apos;re taking advantage of all available tax strategies and to adjust your
+                          plan as needed throughout the year. For individuals with complex financial
+                          situations, we typically suggest semi-annual meetings.
                         </p>
                         <p className="mt-2">
-                          However, the frequency can vary based on your specific situation, business complexity, and
-                          financial goals. At a minimum, we recommend meeting at least once before year-end to implement
-                          tax-saving strategies before the tax year closes.
+                          However, the frequency can vary based on your specific situation, business
+                          complexity, and financial goals. At a minimum, we recommend meeting at
+                          least once before year-end to implement tax-saving strategies before the
+                          tax year closes.
                         </p>
                         <p className="mt-2">
-                          Remember that proactive tax planning throughout the year is much more effective than reactive
-                          tax preparation after the year ends.
+                          Remember that proactive tax planning throughout the year is much more
+                          effective than reactive tax preparation after the year ends.
                         </p>
                       </div>
                     </details>
@@ -336,9 +354,11 @@ export default function FAQPage() {
                           <li>Retirement account information</li>
                           <li>Deduction and credit information</li>
                           <li>Health insurance documentation</li>
-                          <li>Prior year's tax return</li>
+                          <li>Prior year&apos;s tax return</li>
                         </ul>
-                        <p className="mt-2">For business tax preparation, additional documents include:</p>
+                        <p className="mt-2">
+                          For business tax preparation, additional documents include:
+                        </p>
                         <ul className="list-disc pl-6 mt-2 space-y-1">
                           <li>Business income and expense records</li>
                           <li>Asset purchase and depreciation records</li>
@@ -347,8 +367,8 @@ export default function FAQPage() {
                           <li>Business loan documents</li>
                         </ul>
                         <p className="mt-2">
-                          We'll provide you with a detailed checklist specific to your situation before your
-                          appointment.
+                          We&apos;ll provide you with a detailed checklist specific to your situation
+                          before your appointment.
                         </p>
                       </div>
                     </details>
@@ -356,7 +376,9 @@ export default function FAQPage() {
                 </div>
 
                 <div>
-                  <h2 className="text-2xl font-bold tracking-tighter font-serif mb-6">Audit & Assurance</h2>
+                  <h2 className="text-2xl font-bold tracking-tighter font-serif mb-6">
+                    Audit & Assurance
+                  </h2>
                   <div className="space-y-4">
                     <details className="group rounded-lg border border-border p-4 [&[open]]:bg-muted/50 transition-all hover:border-primary/30">
                       <summary className="flex cursor-pointer items-center justify-between font-medium">
@@ -391,8 +413,9 @@ export default function FAQPage() {
                           <li>Employee benefit plan audits</li>
                         </ul>
                         <p className="mt-2">
-                          Our audit and assurance services are designed to enhance the credibility of your financial
-                          information and provide stakeholders with confidence in your financial reporting.
+                          Our audit and assurance services are designed to enhance the credibility
+                          of your financial information and provide stakeholders with confidence in
+                          your financial reporting.
                         </p>
                       </div>
                     </details>
@@ -423,23 +446,26 @@ export default function FAQPage() {
                           <li>The size and complexity of your organization</li>
                           <li>The condition of your financial records</li>
                           <li>The scope of the audit</li>
-                          <li>Your team's responsiveness to information requests</li>
+                          <li>Your team&apos;s responsiveness to information requests</li>
                         </ul>
                         <p className="mt-2">
-                          Typically, a small to medium-sized business audit might take 2-4 weeks from start to finish,
-                          while larger or more complex organizations might require 4-8 weeks or more. The audit process
-                          generally includes planning, fieldwork, and reporting phases.
+                          Typically, a small to medium-sized business audit might take 2-4 weeks
+                          from start to finish, while larger or more complex organizations might
+                          require 4-8 weeks or more. The audit process generally includes planning,
+                          fieldwork, and reporting phases.
                         </p>
                         <p className="mt-2">
-                          We work efficiently to minimize disruption to your operations while maintaining the
-                          thoroughness required for a quality audit.
+                          We work efficiently to minimize disruption to your operations while
+                          maintaining the thoroughness required for a quality audit.
                         </p>
                       </div>
                     </details>
 
                     <details className="group rounded-lg border border-border p-4 [&[open]]:bg-muted/50 transition-all hover:border-primary/30">
                       <summary className="flex cursor-pointer items-center justify-between font-medium">
-                        <span>What's the difference between an audit, review, and compilation?</span>
+                        <span>
+                          What&apos;s the difference between an audit, review, and compilation?
+                        </span>
                         <span className="transition duration-300 group-open:rotate-180">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -461,27 +487,30 @@ export default function FAQPage() {
                         <p>These services represent different levels of assurance:</p>
                         <ul className="list-disc pl-6 mt-2 space-y-1">
                           <li>
-                            <strong>Audit:</strong> Provides the highest level of assurance. We examine your financial
-                            statements by conducting verification procedures such as confirmation with third parties,
-                            physical inspection, and testing of supporting documentation. An audit includes an
-                            assessment of internal controls and provides reasonable assurance that the financial
+                            <strong>Audit:</strong> Provides the highest level of assurance. We
+                            examine your financial statements by conducting verification procedures
+                            such as confirmation with third parties, physical inspection, and
+                            testing of supporting documentation. An audit includes an assessment of
+                            internal controls and provides reasonable assurance that the financial
                             statements are free from material misstatement.
                           </li>
                           <li>
-                            <strong>Review:</strong> Provides limited assurance. We perform analytical procedures and
-                            inquiries to determine whether the financial statements appear to be free from material
-                            misstatement. A review is less extensive than an audit but more thorough than a compilation.
+                            <strong>Review:</strong> Provides limited assurance. We perform
+                            analytical procedures and inquiries to determine whether the financial
+                            statements appear to be free from material misstatement. A review is
+                            less extensive than an audit but more thorough than a compilation.
                           </li>
                           <li>
-                            <strong>Compilation:</strong> Provides no assurance. We assist in preparing financial
-                            statements based on information provided by management. We do not verify the accuracy or
-                            completeness of the information but present it in the proper format according to accounting
+                            <strong>Compilation:</strong> Provides no assurance. We assist in
+                            preparing financial statements based on information provided by
+                            management. We do not verify the accuracy or completeness of the
+                            information but present it in the proper format according to accounting
                             standards.
                           </li>
                         </ul>
                         <p className="mt-2">
-                          The appropriate service depends on your needs, such as stakeholder requirements, financing
-                          needs, and regulatory obligations.
+                          The appropriate service depends on your needs, such as stakeholder
+                          requirements, financing needs, and regulatory obligations.
                         </p>
                       </div>
                     </details>
@@ -489,7 +518,9 @@ export default function FAQPage() {
                 </div>
 
                 <div>
-                  <h2 className="text-2xl font-bold tracking-tighter font-serif mb-6">Financial Advisory</h2>
+                  <h2 className="text-2xl font-bold tracking-tighter font-serif mb-6">
+                    Financial Advisory
+                  </h2>
                   <div className="space-y-4">
                     <details className="group rounded-lg border border-border p-4 [&[open]]:bg-muted/50 transition-all hover:border-primary/30">
                       <summary className="flex cursor-pointer items-center justify-between font-medium">
@@ -526,8 +557,8 @@ export default function FAQPage() {
                           <li>Retirement planning</li>
                         </ul>
                         <p className="mt-2">
-                          Our advisory services are tailored to help you make informed financial decisions that align
-                          with your business goals and personal objectives.
+                          Our advisory services are tailored to help you make informed financial
+                          decisions that align with your business goals and personal objectives.
                         </p>
                       </div>
                     </details>
@@ -553,7 +584,9 @@ export default function FAQPage() {
                         </span>
                       </summary>
                       <div className="mt-4 text-muted-foreground">
-                        <p>Financial advisory services can benefit your business in numerous ways:</p>
+                        <p>
+                          Financial advisory services can benefit your business in numerous ways:
+                        </p>
                         <ul className="list-disc pl-6 mt-2 space-y-1">
                           <li>Improved decision-making through data-driven insights</li>
                           <li>Enhanced cash flow management and forecasting</li>
@@ -565,8 +598,9 @@ export default function FAQPage() {
                           <li>Performance measurement and benchmarking</li>
                         </ul>
                         <p className="mt-2">
-                          Our advisory approach focuses on understanding your business objectives and providing tailored
-                          solutions that drive financial success and sustainable growth.
+                          Our advisory approach focuses on understanding your business objectives
+                          and providing tailored solutions that drive financial success and
+                          sustainable growth.
                         </p>
                       </div>
                     </details>
@@ -604,10 +638,11 @@ export default function FAQPage() {
                           <li>Debt management strategies</li>
                         </ul>
                         <p className="mt-2">
-                          Our personal financial planning services are designed to help you achieve your financial goals
-                          while maintaining harmony between your personal and business finances. We take a holistic
-                          approach that considers your complete financial picture. We take a holistic approach that
-                          considers your complete financial picture.
+                          Our personal financial planning services are designed to help you achieve
+                          your financial goals while maintaining harmony between your personal and
+                          business finances. We take a holistic approach that considers your
+                          complete financial picture. We take a holistic approach that considers
+                          your complete financial picture.
                         </p>
                       </div>
                     </details>
@@ -617,9 +652,12 @@ export default function FAQPage() {
 
               <div className="mt-12 border-t border-border pt-8">
                 <div className="text-center space-y-4">
-                  <h2 className="text-2xl font-bold tracking-tighter font-serif">Still have questions?</h2>
+                  <h2 className="text-2xl font-bold tracking-tighter font-serif">
+                    Still have questions?
+                  </h2>
                   <p className="text-muted-foreground">
-                    If you couldn't find the answer you were looking for, please feel free to reach out to us directly.
+                    If you couldn&apos;t find the answer you were looking for, please feel free to reach
+                    out to us directly.
                   </p>
                   <div className="flex flex-col sm:flex-row gap-4 justify-center mt-4">
                     <Link
@@ -642,7 +680,54 @@ export default function FAQPage() {
         </section>
       </main>
       <Footer />
-    </div>
-  )
-}
 
+      {/* FAQ page specific structured data */}
+      <Script id="faq-schema-org" type="application/ld+json">
+        {generateStructuredData("FAQPage", {
+          mainEntity: [
+            {
+              "@type": "Question",
+              name: "What services does Taxclusive?",
+              acceptedAnswer: {
+                "@type": "Answer",
+                text: "Taxclisive offers a comprehensive range of accounting and financial services, including tax planning and preparation for individuals and businesses, audit and assurance services, financial advisory and consulting, bookkeeping and accounting, payroll services, business formation and structuring, estate and trust planning, and industry-specific financial solutions.",
+              },
+            },
+            {
+              "@type": "Question",
+              name: "How do I schedule an appointment with your firm?",
+              acceptedAnswer: {
+                "@type": "Answer",
+                text: "You can schedule an appointment through our online booking system on our website, by calling our office directly, or by sending us an email. We offer both in-person and virtual consultations to accommodate your preferences and schedule.",
+              },
+            },
+            {
+              "@type": "Question",
+              name: "What documents should I bring to my tax preparation appointment?",
+              acceptedAnswer: {
+                "@type": "Answer",
+                text: "For individual tax preparation, you should bring your identification, social security numbers for you and your dependents, income statements (W-2s, 1099s), expense records, previous year's tax returns, and any tax-related correspondence from tax authorities. For business tax preparation, bring your business identification numbers, income and expense records, asset purchase information, and previous tax returns.",
+              },
+            },
+            {
+              "@type": "Question",
+              name: "How far in advance should I start tax planning?",
+              acceptedAnswer: {
+                "@type": "Answer",
+                text: "Tax planning should be a year-round activity, not just something you do before the filing deadline. We recommend meeting with a tax professional at least quarterly to review your financial situation and make strategic adjustments. For businesses, more frequent planning may be beneficial. The earlier you start planning, the more opportunities you'll have to implement tax-saving strategies.",
+              },
+            },
+            {
+              "@type": "Question",
+              name: "What industries do you specialize in?",
+              acceptedAnswer: {
+                "@type": "Answer",
+                text: "Our firm has expertise across multiple industries, including healthcare, real estate, technology, professional services, manufacturing, retail, and nonprofit organizations. Our team includes specialists who understand the unique financial and regulatory challenges of these sectors, allowing us to provide tailored solutions that address industry-specific needs.",
+              },
+            },
+          ],
+        })}
+      </Script>
+    </div>
+  );
+}

@@ -1,6 +1,6 @@
 {
-  "name": "Sudarshan & Associates - Professional Chartered Accountancy Services",
-  "short_name": "Sudarshan & Associates",
+  "name": "Taxclusive - Professional Chartered Accountancy Services",
+  "short_name": "Taxclusive",
   "description": "Professional chartered accountancy firm providing comprehensive accounting, taxation, and financial advisory services with cultural expertise.",
   "start_url": "/",
   "display": "standalone",
@@ -8,12 +8,17 @@
   "theme_color": "#c2863a",
   "icons": [
     {
-      "src": "/android-chrome-192x192.png",
-      "sizes": "192x192",
+      "src": "/favicon.ico",
+      "sizes": "16x16 32x32 48x48",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
       "type": "image/png"
     },
     {
-      "src": "/android-chrome-512x512.png",
+      "src": "/logo.png",
       "sizes": "512x512",
       "type": "image/png"
     }
@@ -23,4 +28,3 @@
   "orientation": "portrait-primary",
   "categories": ["business", "finance", "accounting"]
 }
-

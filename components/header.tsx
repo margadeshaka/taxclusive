@@ -1,41 +1,90 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { useState, useEffect } from "react"
-import { Menu, X, Globe } from "lucide-react"
-import { usePathname } from "next/navigation"
+import { Menu, X } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useState, useEffect } from "react";
 
+/**
+ * Header component for the application
+ * Provides navigation links, responsive mobile menu, and appointment booking options
+ * @returns {JSX.Element} The rendered header component
+ */
 export default function Header() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [isScrolled, setIsScrolled] = useState(false)
-  // const [language, setLanguage] = useState("English")
-  const pathname = usePathname()
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const pathname = usePathname();
 
+  /**
+   * Effect to handle scroll events and update the header appearance
+   */
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10)
-    }
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+      try {
+        setIsScrolled(window.scrollY > 10);
+      } catch (error) {
+        console.error("Error handling scroll event:", error);
+      }
+    };
 
+    try {
+      window.addEventListener("scroll", handleScroll);
+    } catch (error) {
+      console.error("Error adding scroll event listener:", error);
+    }
+
+    return () => {
+      try {
+        window.removeEventListener("scroll", handleScroll);
+      } catch (error) {
+        console.error("Error removing scroll event listener:", error);
+      }
+    };
+  }, []);
+
+  /**
+   * Toggles a class on the body element
+   * @param {boolean} add - Whether to add or remove the class
+   * @param {string} className - The class name to toggle
+   */
+  const toggleBodyClass = (add: boolean, className: string) => {
+    try {
+      if (add) {
+        document.body.classList.add(className);
+      } else {
+        document.body.classList.remove(className);
+      }
+    } catch (error) {
+      console.error(`Error ${add ? "adding" : "removing"} class ${className}:`, error);
+    }
+  };
+
+  /**
+   * Toggles the mobile menu open/closed state and adjusts body overflow
+   */
   const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen)
-    if (!isMenuOpen) {
-      document.body.style.overflow = "hidden"
-    } else {
-      document.body.style.overflow = "auto"
-    }
-  }
+    const newMenuState = !isMenuOpen;
+    setIsMenuOpen(newMenuState);
+    toggleBodyClass(newMenuState, "overflow-hidden");
+  };
 
+  /**
+   * Closes the mobile menu and restores body overflow
+   */
   const closeMenu = () => {
-    setIsMenuOpen(false)
-    document.body.style.overflow = "auto"
-  }
+    setIsMenuOpen(false);
+    toggleBodyClass(false, "overflow-hidden");
+  };
 
+  /**
+   * Checks if the given path matches the current pathname
+   * @param {string} path - The path to check against the current pathname
+   * @returns {boolean} True if the path matches the current pathname
+   */
   const isActive = (path: string) => {
-    return pathname === path
-  }
+    return pathname === path;
+  };
 
   return (
     <header
@@ -48,8 +97,12 @@ export default function Header() {
     >
       <div className="container flex h-16 items-center justify-between">
         <div className="flex items-center gap-2">
-          <Link href="/" className="font-serif font-bold text-xl" aria-label="Taxclusive - Home">
-            <span className="text-primary">Taxclusive</span>
+          <Link
+            href="/"
+            className="flex items-center gap-2 font-serif font-bold text-xl pt-4"
+            aria-label="Taxclusive - Home"
+          >
+            <Image src="/logo.png" alt="Taxclusive Logo" width={250} height={100} />
           </Link>
         </div>
         <nav className="hidden md:flex gap-6" aria-label="Main">
@@ -103,30 +156,6 @@ export default function Header() {
           </Link>
         </nav>
         <div className="hidden md:flex items-center gap-4">
-          <div className="relative group">
-            {/*<button className="flex items-center gap-1 text-sm font-medium text-muted-foreground hover:text-foreground">*/}
-            {/*  <Globe className="h-4 w-4" />*/}
-            {/*  <span>{language}</span>*/}
-            {/*</button>*/}
-            {/* <div className="absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-background border border-border hidden group-hover:block">
-              <div className="py-1" role="menu" aria-orientation="vertical">
-                <button
-                  className="w-full text-left px-4 py-2 text-sm text-foreground hover:bg-muted"
-                  role="menuitem"
-                  onClick={() => setLanguage("English")}
-                >
-                  English
-                </button>
-                <button
-                  className="w-full text-left px-4 py-2 text-sm text-foreground hover:bg-muted"
-                  role="menuitem"
-                  onClick={() => setLanguage("हिन्दी")}
-                >
-                  हिन्दी (Hindi)
-                </button>
-              </div>
-            </div> */}
-          </div>
           <Link
             href="/appointment"
             className="inline-flex h-10 items-center justify-center rounded-md border border-primary bg-background px-6 text-sm font-medium text-primary shadow-sm transition-colors hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
@@ -140,7 +169,8 @@ export default function Header() {
             Get in Touch
           </Link>
         </div>
-        <button className="flex items-center md:hidden"
+        <button
+          className="flex items-center md:hidden"
           onClick={toggleMenu}
           aria-expanded={isMenuOpen}
           aria-controls="mobile-menu"
@@ -152,7 +182,20 @@ export default function Header() {
 
       {/* Mobile menu */}
       {isMenuOpen && (
-        <div id="mobile-menu" className="fixed inset-0 z-50 bg-background pt-16 pb-6 px-4 md:hidden overflow-auto">
+        <div
+          id="mobile-menu"
+          className="fixed inset-0 z-50 bg-background pt-16 pb-6 px-4 md:hidden overflow-auto"
+        >
+          <div className="flex items-center justify-center mb-6">
+            <Link
+              href="/"
+              className="flex items-center gap-2 font-serif font-bold text-xl"
+              aria-label="Taxclusive - Home"
+              onClick={closeMenu}
+            >
+              <Image src="/logo.png" alt="Taxclusive Logo" width={250} height={100} />
+            </Link>
+          </div>
           <nav className="flex flex-col space-y-6 mt-6" aria-label="Mobile">
             <Link
               href="/"
@@ -211,23 +254,6 @@ export default function Header() {
               Contact
             </Link>
             <div className="pt-6 border-t">
-              <div className="mb-4">
-                {/* <p className="text-sm text-muted-foreground mb-2">Select Language</p>
-                <div className="space-y-2">
-                  <button
-                    className={`w-full text-left px-3 py-2 text-sm rounded-md ${language === "English" ? "bg-primary/10 text-primary" : "hover:bg-muted"}`}
-                    onClick={() => setLanguage("English")}
-                  >
-                    English
-                  </button>
-                  <button
-                    className={`w-full text-left px-3 py-2 text-sm rounded-md ${language === "हिन्दी" ? "bg-primary/10 text-primary" : "hover:bg-muted"}`}
-                    onClick={() => setLanguage("हिन्दी")}
-                  >
-                    हिन्दी (Hindi)
-                  </button>
-                </div> */}
-              </div>
               <div className="space-y-3">
                 <Link
                   href="/appointment"
@@ -256,5 +282,5 @@ export default function Header() {
         </div>
       )}
     </header>
-  )
+  );
 }

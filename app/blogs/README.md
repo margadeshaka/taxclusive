@@ -49,10 +49,10 @@ interface Blog {
       data?: {
         attributes?: {
           url: string;
-        }
-      }
-    }
-  }
+        };
+      };
+    };
+  };
 }
 ```
 

@@ -1,17 +1,19 @@
-"use client"
+"use client";
 
-import { useSearchParams } from "next/navigation"
-import Link from "next/link"
-import { ChevronLeft } from "lucide-react"
-import Header from "@/components/header"
-import Footer from "@/components/footer"
-import NewsletterSubscription from "@/components/newsletter-subscription"
-import { BlogList } from "./components/blog-list"
-import { BlogDetail } from "./components/blog-detail"
+import { ChevronLeft } from "lucide-react";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+
+import Footer from "@/components/footer";
+import Header from "@/components/header";
+import NewsletterSubscription from "@/components/newsletter-subscription";
+
+import { BlogDetail } from "./components/blog-detail";
+import { BlogList } from "./components/blog-list";
 
 export default function BlogsPage() {
-  const searchParams = useSearchParams()
-  const blogId = searchParams.get('id')
+  const searchParams = useSearchParams();
+  const blogId = searchParams.get("id");
   return (
     <div className="flex min-h-screen flex-col">
       <Header />
@@ -29,7 +31,8 @@ export default function BlogsPage() {
                       Insights & Knowledge
                     </h1>
                     <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                      Stay updated with the latest trends, insights, and expert advice on taxation, accounting, and financial management.
+                      Stay updated with the latest trends, insights, and expert advice on taxation,
+                      accounting, and financial management.
                     </p>
                   </div>
                 </div>
@@ -48,8 +51,8 @@ export default function BlogsPage() {
           <section className="w-full py-12 md:py-24 lg:py-32">
             <div className="container px-4 md:px-6">
               <div className="mx-auto max-w-3xl">
-                <Link 
-                  href="/blogs" 
+                <Link
+                  href="/blogs"
                   className="mb-8 inline-flex items-center text-sm font-medium text-primary hover:underline"
                 >
                   <ChevronLeft className="mr-1 h-4 w-4" />
@@ -64,5 +67,5 @@ export default function BlogsPage() {
       <Footer />
       <NewsletterSubscription />
     </div>
-  )
+  );
 }

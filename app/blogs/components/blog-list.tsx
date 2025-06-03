@@ -1,11 +1,12 @@
-"use client"
+"use client";
 
-import Image from "next/image"
-import Link from "next/link"
-import { useBlogs } from "@/hooks/use-blogs"
+import Image from "next/image";
+import Link from "next/link";
+
+import { useBlogs } from "@/hooks/use-blogs";
 
 export function BlogList() {
-  const { blogs, isLoading, isError } = useBlogs()
+  const { blogs, isLoading, isError } = useBlogs();
 
   if (isLoading) {
     return (
@@ -15,7 +16,7 @@ export function BlogList() {
           <span>Loading blogs...</span>
         </div>
       </div>
-    )
+    );
   }
 
   if (isError) {
@@ -26,7 +27,7 @@ export function BlogList() {
           <p className="mt-2">Please try again later or contact support if the problem persists.</p>
         </div>
       </div>
-    )
+    );
   }
 
   if (!blogs || blogs.length === 0) {
@@ -37,14 +38,14 @@ export function BlogList() {
           <p className="mt-2">Check back later for new content.</p>
         </div>
       </div>
-    )
+    );
   }
 
   return (
     <>
       {blogs.map((blog) => (
-        <Link 
-          key={blog.id} 
+        <Link
+          key={blog.id}
           href={`/blogs?id=${blog.id}`}
           className="group flex flex-col overflow-hidden rounded-lg border bg-background shadow-sm transition-all hover:shadow-md"
         >
@@ -64,23 +65,24 @@ export function BlogList() {
           </div>
           <div className="flex flex-1 flex-col p-4 sm:p-6">
             <h3 className="text-xl font-bold">{blog.title || "Untitled Blog Post"}</h3>
-            {(blog.description) && (
-              <p className="mt-2 line-clamp-3 text-muted-foreground">
-                {blog.description}
-              </p>
+            {blog.description && (
+              <p className="mt-2 line-clamp-3 text-muted-foreground">{blog.description}</p>
             )}
-            {!blog.description && blog.blocks && blog.blocks.length > 0 && blog.blocks[0].__component === "shared.rich-text" && (
-              <p className="mt-2 line-clamp-3 text-muted-foreground">
-                {blog.blocks[0].body && blog.blocks[0].body.substring(0, 150) + '...'}
-              </p>
-            )}
+            {!blog.description &&
+              blog.blocks &&
+              blog.blocks.length > 0 &&
+              blog.blocks[0].__component === "shared.rich-text" && (
+                <p className="mt-2 line-clamp-3 text-muted-foreground">
+                  {blog.blocks[0].body && blog.blocks[0].body.substring(0, 150) + "..."}
+                </p>
+              )}
             {blog.publishedAt && (
               <div className="mt-4 flex items-center text-sm text-muted-foreground">
                 <time dateTime={blog.publishedAt}>
-                  {new Date(blog.publishedAt).toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
+                  {new Date(blog.publishedAt).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
                   })}
                 </time>
               </div>
@@ -89,5 +91,5 @@ export function BlogList() {
         </Link>
       ))}
     </>
-  )
+  );
 }
