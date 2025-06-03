@@ -248,3 +248,46 @@ export function formatQueryEmail(formData: {
     replyTo: formData.email,
   };
 }
+
+/**
+ * Formats message form data into an email
+ * 
+ * @param formData - The message form data
+ * @returns The formatted email data
+ */
+export function formatMessageEmail(formData: {
+  name: string;
+  email: string;
+  phone?: string;
+  subject: string;
+  message: string;
+}): EmailData {
+  const text = `
+    New Message Submission
+
+    Name: ${formData.name}
+    Email: ${formData.email}
+    Phone: ${formData.phone || 'Not provided'}
+    Subject: ${formData.subject}
+
+    Message:
+    ${formData.message}
+  `;
+
+  const html = `
+    <h2>New Message Submission</h2>
+    <p><strong>Name:</strong> ${formData.name}</p>
+    <p><strong>Email:</strong> ${formData.email}</p>
+    <p><strong>Phone:</strong> ${formData.phone || 'Not provided'}</p>
+    <p><strong>Subject:</strong> ${formData.subject}</p>
+    <h3>Message:</h3>
+    <p>${formData.message.replace(/\n/g, '<br>')}</p>
+  `;
+
+  return {
+    subject: `Message: ${formData.subject}`,
+    text,
+    html,
+    replyTo: formData.email,
+  };
+}

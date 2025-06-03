@@ -17,6 +17,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
+import { submitMessageForm } from "@/lib/form-actions";
 import { simpleContactFormSchema } from "@/lib/validation";
 
 type FormValues = {
@@ -44,21 +45,34 @@ export default function ContactSection() {
     setIsSubmitting(true);
 
     try {
-      // Simulate API call with a delay
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      // Create FormData object from form values
+      const formData = new FormData();
+      formData.append('name', data.name);
+      formData.append('email', data.email);
+      formData.append('subject', data.subject);
+      formData.append('message', data.message);
 
-      // In a real application, you would send the data to your API here
-      console.warn("Form submitted:", data);
+      // Submit the form using the submitMessageForm function
+      const result = await submitMessageForm(formData);
 
-      // Show success message
-      toast({
-        title: "Message sent!",
-        description: "Thank you for your message. We'll get back to you soon.",
-        variant: "default",
-      });
+      if (result.success) {
+        // Show success message
+        toast({
+          title: "Message sent!",
+          description: "Thank you for your message. We'll get back to you soon.",
+          variant: "default",
+        });
 
-      // Reset form
-      form.reset();
+        // Reset form
+        form.reset();
+      } else {
+        // Show error message
+        toast({
+          title: "Something went wrong",
+          description: result.message || "Your message couldn't be sent. Please try again later.",
+          variant: "destructive",
+        });
+      }
     } catch (error) {
       // Show error message
       toast({

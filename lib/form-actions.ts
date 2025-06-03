@@ -5,7 +5,8 @@ import {
   formatContactEmail, 
   formatAppointmentEmail, 
   formatNewsletterEmail, 
-  formatQueryEmail 
+  formatQueryEmail,
+  formatMessageEmail
 } from '@/lib/email';
 
 /**
@@ -59,7 +60,7 @@ export async function submitAppointmentForm(formData: FormData) {
     const nameParts = fullName.split(' ');
     const firstName = nameParts[0];
     const lastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : '';
-    
+
     const email = formData.get('email') as string;
     const phone = formData.get('phone') as string;
     const service = formData.get('service') as string;
@@ -137,7 +138,7 @@ export async function submitQueryForm(formData: FormData) {
     const priority = formData.get('priority') as string;
     const subject = formData.get('subject') as string;
     const query = formData.get('query') as string;
-    
+
     // Handle file uploads (in a static site, we can't actually process files,
     // but we can acknowledge their presence in the email)
     const fileInput = formData.get('file-upload') as File;
@@ -166,5 +167,42 @@ export async function submitQueryForm(formData: FormData) {
   } catch (error) {
     console.error('Error submitting query form:', error);
     return { success: false, message: 'Failed to submit query. Please try again later.' };
+  }
+}
+
+/**
+ * Handles message form submissions
+ * 
+ * @param formData - The form data from the message form
+ * @returns A result object indicating success or failure
+ */
+export async function submitMessageForm(formData: FormData) {
+  try {
+    const name = formData.get('name') as string;
+    const email = formData.get('email') as string;
+    const phone = formData.get('phone') as string;
+    const subject = formData.get('subject') as string;
+    const message = formData.get('message') as string;
+
+    // Validate required fields
+    if (!name || !email || !subject || !message) {
+      return { success: false, message: 'Please fill in all required fields.' };
+    }
+
+    // Format and send the email
+    const emailData = formatMessageEmail({
+      name,
+      email,
+      phone,
+      subject,
+      message,
+    });
+
+    await sendEmail(emailData);
+
+    return { success: true, message: 'Your message has been sent successfully!' };
+  } catch (error) {
+    console.error('Error submitting message form:', error);
+    return { success: false, message: 'Failed to send message. Please try again later.' };
   }
 }
