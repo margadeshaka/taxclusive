@@ -1,16 +1,38 @@
-import Link from "next/link"
-import Image from "next/image"
-import { ChevronRight } from "lucide-react"
-import Header from "@/components/header"
-import Footer from "@/components/footer"
+'use client';
 
-export const metadata = {
-  title: "Insights - Taxclusive",
-  description:
-    "Stay informed with our latest articles, updates, and insights on accounting, taxation, and financial management.",
-}
+import Image from "next/image";
+import Link from "next/link";
+import { useState } from "react";
+
+import Footer from "@/components/footer";
+import Header from "@/components/header";
+import {submitNewsletterForm} from "@/lib/form-actions";
+
 
 export default function InsightsPage() {
+  const [formStatus, setFormStatus] = useState({
+    submitted: false,
+    success: false,
+    message: '',
+  });
+
+  async function handleSubmit(formData: FormData) {
+    try {
+      const result = await submitNewsletterForm(formData);
+      setFormStatus({
+        submitted: true,
+        success: result.success,
+        message: result.message,
+      });
+    } catch (error) {
+      setFormStatus({
+        submitted: true,
+        success: false,
+        message: 'An unexpected error occurred. Please try again later.',
+      });
+    }
+  }
+
   return (
     <div className="flex min-h-screen flex-col">
       <Header />
@@ -20,9 +42,13 @@ export default function InsightsPage() {
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
                 <div className="w-16 h-1 bg-primary mx-auto mb-4"></div>
-                <h1 className="text-3xl font-bold tracking-tighter font-serif sm:text-5xl">Financial Insights</h1>
+                <h1 className="text-3xl font-bold tracking-tighter font-serif sm:text-5xl">
+                  Financial Insights
+                </h1>
                 <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                Explore trusted financial insights crafted to empower businesses and individuals alike. Our innovative approach, backed by expert knowledge, ensures clarity and confidence in every financial decision—mastering taxes, delivering excellence.
+                  Explore trusted financial insights crafted to empower businesses and individuals
+                  alike. Our innovative approach, backed by expert knowledge, ensures clarity and
+                  confidence in every financial decision—mastering taxes, delivering excellence.
                 </p>
               </div>
             </div>
@@ -58,9 +84,15 @@ export default function InsightsPage() {
                       <span>•</span>
                       <span>Taxation</span>
                     </div>
-                    <h3 className="mt-3 text-2xl font-bold">Tax Planning Strategies for Small Businesses in 2025</h3>
+                    <h3 className="mt-3 text-2xl font-bold">
+                      Tax Planning Strategies for Small Businesses in 2025
+                    </h3>
                     <p className="mt-2 text-muted-foreground">
-                    As the tax landscape continues to evolve in 2025, small businesses must adopt proactive strategies to optimize savings and ensure compliance. From leveraging new deductions to restructuring business operations, effective tax planning can significantly enhance financial efficiency. Our insightful guidance helps you navigate complex regulations with confidence and clarity.
+                      As the tax landscape continues to evolve in 2025, small businesses must adopt
+                      proactive strategies to optimize savings and ensure compliance. From
+                      leveraging new deductions to restructuring business operations, effective tax
+                      planning can significantly enhance financial efficiency. Our insightful
+                      guidance helps you navigate complex regulations with confidence and clarity.
                     </p>
                     <div className="mt-4 flex flex-wrap gap-2">
                       <span className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
@@ -109,9 +141,15 @@ export default function InsightsPage() {
                         <span>•</span>
                         <span>Financial Advisory</span>
                       </div>
-                      <h3 className="mt-3 text-xl font-bold">Financial Forecasting: A Guide for Business Growth</h3>
+                      <h3 className="mt-3 text-xl font-bold">
+                        Financial Forecasting: A Guide for Business Growth
+                      </h3>
                       <p className="mt-2 line-clamp-3 text-muted-foreground">
-                      Accurate financial forecasting is key to driving sustainable business growth. By analyzing trends, anticipating cash flow, and setting realistic goals, businesses can make informed decisions with confidence. Our trusted expertise empowers you with innovative tools and insights to stay ahead in a dynamic market.
+                        Accurate financial forecasting is key to driving sustainable business
+                        growth. By analyzing trends, anticipating cash flow, and setting realistic
+                        goals, businesses can make informed decisions with confidence. Our trusted
+                        expertise empowers you with innovative tools and insights to stay ahead in a
+                        dynamic market.
                       </p>
                       {/* <Link
                         href="/insights/financial-forecasting"
@@ -139,9 +177,15 @@ export default function InsightsPage() {
                         <span>•</span>
                         <span>Audit</span>
                       </div>
-                      <h3 className="mt-3 text-xl font-bold">The Importance of Regular Financial Audits</h3>
+                      <h3 className="mt-3 text-xl font-bold">
+                        The Importance of Regular Financial Audits
+                      </h3>
                       <p className="mt-2 line-clamp-3 text-muted-foreground">
-                      Regular financial audits ensure accuracy, compliance, and transparency in your business operations. They help detect discrepancies early, strengthen stakeholder confidence, and provide actionable insights for strategic planning. As a trusted partner, we bring an insightful and innovative approach to every audit we conduct.
+                        Regular financial audits ensure accuracy, compliance, and transparency in
+                        your business operations. They help detect discrepancies early, strengthen
+                        stakeholder confidence, and provide actionable insights for strategic
+                        planning. As a trusted partner, we bring an insightful and innovative
+                        approach to every audit we conduct.
                       </p>
                       {/* <Link
                         href="/insights/importance-of-audits"
@@ -168,9 +212,14 @@ export default function InsightsPage() {
                         <span>•</span>
                         <span>Business Advisory</span>
                       </div>
-                      <h3 className="mt-3 text-xl font-bold">Navigating Business Succession Planning</h3>
+                      <h3 className="mt-3 text-xl font-bold">
+                        Navigating Business Succession Planning
+                      </h3>
                       <p className="mt-2 line-clamp-3 text-muted-foreground">
-                      Effective succession planning ensures a smooth transition of leadership, minimizes disruptions, and safeguards your business legacy. Our trusted advisors provide insightful strategies that align with your long-term goals, helping you plan with confidence and clarity for the future.
+                        Effective succession planning ensures a smooth transition of leadership,
+                        minimizes disruptions, and safeguards your business legacy. Our trusted
+                        advisors provide insightful strategies that align with your long-term goals,
+                        helping you plan with confidence and clarity for the future.
                       </p>
                       {/* <Link
                         href="/insights/succession-planning"
@@ -186,7 +235,6 @@ export default function InsightsPage() {
                       <Image
                         // src="https://placehold.co/600x400"
                         src="/insights4.png"
-
                         width={600}
                         height={400}
                         alt="Digital transformation in accounting"
@@ -199,9 +247,14 @@ export default function InsightsPage() {
                         <span>•</span>
                         <span>Technology</span>
                       </div>
-                      <h3 className="mt-3 text-xl font-bold">Digital Transformation in Accounting</h3>
+                      <h3 className="mt-3 text-xl font-bold">
+                        Digital Transformation in Accounting
+                      </h3>
                       <p className="mt-2 line-clamp-3 text-muted-foreground">
-                      Embracing digital tools is reshaping the future of accounting, enabling real-time insights, enhanced accuracy, and greater efficiency. Our innovative approach integrates advanced technology with trusted financial expertise to deliver streamlined and future-ready accounting solutions.
+                        Embracing digital tools is reshaping the future of accounting, enabling
+                        real-time insights, enhanced accuracy, and greater efficiency. Our
+                        innovative approach integrates advanced technology with trusted financial
+                        expertise to deliver streamlined and future-ready accounting solutions.
                       </p>
                       {/* <Link
                         href="/insights/digital-transformation"
@@ -232,7 +285,7 @@ export default function InsightsPage() {
                           href="/insights/category/taxation"
                           className="text-muted-foreground hover:text-primary transition-colors"
                         > */}
-                          Taxation (12)
+                        Taxation (12)
                         {/* </Link> */}
                       </li>
                       <li>
@@ -240,7 +293,7 @@ export default function InsightsPage() {
                           href="/insights/category/audit"
                           className="text-muted-foreground hover:text-primary transition-colors"
                         > */}
-                          Audit & Assurance (8)
+                        Audit & Assurance (8)
                         {/* </Link> */}
                       </li>
                       <li>
@@ -248,7 +301,7 @@ export default function InsightsPage() {
                           href="/insights/category/advisory"
                           className="text-muted-foreground hover:text-primary transition-colors"
                         > */}
-                          Financial Advisory (10)
+                        Financial Advisory (10)
                         {/* </Link> */}
                       </li>
                       <li>
@@ -256,7 +309,7 @@ export default function InsightsPage() {
                           href="/insights/category/business"
                           className="text-muted-foreground hover:text-primary transition-colors"
                         > */}
-                          Business Consulting (7)
+                        Business Consulting (7)
                         {/* </Link> */}
                       </li>
                       <li>
@@ -264,7 +317,7 @@ export default function InsightsPage() {
                           href="/insights/category/technology"
                           className="text-muted-foreground hover:text-primary transition-colors"
                         > */}
-                          Technology (5)
+                        Technology (5)
                         {/* </Link> */}
                       </li>
                       <li>
@@ -272,7 +325,7 @@ export default function InsightsPage() {
                           href="/insights/category/industry"
                           className="text-muted-foreground hover:text-primary transition-colors"
                         > */}
-                          Industry Insights (9)
+                        Industry Insights (9)
                         {/* </Link> */}
                       </li>
                     </ul>
@@ -327,9 +380,17 @@ export default function InsightsPage() {
                   <div className="rounded-lg border bg-background p-6 shadow-sm">
                     <h3 className="text-lg font-bold mb-4">Subscribe to Our Newsletter</h3>
                     <p className="text-muted-foreground mb-4">
-                      Stay updated with our latest insights and news. Subscribe to our newsletter for regular updates.
+                      Stay updated with our latest insights and news. Subscribe to our newsletter
+                      for regular updates.
                     </p>
-                    <form className="space-y-4">
+
+                    {formStatus.submitted && (
+                      <div className={`p-4 mb-6 rounded-md ${formStatus.success ? 'bg-green-50 border border-green-200 text-green-800' : 'bg-red-50 border border-red-200 text-red-800'}`}>
+                        <p className="text-sm font-medium">{formStatus.message}</p>
+                      </div>
+                    )}
+
+                    <form action={handleSubmit} className="space-y-4">
                       <div className="space-y-2">
                         <label
                           htmlFor="email"
@@ -339,6 +400,7 @@ export default function InsightsPage() {
                         </label>
                         <input
                           id="email"
+                          name="email"
                           type="email"
                           className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                           placeholder="Enter your email"
@@ -356,8 +418,8 @@ export default function InsightsPage() {
                   <div className="rounded-lg border bg-primary/10 p-6 shadow-sm">
                     <h3 className="text-lg font-bold mb-4">Need Financial Guidance?</h3>
                     <p className="text-muted-foreground mb-4">
-                      Our team of experts is ready to help you navigate your financial challenges and achieve your
-                      goals.
+                      Our team of experts is ready to help you navigate your financial challenges
+                      and achieve your goals.
                     </p>
                     <Link
                       href="/appointment"
@@ -391,8 +453,16 @@ export default function InsightsPage() {
               <div className="group relative overflow-hidden rounded-lg border bg-background p-6 shadow-sm transition-all hover:shadow-md hover:border-primary/50">
                 <div className="flex flex-col space-y-2">
                   <div className="text-primary font-medium">May 15, 2025 • 2:00 PM EST</div>
-                  <h3 className="text-xl font-bold">Tax Planning Strategies for Small Businesses</h3>
-                  <p className="text-muted-foreground"> Discover practical and insightful tax planning strategies designed to help small businesses minimize liabilities, stay compliant, and maximize growth. Our trusted experts break down key tax-saving opportunities tailored for the evolving financial landscape of 2025.</p>
+                  <h3 className="text-xl font-bold">
+                    Tax Planning Strategies for Small Businesses
+                  </h3>
+                  <p className="text-muted-foreground">
+                    {" "}
+                    Discover practical and insightful tax planning strategies designed to help small
+                    businesses minimize liabilities, stay compliant, and maximize growth. Our
+                    trusted experts break down key tax-saving opportunities tailored for the
+                    evolving financial landscape of 2025.
+                  </p>
                   {/* <Link
                     href="/events/tax-planning-webinar"
                     className="mt-4 inline-flex items-center text-sm font-medium text-primary"
@@ -405,7 +475,11 @@ export default function InsightsPage() {
                 <div className="flex flex-col space-y-2">
                   <div className="text-primary font-medium">June 8, 2025 • 1:00 PM EST</div>
                   <h3 className="text-xl font-bold">Financial Forecasting Workshop</h3>
-                  <p className="text-muted-foreground">  Learn how to forecast with confidence and drive strategic growth through data-driven financial planning.</p>
+                  <p className="text-muted-foreground">
+                    {" "}
+                    Learn how to forecast with confidence and drive strategic growth through
+                    data-driven financial planning.
+                  </p>
                   {/* <Link
                     href="/events/forecasting-workshop"
                     className="mt-4 inline-flex items-center text-sm font-medium text-primary"
@@ -418,7 +492,10 @@ export default function InsightsPage() {
                 <div className="flex flex-col space-y-2">
                   <div className="text-primary font-medium">June 22, 2025 • 3:00 PM EST</div>
                   <h3 className="text-xl font-bold">Digital Transformation in Accounting</h3>
-                  <p className="text-muted-foreground">Explore how technology is reshaping accounting practices and driving innovation in financial management.</p>
+                  <p className="text-muted-foreground">
+                    Explore how technology is reshaping accounting practices and driving innovation
+                    in financial management.
+                  </p>
                   {/* <Link
                     href="/events/digital-transformation-webinar"
                     className="mt-4 inline-flex items-center text-sm font-medium text-primary"
@@ -441,6 +518,5 @@ export default function InsightsPage() {
       </main>
       <Footer />
     </div>
-  )
+  );
 }
-

@@ -1,16 +1,16 @@
-"use client"
+"use client";
 
-import { Phone, MessageCircle } from "lucide-react"
-import { useState } from "react"
+import { Phone, MessageCircle } from "lucide-react";
+import { useState } from "react";
 
 export default function ContactButtons() {
-  const [isExpanded, setIsExpanded] = useState(false)
-  const phoneNumber = "(+91)97739-79042" // Replace with your actual phone number
-  const whatsappMessage = encodeURIComponent("Hello, I'd like to inquire about your services.")
+  const [isExpanded, setIsExpanded] = useState(false);
+  const phoneNumber = "(+91)97739-79042"; // Replace with your actual phone number
+  const whatsappMessage = encodeURIComponent("Hello, I'd like to inquire about your services.");
 
   const toggleExpand = () => {
-    setIsExpanded(!isExpanded)
-  }
+    setIsExpanded(!isExpanded);
+  };
 
   return (
     <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end space-y-3">
@@ -45,7 +45,9 @@ export default function ContactButtons() {
       <button
         onClick={toggleExpand}
         className={`flex items-center justify-center w-14 h-14 rounded-full shadow-lg transition-all duration-300 ${
-          isExpanded ? "bg-muted text-muted-foreground rotate-45" : "bg-primary text-primary-foreground ethnic-pulse"
+          isExpanded
+            ? "bg-muted text-muted-foreground rotate-45"
+            : "bg-primary text-primary-foreground ethnic-pulse"
         }`}
         aria-label={isExpanded ? "Close contact options" : "Open contact options"}
       >
@@ -85,6 +87,5 @@ export default function ContactButtons() {
         </span>
       </button>
     </div>
-  )
+  );
 }
-

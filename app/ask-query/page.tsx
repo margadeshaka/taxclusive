@@ -1,15 +1,37 @@
-import Link from "next/link"
-import { HelpCircle, Clock, CheckCircle } from "lucide-react"
-import Header from "@/components/header"
-import Footer from "@/components/footer"
+'use client'
+import { HelpCircle, Clock, CheckCircle } from "lucide-react";
+import Link from "next/link";
+import { useState } from "react";
 
-export const metadata = {
-  title: "Ask a Query - Taxclusive",
-  description:
-    "Submit your accounting, taxation, or financial questions to our expert team for personalized assistance.",
-}
+import Footer from "@/components/footer";
+import Header from "@/components/header";
+import {submitQueryForm} from "@/lib/form-actions";
+
 
 export default function AskQueryPage() {
+  const [formStatus, setFormStatus] = useState({
+    submitted: false,
+    success: false,
+    message: '',
+  });
+
+  async function handleSubmit(formData: FormData) {
+    try {
+      const result = await submitQueryForm(formData);
+      setFormStatus({
+        submitted: true,
+        success: result.success,
+        message: result.message,
+      });
+    } catch (error) {
+      setFormStatus({
+        submitted: true,
+        success: false,
+        message: 'An unexpected error occurred. Please try again later.',
+      });
+    }
+  }
+
   return (
     <div className="flex min-h-screen flex-col">
       <Header />
@@ -19,9 +41,12 @@ export default function AskQueryPage() {
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
                 <div className="w-16 h-1 bg-primary mx-auto mb-4"></div>
-                <h1 className="text-3xl font-bold tracking-tighter font-serif sm:text-5xl">Ask a Query</h1>
+                <h1 className="text-3xl font-bold tracking-tighter font-serif sm:text-5xl">
+                  Ask a Query
+                </h1>
                 <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  Have a specific question? Submit your query and our expert team will provide personalized assistance.
+                  Have a specific question? Submit your query and our expert team will provide
+                  personalized assistance.
                 </p>
               </div>
             </div>
@@ -39,8 +64,8 @@ export default function AskQueryPage() {
                   Get Expert Answers to Your Questions
                 </h2>
                 <p className="max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  Our team of experienced professionals is ready to address your specific accounting, taxation, or
-                  financial questions with personalized guidance.
+                  Our team of experienced professionals is ready to address your specific
+                  accounting, taxation, or financial questions with personalized guidance.
                 </p>
               </div>
 
@@ -52,8 +77,8 @@ export default function AskQueryPage() {
                   <div className="space-y-1">
                     <h3 className="font-bold">Submit Your Query</h3>
                     <p className="text-muted-foreground">
-                      Fill out the form with your question and any relevant details. The more specific you are, the
-                      better we can assist you.
+                      Fill out the form with your question and any relevant details. The more
+                      specific you are, the better we can assist you.
                     </p>
                   </div>
                 </div>
@@ -64,8 +89,8 @@ export default function AskQueryPage() {
                   <div className="space-y-1">
                     <h3 className="font-bold">Expert Review</h3>
                     <p className="text-muted-foreground">
-                      Our team will review your query and assign it to the appropriate specialist based on the subject
-                      matter and complexity.
+                      Our team will review your query and assign it to the appropriate specialist
+                      based on the subject matter and complexity.
                     </p>
                   </div>
                 </div>
@@ -76,8 +101,8 @@ export default function AskQueryPage() {
                   <div className="space-y-1">
                     <h3 className="font-bold">Receive Your Answer</h3>
                     <p className="text-muted-foreground">
-                      You'll receive a personalized response via email within 1-2 business days. For complex queries, we
-                      may schedule a follow-up call.
+                      You&apos;ll receive a personalized response via email within 1-2 business days. For
+                      complex queries, we may schedule a follow-up call.
                     </p>
                   </div>
                 </div>
@@ -124,7 +149,14 @@ export default function AskQueryPage() {
 
             <div className="rounded-lg border bg-background p-8 shadow-sm">
               <h3 className="text-xl font-bold mb-6">Submit Your Query</h3>
-              <form className="space-y-6">
+
+              {formStatus.submitted && (
+                <div className={`p-4 mb-6 rounded-md ${formStatus.success ? 'bg-green-50 border border-green-200 text-green-800' : 'bg-red-50 border border-red-200 text-red-800'}`}>
+                  <p className="text-sm font-medium">{formStatus.message}</p>
+                </div>
+              )}
+
+              <form action={handleSubmit} className="space-y-6">
                 <div className="space-y-2">
                   <label
                     htmlFor="full-name"
@@ -134,6 +166,7 @@ export default function AskQueryPage() {
                   </label>
                   <input
                     id="full-name"
+                    name="full-name"
                     className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                     placeholder="Enter your full name"
                     required
@@ -150,6 +183,7 @@ export default function AskQueryPage() {
                     </label>
                     <input
                       id="email"
+                      name="email"
                       type="email"
                       className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                       placeholder="Enter your email"
@@ -165,6 +199,7 @@ export default function AskQueryPage() {
                     </label>
                     <input
                       id="phone"
+                      name="phone"
                       type="tel"
                       className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                       placeholder="Enter your phone number"
@@ -181,10 +216,12 @@ export default function AskQueryPage() {
                   </label>
                   <select
                     id="category"
+                    name="category"
                     className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                     required
+                    defaultValue=""
                   >
-                    <option value="" disabled selected>
+                    <option value="" disabled>
                       Select a category
                     </option>
                     <option value="tax">Taxation</option>
@@ -207,11 +244,14 @@ export default function AskQueryPage() {
                   </label>
                   <select
                     id="priority"
+                    name="priority"
                     className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     <option value="normal">Normal - Response within 1-2 business days</option>
                     <option value="urgent">Urgent - Response within 24 hours</option>
-                    <option value="immediate">Immediate - Response ASAP (additional fees may apply)</option>
+                    <option value="immediate">
+                      Immediate - Response ASAP (additional fees may apply)
+                    </option>
                   </select>
                 </div>
 
@@ -224,6 +264,7 @@ export default function AskQueryPage() {
                   </label>
                   <input
                     id="subject"
+                    name="subject"
                     className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                     placeholder="Brief description of your query"
                     required
@@ -239,6 +280,7 @@ export default function AskQueryPage() {
                   </label>
                   <textarea
                     id="query"
+                    name="query"
                     className="flex min-h-[150px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                     placeholder="Please provide detailed information about your question or concern"
                     required
@@ -254,6 +296,7 @@ export default function AskQueryPage() {
                   </label>
                   <input
                     id="file-upload"
+                    name="file-upload"
                     type="file"
                     multiple
                     className="flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
@@ -267,12 +310,13 @@ export default function AskQueryPage() {
                   <input
                     type="checkbox"
                     id="consent"
+                    name="consent"
                     className="mt-1 h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
                     required
                   />
                   <label htmlFor="consent" className="text-sm text-muted-foreground">
-                    I consent to Taxclusive processing my personal data to respond to my query. I understand
-                    that my information will be handled in accordance with the{" "}
+                    I consent to Taxclusive processing my personal data to respond to my query. I
+                    understand that my information will be handled in accordance with the{" "}
                     <Link href="/privacy" className="text-primary hover:underline">
                       Privacy Policy
                     </Link>
@@ -302,7 +346,9 @@ export default function AskQueryPage() {
                 <div className="ethnic-divider">
                   <span className="text-primary font-serif px-4">Response Policy</span>
                 </div>
-                <h2 className="text-3xl font-bold tracking-tighter font-serif sm:text-4xl">Our Commitment to You</h2>
+                <h2 className="text-3xl font-bold tracking-tighter font-serif sm:text-4xl">
+                  Our Commitment to You
+                </h2>
                 <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
                   We strive to provide timely, accurate, and helpful responses to all queries.
                 </p>
@@ -312,22 +358,23 @@ export default function AskQueryPage() {
               <div className="space-y-2 p-6 border border-border bg-background rounded-lg hover:border-primary/30 transition-colors">
                 <h3 className="text-xl font-bold">Response Time</h3>
                 <p className="text-muted-foreground">
-                  We aim to respond to all standard queries within 1-2 business days. Urgent queries are prioritized and
-                  typically addressed within 24 hours during business days.
+                  We aim to respond to all standard queries within 1-2 business days. Urgent queries
+                  are prioritized and typically addressed within 24 hours during business days.
                 </p>
               </div>
               <div className="space-y-2 p-6 border border-border bg-background rounded-lg hover:border-primary/30 transition-colors">
                 <h3 className="text-xl font-bold">Confidentiality</h3>
                 <p className="text-muted-foreground">
-                  All information shared with us is treated with the utmost confidentiality. We adhere to strict
-                  professional standards and privacy regulations to protect your data.
+                  All information shared with us is treated with the utmost confidentiality. We
+                  adhere to strict professional standards and privacy regulations to protect your
+                  data.
                 </p>
               </div>
               <div className="space-y-2 p-6 border border-border bg-background rounded-lg hover:border-primary/30 transition-colors">
                 <h3 className="text-xl font-bold">Follow-up Process</h3>
                 <p className="text-muted-foreground">
-                  For complex queries that require additional information or discussion, we may suggest a follow-up call
-                  or meeting to ensure your question is fully addressed.
+                  For complex queries that require additional information or discussion, we may
+                  suggest a follow-up call or meeting to ensure your question is fully addressed.
                 </p>
               </div>
             </div>
@@ -336,6 +383,5 @@ export default function AskQueryPage() {
       </main>
       <Footer />
     </div>
-  )
+  );
 }
-

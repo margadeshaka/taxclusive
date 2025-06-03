@@ -1,18 +1,18 @@
-"use client"
+"use client";
 
-import Image from "next/image"
-import Link from "next/link"
-import { ChevronLeft } from "lucide-react"
-import { useBlogs } from "@/hooks/use-blogs"
+import { ChevronLeft } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+
+import { useBlogs } from "@/hooks/use-blogs";
 
 interface BlogDetailProps {
-  id: string
+  id: string;
 }
 
 export function BlogDetail({ id }: BlogDetailProps) {
-  const { blogs, isLoading, isError } = useBlogs()
-  const blog = blogs?.find(blog => blog.id === parseInt(id))
-console.log(blogs, id)
+  const { blogs, isLoading, isError } = useBlogs();
+  const blog = blogs?.find((blog) => blog.id === parseInt(id));
   if (isLoading) {
     return (
       <div className="flex justify-center py-12">
@@ -21,7 +21,7 @@ console.log(blogs, id)
           <span>Loading blog...</span>
         </div>
       </div>
-    )
+    );
   }
 
   if (isError) {
@@ -32,7 +32,7 @@ console.log(blogs, id)
           <p className="mt-2">Please try again later or contact support if the problem persists.</p>
         </div>
       </div>
-    )
+    );
   }
 
   if (!blog) {
@@ -40,9 +40,9 @@ console.log(blogs, id)
       <div className="flex justify-center py-12">
         <div className="rounded-lg bg-muted p-6">
           <h3 className="text-lg font-medium">Blog not found</h3>
-          <p className="mt-2">The blog you're looking for doesn't exist or has been removed.</p>
-          <Link 
-            href="/blogs" 
+          <p className="mt-2">The blog you&apos;re looking for doesn&apos;t exist or has been removed.</p>
+          <Link
+            href="/blogs"
             className="mt-4 inline-flex items-center text-sm font-medium text-primary hover:underline"
           >
             <ChevronLeft className="mr-1 h-4 w-4" />
@@ -50,7 +50,7 @@ console.log(blogs, id)
           </Link>
         </div>
       </div>
-    )
+    );
   }
 
   return (
@@ -80,33 +80,27 @@ console.log(blogs, id)
       {blog.publishedAt && (
         <div className="mt-4 flex items-center text-sm text-muted-foreground">
           <time dateTime={blog.publishedAt}>
-            {new Date(blog.publishedAt).toLocaleDateString('en-US', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric',
+            {new Date(blog.publishedAt).toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
             })}
           </time>
         </div>
       )}
 
-      {blog.description && (
-        <p className="mt-4 text-xl text-muted-foreground">
-          {blog.description}
-        </p>
-      )}
+      {blog.description && <p className="mt-4 text-xl text-muted-foreground">{blog.description}</p>}
 
       {blog.blocks && blog.blocks.length > 0 && (
         <div className="mt-8">
           {blog.blocks.map((block, index) => {
             if (block.__component === "shared.rich-text") {
-              return (
-                <div key={index} dangerouslySetInnerHTML={{ __html: block.body }} />
-              );
+              return <div key={index} dangerouslySetInnerHTML={{ __html: block.body }} />;
             }
             return null;
           })}
         </div>
       )}
     </article>
-  )
+  );
 }

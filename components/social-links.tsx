@@ -1,6 +1,5 @@
-
-import Link from "next/link"
-import { Facebook, Twitter, Linkedin, Instagram, Youtube } from "lucide-react"
+import { Facebook, Twitter, Linkedin, Instagram, Youtube } from "lucide-react";
+import Link from "next/link";
 
 export default function SocialLinks({ className }: { className?: string }) {
   return (
@@ -51,6 +50,5 @@ export default function SocialLinks({ className }: { className?: string }) {
         <Youtube className="h-5 w-5" />
       </Link>
     </div>
-  )
+  );
 }
-

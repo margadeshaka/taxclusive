@@ -12,26 +12,32 @@ This document provides guidelines and information for developers working on this
 ### Setup
 
 1. Clone the repository:
+
    ```bash
    git clone git@github.com:margadeshaka/taxexclusive.git
    cd taxexclusive
    ```
 
 2. Install dependencies:
+
    ```bash
    pnpm install
    ```
 
 3. Development server:
+
    ```bash
    pnpm dev
    ```
+
    This will start the development server at [http://localhost:3000](http://localhost:3000).
 
 4. Build for production:
+
    ```bash
    pnpm build
    ```
+
    This project is configured for static export (output: 'export' in next.config.mjs).
 
 5. Start production server:
@@ -42,7 +48,7 @@ This document provides guidelines and information for developers working on this
 ### Configuration Files
 
 - **next.config.mjs**: Contains Next.js configuration, including static export settings, ESLint and TypeScript error handling during builds, and experimental features.
-- **tsconfig.json**: TypeScript configuration with path aliases (@/* points to the root directory).
+- **tsconfig.json**: TypeScript configuration with path aliases (@/\* points to the root directory).
 - **tailwind.config.ts**: Tailwind CSS configuration with custom colors, fonts, animations, and background patterns.
 - **postcss.config.mjs**: PostCSS configuration for processing CSS.
 - **components.json**: Configuration for UI components.
@@ -54,6 +60,7 @@ This document provides guidelines and information for developers working on this
 The project uses Jest and React Testing Library for testing React components.
 
 1. Run tests:
+
    ```bash
    pnpm test
    ```
@@ -73,18 +80,18 @@ The project uses Jest and React Testing Library for testing React components.
 Here's a simple example of testing a component:
 
 ```tsx
-import { render, screen } from '@testing-library/react';
-import YourComponent from '@/components/your-component';
+import { render, screen } from "@testing-library/react";
+import YourComponent from "@/components/your-component";
 
-describe('YourComponent', () => {
-  it('renders correctly', () => {
+describe("YourComponent", () => {
+  it("renders correctly", () => {
     render(<YourComponent />);
-    
+
     // Check if specific elements are rendered
-    expect(screen.getByText('Expected Text')).toBeInTheDocument();
-    
+    expect(screen.getByText("Expected Text")).toBeInTheDocument();
+
     // Check if elements with specific roles exist
-    expect(screen.getByRole('button', { name: 'Button Text' })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Button Text" })).toBeInTheDocument();
   });
 });
 ```
@@ -113,11 +120,13 @@ describe('YourComponent', () => {
 1. **TypeScript**: The project uses TypeScript for type safety. Ensure all components and functions have proper type definitions.
 
 2. **Component Structure**:
+
    - Functional components with named exports
    - Props interfaces defined at the top of the file
    - Use of React hooks for state and side effects
 
 3. **Styling**:
+
    - Tailwind CSS for styling components
    - Use className prop for conditional styling
    - Follow the project's color scheme and design tokens

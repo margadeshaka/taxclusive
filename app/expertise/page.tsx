@@ -1,7 +1,14 @@
-import Link from "next/link"
-import { ChevronRight } from "lucide-react"
-import Header from "@/components/header"
-import Footer from "@/components/footer"
+'use client';
+
+import { ChevronRight } from "lucide-react";
+import { Metadata } from "next";
+import Link from "next/link";
+
+import Footer from "@/components/footer";
+import Header from "@/components/header";
+import { generateMetadata } from "@/lib/metadata";
+
+
 
 export default function ExpertisePage() {
   return (
@@ -13,10 +20,13 @@ export default function ExpertisePage() {
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
                 <div className="w-16 h-1 bg-primary mx-auto mb-4"></div>
-                <h1 className="text-3xl font-bold tracking-tighter font-serif sm:text-5xl">Our Expertise</h1>
+                <h1 className="text-3xl font-bold tracking-tighter font-serif sm:text-5xl">
+                  Our Expertise
+                </h1>
                 <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  We provide specialized accounting and financial services across various industries, tailored to meet
-                  the unique needs of each sector with cultural understanding.
+                  We provide specialized accounting and financial services across various
+                  industries, tailored to meet the unique needs of each sector with cultural
+                  understanding.
                 </p>
               </div>
             </div>
@@ -30,8 +40,8 @@ export default function ExpertisePage() {
                 <div className="flex flex-col space-y-2">
                   <h3 className="text-xl font-bold">Real Estate & Construction</h3>
                   <p className="text-muted-foreground">
-                    Specialized accounting, tax planning, and financial advisory services for real estate developers,
-                    construction companies, and property managers.
+                    Specialized accounting, tax planning, and financial advisory services for real
+                    estate developers, construction companies, and property managers.
                   </p>
                   <ul className="mt-4 space-y-2">
                     <li className="flex items-center">
@@ -63,8 +73,8 @@ export default function ExpertisePage() {
                 <div className="flex flex-col space-y-2">
                   <h3 className="text-xl font-bold">Technology & Startups</h3>
                   <p className="text-muted-foreground">
-                    Financial services tailored for tech companies and startups, including funding assistance, R&D tax
-                    credits, and growth strategies.
+                    Financial services tailored for tech companies and startups, including funding
+                    assistance, R&D tax credits, and growth strategies.
                   </p>
                   <ul className="mt-4 space-y-2">
                     <li className="flex items-center">
@@ -96,8 +106,8 @@ export default function ExpertisePage() {
                 <div className="flex flex-col space-y-2">
                   <h3 className="text-xl font-bold">Manufacturing & Distribution</h3>
                   <p className="text-muted-foreground">
-                    Comprehensive accounting and advisory services for manufacturing businesses, focusing on inventory
-                    management and cost optimization.
+                    Comprehensive accounting and advisory services for manufacturing businesses,
+                    focusing on inventory management and cost optimization.
                   </p>
                   <ul className="mt-4 space-y-2">
                     <li className="flex items-center">
@@ -129,8 +139,8 @@ export default function ExpertisePage() {
                 <div className="flex flex-col space-y-2">
                   <h3 className="text-xl font-bold">Healthcare & Life Sciences</h3>
                   <p className="text-muted-foreground">
-                    Specialized financial services for healthcare providers, medical practices, and life science
-                    companies.
+                    Specialized financial services for healthcare providers, medical practices, and
+                    life science companies.
                   </p>
                   <ul className="mt-4 space-y-2">
                     <li className="flex items-center">
@@ -162,8 +172,8 @@ export default function ExpertisePage() {
                 <div className="flex flex-col space-y-2">
                   <h3 className="text-xl font-bold">Retail & E-commerce</h3>
                   <p className="text-muted-foreground">
-                    Financial solutions for retail businesses and e-commerce platforms, including inventory accounting
-                    and sales tax compliance.
+                    Financial solutions for retail businesses and e-commerce platforms, including
+                    inventory accounting and sales tax compliance.
                   </p>
                   <ul className="mt-4 space-y-2">
                     <li className="flex items-center">
@@ -195,8 +205,8 @@ export default function ExpertisePage() {
                 <div className="flex flex-col space-y-2">
                   <h3 className="text-xl font-bold">Nonprofit Organizations</h3>
                   <p className="text-muted-foreground">
-                    Specialized accounting and tax services for nonprofit organizations, focusing on compliance and
-                    financial sustainability.
+                    Specialized accounting and tax services for nonprofit organizations, focusing on
+                    compliance and financial sustainability.
                   </p>
                   <ul className="mt-4 space-y-2">
                     <li className="flex items-center">
@@ -228,8 +238,8 @@ export default function ExpertisePage() {
                 <div className="flex flex-col space-y-2">
                   <h3 className="text-xl font-bold">Professional Services</h3>
                   <p className="text-muted-foreground">
-                    Tailored financial solutions for law firms, consulting companies, and other professional service
-                    providers.
+                    Tailored financial solutions for law firms, consulting companies, and other
+                    professional service providers.
                   </p>
                   <ul className="mt-4 space-y-2">
                     <li className="flex items-center">
@@ -261,7 +271,8 @@ export default function ExpertisePage() {
                 <div className="flex flex-col space-y-2">
                   <h3 className="text-xl font-bold">Hospitality & Food Service</h3>
                   <p className="text-muted-foreground">
-                    Specialized accounting services for restaurants, hotels, and hospitality businesses.
+                    Specialized accounting services for restaurants, hotels, and hospitality
+                    businesses.
                   </p>
                   <ul className="mt-4 space-y-2">
                     <li className="flex items-center">
@@ -293,8 +304,8 @@ export default function ExpertisePage() {
                 <div className="flex flex-col space-y-2">
                   <h3 className="text-xl font-bold">Financial Services</h3>
                   <p className="text-muted-foreground">
-                    Accounting and compliance services for investment firms, financial advisors, and insurance
-                    companies.
+                    Accounting and compliance services for investment firms, financial advisors, and
+                    insurance companies.
                   </p>
                   <ul className="mt-4 space-y-2">
                     <li className="flex items-center">
@@ -333,10 +344,12 @@ export default function ExpertisePage() {
                 <div className="ethnic-divider">
                   <span className="text-primary font-serif px-4">Get Started</span>
                 </div>
-                <h2 className="text-3xl font-bold tracking-tighter font-serif sm:text-4xl">Ready to Work With Us?</h2>
+                <h2 className="text-3xl font-bold tracking-tighter font-serif sm:text-4xl">
+                  Ready to Work With Us?
+                </h2>
                 <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  Contact our team of experts to discuss how we can help your business with specialized accounting and
-                  financial services.
+                  Contact our team of experts to discuss how we can help your business with
+                  specialized accounting and financial services.
                 </p>
               </div>
               <div className="flex flex-col gap-2 min-[400px]:flex-row">
@@ -359,5 +372,5 @@ export default function ExpertisePage() {
       </main>
       <Footer />
     </div>
-  )
+  );
 }

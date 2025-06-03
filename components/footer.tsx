@@ -1,6 +1,6 @@
-import Link from "next/link"
-import { Mail, Phone, MapPin } from "lucide-react"
-import SocialLinks from "./social-links"
+import { Mail, Phone, MapPin } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 
 export default function Footer() {
   return (
@@ -11,49 +11,69 @@ export default function Footer() {
       <div className="container py-12 md:py-16">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
           <div className="space-y-4">
-            <Link href="/" className="font-serif font-bold text-xl inline-block" aria-label="Taxclusive - Home">
-              <span className="text-primary">Tax</span>clusive
-            </Link>
+            <Image src="/logo.png" alt="Taxclusive Logo" width={250} height={100} />
             <p className="text-sm text-muted-foreground max-w-xs">
-            Trusted by clients, driven by insight. Taxclusive delivers innovative tax solutions with precision, integrity, and a commitment to excellence.
+              Trusted by clients, driven by insight. Taxclusive delivers innovative tax solutions
+              with precision, integrity, and a commitment to excellence.
             </p>
-            <SocialLinks />
+            {/* <SocialLinks /> */}
           </div>
           <div>
             <h3 className="text-sm font-semibold mb-4">Quick Links</h3>
             <ul className="space-y-2">
               <li>
-                <Link href="/about" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                <Link
+                  href="/about"
+                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                >
                   About Us
                 </Link>
               </li>
               <li>
-                <Link href="/services" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                <Link
+                  href="/services"
+                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                >
                   Services
                 </Link>
               </li>
               <li>
-                <Link href="/expertise" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                <Link
+                  href="/expertise"
+                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                >
                   Expertise
                 </Link>
               </li>
               <li>
-                <Link href="/insights" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                <Link
+                  href="/insights"
+                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                >
                   Insights
                 </Link>
               </li>
               <li>
-                <Link href="/faq" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                <Link
+                  href="/faq"
+                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                >
                   FAQ
                 </Link>
               </li>
               <li>
-                <Link href="/ask-query" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                <Link
+                  href="/ask-query"
+                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                >
                   Ask a Query
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                <Link
+                  href="/contact"
+                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                >
                   Contact
                 </Link>
               </li>
@@ -118,9 +138,9 @@ export default function Footer() {
               <li className="flex items-start">
                 <MapPin className="h-5 w-5 text-primary mr-2 mt-0.5 flex-shrink-0" />
                 <span className="text-sm text-muted-foreground">
-                 JMD , Megapolis Sector 48 ,Sohna road
+                  JMD , Megapolis Sector 48 ,Sohna road
                   <br />
-                Gurugram -122001, HARYANA
+                  Gurugram -122001, HARYANA
                 </span>
               </li>
               <li className="flex items-center">
@@ -163,6 +183,5 @@ export default function Footer() {
         </div>
       </div>
     </footer>
-  )
+  );
 }
-
