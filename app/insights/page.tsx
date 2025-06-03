@@ -4,9 +4,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
-import { submitNewsletterForm } from "@/app/actions/form-actions";
 import Footer from "@/components/footer";
 import Header from "@/components/header";
+import {submitNewsletterForm} from "@/lib/form-actions";
 
 
 export default function InsightsPage() {

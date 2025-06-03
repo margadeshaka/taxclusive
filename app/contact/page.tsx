@@ -5,10 +5,10 @@ import Link from "next/link";
 import Script from "next/script";
 import { useState } from "react";
 
-import { submitContactForm } from "@/app/actions/form-actions";
 import Footer from "@/components/footer";
 import Header from "@/components/header";
 import { generateMetadata, generateStructuredData } from "@/lib/metadata";
+import {submitContactForm} from "@/lib/form-actions";
 
 
 export default function ContactPage() {

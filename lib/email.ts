@@ -1,17 +1,15 @@
-import nodemailer from "nodemailer";
+import { EmailClient } from "@azure/communication-email";
 
 /**
- * Configuration for Azure SMTP
+ * Azure Communication Services Email Client configuration
  */
-const smtpConfig = {
-  host: process.env.AZURE_SMTP_HOST || "smtp.azurecomm.net",
-  port: parseInt(process.env.AZURE_SMTP_PORT || "587"),
-  secure: process.env.AZURE_SMTP_SECURE === "true",
-  auth: {
-    user: process.env.AZURE_SMTP_USER || "support_taxclusive",
-    pass: process.env.AZURE_SMTP_PASSWORD || "m-I8Q~Icpp2NJmkECebaNarpMwWzkInGm3xD5b26",
-  },
-};
+const connectionString = process.env.AZURE_COMMUNICATION_CONNECTION_STRING || 
+  "endpoint=https://taxclusive-email.india.communication.azure.com/;accesskey=HaZyuNn1mNnOeb7npt2aZMRVo00seBTRAI4wtCzeiLNEhOkKkV2fJQQJ99BFACULyCpdfitoAAAAAZCS9QUr";
+
+/**
+ * Creates an Azure Communication Services Email Client
+ */
+const client = new EmailClient(connectionString);
 
 /**
  * Email sender configuration
@@ -30,11 +28,6 @@ const emailRecipient = {
 };
 
 /**
- * Creates a nodemailer transporter with Azure SMTP configuration
- */
-const transporter = nodemailer.createTransport(smtpConfig);
-
-/**
  * Interface for email data
  */
 export interface EmailData {
@@ -45,22 +38,34 @@ export interface EmailData {
 }
 
 /**
- * Sends an email using Azure SMTP
+ * Sends an email using Azure Communication Services Email Client
  *
  * @param data - The email data to send
  * @returns A promise that resolves when the email is sent
  */
 export async function sendEmail(data: EmailData): Promise<void> {
   try {
-    await transporter.sendMail({
-      from: `"${emailSender.name}" <${emailSender.email}>`,
-      to: `"${emailRecipient.name}" <${emailRecipient.email}>`,
-      replyTo: data.replyTo,
-      subject: data.subject,
-      text: data.text,
-      html: data.html,
-    });
-    console.info("Sent mail successfully");
+    const emailMessage = {
+      senderAddress: emailSender.email,
+      content: {
+        subject: data.subject,
+        plainText: data.text,
+        html: data.html || data.text,
+      },
+      recipients: {
+        to: [{ address: emailRecipient.email, displayName: emailRecipient.name }],
+      },
+    };
+
+    if (data.replyTo) {
+      // Note: Azure Communication Services doesn't directly support replyTo
+      // We're adding it to the email content as a workaround
+      emailMessage.content.html = `${emailMessage.content.html}<p><small>Reply to: ${data.replyTo}</small></p>`;
+    }
+
+    const poller = await client.beginSend(emailMessage);
+    const result = await poller.pollUntilDone();
+    console.info("Sent mail successfully", result);
     // Email sent successfully
   } catch (error) {
     console.error("Error sending email:", error);

@@ -1,10 +1,10 @@
-# Azure SMTP Implementation for Forms
+# Azure Communication Services Email Implementation for Forms
 
-This document outlines the implementation of Azure SMTP for form submissions in the Taxclusive website.
+This document outlines the implementation of Azure Communication Services Email for form submissions in the Taxclusive website.
 
 ## Overview
 
-The Taxclusive website is a static website that needs to handle form submissions without using APIs. To achieve this, we've implemented Azure SMTP for sending emails when forms are submitted. This implementation uses Next.js server actions to handle form submissions and send emails using the Azure SMTP service.
+The Taxclusive website is a static website that needs to handle form submissions without using APIs. To achieve this, we've implemented Azure Communication Services Email for sending emails when forms are submitted. This implementation uses Next.js server actions to handle form submissions and send emails using the Azure Communication Services Email Client.
 
 ## Implementation Details
 
@@ -12,14 +12,14 @@ The Taxclusive website is a static website that needs to handle form submissions
 
 The email configuration is defined in `/lib/email.ts`. This file contains:
 
-- Configuration for Azure SMTP using environment variables
+- Configuration for Azure Communication Services Email Client using environment variables
 - Email sender and recipient configuration
 - Functions for formatting emails for different form types
-- A function for sending emails using nodemailer
+- A function for sending emails using Azure Communication Services Email Client
 
 ### Server Actions
 
-Server actions for form submissions are defined in `/app/actions/form-actions.ts`. This file contains:
+Server actions for form submissions are defined in `/lib/form-actions.ts`. This file contains:
 
 - `submitContactForm`: Handles contact form submissions
 - `submitAppointmentForm`: Handles appointment form submissions
@@ -51,14 +51,10 @@ Each form component:
 
 ## Environment Variables
 
-The following environment variables need to be set for the Azure SMTP configuration:
+The following environment variables need to be set for the Azure Communication Services Email configuration:
 
 ```
-AZURE_SMTP_HOST=<smtp-host>
-AZURE_SMTP_PORT=<smtp-port>
-AZURE_SMTP_SECURE=<true|false>
-AZURE_SMTP_USER=<smtp-username>
-AZURE_SMTP_PASSWORD=<smtp-password>
+AZURE_COMMUNICATION_CONNECTION_STRING=<connection-string>
 EMAIL_SENDER_NAME=<sender-name>
 EMAIL_SENDER_ADDRESS=<sender-email>
 EMAIL_RECIPIENT_NAME=<recipient-name>
@@ -76,4 +72,4 @@ To test the implementation:
 
 ## Conclusion
 
-This implementation allows the Taxclusive website to handle form submissions without using APIs. When a form is submitted, the data is sent to the server, formatted into an email, and sent using the Azure SMTP service. The user receives immediate feedback on the success or failure of their submission.
+This implementation allows the Taxclusive website to handle form submissions without using APIs. When a form is submitted, the data is sent to the server, formatted into an email, and sent using the Azure Communication Services Email Client. The user receives immediate feedback on the success or failure of their submission.

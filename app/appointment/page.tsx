@@ -1,9 +1,9 @@
 'use client';
 import { useState } from "react";
 
-import { submitAppointmentForm } from "@/app/actions/form-actions";
 import Footer from "@/components/footer";
 import Header from "@/components/header";
+import {submitAppointmentForm} from "@/lib/form-actions";
 
 
 

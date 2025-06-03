@@ -3,9 +3,9 @@ import { HelpCircle, Clock, CheckCircle } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
-import { submitQueryForm } from "@/app/actions/form-actions";
 import Footer from "@/components/footer";
 import Header from "@/components/header";
+import {submitQueryForm} from "@/lib/form-actions";
 
 
 export default function AskQueryPage() {
