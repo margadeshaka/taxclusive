@@ -24,7 +24,7 @@ const emailSender = {
  */
 const emailRecipient = {
   name: process.env.EMAIL_RECIPIENT_NAME || "Taxclusive Support",
-  email: process.env.EMAIL_RECIPIENT_ADDRESS || "hiteshgupta3012@gmail.com",
+  email: process.env.EMAIL_RECIPIENT_ADDRESS || "contact@taxclusive.com",
 };
 
 /**
