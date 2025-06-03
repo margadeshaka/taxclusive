@@ -1,3 +1,4 @@
+'use client'
 import { Mail, MapPin, Phone } from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
@@ -9,14 +10,6 @@ import Footer from "@/components/footer";
 import Header from "@/components/header";
 import { generateMetadata, generateStructuredData } from "@/lib/metadata";
 
-export const metadata: Metadata = generateMetadata({
-  title: "Contact Us | Taxclusive",
-  description:
-    "Get in touch with our team of financial experts. We're here to answer your questions and provide the guidance you need for your financial success.",
-  keywords:
-    "contact taxclusive, financial consultation, tax help, accounting services contact, tax advisor contact, financial advisor contact",
-  canonical: "/contact",
-});
 
 export default function ContactPage() {
     const [formStatus, setFormStatus] = useState({

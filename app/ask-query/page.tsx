@@ -1,3 +1,4 @@
+'use client'
 import { HelpCircle, Clock, CheckCircle } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
@@ -6,11 +7,6 @@ import { submitQueryForm } from "@/app/actions/form-actions";
 import Footer from "@/components/footer";
 import Header from "@/components/header";
 
-export const metadata = {
-  title: "Ask a Query - Taxclusive",
-  description:
-    "Submit your accounting, taxation, or financial questions to our expert team for personalized assistance.",
-};
 
 export default function AskQueryPage() {
   const [formStatus, setFormStatus] = useState({

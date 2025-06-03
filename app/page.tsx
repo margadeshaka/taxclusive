@@ -1,3 +1,5 @@
+'use client';
+
 import { Metadata } from "next";
 import Script from "next/script";
 
@@ -18,15 +20,6 @@ const NewsletterSubscription = dynamicImport(() => import("@/components/newslett
   loading: () => <div className="w-full py-12 animate-pulse"></div>,
 });
 
-// Export metadata for the home page
-export const metadata: Metadata = generateMetadata({
-  title: "Taxclusive - Professional Chartered Accountancy Services",
-  description:
-    "Professional chartered accountancy firm providing comprehensive accounting, taxation, and financial advisory services with cultural expertise.",
-  keywords:
-    "chartered accountant, accounting services, tax planning, financial advisory, audit services, business consulting, tax consultant",
-  canonical: "/",
-});
 
 export default function Home() {
   return (

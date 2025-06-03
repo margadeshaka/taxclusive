@@ -1,3 +1,5 @@
+'use client';
+
 import { CheckCircle, Award, Users, BookOpen } from "lucide-react";
 import { Metadata } from "next";
 import Image from "next/image";
@@ -9,14 +11,6 @@ import Header from "@/components/header";
 import { generateMetadata, generateStructuredData } from "@/lib/metadata";
 
 
-export const metadata: Metadata = generateMetadata({
-  title: "About Us | Taxclusive",
-  description:
-    "Learn about our firm's history, values, and the expert team behind Taxclusive. Discover our mission, vision, and the professionals who make us a trusted financial partner.",
-  keywords:
-    "about taxclusive, accounting firm history, tax consultants, financial advisors, chartered accountants, company values, expert team",
-  canonical: "/about",
-});
 
 export default function AboutPage() {
   return (

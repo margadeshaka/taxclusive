@@ -4,12 +4,12 @@ import nodemailer from "nodemailer";
  * Configuration for Azure SMTP
  */
 const smtpConfig = {
-  host: process.env.AZURE_SMTP_HOST || "",
+  host: process.env.AZURE_SMTP_HOST || "smtp.azurecomm.net",
   port: parseInt(process.env.AZURE_SMTP_PORT || "587"),
   secure: process.env.AZURE_SMTP_SECURE === "true",
   auth: {
-    user: process.env.AZURE_SMTP_USER || "",
-    pass: process.env.AZURE_SMTP_PASSWORD || "m-I8Q~Icpp2NJmkECebaNarpMwWzkInGm3xD5b26  fa3c6f91-a306-4316-90ae-16342bb832d2",
+    user: process.env.AZURE_SMTP_USER || "support_taxclusive",
+    pass: process.env.AZURE_SMTP_PASSWORD || "m-I8Q~Icpp2NJmkECebaNarpMwWzkInGm3xD5b26",
   },
 };
 
@@ -18,7 +18,7 @@ const smtpConfig = {
  */
 const emailSender = {
   name: process.env.EMAIL_SENDER_NAME || "Taxclusive",
-  email: process.env.EMAIL_SENDER_ADDRESS || "no-reply@taxclusive.com",
+  email: process.env.EMAIL_SENDER_ADDRESS || "DoNotReply@ce0efb15-b29c-409c-9573-aa3571f3fcef.azurecomm.net",
 };
 
 /**
@@ -26,7 +26,7 @@ const emailSender = {
  */
 const emailRecipient = {
   name: process.env.EMAIL_RECIPIENT_NAME || "Taxclusive Support",
-  email: process.env.EMAIL_RECIPIENT_ADDRESS || "contact@taxclusive.com",
+  email: process.env.EMAIL_RECIPIENT_ADDRESS || "hiteshgupta3012@gmail.com",
 };
 
 /**
@@ -60,6 +60,7 @@ export async function sendEmail(data: EmailData): Promise<void> {
       text: data.text,
       html: data.html,
     });
+    console.info("Sent mail successfully");
     // Email sent successfully
   } catch (error) {
     console.error("Error sending email:", error);

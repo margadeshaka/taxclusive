@@ -1,3 +1,5 @@
+'use client';
+
 import { ChevronRight } from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
@@ -7,14 +9,6 @@ import Header from "@/components/header";
 import { generateMetadata } from "@/lib/metadata";
 
 
-export const metadata: Metadata = generateMetadata({
-  title: "Industry Expertise | Taxclusive",
-  description:
-    "Specialized accounting and financial services across various industries. Our expertise spans real estate, healthcare, technology, retail, manufacturing, and more.",
-  keywords:
-    "industry expertise, specialized accounting, sector-specific financial services, real estate accounting, healthcare financial services, technology accounting, retail financial services",
-  canonical: "/expertise",
-});
 
 export default function ExpertisePage() {
   return (

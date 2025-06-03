@@ -1,3 +1,5 @@
+'use client';
+
 import { Search } from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
@@ -8,14 +10,6 @@ import Header from "@/components/header";
 import { generateMetadata, generateStructuredData } from "@/lib/metadata";
 
 
-export const metadata: Metadata = generateMetadata({
-  title: "Frequently Asked Questions | Taxclusive",
-  description:
-    "Find answers to common questions about our accounting, taxation, and financial advisory services. Get clarity on tax planning, audit services, and more.",
-  keywords:
-    "tax FAQ, accounting questions, financial services FAQ, tax planning questions, audit services FAQ, bookkeeping questions, payroll services FAQ",
-  canonical: "/faq",
-});
 
 export default function FAQPage() {
   return (

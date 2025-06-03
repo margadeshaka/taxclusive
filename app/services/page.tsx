@@ -1,3 +1,5 @@
+'use client';
+
 import {
   ChevronRight,
   FileText,
@@ -17,14 +19,6 @@ import Header from "@/components/header";
 import { generateMetadata, generateStructuredData } from "@/lib/metadata";
 
 
-export const metadata: Metadata = generateMetadata({
-  title: "Our Services | Taxclusive",
-  description:
-    "Comprehensive accounting, taxation, and financial advisory services tailored to meet your unique needs. Expert solutions for individuals and businesses.",
-  keywords:
-    "tax planning, tax preparation, accounting services, financial advisory, audit services, business consulting, bookkeeping, payroll services, tax compliance",
-  canonical: "/services",
-});
 
 export default function ServicesPage() {
   return (

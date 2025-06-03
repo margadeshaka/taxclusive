@@ -1,3 +1,5 @@
+'use client';
+
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -6,11 +8,6 @@ import { submitNewsletterForm } from "@/app/actions/form-actions";
 import Footer from "@/components/footer";
 import Header from "@/components/header";
 
-export const metadata = {
-  title: "Insights - Taxclusive",
-  description:
-    "Stay informed with our latest articles, updates, and insights on accounting, taxation, and financial management.",
-};
 
 export default function InsightsPage() {
   const [formStatus, setFormStatus] = useState({
