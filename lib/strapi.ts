@@ -30,7 +30,7 @@ const defaultHeaders = {
 const defaultOptions = {
   method: "GET",
   headers: defaultHeaders,
-  timeout: 8000, // 8 seconds timeout
+  timeout: 120000, // 2 minutes timeout
   retries: 3, // 3 retry attempts
   cache: "default" as const,
 };
