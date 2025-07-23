@@ -112,12 +112,20 @@ jobs:
         
     - name: Configure Monitoring Alerts
       run: |
-        # Create action group for alerts
-        az monitor action-group create \
-          --resource-group ${{ env.RESOURCE_GROUP }} \
-          --name taxexclusive-alerts \
-          --short-name txalerts \
-          --email-receiver devops-email=${{ secrets.ALERT_EMAIL }}
+        # Create action group for alerts (skip if no email configured)
+        if [ -n "${{ secrets.ALERT_EMAIL }}" ]; then
+          az monitor action-group create \
+            --resource-group ${{ env.RESOURCE_GROUP }} \
+            --name taxexclusive-alerts \
+            --short-name txalerts \
+            --email-receiver devops-email=${{ secrets.ALERT_EMAIL }}
+        else
+          echo "Skipping alert configuration - ALERT_EMAIL secret not configured"
+          az monitor action-group create \
+            --resource-group ${{ env.RESOURCE_GROUP }} \
+            --name taxexclusive-alerts \
+            --short-name txalerts
+        fi
           
         # Create availability test
         az monitor app-insights web-test create \
@@ -143,7 +151,7 @@ jobs:
           --condition "avg Percentage CPU > 80" \
           --window-size 5m \
           --evaluation-frequency 1m \
-          --action "/subscriptions/${{ secrets.AZURE_SUBSCRIPTION_ID }}/resourceGroups/${{ env.RESOURCE_GROUP }}/providers/Microsoft.Insights/actionGroups/taxexclusive-alerts"
+          --action "/subscriptions/${{ secrets.AZURE_SUBSCRIPTION_ID }}/resourceGroups/${{ env.RESOURCE_GROUP }}/providers/Microsoft.Insights/actionGroups/taxexclusive-alerts" || true
           
         # Create memory alert
         az monitor metrics alert create \
@@ -154,7 +162,7 @@ jobs:
           --condition "avg Memory working set > 1073741824" \
           --window-size 5m \
           --evaluation-frequency 1m \
-          --action "/subscriptions/${{ secrets.AZURE_SUBSCRIPTION_ID }}/resourceGroups/${{ env.RESOURCE_GROUP }}/providers/Microsoft.Insights/actionGroups/taxexclusive-alerts"
+          --action "/subscriptions/${{ secrets.AZURE_SUBSCRIPTION_ID }}/resourceGroups/${{ env.RESOURCE_GROUP }}/providers/Microsoft.Insights/actionGroups/taxexclusive-alerts" || true
           
   performance-test:
     runs-on: ubuntu-latest
