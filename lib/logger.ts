@@ -95,10 +95,10 @@ function logEntry(entry: LogEntry): void {
   if (config.enableConsole) {
     switch (entry.level) {
       case LogLevel.DEBUG:
-        console.debug(formattedLog);
+        console.warn(formattedLog);
         break;
       case LogLevel.INFO:
-        console.info(formattedLog);
+        console.warn(formattedLog);
         break;
       case LogLevel.WARN:
         console.warn(formattedLog);

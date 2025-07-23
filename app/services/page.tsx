@@ -9,14 +9,15 @@ import {
   BookOpen,
   PieChart,
 } from "lucide-react";
-import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import Script from "next/script";
 
 import Footer from "@/components/footer";
 import Header from "@/components/header";
-import { generateMetadata, generateStructuredData } from "@/lib/metadata";
+import { generateStructuredData } from "@/lib/metadata";
+
+// Metadata for this page is handled by layout since it's a client component
 
 
 

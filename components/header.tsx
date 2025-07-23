@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
+import { clientConfig } from "@/lib/config/client-config";
 
 /**
  * Header component for the application
@@ -15,6 +16,9 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
+  
+  // Get configuration data
+  const { navigation, site, assets } = clientConfig;
 
   /**
    * Effect to handle scroll events and update the header appearance
@@ -100,68 +104,49 @@ export default function Header() {
           <Link
             href="/"
             className="flex items-center gap-2 font-serif font-bold text-xl pt-4"
-            aria-label="Taxclusive - Home"
+            aria-label={`${site.name} - Home`}
           >
-            <Image src="/logo.png" alt="Taxclusive Logo" width={250} height={100} />
+            {navigation.header.logo.image ? (
+              <Image 
+                src={navigation.header.logo.image} 
+                alt={`${site.name} Logo`} 
+                width={navigation.header.logo.width || 250} 
+                height={navigation.header.logo.height || 100} 
+              />
+            ) : (
+              <span className="text-xl font-bold">{navigation.header.logo.text || site.name}</span>
+            )}
           </Link>
         </div>
         <nav className="hidden md:flex gap-6" aria-label="Main">
-          <Link
-            href="/"
-            className={`text-sm font-medium transition-colors hover:text-primary ${isActive("/") ? "text-primary font-bold" : ""}`}
-          >
-            Home
-          </Link>
-          <Link
-            href="/about"
-            className={`text-sm font-medium transition-colors hover:text-primary ${isActive("/about") ? "text-primary font-bold" : ""}`}
-          >
-            About Us
-          </Link>
-          <Link
-            href="/services"
-            className={`text-sm font-medium transition-colors hover:text-primary ${isActive("/services") ? "text-primary font-bold" : ""}`}
-          >
-            Services
-          </Link>
-          <Link
-            href="/expertise"
-            className={`text-sm font-medium transition-colors hover:text-primary ${isActive("/expertise") ? "text-primary font-bold" : ""}`}
-          >
-            Expertise
-          </Link>
-          <Link
-            href="/insights"
-            className={`text-sm font-medium transition-colors hover:text-primary ${isActive("/insights") ? "text-primary font-bold" : ""}`}
-          >
-            Insights
-          </Link>
-          <Link
-            href="/blogs"
-            className={`text-sm font-medium transition-colors hover:text-primary ${isActive("/blogs") ? "text-primary font-bold" : ""}`}
-          >
-            Blogs
-          </Link>
-          <Link
-            href="/faq"
-            className={`text-sm font-medium transition-colors hover:text-primary ${isActive("/faq") ? "text-primary font-bold" : ""}`}
-          >
-            FAQ
-          </Link>
-          <Link
-            href="/contact"
-            className={`text-sm font-medium transition-colors hover:text-primary ${isActive("/contact") ? "text-primary font-bold" : ""}`}
-          >
-            Contact
-          </Link>
+          {navigation.header.menu.map((item) => (
+            <Link
+              key={item.id}
+              href={item.url}
+              className={`text-sm font-medium transition-colors hover:text-primary ${
+                isActive(item.url) ? "text-primary font-bold" : ""
+              }`}
+              {...(item.external && { target: "_blank", rel: "noopener noreferrer" })}
+            >
+              {item.label}
+            </Link>
+          ))}
         </nav>
         <div className="hidden md:flex items-center gap-4">
-          <Link
-            href="/appointment"
-            className="inline-flex h-10 items-center justify-center rounded-md border border-primary bg-background px-6 text-sm font-medium text-primary shadow-sm transition-colors hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
-          >
-            Book an Appointment
-          </Link>
+          {navigation.header.cta && (
+            <Link
+              href={navigation.header.cta.url}
+              className={`inline-flex h-10 items-center justify-center rounded-md px-6 text-sm font-medium shadow transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring ${
+                navigation.header.cta.style === 'primary'
+                  ? 'bg-primary text-primary-foreground hover:bg-primary/90'
+                  : navigation.header.cta.style === 'secondary'
+                  ? 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
+                  : 'border border-primary bg-background text-primary hover:bg-primary/10'
+              }`}
+            >
+              {navigation.header.cta.text}
+            </Link>
+          )}
           <Link
             href="/contact"
             className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-6 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"

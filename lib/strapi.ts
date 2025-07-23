@@ -4,7 +4,6 @@ import {
   addRequestInterceptor,
   addResponseInterceptor,
   addErrorInterceptor,
-  RequestOptions,
 } from "./api-client";
 import cacheUtils from "./cache";
 import logger from "./logger";
@@ -107,7 +106,7 @@ addResponseInterceptor(async (response) => {
         }
 
         // Validate each article
-        data.data.forEach((article: any, index: number) => {
+        data.data.forEach((article: unknown, index: number) => {
           if (!article.id) {
             throw new Error(`Invalid article at index ${index}: missing id`);
           }
@@ -152,7 +151,7 @@ export interface PaginationParams {
   page?: number;
   pageSize?: number;
   sort?: string | string[];
-  filters?: Record<string, any>;
+  filters?: Record<string, unknown>;
 }
 
 /**
@@ -218,7 +217,7 @@ function buildQueryString(params: PaginationParams): string {
  * @param params - Pagination parameters
  * @returns Promise with paginated blog data
  */
-export async function fetchBlogs(params: PaginationParams = {}): Promise<PaginatedResponse<any>> {
+export async function fetchBlogs(params: PaginationParams = {}): Promise<PaginatedResponse<unknown>> {
   const queryString = buildQueryString(params);
   const cacheKey = `blogs:${queryString}`;
 
@@ -284,7 +283,7 @@ export async function fetchBlogById(id: string) {
  * @param blogData - The blog data to create
  * @returns Promise with the created blog data
  */
-export async function createBlog(blogData: any) {
+export async function createBlog(blogData: unknown) {
   try {
     const response = await fetchWithRetry(`${STRAPI_API_URL}/api/articles`, {
       ...defaultOptions,
@@ -311,7 +310,7 @@ export async function createBlog(blogData: any) {
  * @param blogData - The updated blog data
  * @returns Promise with the updated blog data
  */
-export async function updateBlog(id: string, blogData: any) {
+export async function updateBlog(id: string, blogData: unknown) {
   try {
     const response = await fetchWithRetry(`${STRAPI_API_URL}/api/articles/${id}`, {
       ...defaultOptions,

@@ -1,8 +1,9 @@
 {
-  "name": "Taxclusive - Professional Chartered Accountancy Services",
+  "name": "Taxclusive - Expert Chartered Accountants in Gurugram",
   "short_name": "Taxclusive",
-  "description": "Professional chartered accountancy firm providing comprehensive accounting, taxation, and financial advisory services with cultural expertise.",
+  "description": "Leading CA firm in Gurugram providing expert tax planning, GST compliance, audit services & financial advisory. 35+ years experience, 500+ clients.",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#c2863a",
@@ -15,16 +16,42 @@
     {
       "src": "/apple-touch-icon.png",
       "sizes": "180x180",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
     },
     {
       "src": "/logo.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     }
   ],
-  "lang": "en-US",
+  "lang": "en-IN",
   "dir": "ltr",
   "orientation": "portrait-primary",
-  "categories": ["business", "finance", "accounting"]
+  "categories": ["business", "finance", "accounting", "tax", "professional"],
+  "shortcuts": [
+    {
+      "name": "Contact Us",
+      "short_name": "Contact",
+      "description": "Get in touch with our CA team",
+      "url": "/contact",
+      "icons": [{ "src": "/favicon.ico", "sizes": "16x16" }]
+    },
+    {
+      "name": "Our Services",
+      "short_name": "Services", 
+      "description": "View our CA services",
+      "url": "/services",
+      "icons": [{ "src": "/favicon.ico", "sizes": "16x16" }]
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false
 }

@@ -1,13 +1,12 @@
 'use client';
 
-import { Metadata } from "next";
 import Script from "next/script";
 
 import { HeroSection, ServicesSection } from "@/components/features/home";
 import Footer from "@/components/footer";
 import Header from "@/components/header";
 import { dynamicImport } from "@/lib/dynamic-import";
-import { generateMetadata, generateStructuredData } from "@/lib/metadata";
+import { generateStructuredData } from "@/lib/metadata";
 
 
 // Lazy load components that are below the fold with enhanced error handling

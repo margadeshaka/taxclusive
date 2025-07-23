@@ -1,127 +1,146 @@
 import { Metadata } from "next";
 
-// Base URL for the website
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.taxclusive.com";
+import { SEO_CONFIG } from "./seo-config";
 
-// Default metadata values
+// Base URL for the website
+const baseUrl = SEO_CONFIG.baseUrl;
+
+// Enhanced default metadata using SEO config
 const defaultMetadata: Metadata = {
   title: {
-    default: "Taxclusive - Professional Chartered Accountancy Services",
-    template: "%s | Taxclusive",
+    default: SEO_CONFIG.site.title,
+    template: "%s | Taxclusive - Professional CA Services",
   },
-  description:
-    "Professional chartered accountancy firm providing comprehensive accounting, taxation, and financial advisory services with cultural expertise.",
-  keywords:
-    "chartered accountant, accounting services, tax planning, financial advisory, audit services, business consulting",
-  authors: [{ name: "Taxclusive" }],
-  creator: "Taxclusive",
-  publisher: "Taxclusive",
+  description: SEO_CONFIG.site.description,
+  keywords: [
+    "chartered accountant gurugram", "CA services", "tax planning india", "GST compliance", 
+    "audit services", "financial advisory", "business registration", "tax consultant", 
+    "accounting firm gurugram", "CA near me", "income tax return filing", "GST registration",
+    "company incorporation", "tax planning strategies", "business advisory", "audit and assurance",
+    "chartered accountant gurgaon", "best CA in gurugram", "top tax consultant delhi ncr"
+  ].join(", "),
+  authors: [{ name: SEO_CONFIG.site.author }],
+  creator: SEO_CONFIG.site.name,
+  publisher: SEO_CONFIG.site.name,
+  category: "Professional Services",
+  
   icons: {
     icon: "/favicon.ico",
     apple: "/apple-touch-icon.png",
     shortcut: "/favicon.ico",
   },
   manifest: "/site.webmanifest",
+  
   formatDetection: {
     email: false,
     address: false,
     telephone: false,
   },
+  
   metadataBase: new URL(baseUrl),
+  
   alternates: {
     canonical: "/",
     languages: {
-      "en-US": "/en-US",
-      "hi-IN": "/hi-IN",
+      "en-IN": "/",
+      "hi-IN": "/hi",
     },
   },
+  
   openGraph: {
-    title: "Taxclusive - Professional Chartered Accountancy Services",
-    description:
-      "Professional chartered accountancy firm providing comprehensive accounting, taxation, and financial advisory services with cultural expertise.",
+    title: SEO_CONFIG.site.title,
+    description: SEO_CONFIG.site.description,
     url: baseUrl,
-    siteName: "Taxclusive",
+    siteName: SEO_CONFIG.site.name,
     images: [
       {
-        url: "/images/og-image.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Taxclusive - Professional Chartered Accountancy Services",
+        url: SEO_CONFIG.openGraph.images.default,
+        width: SEO_CONFIG.openGraph.images.width,
+        height: SEO_CONFIG.openGraph.images.height,
+        alt: "Taxclusive - Expert Chartered Accountants in Gurugram",
       },
     ],
-    locale: "en_US",
-    type: "website",
+    locale: SEO_CONFIG.openGraph.locale,
+    type: SEO_CONFIG.openGraph.type,
   },
+  
   twitter: {
-    card: "summary_large_image",
-    title: "Taxclusive - Professional Chartered Accountancy Services",
-    description:
-      "Professional chartered accountancy firm providing comprehensive accounting, taxation, and financial advisory services with cultural expertise.",
+    card: SEO_CONFIG.twitter.card,
+    title: "Taxclusive - Expert Chartered Accountants | Tax Planning Services",
+    description: "Leading CA firm in Gurugram. Expert tax planning, GST compliance, audit & financial advisory services. Trusted by 500+ clients.",
     images: ["/images/twitter-image.jpg"],
+    site: SEO_CONFIG.twitter.site,
+    creator: SEO_CONFIG.twitter.creator,
   },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
-  verification: {
-    google: "google-site-verification-code",
-  },
+  
+  robots: SEO_CONFIG.robots,
+  
+  verification: SEO_CONFIG.verification,
+  
+  // Additional SEO enhancements
+  applicationName: SEO_CONFIG.site.name,
+  referrer: "origin-when-cross-origin",
 };
 
 /**
- * Generate metadata for a page
+ * Generate enhanced metadata for a page with comprehensive SEO optimization
  * @param options - Options for generating metadata
- * @returns Metadata object
+ * @returns Enhanced Metadata object
  */
 export function generateMetadata(options?: {
   title?: string;
   description?: string;
-  keywords?: string;
+  keywords?: string[];
   image?: string;
-  type?: "website" | "article" | "profile";
+  type?: "website" | "article" | "profile" | "service";
   canonical?: string;
   noIndex?: boolean;
+  alternates?: Record<string, string>;
+  publishedTime?: string;
+  modifiedTime?: string;
+  author?: string;
+  section?: string;
+  breadcrumbs?: { name: string; url: string }[];
 }): Metadata {
   const metadata: Metadata = { ...defaultMetadata };
 
+  // Enhanced title handling
   if (options?.title) {
     metadata.title = options.title;
     if (metadata.openGraph) {
       metadata.openGraph.title = options.title;
     }
     if (metadata.twitter) {
-      metadata.twitter.title = options.title;
+      metadata.twitter.title = options.title.length > 70 ? options.title.substring(0, 67) + "..." : options.title;
     }
   }
 
+  // Enhanced description handling
   if (options?.description) {
     metadata.description = options.description;
     if (metadata.openGraph) {
       metadata.openGraph.description = options.description;
     }
     if (metadata.twitter) {
-      metadata.twitter.description = options.description;
+      metadata.twitter.description = options.description.length > 200 ? options.description.substring(0, 197) + "..." : options.description;
     }
   }
 
+  // Enhanced keywords handling
   if (options?.keywords) {
-    metadata.keywords = options.keywords;
+    const existingKeywords = (metadata.keywords as string).split(", ");
+    const combinedKeywords = [...new Set([...existingKeywords, ...options.keywords])];
+    metadata.keywords = combinedKeywords.join(", ");
   }
 
+  // Enhanced image handling
   if (options?.image && metadata.openGraph) {
     metadata.openGraph.images = [
       {
         url: options.image,
         width: 1200,
         height: 630,
-        alt: options.title || "Taxclusive",
+        alt: options.title || "Taxclusive - Expert Chartered Accountants",
       },
     ];
 
@@ -130,35 +149,339 @@ export function generateMetadata(options?: {
     }
   }
 
-  if (options?.type && metadata.openGraph) {
+  // Enhanced OpenGraph for articles
+  if (options?.type === "article" && metadata.openGraph) {
+    metadata.openGraph.type = "article";
+    const openGraphExtended = metadata.openGraph as Record<string, unknown>;
+    if (options.publishedTime) {
+      openGraphExtended.publishedTime = options.publishedTime;
+    }
+    if (options.modifiedTime) {
+      openGraphExtended.modifiedTime = options.modifiedTime;
+    }
+    if (options.author) {
+      openGraphExtended.authors = [options.author];
+    }
+    if (options.section) {
+      openGraphExtended.section = options.section;
+    }
+  } else if (options?.type && metadata.openGraph) {
     metadata.openGraph.type = options.type;
   }
 
+  // Enhanced canonical and alternates handling
   if (options?.canonical && metadata.alternates) {
     metadata.alternates.canonical = options.canonical;
   }
 
+  if (options?.alternates && metadata.alternates) {
+    metadata.alternates.languages = { ...metadata.alternates.languages, ...options.alternates };
+  }
+
+  // Enhanced robots handling
   if (options?.noIndex && metadata.robots) {
-    metadata.robots.index = false;
+    metadata.robots = {
+      ...metadata.robots,
+      index: false,
+      follow: false,
+    };
+  }
+
+  // Add author information
+  if (options?.author) {
+    metadata.authors = [{ name: options.author }];
+  }
+
+  // Add category for articles
+  if (options?.section) {
+    metadata.category = options.section;
   }
 
   return metadata;
 }
 
 /**
- * Generate JSON-LD structured data for a page
+ * Generate comprehensive JSON-LD structured data for different page types
  * @param type - Type of structured data
  * @param data - Data for the structured data
  * @returns JSON-LD structured data as a string
  */
 export function generateStructuredData(
-  type: "Organization" | "AccountingService" | "Article" | "FAQPage" | "Service" | "Person",
-  data: Record<string, any>
+  type: "Organization" | "AccountingService" | "Article" | "FAQPage" | "Service" | "Person" | "LocalBusiness" | "BreadcrumbList" | "WebPage",
+  data: Record<string, unknown>
 ): string {
   const baseData = {
     "@context": "https://schema.org",
     "@type": type,
   };
 
-  return JSON.stringify({ ...baseData, ...data });
+  return JSON.stringify({ ...baseData, ...data }, null, 2);
+}
+
+/**
+ * Generate enhanced business structured data using SEO config
+ * @returns JSON-LD structured data for the business
+ */
+export function generateBusinessStructuredData(): string {
+  const business = SEO_CONFIG.business;
+  
+  return generateStructuredData("AccountingService", {
+    "@type": ["AccountingService", "ProfessionalService", "LocalBusiness"],
+    name: business.name,
+    legalName: business.legalName,
+    url: business.contact.website,
+    logo: business.logo,
+    image: business.image,
+    description: business.description,
+    slogan: business.slogan,
+    foundingDate: business.foundingDate,
+    numberOfEmployees: business.numberOfEmployees,
+    
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: business.address.streetAddress,
+      addressLocality: business.address.addressLocality,
+      addressRegion: business.address.addressRegion,
+      postalCode: business.address.postalCode,
+      addressCountry: business.address.addressCountry,
+    },
+
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: business.geo.latitude,
+      longitude: business.geo.longitude,
+    },
+
+    contactPoint: [
+      {
+        "@type": "ContactPoint",
+        telephone: business.contact.phone,
+        contactType: "customer service",
+        areaServed: "IN",
+        availableLanguage: ["English", "Hindi"],
+      },
+      {
+        "@type": "ContactPoint",
+        email: business.contact.email,
+        contactType: "business inquiries",
+        areaServed: "IN",
+      },
+    ],
+
+    openingHours: business.openingHours,
+    priceRange: business.priceRange,
+    paymentAccepted: business.paymentAccepted,
+
+    areaServed: business.serviceAreas.map(area => ({
+      "@type": area.includes("India") ? "Country" : area.includes("Haryana") || area.includes("Delhi") ? "State" : "City",
+      name: area,
+    })),
+
+    sameAs: Object.values(business.socialMedia),
+
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: business.aggregateRating.ratingValue,
+      reviewCount: business.aggregateRating.reviewCount,
+      bestRating: business.aggregateRating.bestRating,
+      worstRating: business.aggregateRating.worstRating,
+    },
+
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: "Chartered Accountancy Services",
+      itemListElement: business.services.map(service => ({
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          name: service.name,
+          description: service.description,
+          url: `${business.contact.website}${service.url}`,
+        },
+      })),
+    },
+
+    hasCredential: {
+      "@type": "EducationalOccupationalCredential",
+      credentialCategory: "Professional Certification",
+      recognizedBy: {
+        "@type": "Organization",
+        name: "Institute of Chartered Accountants of India",
+        abbreviation: "ICAI",
+      },
+    },
+
+    serviceArea: {
+      "@type": "GeoCircle",
+      geoMidpoint: {
+        "@type": "GeoCoordinates",
+        latitude: business.geo.latitude,
+        longitude: business.geo.longitude,
+      },
+      geoRadius: "500000", // 500km radius
+    },
+
+    knowsAbout: business.industries,
+  });
+}
+
+/**
+ * Generate FAQ structured data
+ * @param faqs - Array of FAQ objects
+ * @returns JSON-LD structured data for FAQ page
+ */
+export function generateFAQStructuredData(faqs: { question: string; answer: string }[]): string {
+  return generateStructuredData("FAQPage", {
+    mainEntity: faqs.map(faq => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: faq.answer,
+      },
+    })),
+  });
+}
+
+/**
+ * Generate Service structured data
+ * @param service - Service information
+ * @returns JSON-LD structured data for service
+ */
+export function generateServiceStructuredData(service: {
+  name: string;
+  description: string;
+  provider?: string;
+  areaServed?: string[];
+  offers?: { name: string; description: string; price?: string }[];
+}): string {
+  const business = SEO_CONFIG.business;
+  
+  return generateStructuredData("Service", {
+    name: service.name,
+    description: service.description,
+    provider: {
+      "@type": "Organization",
+      name: service.provider || business.name,
+      url: business.contact.website,
+    },
+    areaServed: service.areaServed || business.serviceAreas.map(area => ({
+      "@type": "City",
+      name: area,
+    })),
+    offers: service.offers?.map(offer => ({
+      "@type": "Offer",
+      name: offer.name,
+      description: offer.description,
+      ...(offer.price && { price: offer.price }),
+    })),
+  });
+}
+
+/**
+ * Generate Breadcrumb structured data
+ * @param breadcrumbs - Array of breadcrumb items
+ * @returns JSON-LD structured data for breadcrumbs
+ */
+export function generateBreadcrumbStructuredData(breadcrumbs: { name: string; url: string }[]): string {
+  return generateStructuredData("BreadcrumbList", {
+    itemListElement: breadcrumbs.map((crumb, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: crumb.name,
+      item: crumb.url,
+    })),
+  });
+}
+
+/**
+ * Generate Article structured data for blog posts
+ * @param article - Article information
+ * @returns JSON-LD structured data for article
+ */
+export function generateArticleStructuredData(article: {
+  title: string;
+  description: string;
+  author: string;
+  publishedTime: string;
+  modifiedTime?: string;
+  image?: string;
+  url: string;
+  section?: string;
+}): string {
+  const site = SEO_CONFIG.site;
+  const business = SEO_CONFIG.business;
+  
+  return generateStructuredData("Article", {
+    headline: article.title,
+    description: article.description,
+    image: article.image ? `${SEO_CONFIG.baseUrl}${article.image}` : `${SEO_CONFIG.baseUrl}/images/blog-default.jpg`,
+    author: {
+      "@type": "Person",
+      name: article.author,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: site.name,
+      logo: {
+        "@type": "ImageObject",
+        url: `${SEO_CONFIG.baseUrl}${business.logo}`,
+      },
+    },
+    datePublished: article.publishedTime,
+    dateModified: article.modifiedTime || article.publishedTime,
+    url: article.url,
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": article.url,
+    },
+    ...(article.section && { articleSection: article.section }),
+  });
+}
+
+/**
+ * Generate WebPage structured data
+ * @param page - Page information
+ * @returns JSON-LD structured data for webpage
+ */
+export function generateWebPageStructuredData(page: {
+  name: string;
+  description: string;
+  url: string;
+  breadcrumbs?: { name: string; url: string }[];
+}): string {
+  const business = SEO_CONFIG.business;
+  
+  const webPageData: Record<string, unknown> = {
+    name: page.name,
+    description: page.description,
+    url: page.url,
+    isPartOf: {
+      "@type": "WebSite",
+      name: business.name,
+      url: business.contact.website,
+    },
+    about: {
+      "@type": "Organization",
+      name: business.name,
+    },
+    primaryImageOfPage: {
+      "@type": "ImageObject",
+      url: `${SEO_CONFIG.baseUrl}/images/og-image.jpg`,
+    },
+  };
+
+  if (page.breadcrumbs && page.breadcrumbs.length > 0) {
+    webPageData.breadcrumb = {
+      "@type": "BreadcrumbList",
+      itemListElement: page.breadcrumbs.map((crumb, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: crumb.name,
+        item: crumb.url,
+      })),
+    };
+  }
+
+  return generateStructuredData("WebPage", webPageData);
 }

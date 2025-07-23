@@ -1,12 +1,10 @@
 'use client';
 
 import { ChevronRight } from "lucide-react";
-import { Metadata } from "next";
 import Link from "next/link";
 
 import Footer from "@/components/footer";
 import Header from "@/components/header";
-import { generateMetadata } from "@/lib/metadata";
 
 
 

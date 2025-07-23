@@ -6,12 +6,15 @@ import type React from "react";
 import ContactButtons from "@/components/contact-buttons";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
-import { generateMetadata as generateSiteMetadata, generateStructuredData } from "@/lib/metadata";
+import { generateMetadata as generateSiteMetadata, generateBusinessStructuredData } from "@/lib/metadata";
+import { clientConfig } from "@/lib/config/client-config";
 
+// Load fonts with explicit weights (Next.js requirement)
 const playfair = Playfair_Display({
   subsets: ["latin"],
   variable: "--font-playfair",
   display: "swap",
+  weight: ["400", "500", "600", "700"],
 });
 
 const poppins = Poppins({
@@ -24,12 +27,21 @@ const poppins = Poppins({
 // Generate site-wide metadata
 export const metadata = generateSiteMetadata();
 
+// Generate viewport for theme colors
+export const viewport = {
+  colorScheme: "dark light",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#1a1a2e" },
+  ],
+};
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" dir="ltr" suppressHydrationWarning>
+    <html lang={clientConfig.site.language} dir="ltr" suppressHydrationWarning>
       <head>
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="icon" href={clientConfig.assets.logo.favicon} sizes="any" />
+        <link rel="apple-touch-icon" href={clientConfig.assets.logo.appleTouchIcon} />
         <link rel="manifest" href="/site.webmanifest" />
       </head>
       <body className={`${playfair.variable} ${poppins.variable} font-sans`}>
@@ -43,68 +55,25 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <ContactButtons />
           <Toaster />
         </ThemeProvider>
-        <Script id="schema-org" type="application/ld+json">
-          {generateStructuredData("AccountingService", {
+        <Script id="schema-org" type="application/ld+json" dangerouslySetInnerHTML={{
+          __html: generateBusinessStructuredData()
+        }} />
+        
+        {/* Website structured data */}
+        <Script id="website-schema" type="application/ld+json" dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebSite",
             name: "Taxclusive",
             url: "https://www.taxclusive.com",
-            logo: "https://www.taxclusive.com/logo.png",
-            description:
-              "Professional chartered accountancy firm providing comprehensive accounting, taxation, and financial advisory services with cultural expertise.",
-            address: {
-              "@type": "PostalAddress",
-              streetAddress: "123 Financial District, Suite 500",
-              addressLocality: "New York",
-              addressRegion: "NY",
-              postalCode: "10001",
-              addressCountry: "US",
-            },
-            telephone: "+1-555-123-4567",
-            email: "info@taxclusive.com",
-            openingHours: "Mo,Tu,We,Th,Fr 09:00-17:00",
-            sameAs: [
-              "https://www.facebook.com/taxclusive",
-              "https://www.linkedin.com/company/taxclusive",
-              "https://twitter.com/taxclusive",
-            ],
-            priceRange: "$$",
-            serviceArea: {
-              "@type": "GeoCircle",
-              geoMidpoint: {
-                "@type": "GeoCoordinates",
-                latitude: 40.7128,
-                longitude: -74.006,
-              },
-              geoRadius: "50000",
-            },
-            hasOfferCatalog: {
-              "@type": "OfferCatalog",
-              name: "Accounting Services",
-              itemListElement: [
-                {
-                  "@type": "Offer",
-                  itemOffered: {
-                    "@type": "Service",
-                    name: "Tax Planning and Preparation",
-                  },
-                },
-                {
-                  "@type": "Offer",
-                  itemOffered: {
-                    "@type": "Service",
-                    name: "Audit and Assurance",
-                  },
-                },
-                {
-                  "@type": "Offer",
-                  itemOffered: {
-                    "@type": "Service",
-                    name: "Financial Advisory",
-                  },
-                },
-              ],
-            },
-          })}
-        </Script>
+            description: "Leading Chartered Accountancy firm providing expert CA services across India",
+            potentialAction: {
+              "@type": "SearchAction",
+              target: "https://www.taxclusive.com/search?q={search_term_string}",
+              "query-input": "required name=search_term_string"
+            }
+          })
+        }} />
       </body>
     </html>
   );

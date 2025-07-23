@@ -22,10 +22,10 @@ const defaultConfig: CacheConfig = {
 };
 
 // Cache storage
-const cache = new Map<string, CacheEntry<any>>();
+const cache = new Map<string, CacheEntry<unknown>>();
 
 // In-flight requests storage for deduplication
-const inFlightRequests = new Map<string, Promise<any>>();
+const inFlightRequests = new Map<string, Promise<unknown>>();
 
 // Current configuration
 let config: CacheConfig = { ...defaultConfig };

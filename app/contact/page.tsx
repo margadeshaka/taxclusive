@@ -1,14 +1,13 @@
 'use client'
 import { Mail, MapPin, Phone } from "lucide-react";
-import { Metadata } from "next";
 import Link from "next/link";
 import Script from "next/script";
 import { useState } from "react";
 
 import Footer from "@/components/footer";
 import Header from "@/components/header";
-import { generateMetadata, generateStructuredData } from "@/lib/metadata";
 import {submitContactForm} from "@/lib/form-actions";
+import { generateStructuredData } from "@/lib/metadata";
 
 
 export default function ContactPage() {
@@ -373,29 +372,69 @@ export default function ContactPage() {
       {/* Contact page specific structured data */}
       <Script id="contact-schema-org" type="application/ld+json">
         {generateStructuredData("Organization", {
-          name: "Taxclusive",
+          "@type": ["AccountingService", "LocalBusiness", "Organization"],
+          name: "Taxclusive - Chartered Accountants",
+          alternateName: "Taxclusive CA Services",
           url: "https://www.taxclusive.com",
           logo: "https://www.taxclusive.com/logo.png",
+          image: "https://www.taxclusive.com/about.png",
+          description: "Leading Chartered Accountancy firm in Gurugram providing expert CA services, tax planning, GST compliance and financial advisory.",
           contactPoint: [
             {
               "@type": "ContactPoint",
-              telephone: "+1-555-123-4567",
+              telephone: "+91-97739-79042",
               contactType: "customer service",
-              email: "info@taxclusive.com",
+              email: "contact@taxclusive.com",
               availableLanguage: ["English", "Hindi"],
+              hoursAvailable: {
+                "@type": "OpeningHoursSpecification",
+                dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+                opens: "09:00",
+                closes: "18:00"
+              }
             },
           ],
           address: {
             "@type": "PostalAddress",
-            streetAddress: "123 Financial District, Suite 500",
-            addressLocality: "New York",
-            addressRegion: "NY",
-            postalCode: "10001",
-            addressCountry: "US",
+            streetAddress: "JMD Megapolis, Sector 48, Sohna Road",
+            addressLocality: "Gurugram",
+            addressRegion: "Haryana",
+            postalCode: "122001",
+            addressCountry: "IN",
           },
+          geo: {
+            "@type": "GeoCoordinates",
+            latitude: 28.4089,
+            longitude: 77.0378,
+          },
+          openingHours: [
+            "Mo-Fr 09:00-18:00",
+            "Sa 09:00-14:00"
+          ],
+          priceRange: "₹₹",
+          paymentAccepted: ["Cash", "Credit Card", "Debit Card", "Bank Transfer", "UPI"],
+          currenciesAccepted: "INR",
+          areaServed: [
+            {
+              "@type": "City",
+              name: "Gurugram"
+            },
+            {
+              "@type": "City", 
+              name: "New Delhi"
+            },
+            {
+              "@type": "State",
+              name: "Haryana"
+            },
+            {
+              "@type": "State",
+              name: "Delhi"
+            }
+          ],
           sameAs: [
-            "https://www.facebook.com/taxclusive",
             "https://www.linkedin.com/company/taxclusive",
+            "https://www.facebook.com/taxclusive",
             "https://twitter.com/taxclusive",
           ],
         })}

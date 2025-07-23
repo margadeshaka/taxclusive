@@ -1,9 +1,9 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import React, { createContext, useContext, useState, ReactNode } from "react";
 
 import { fetchBlogs, fetchBlogById } from "@/lib/api";
-import { Blog, BlogListResponse } from "@/lib/types";
+import { Blog } from "@/lib/types";
 
 // Define the shape of the context state
 interface BlogContextState {

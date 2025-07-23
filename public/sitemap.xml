@@ -1,39 +1,119 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+        xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
+  
+  <!-- Homepage - Highest Priority -->
   <url>
-    <loc>#</loc>
-    <lastmod>2025-04-01</lastmod>
+    <loc>https://www.taxclusive.com/</loc>
+    <lastmod>2024-12-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://www.taxclusive.com/logo.png</image:loc>
+      <image:title>Taxclusive - Expert Chartered Accountants</image:title>
+    </image:image>
   </url>
+  
+  <!-- About Page -->
   <url>
-    <!-- <loc>https://www.sudarshanassociates.com/about</loc> -->
-    <lastmod>2025-04-01</lastmod>
+    <loc>https://www.taxclusive.com/about</loc>
+    <lastmod>2024-12-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://www.taxclusive.com/about.png</image:loc>
+      <image:title>About Taxclusive - Professional CA Services</image:title>
+    </image:image>
+  </url>
+  
+  <!-- Services Page - High Priority for Business -->
+  <url>
+    <loc>https://www.taxclusive.com/services</loc>
+    <lastmod>2024-12-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://www.taxclusive.com/TailoredFinancialSolutions.png</image:loc>
+      <image:title>Chartered Accountancy Services by Taxclusive</image:title>
+    </image:image>
+  </url>
+  
+  <!-- Expertise Page -->
+  <url>
+    <loc>https://www.taxclusive.com/expertise</loc>
+    <lastmod>2024-12-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
+  
+  <!-- FAQ Page -->
   <url>
-    <!-- <loc>https://www.sudarshanassociates.com/services</loc> -->
-    <lastmod>2025-04-01</lastmod>
+    <loc>https://www.taxclusive.com/faq</loc>
+    <lastmod>2024-12-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Contact Page - Important for Local SEO -->
+  <url>
+    <loc>https://www.taxclusive.com/contact</loc>
+    <lastmod>2024-12-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
+  
+  <!-- Blog/Insights Section -->
   <url>
-    <!-- <loc>https://www.sudarshanassociates.com/expertise</loc> -->
-    <lastmod>2025-04-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <!-- <loc>https://www.sudarshanassociates.com/insights</loc> -->
-    <lastmod>2025-04-01</lastmod>
+    <loc>https://www.taxclusive.com/blogs</loc>
+    <lastmod>2024-12-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
+  
+  <!-- Individual Blog Posts (Latest) -->
   <url>
-    <!-- <loc>https://www.sudarshanassociates.com/contact</loc> -->
-    <lastmod>2025-04-01</lastmod>
+    <loc>https://www.taxclusive.com/blogs/tax-planning-strategies-2024</loc>
+    <lastmod>2024-12-18</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://www.taxclusive.com/insights1.png</image:loc>
+      <image:title>Tax Planning Strategies 2024</image:title>
+    </image:image>
   </url>
+  
+  <url>
+    <loc>https://www.taxclusive.com/blogs/gst-compliance-guide</loc>
+    <lastmod>2024-12-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://www.taxclusive.com/insights2.png</image:loc>
+      <image:title>GST Compliance Guide</image:title>
+    </image:image>
+  </url>
+  
+  <url>
+    <loc>https://www.taxclusive.com/blogs/business-registration-process</loc>
+    <lastmod>2024-12-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://www.taxclusive.com/insights3.png</image:loc>
+      <image:title>Business Registration Process in India</image:title>
+    </image:image>
+  </url>
+  
+  <url>
+    <loc>https://www.taxclusive.com/blogs/financial-planning-tips</loc>
+    <lastmod>2024-12-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://www.taxclusive.com/insights4.png</image:loc>
+      <image:title>Financial Planning Tips for Small Businesses</image:title>
+    </image:image>
+  </url>
+  
 </urlset>

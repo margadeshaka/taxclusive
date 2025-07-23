@@ -65,7 +65,7 @@ export async function sendEmail(data: EmailData): Promise<void> {
 
     const poller = await client.beginSend(emailMessage);
     const result = await poller.pollUntilDone();
-    console.info("Sent mail successfully", result);
+    console.warn("Sent mail successfully", result);
     // Email sent successfully
   } catch (error) {
     console.error("Error sending email:", error);
