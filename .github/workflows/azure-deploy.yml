@@ -1,0 +1,218 @@
+name: Deploy to Azure Web App with Monitoring
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to deploy to'
+        required: true
+        default: 'production'
+        type: choice
+        options:
+          - production
+          - staging
+
+env:
+  AZURE_WEBAPP_NAME: taxexclusive-app
+  AZURE_WEBAPP_PACKAGE_PATH: '.'
+  NODE_VERSION: '20.x'
+  RESOURCE_GROUP: taxclusive
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        
+    - name: Install pnpm
+      uses: pnpm/action-setup@v2
+      with:
+        version: 8
+        
+    - name: Get pnpm store directory
+      shell: bash
+      run: |
+        echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+        
+    - uses: actions/cache@v3
+      name: Setup pnpm cache
+      with:
+        path: ${{ env.STORE_PATH }}
+        key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+        restore-keys: |
+          ${{ runner.os }}-pnpm-store-
+          
+    - name: Install dependencies
+      run: pnpm install --frozen-lockfile
+      
+    - name: Run linting
+      run: pnpm run lint
+      
+    - name: Run tests
+      run: pnpm run test
+      
+    - name: Build project
+      run: pnpm run build
+      env:
+        NEXT_PUBLIC_STRAPI_URL: ${{ secrets.NEXT_PUBLIC_STRAPI_URL }}
+        
+    - name: Upload artifacts for deployment
+      uses: actions/upload-artifact@v3
+      with:
+        name: node-app
+        path: |
+          .
+          !node_modules/
+          !.git/
+          !.github/
+          !e2e/
+          !__tests__/
+          !*.log
+          !.env*
+          
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: ${{ github.event.inputs.environment || 'production' }}
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+      
+    steps:
+    - name: Download artifact from build job
+      uses: actions/download-artifact@v3
+      with:
+        name: node-app
+        
+    - name: Login to Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        
+    - name: Deploy to Azure Web App
+      id: deploy-to-webapp
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: ${{ env.AZURE_WEBAPP_NAME }}
+        package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+        
+    - name: Configure App Settings
+      uses: azure/appservice-settings@v1
+      with:
+        app-name: ${{ env.AZURE_WEBAPP_NAME }}
+        mask-inputs: false
+        app-settings-json: |
+          [
+            {
+              "name": "NEXT_PUBLIC_STRAPI_URL",
+              "value": "${{ secrets.NEXT_PUBLIC_STRAPI_URL }}",
+              "slotSetting": false
+            },
+            {
+              "name": "AZURE_COMMUNICATION_CONNECTION_STRING",
+              "value": "${{ secrets.AZURE_COMMUNICATION_CONNECTION_STRING }}",
+              "slotSetting": false
+            },
+            {
+              "name": "AZURE_COMMUNICATION_SENDER_ADDRESS",
+              "value": "${{ secrets.AZURE_COMMUNICATION_SENDER_ADDRESS }}",
+              "slotSetting": false
+            },
+            {
+              "name": "NODE_ENV",
+              "value": "production",
+              "slotSetting": false
+            },
+            {
+              "name": "WEBSITE_NODE_DEFAULT_VERSION",
+              "value": "~20",
+              "slotSetting": false
+            },
+            {
+              "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
+              "value": "${{ secrets.APPINSIGHTS_INSTRUMENTATIONKEY }}",
+              "slotSetting": false
+            }
+          ]
+          
+  monitoring:
+    runs-on: ubuntu-latest
+    needs: deploy
+    
+    steps:
+    - name: Login to Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        
+    - name: Configure Monitoring Alerts
+      run: |
+        # Create action group for alerts
+        az monitor action-group create \
+          --resource-group ${{ env.RESOURCE_GROUP }} \
+          --name taxexclusive-alerts \
+          --short-name txalerts \
+          --email-receiver devops-email=${{ secrets.ALERT_EMAIL }}
+          
+        # Create availability test
+        az monitor app-insights web-test create \
+          --resource-group ${{ env.RESOURCE_GROUP }} \
+          --app-insights taxexclusive-insights \
+          --web-test-name taxexclusive-availability \
+          --enabled true \
+          --frequency 300 \
+          --timeout 120 \
+          --web-test-kind ping \
+          --synthetic-monitor-id taxexclusive-ping \
+          --locations "emea-nl-ams-azr" "us-fl-mia-edge" \
+          --defined-web-test-name taxexclusive-availability \
+          --http-verb GET \
+          --url https://${{ env.AZURE_WEBAPP_NAME }}.azurewebsites.net
+          
+        # Create CPU alert
+        az monitor metrics alert create \
+          --resource-group ${{ env.RESOURCE_GROUP }} \
+          --name taxexclusive-high-cpu \
+          --description "Alert when CPU usage is high" \
+          --scopes "/subscriptions/${{ secrets.AZURE_SUBSCRIPTION_ID }}/resourceGroups/${{ env.RESOURCE_GROUP }}/providers/Microsoft.Web/sites/${{ env.AZURE_WEBAPP_NAME }}" \
+          --condition "avg Percentage CPU > 80" \
+          --window-size 5m \
+          --evaluation-frequency 1m \
+          --action "/subscriptions/${{ secrets.AZURE_SUBSCRIPTION_ID }}/resourceGroups/${{ env.RESOURCE_GROUP }}/providers/Microsoft.Insights/actionGroups/taxexclusive-alerts"
+          
+        # Create memory alert
+        az monitor metrics alert create \
+          --resource-group ${{ env.RESOURCE_GROUP }} \
+          --name taxexclusive-high-memory \
+          --description "Alert when memory usage is high" \
+          --scopes "/subscriptions/${{ secrets.AZURE_SUBSCRIPTION_ID }}/resourceGroups/${{ env.RESOURCE_GROUP }}/providers/Microsoft.Web/sites/${{ env.AZURE_WEBAPP_NAME }}" \
+          --condition "avg Memory working set > 1073741824" \
+          --window-size 5m \
+          --evaluation-frequency 1m \
+          --action "/subscriptions/${{ secrets.AZURE_SUBSCRIPTION_ID }}/resourceGroups/${{ env.RESOURCE_GROUP }}/providers/Microsoft.Insights/actionGroups/taxexclusive-alerts"
+          
+  performance-test:
+    runs-on: ubuntu-latest
+    needs: deploy
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Run Lighthouse CI
+      uses: treosh/lighthouse-ci-action@v10
+      with:
+        urls: |
+          https://${{ env.AZURE_WEBAPP_NAME }}.azurewebsites.net
+          https://${{ env.AZURE_WEBAPP_NAME }}.azurewebsites.net/about
+          https://${{ env.AZURE_WEBAPP_NAME }}.azurewebsites.net/services
+        uploadArtifacts: true
+        temporaryPublicStorage: true

@@ -55,15 +55,50 @@ pnpm find-unused-deps   # Find unused dependencies
 
 ### Key Architectural Patterns
 
-1. **Data Flow**: Components fetch data from Strapi CMS via API clients in `/lib/api/`. Data is managed through React Context providers and consumed via custom hooks.
+1. **Configuration Management System**: 
+   - Comprehensive configuration system in `/lib/config/` with validation, environment-specific settings, and business presets
+   - Supports theme customization, feature toggles, and SEO configuration
+   - Includes utility functions for config migration, color palette generation, and Tailwind integration
+   - Use `useConfig()`, `useTheme()`, and related hooks to access configuration throughout the app
 
-2. **Static Export**: The application is configured for static site generation with `output: 'export'` in next.config.js. This means no server-side runtime is available.
+2. **Enhanced API Client Architecture**:
+   - Custom API client (`/lib/api-client.ts`) with interceptors, retry logic, rate limiting, and CSRF protection
+   - Built-in timeout handling, exponential backoff, and error recovery
+   - Request/response/error interceptors for cross-cutting concerns
+   - Rate limiting (100 requests/minute) to prevent API abuse
 
-3. **Component Structure**: Uses Shadcn UI as the base component library. Components follow a modular pattern with clear separation between UI and business logic.
+3. **State Management Pattern**:
+   - React Context providers for domain-specific state (e.g., `BlogContext` in `/lib/context/`)
+   - Custom hooks pattern for consuming context data (`useBlogContext()`)
+   - Centralized error handling and loading states within contexts
+   - Context providers wrap application sections that need shared state
 
-4. **Form Handling**: Forms use React Hook Form with Zod validation. Contact forms integrate with Azure Communication Services for email delivery.
+4. **Feature-Based Component Organization**:
+   - Components organized by features (`/components/features/home/`, etc.)
+   - Each feature exports components via index files for clean imports
+   - Clear separation between UI components (`/components/ui/`) and business logic components
+   - Shared components (`/components/shared/`) for cross-cutting concerns like ErrorBoundary
 
-5. **Theme System**: Supports dark/light mode switching using Tailwind CSS class-based theming with CSS variables.
+5. **Type-Safe Data Layer**:
+   - Comprehensive TypeScript interfaces in `/lib/types/` for all data models
+   - Strongly typed API responses, component props, and configuration objects
+   - Strapi CMS integration with typed interfaces matching the API schema
+   - Type safety enforced throughout the application stack
+
+6. **Static Export with Dynamic Content**:
+   - Application configured for static site generation (`output: 'export'`)
+   - Dynamic content fetched from Strapi CMS at build time and runtime
+   - No server-side runtime available - all dynamic behavior handled client-side
+
+7. **Component Library Integration**:
+   - Shadcn UI as the foundational component library
+   - Custom utility function (`cn()`) for conditional class merging using clsx and tailwind-merge
+   - Consistent design system with CSS variables for theming
+
+8. **Form Handling Architecture**:
+   - React Hook Form with Zod validation for type-safe form handling
+   - Integration with Azure Communication Services for email delivery
+   - Centralized form validation and error handling patterns
 
 ### Important Configuration Files
 
@@ -74,25 +109,84 @@ pnpm find-unused-deps   # Find unused dependencies
 
 ### API Integration
 
-The application integrates with Strapi CMS for content management. Key API endpoints:
-- `/api/blogs` - Blog posts
+The application integrates with Strapi CMS for content management:
+
+**API Structure**:
+- Main API client: `/lib/api-client.ts` with enhanced features (retry, caching, interceptors)
+- Strapi-specific functions: `/lib/api/strapi.ts` for CMS operations
+- Type definitions: `/lib/types/blog.ts` and other domain-specific types
+
+**Key API Endpoints**:
+- `/api/articles` - Blog posts with full population (populate=*)
 - `/api/services` - Service offerings
-- `/api/faqs` - Frequently asked questions
+- `/api/faqs` - Frequently asked questions  
 - `/api/teams` - Team member information
 - `/api/contact-page` - Contact page content
 
-API client configuration can be found in `/lib/api/config.ts` with specific fetchers in `/lib/api/`.
+**API Client Features**:
+- Automatic retry with exponential backoff for failed requests
+- Request/response/error interceptors for cross-cutting concerns
+- CSRF token injection for non-GET requests
+- Rate limiting (100 requests/minute)
+- Timeout handling (10s default)
+- Response caching with configurable strategies
 
 ### Testing Strategy
 
-- **Unit Tests**: Jest with React Testing Library for component testing
-- **E2E Tests**: Playwright for browser-based testing across Chrome, Firefox, and Safari
-- **Pre-commit Hooks**: Husky runs linting and formatting checks before commits
+**Unit Testing** (`/__tests__/`):
+- Jest with React Testing Library for component testing
+- API client testing with mocked fetch responses  
+- Context providers and custom hooks testing
+- Utility function testing (e.g., `utils.test.ts`)
+- Snapshot testing for components (stored in `__snapshots__/`)
+
+**E2E Testing** (`/e2e/`):
+- Playwright for cross-browser testing (Chrome, Firefox, Safari)
+- Navigation flow testing (`navigation.spec.ts`)
+- Blog functionality testing (`blogs.spec.ts`)
+- Mobile responsiveness and menu interaction testing
+
+**Testing Patterns**:
+- Mock external dependencies (fetch, API responses)
+- Test user interactions and component state changes
+- Validate accessibility and responsive behavior
+- Pre-commit hooks with Husky for linting and formatting
+
+### Development Patterns & Best Practices
+
+**Data Fetching**:
+- Use the enhanced API client (`fetchWithRetry`) for all external API calls
+- Implement proper error handling and loading states in components
+- Leverage React Context for shared state across component trees
+- Use custom hooks to encapsulate data fetching logic
+
+**Component Development**:
+- Follow the feature-based organization pattern
+- Use the `cn()` utility for conditional CSS class names
+- Export components through index files for clean imports
+- Separate UI components from business logic components
+
+**Configuration Management**:
+- Access configuration through provided hooks (`useConfig`, `useTheme`, etc.)
+- Use environment-specific configurations for different deployment stages
+- Leverage preset configurations for common business types
+
+**Testing Guidelines**:
+- Write unit tests for all utility functions and custom hooks
+- Test user interactions and error states in components
+- Use Playwright for testing complete user workflows
+- Mock external dependencies to ensure test reliability
+
+**Code Quality**:
+- Follow TypeScript strict mode for maximum type safety
+- Use ESLint and Prettier configurations as defined in the project
+- Implement proper error boundaries for graceful error handling
+- Follow the established patterns for interceptors and middleware
 
 ### Key Dependencies
 
 - Next.js 15.2.4 with React 19
-- TypeScript for type safety
+- TypeScript for type safety  
 - Tailwind CSS for styling
 - Shadcn UI for component library
 - React Hook Form + Zod for form handling
@@ -100,3 +194,5 @@ API client configuration can be found in `/lib/api/config.ts` with specific fetc
 - Strapi CMS integration
 - Framer Motion for animations
 - React Intersection Observer for scroll animations
+- Jest + React Testing Library for unit testing
+- Playwright for E2E testing

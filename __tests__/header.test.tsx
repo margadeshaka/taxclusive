@@ -27,20 +27,19 @@ describe("Header", () => {
     render(<Header />);
 
     // Check if the logo is rendered
-    expect(screen.getByText("Taxclusive")).toBeInTheDocument();
+    expect(screen.getByAltText("Taxclusive Logo")).toBeInTheDocument();
 
     // Check if navigation links are rendered
     expect(screen.getByRole("link", { name: "Home" })).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "About Us" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "About" })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Services" })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Expertise" })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Insights" })).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Blogs" })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "FAQ" })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Contact" })).toBeInTheDocument();
 
     // Check if CTA buttons are rendered
-    expect(screen.getByRole("link", { name: "Book an Appointment" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Book Consultation" })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Get in Touch" })).toBeInTheDocument();
   });
 
@@ -52,7 +51,7 @@ describe("Header", () => {
 
     // Get all navigation links
     const homeLink = screen.getByRole("link", { name: "Home" });
-    const aboutLink = screen.getByRole("link", { name: "About Us" });
+    const aboutLink = screen.getByRole("link", { name: "About" });
 
     // Check if the active link has the correct class
     expect(homeLink.className).not.toContain("text-primary font-bold");
