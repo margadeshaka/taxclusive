@@ -88,43 +88,17 @@ jobs:
         package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
         
     - name: Configure App Settings
-      uses: azure/appservice-settings@v1
-      with:
-        app-name: ${{ env.AZURE_WEBAPP_NAME }}
-        mask-inputs: false
-        app-settings-json: |
-          [
-            {
-              "name": "NEXT_PUBLIC_STRAPI_URL",
-              "value": "${{ secrets.NEXT_PUBLIC_STRAPI_URL }}",
-              "slotSetting": false
-            },
-            {
-              "name": "AZURE_COMMUNICATION_CONNECTION_STRING",
-              "value": "${{ secrets.AZURE_COMMUNICATION_CONNECTION_STRING }}",
-              "slotSetting": false
-            },
-            {
-              "name": "AZURE_COMMUNICATION_SENDER_ADDRESS",
-              "value": "${{ secrets.AZURE_COMMUNICATION_SENDER_ADDRESS }}",
-              "slotSetting": false
-            },
-            {
-              "name": "NODE_ENV",
-              "value": "production",
-              "slotSetting": false
-            },
-            {
-              "name": "WEBSITE_NODE_DEFAULT_VERSION",
-              "value": "~20",
-              "slotSetting": false
-            },
-            {
-              "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
-              "value": "${{ secrets.APPINSIGHTS_INSTRUMENTATIONKEY }}",
-              "slotSetting": false
-            }
-          ]
+      run: |
+        az webapp config appsettings set \
+          --resource-group ${{ env.RESOURCE_GROUP }} \
+          --name ${{ env.AZURE_WEBAPP_NAME }} \
+          --settings \
+            NEXT_PUBLIC_STRAPI_URL="${{ secrets.NEXT_PUBLIC_STRAPI_URL }}" \
+            AZURE_COMMUNICATION_CONNECTION_STRING="${{ secrets.AZURE_COMMUNICATION_CONNECTION_STRING }}" \
+            AZURE_COMMUNICATION_SENDER_ADDRESS="${{ secrets.AZURE_COMMUNICATION_SENDER_ADDRESS }}" \
+            NODE_ENV="production" \
+            WEBSITE_NODE_DEFAULT_VERSION="~20" \
+            APPINSIGHTS_INSTRUMENTATIONKEY="${{ secrets.APPINSIGHTS_INSTRUMENTATIONKEY }}"
           
   monitoring:
     runs-on: ubuntu-latest
