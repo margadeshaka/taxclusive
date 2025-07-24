@@ -1,61 +1,58 @@
-const fs = require('fs');
+const express = require('express');
 const path = require('path');
+const fs = require('fs');
 
-// Check if we have a standalone build (preferred for Azure)
-const standaloneServerPath = path.join(__dirname, '.next/standalone/server.js');
-const staticExportPath = path.join(__dirname, 'out');
+const app = express();
+const PORT = process.env.PORT || 8080;
 
-if (fs.existsSync(standaloneServerPath)) {
-  // Use Next.js standalone server
-  console.log('Using Next.js standalone server');
-  require(standaloneServerPath);
-} else if (fs.existsSync(staticExportPath)) {
-  // Fallback to static export with Express
-  console.log('Using static export with Express server');
-  const express = require('express');
-  const { createProxyMiddleware } = require('http-proxy-middleware');
+console.log('Starting Taxclusive static server...');
 
-  const app = express();
-  const PORT = process.env.PORT || 3000;
-
-  // Serve static files from the Next.js export
-  app.use(express.static(path.join(__dirname, 'out')));
-
-  // Proxy API requests to Strapi if needed
-  if (process.env.NEXT_PUBLIC_STRAPI_URL) {
-    app.use('/api', createProxyMiddleware({
-      target: process.env.NEXT_PUBLIC_STRAPI_URL,
-      changeOrigin: true,
-      pathRewrite: { '^/api': '/api' }
-    }));
+// Serve static files from the out directory
+app.use(express.static(path.join(__dirname, 'out'), {
+  setHeaders: (res, path) => {
+    if (path.endsWith('.html')) {
+      res.setHeader('Cache-Control', 'no-cache');
+    }
   }
+}));
 
-  // Handle all other routes by serving the appropriate HTML file
-  app.get('*', (req, res) => {
-    const filePath = path.join(__dirname, 'out', req.path);
-    
-    // Try to serve the exact path first
-    res.sendFile(filePath + '.html', (err) => {
-      if (err) {
-        // If exact path doesn't exist, try index.html in that directory
-        res.sendFile(path.join(filePath, 'index.html'), (err2) => {
-          if (err2) {
-            // Fall back to 404 page
-            res.status(404).sendFile(path.join(__dirname, 'out', '404.html'), (err3) => {
-              if (err3) {
-                res.status(404).send('Page not found');
-              }
-            });
-          }
-        });
-      }
-    });
-  });
+// Handle all routes by serving appropriate HTML files
+app.get('*', (req, res) => {
+  const requestedPath = req.path;
+  
+  // Remove trailing slash if present
+  const cleanPath = requestedPath.replace(/\/$/, '') || '/';
+  
+  // Try different file paths
+  const possiblePaths = [
+    path.join(__dirname, 'out', cleanPath + '.html'),
+    path.join(__dirname, 'out', cleanPath, 'index.html'),
+    path.join(__dirname, 'out', cleanPath),
+    path.join(__dirname, 'out', 'index.html')
+  ];
+  
+  for (const filePath of possiblePaths) {
+    if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
+      return res.sendFile(filePath);
+    }
+  }
+  
+  // Fall back to 404
+  const notFoundPath = path.join(__dirname, 'out', '404.html');
+  if (fs.existsSync(notFoundPath)) {
+    return res.status(404).sendFile(notFoundPath);
+  }
+  
+  res.status(404).send('Page not found');
+});
 
-  app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-  });
-} else {
-  console.error('No build found. Please run "npm run build" first.');
-  process.exit(1);
-}
+app.listen(PORT, () => {
+  console.log(`✓ Taxclusive server running on port ${PORT}`);
+  console.log(`✓ Serving files from: ${path.join(__dirname, 'out')}`);
+  const outDir = path.join(__dirname, 'out');
+  if (fs.existsSync(outDir)) {
+    console.log(`✓ Out directory exists with ${fs.readdirSync(outDir).length} files`);
+  } else {
+    console.error('✗ Out directory does not exist!');
+  }
+});
