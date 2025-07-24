@@ -48,17 +48,20 @@ jobs:
       env:
         NEXT_PUBLIC_STRAPI_URL: ${{ secrets.NEXT_PUBLIC_STRAPI_URL }}
     
+    - name: Create minimal deployment package
+      run: |
+        # Create a clean deployment directory
+        mkdir -p deploy
+        cp -r out deploy/
+        cp server.js deploy/
+        cp package-minimal.json deploy/package.json
+        echo 'console.log("Using minimal package for Azure deployment");' > deploy/index.js
+        
     - name: Upload artifacts for deployment
       uses: actions/upload-artifact@v4
       with:
         name: node-app
-        path: |
-          out/
-          server.js
-          package.json
-          web.config
-          .deployment
-          deploy.cmd
+        path: deploy/
           
   deploy:
     runs-on: ubuntu-latest
