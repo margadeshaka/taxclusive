@@ -58,6 +58,7 @@ jobs:
           package.json
           web.config
           .deployment
+          deploy.cmd
           
   deploy:
     runs-on: ubuntu-latest
