@@ -10,9 +10,9 @@ export const SEO_CONFIG = {
   // Default site information
   site: {
     name: 'Taxclusive',
-    title: 'Taxclusive - Expert Chartered Accountants in Gurugram',
-    description: 'Leading Chartered Accountancy firm in Gurugram providing expert tax planning, GST compliance, audit services & financial advisory. 35+ years experience, 500+ clients.',
-    keywords: 'chartered accountant gurugram, CA services, tax planning, GST compliance, audit services, financial advisory, business registration',
+    title: 'Taxclusive - Expert Chartered Accountants in Delhi NCR | Gurugram, Noida, Ghaziabad',
+    description: 'Leading Chartered Accountancy firm in Delhi NCR providing expert tax planning, GST compliance, audit services & financial advisory in Gurugram, Delhi, Noida, Ghaziabad, Faridabad. 35+ years experience, 500+ clients.',
+    keywords: 'chartered accountant gurugram, CA services delhi ncr, tax planning gurugram, GST compliance delhi, audit services noida, financial advisory ghaziabad, business registration faridabad, chartered accountant near me, CA firm haryana, tax consultant delhi, income tax gurugram, GST registration delhi ncr, company incorporation gurugram, accounting firm delhi, best CA gurugram, top chartered accountant delhi, tax planning services noida, GST filing ghaziabad, audit services faridabad',
     author: 'Taxclusive Team',
     locale: 'en_IN',
     language: 'en-IN',
@@ -54,15 +54,34 @@ export const SEO_CONFIG = {
     // Business hours
     openingHours: ['Mo-Fr 09:00-18:00', 'Sa 09:00-14:00'],
     
-    // Service areas
+    // Service areas (optimized for local SEO)
     serviceAreas: [
       'Gurugram',
       'New Delhi', 
       'Noida',
       'Ghaziabad',
       'Faridabad',
+      'Manesar',
+      'Dwarka',
+      'Vasant Kunj',
+      'Greater Noida',
+      'Indirapuram',
+      'Vaishali',
+      'Raj Nagar Extension',
+      'Crossings Republik',
+      'Neharpar Faridabad',
+      'Sector 15 Faridabad',
+      'Cyber City Gurugram',
+      'Golf Course Road',
+      'Sohna Road',
+      'MG Road Gurugram',
+      'Udyog Vihar',
+      'DLF Phase 1-5',
       'Haryana',
+      'Delhi',
+      'Uttar Pradesh',
       'Delhi NCR',
+      'NCR',
       'India'
     ],
     

@@ -13,11 +13,15 @@ const defaultMetadata: Metadata = {
   },
   description: SEO_CONFIG.site.description,
   keywords: [
-    "chartered accountant gurugram", "CA services", "tax planning india", "GST compliance", 
-    "audit services", "financial advisory", "business registration", "tax consultant", 
-    "accounting firm gurugram", "CA near me", "income tax return filing", "GST registration",
-    "company incorporation", "tax planning strategies", "business advisory", "audit and assurance",
-    "chartered accountant gurgaon", "best CA in gurugram", "top tax consultant delhi ncr"
+    "chartered accountant gurugram", "CA services delhi ncr", "tax planning gurugram", "GST compliance delhi", 
+    "audit services noida", "financial advisory ghaziabad", "business registration faridabad", "tax consultant delhi", 
+    "accounting firm gurugram", "CA near me", "income tax return filing", "GST registration delhi ncr",
+    "company incorporation gurugram", "tax planning strategies", "business advisory delhi", "audit and assurance",
+    "chartered accountant gurgaon", "best CA in gurugram", "top tax consultant delhi ncr", "CA services haryana",
+    "chartered accountant delhi", "tax planning services noida", "GST filing ghaziabad", "audit services faridabad",
+    "financial consultant gurugram", "accounting services delhi ncr", "tax advisory gurugram", "CA firm haryana",
+    "chartered accountant near me", "business consultant gurugram", "tax compliance delhi", "GST consultant ncr",
+    "income tax gurugram", "chartered accountant sohna road", "CA services sector 48", "tax expert delhi ncr"
   ].join(", "),
   authors: [{ name: SEO_CONFIG.site.author }],
   creator: SEO_CONFIG.site.name,
