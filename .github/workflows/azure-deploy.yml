@@ -47,6 +47,18 @@ jobs:
       run: npm run build
       env:
         NEXT_PUBLIC_STRAPI_URL: ${{ secrets.NEXT_PUBLIC_STRAPI_URL }}
+    
+    - name: Create deployment package
+      run: |
+        # Copy standalone build
+        if [ -d ".next/standalone" ]; then
+          echo "Using standalone build"
+          cp -r .next/standalone/* ./
+          cp -r .next/static ./.next/
+          cp -r public ./
+        fi
+        # Ensure package.json has correct start script
+        npm pkg set scripts.start="node server.js"
         
     - name: Upload artifacts for deployment
       uses: actions/upload-artifact@v4
@@ -67,6 +79,12 @@ jobs:
           !deploy.sh
           !deploy.zip
           !azure-deploy.md
+          !app/
+          !components/
+          !lib/
+          !hooks/
+          !styles/
+          !out/
           
   deploy:
     runs-on: ubuntu-latest
