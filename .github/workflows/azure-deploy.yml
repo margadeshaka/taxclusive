@@ -70,7 +70,6 @@ jobs:
         name: node-app
         path: |
           .
-          !node_modules/
           !.git/
           !.github/
           !e2e/
