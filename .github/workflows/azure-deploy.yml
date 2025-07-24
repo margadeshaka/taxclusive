@@ -61,6 +61,12 @@ jobs:
           !__tests__/
           !*.log
           !.env*
+          !docs/
+          !monitoring/
+          !scripts/
+          !deploy.sh
+          !deploy.zip
+          !azure-deploy.md
           
   deploy:
     runs-on: ubuntu-latest

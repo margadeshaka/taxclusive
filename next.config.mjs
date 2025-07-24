@@ -10,7 +10,8 @@ let userConfig = undefined
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export', // Static site generation for better SEO and performance
+  // Use standalone output for Azure Web Apps deployment
+  output: process.env.NEXT_OUTPUT || 'standalone',
   eslint: {
     ignoreDuringBuilds: true,
   },
@@ -33,7 +34,7 @@ const nextConfig = {
   
   // PWA and SEO friendly image optimization
   images: {
-    unoptimized: true, // Required for static export
+    unoptimized: process.env.NEXT_OUTPUT === 'export', // Only unoptimized for static export
     formats: ['image/avif', 'image/webp'], // Modern formats for better performance
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
