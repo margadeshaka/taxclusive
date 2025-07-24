@@ -54,8 +54,12 @@ jobs:
         if [ -d ".next/standalone" ]; then
           echo "Using standalone build"
           cp -r .next/standalone/* ./
-          cp -r .next/static ./.next/
-          cp -r public ./
+          # Copy static files if they don't already exist
+          if [ ! -d "./.next/static" ]; then
+            cp -r .next/static ./.next/
+          fi
+          # Copy public files (overwrite existing)
+          cp -r public/* ./ 2>/dev/null || true
         fi
         # Ensure package.json has correct start script
         npm pkg set scripts.start="node server.js"
