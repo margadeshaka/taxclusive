@@ -99,7 +99,7 @@ export default function ContactSection() {
                 <Phone className="h-6 w-6 text-primary" aria-hidden="true" />
                 <div className="space-y-1">
                   <h3 className="font-bold">Phone</h3>
-                  <p className="text-muted-foreground">(+91)97739-79042</p>
+                  <p className="text-muted-foreground">+919782799042</p>
                 </div>
               </div>
               <div className="flex items-start gap-4">

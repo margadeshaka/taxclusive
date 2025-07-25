@@ -31,7 +31,7 @@ export const SEO_CONFIG = {
     
     // Contact information
     contact: {
-      phone: '+91-97739-79042',
+      phone: '+919782799042',
       email: 'contact@taxclusive.com',
       website: 'https://www.taxclusive.com',
     },

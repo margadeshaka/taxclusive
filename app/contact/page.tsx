@@ -391,7 +391,7 @@ export default function ContactPage() {
           contactPoint: [
             {
               "@type": "ContactPoint",
-              telephone: "+91-97739-79042",
+              telephone: "+919782799042",
               contactType: "customer service",
               email: "contact@taxclusive.com",
               availableLanguage: ["English", "Hindi"],

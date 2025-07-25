@@ -323,7 +323,7 @@ export const defaultConfig: WebsiteConfiguration = {
       ],
 
       contact: {
-        phone: '+91-97739-79042',
+        phone: '+919782799042',
         email: 'contact@taxclusive.com',
         website: 'https://www.taxclusive.com',
         supportEmail: 'support@taxclusive.com',
@@ -376,7 +376,7 @@ export const defaultConfig: WebsiteConfiguration = {
         twitter: 'https://twitter.com/taxclusive',
         instagram: 'https://www.instagram.com/taxclusive',
         youtube: 'https://www.youtube.com/@taxclusive',
-        whatsapp: 'https://wa.me/919773979042',
+        whatsapp: 'https://wa.me/919782799042',
       },
 
       rating: {
@@ -912,7 +912,7 @@ export const defaultConfig: WebsiteConfiguration = {
             id: 'gurugram-office',
             name: 'Gurugram Office',
             address: 'JMD Megapolis, Sector 48, Sohna Road, Gurugram, Haryana 122001',
-            phone: '+91-97739-79042',
+            phone: '+919782799042',
             email: 'contact@taxclusive.com',
             hours: ['Monday - Friday: 9:00 AM - 6:00 PM', 'Saturday: 9:00 AM - 2:00 PM', 'Sunday: Closed'],
             coordinates: {
@@ -1166,7 +1166,7 @@ export const defaultConfig: WebsiteConfiguration = {
     seo: {
       defaultTitle: 'Taxclusive - Expert Chartered Accountants in Gurugram | CA Services | Tax Planning',
       titleTemplate: '%s | Taxclusive - Professional CA Services',
-      defaultDescription: 'Leading Chartered Accountancy firm in Gurugram. Expert tax planning, GST compliance, audit, business registration & financial advisory services. 35+ years experience. Call +91-97739-79042',
+      defaultDescription: 'Leading Chartered Accountancy firm in Gurugram. Expert tax planning, GST compliance, audit, business registration & financial advisory services. 35+ years experience. Call +919782799042',
       keywords: [
         'chartered accountant gurugram',
         'CA services',

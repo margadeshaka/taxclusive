@@ -15,7 +15,7 @@ export const clientConfig = {
   business: {
     legalName: 'Taxclusive Chartered Accountants LLP',
     displayName: 'Taxclusive',
-    phone: '+91-97739-79042',
+    phone: '+919782799042',
     email: 'contact@taxclusive.com',
     website: 'https://www.taxclusive.com',
     address: {

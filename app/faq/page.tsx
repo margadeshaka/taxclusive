@@ -134,7 +134,7 @@ export default function FAQPage() {
                               appointment page
                             </Link>
                           </li>
-                          <li>Call our office at (+91)97739-79042 during business hours</li>
+                          <li>Call our office at +919782799042 during business hours</li>
                           <li>Email us at info@taxclusive.com</li>
                           <li>Visit our office in person</li>
                         </ul>
