@@ -48,7 +48,13 @@ export async function POST(req: NextRequest) {
       message,
     });
 
-    await sendEmail(emailData);
+    // Set a timeout for email sending
+    const emailPromise = sendEmail(emailData);
+    const timeoutPromise = new Promise((_, reject) =>
+      setTimeout(() => reject(new Error('Email service timeout')), 30000)
+    );
+
+    await Promise.race([emailPromise, timeoutPromise]);
 
     return NextResponse.json({
       success: true,

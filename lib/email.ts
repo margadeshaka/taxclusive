@@ -1,29 +1,23 @@
-import { EmailClient } from "@azure/communication-email";
+import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses";
 import * as emailTemplates from './email-templates';
 
 /**
- * Azure Communication Services Email Client configuration
+ * AWS SES Client configuration
  */
-const connectionString = process.env.AZURE_COMMUNICATION_CONNECTION_STRING;
-
-if (!connectionString) {
-  throw new Error(
-    'AZURE_COMMUNICATION_CONNECTION_STRING environment variable is required. ' +
-    'Please set it in your .env.local file.'
-  );
-}
-
-/**
- * Creates an Azure Communication Services Email Client
- */
-const client = new EmailClient(connectionString);
+const sesClient = new SESClient({
+  region: process.env.AWS_REGION || "us-east-1",
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID || "",
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || "",
+  },
+});
 
 /**
  * Email sender configuration
  */
 const emailSender = {
   name: process.env.EMAIL_SENDER_NAME || "Taxclusive",
-  email: process.env.EMAIL_SENDER_ADDRESS || "DoNotReply@ce0efb15-b29c-409c-9573-aa3571f3fcef.azurecomm.net",
+  email: process.env.EMAIL_SENDER_ADDRESS || "noreply@taxclusive.com",
 };
 
 /**
@@ -45,35 +39,40 @@ export interface EmailData {
 }
 
 /**
- * Sends an email using Azure Communication Services Email Client
+ * Sends an email using AWS SES
  *
  * @param data - The email data to send
  * @returns A promise that resolves when the email is sent
  */
 export async function sendEmail(data: EmailData): Promise<void> {
   try {
-    const emailMessage = {
-      senderAddress: emailSender.email,
-      content: {
-        subject: data.subject,
-        plainText: data.text,
-        html: data.html || data.text,
+    const params = {
+      Destination: {
+        ToAddresses: [emailRecipient.email],
       },
-      recipients: {
-        to: [{ address: emailRecipient.email, displayName: emailRecipient.name }],
+      Message: {
+        Body: {
+          Html: {
+            Charset: "UTF-8",
+            Data: data.html || data.text,
+          },
+          Text: {
+            Charset: "UTF-8",
+            Data: data.text,
+          },
+        },
+        Subject: {
+          Charset: "UTF-8",
+          Data: data.subject,
+        },
       },
+      Source: emailSender.email,
+      ReplyToAddresses: data.replyTo ? [data.replyTo] : [],
     };
 
-    if (data.replyTo) {
-      // Note: Azure Communication Services doesn't directly support replyTo
-      // We're adding it to the email content as a workaround
-      emailMessage.content.html = `${emailMessage.content.html}<p><small>Reply to: ${data.replyTo}</small></p>`;
-    }
-
-    const poller = await client.beginSend(emailMessage);
-    const result = await poller.pollUntilDone();
-    console.warn("Sent mail successfully", result);
-    // Email sent successfully
+    const command = new SendEmailCommand(params);
+    const result = await sesClient.send(command);
+    console.log("Email sent successfully", result.MessageId);
   } catch (error) {
     console.error("Error sending email:", error);
     throw new Error("Failed to send email");
