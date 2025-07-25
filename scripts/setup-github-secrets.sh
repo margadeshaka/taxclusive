@@ -1,9 +1,14 @@
 #!/bin/bash
 
-# GitHub Secrets Setup Script for TaxExclusive Azure Deployment
-# This script helps configure GitHub secrets for automated deployment
+# GitHub Secrets Setup Script for Taxclusive AWS EKS Deployment
+# This script helps configure GitHub secrets for automated EKS deployment
+# Prerequisites: GitHub CLI (gh) installed and authenticated
 
 set -e
+
+# Configuration
+REPO_OWNER="your-github-username"  # Update this with your GitHub username
+REPO_NAME="taxexclusive"           # Update if your repo name is different
 
 # Color codes
 GREEN='\033[0;32m'
@@ -28,21 +33,13 @@ print_info() {
     echo -e "${BLUE}[INFO]${NC} $1"
 }
 
-# Configuration
-RESOURCE_GROUP="taxclusive"
-APP_NAME="taxexclusive-app"
-INSIGHTS_NAME="taxexclusive-insights"
+echo -e "${BLUE}=== Taxclusive GitHub Secrets Setup for AWS EKS ===${NC}"
+echo ""
 
 # Check if GitHub CLI is installed
 if ! command -v gh &> /dev/null; then
     print_error "GitHub CLI is not installed. Please install it first."
     print_info "Visit: https://cli.github.com/"
-    exit 1
-fi
-
-# Check if Azure CLI is installed
-if ! command -v az &> /dev/null; then
-    print_error "Azure CLI is not installed. Please install it first."
     exit 1
 fi
 
@@ -52,165 +49,116 @@ if ! gh auth status &> /dev/null; then
     exit 1
 fi
 
-# Check if logged into Azure
-if ! az account show &> /dev/null; then
-    print_error "Not logged into Azure CLI. Please run 'az login' first."
+# Check if .env.local exists
+if [ ! -f ".env.local" ]; then
+    print_error ".env.local file not found."
+    print_info "Please ensure you're in the project root directory."
     exit 1
 fi
 
-print_status "Setting up GitHub secrets for TaxExclusive Azure deployment..."
-
-# Get subscription ID
-SUBSCRIPTION_ID=$(az account show --query id -o tsv)
-print_info "Using Azure subscription: $SUBSCRIPTION_ID"
-
-# Create service principal for GitHub Actions
-print_status "Creating service principal for GitHub Actions..."
-SP_NAME="github-actions-taxexclusive"
-
-# Check if service principal already exists
-if az ad sp list --display-name "$SP_NAME" --query "[0].appId" -o tsv | grep -q "."; then
-    print_warning "Service principal '$SP_NAME' already exists. Using existing one."
-    SP_APP_ID=$(az ad sp list --display-name "$SP_NAME" --query "[0].appId" -o tsv)
-    
-    # Reset credentials
-    print_status "Resetting service principal credentials..."
-    SP_CREDENTIALS=$(az ad sp credential reset --id $SP_APP_ID --sdk-auth)
-else
-    # Create new service principal
-    SP_CREDENTIALS=$(az ad sp create-for-rbac \
-        --name "$SP_NAME" \
-        --role contributor \
-        --scopes "/subscriptions/$SUBSCRIPTION_ID/resourceGroups/$RESOURCE_GROUP" \
-        --sdk-auth)
-fi
-
-print_status "Service principal created successfully!"
-
-# Get Application Insights instrumentation key
-print_status "Retrieving Application Insights instrumentation key..."
-INSTRUMENTATION_KEY=$(az monitor app-insights component show \
-    --app $INSIGHTS_NAME \
-    --resource-group $RESOURCE_GROUP \
-    --query instrumentationKey -o tsv)
-
-if [ -z "$INSTRUMENTATION_KEY" ]; then
-    print_warning "Application Insights not found. The key will need to be set manually after creating Application Insights."
-    INSTRUMENTATION_KEY="PLACEHOLDER_INSTRUMENTATION_KEY"
-fi
-
-# Function to prompt for secret values
-prompt_for_secret() {
+# Function to set GitHub secret
+set_github_secret() {
     local secret_name=$1
-    local description=$2
-    local default_value=$3
+    local secret_value=$2
+    local description=$3
     
-    echo ""
-    print_info "Setting up secret: $secret_name"
-    print_info "Description: $description"
-    
-    if [ -n "$default_value" ]; then
-        echo "Current/Default value: $default_value"
-        read -p "Press Enter to use current value, or type new value: " user_input
-        if [ -n "$user_input" ]; then
-            echo "$user_input"
-        else
-            echo "$default_value"
-        fi
+    if [ -n "$secret_value" ]; then
+        print_info "Setting secret: $secret_name"
+        echo "$secret_value" | gh secret set "$secret_name" --repo "$REPO_OWNER/$REPO_NAME"
+        print_status "$secret_name set successfully"
+        print_info "Description: $description"
     else
-        read -p "Enter value for $secret_name: " user_input
-        echo "$user_input"
+        print_warning "Skipping $secret_name (empty value)"
     fi
+    echo ""
 }
 
-# Set GitHub secrets
-print_status "Setting GitHub secrets..."
+# Read values from .env.local
+print_status "Reading values from .env.local..."
 
-# Azure credentials (auto-generated)
-echo "$SP_CREDENTIALS" | gh secret set AZURE_CREDENTIALS
+# Source the .env.local file to get variables
+set -a  # automatically export all variables
+source .env.local
+set +a  # stop automatically exporting
 
-# Azure subscription ID (auto-retrieved)
-echo "$SUBSCRIPTION_ID" | gh secret set AZURE_SUBSCRIPTION_ID
-
-# Application Insights key (auto-retrieved or placeholder)
-echo "$INSTRUMENTATION_KEY" | gh secret set APPINSIGHTS_INSTRUMENTATIONKEY
-
-# Prompt for Strapi URL
-STRAPI_URL=$(prompt_for_secret "NEXT_PUBLIC_STRAPI_URL" "Your Strapi CMS URL" "https://your-strapi-instance.com")
-echo "$STRAPI_URL" | gh secret set NEXT_PUBLIC_STRAPI_URL
-
-# Prompt for Azure Communication Services
-ACS_CONNECTION=$(prompt_for_secret "AZURE_COMMUNICATION_CONNECTION_STRING" "Azure Communication Services connection string" "")
-echo "$ACS_CONNECTION" | gh secret set AZURE_COMMUNICATION_CONNECTION_STRING
-
-# Prompt for sender email
-SENDER_EMAIL=$(prompt_for_secret "AZURE_COMMUNICATION_SENDER_ADDRESS" "Sender email address for Azure Communication Services" "noreply@yourdomain.com")
-echo "$SENDER_EMAIL" | gh secret set AZURE_COMMUNICATION_SENDER_ADDRESS
-
-# Prompt for alert email
-ALERT_EMAIL=$(prompt_for_secret "ALERT_EMAIL" "Email address for monitoring alerts" "alerts@yourdomain.com")
-echo "$ALERT_EMAIL" | gh secret set ALERT_EMAIL
-
-print_status "GitHub secrets configured successfully!"
-
-# Display summary
+print_status "Environment variables loaded"
 echo ""
-print_status "Summary of configured secrets:"
-echo "✓ AZURE_CREDENTIALS (auto-generated)"
-echo "✓ AZURE_SUBSCRIPTION_ID: $SUBSCRIPTION_ID"
-echo "✓ APPINSIGHTS_INSTRUMENTATIONKEY: $INSTRUMENTATION_KEY"
-echo "✓ NEXT_PUBLIC_STRAPI_URL: $STRAPI_URL"
-echo "✓ AZURE_COMMUNICATION_CONNECTION_STRING: [HIDDEN]"
-echo "✓ AZURE_COMMUNICATION_SENDER_ADDRESS: $SENDER_EMAIL"
-echo "✓ ALERT_EMAIL: $ALERT_EMAIL"
 
-# Create deployment info file
-print_status "Creating deployment information file..."
-cat > deployment-secrets-info.json << EOF
-{
-  "servicePrincipal": {
-    "name": "$SP_NAME",
-    "subscriptionId": "$SUBSCRIPTION_ID",
-    "resourceGroup": "$RESOURCE_GROUP"
-  },
-  "githubSecrets": {
-    "AZURE_CREDENTIALS": "Auto-generated service principal credentials",
-    "AZURE_SUBSCRIPTION_ID": "$SUBSCRIPTION_ID",
-    "APPINSIGHTS_INSTRUMENTATIONKEY": "$INSTRUMENTATION_KEY",
-    "NEXT_PUBLIC_STRAPI_URL": "$STRAPI_URL",
-    "AZURE_COMMUNICATION_CONNECTION_STRING": "Azure Communication Services connection string",
-    "AZURE_COMMUNICATION_SENDER_ADDRESS": "$SENDER_EMAIL",
-    "ALERT_EMAIL": "$ALERT_EMAIL"
-  },
-  "instructions": {
-    "deployment": "Push to main branch to trigger deployment",
-    "monitoring": "Check Azure Portal for Application Insights dashboard",
-    "secrets": "Update secrets using 'gh secret set SECRET_NAME --body VALUE'"
-  }
-}
-EOF
+# AWS SES Configuration Secrets
+print_info "=== Setting AWS SES Configuration Secrets ==="
 
-print_status "Deployment information saved to deployment-secrets-info.json"
+set_github_secret "AWS_REGION" "$AWS_REGION" "AWS region for SES and EKS deployment"
+set_github_secret "AWS_ACCESS_KEY_ID" "$AWS_ACCESS_KEY_ID" "AWS access key for deployment"
+set_github_secret "AWS_SECRET_ACCESS_KEY" "$AWS_SECRET_ACCESS_KEY" "AWS secret key for deployment"
 
+# Email Configuration Secrets
+print_info "=== Setting Email Configuration Secrets ==="
+
+set_github_secret "EMAIL_SENDER_NAME" "$EMAIL_SENDER_NAME" "Display name for email sender"
+set_github_secret "EMAIL_SENDER_ADDRESS" "$EMAIL_SENDER_ADDRESS" "Verified sender email address"
+set_github_secret "EMAIL_RECIPIENT_ADDRESS" "$EMAIL_RECIPIENT_ADDRESS" "Email address for form submissions"
+set_github_secret "EMAIL_RECIPIENT_NAME" "$EMAIL_RECIPIENT_NAME" "Display name for email recipient"
+
+# Application Configuration Secrets
+print_info "=== Setting Application Configuration Secrets ==="
+
+# For production, we'll use a different base URL
+PRODUCTION_BASE_URL="https://taxclusive.com"  # Update this with your production domain
+set_github_secret "NEXT_PUBLIC_BASE_URL" "$PRODUCTION_BASE_URL" "Production base URL for the application"
+
+set_github_secret "NEXT_PUBLIC_STRAPI_URL" "$NEXT_PUBLIC_STRAPI_URL" "Strapi CMS API URL"
+set_github_secret "NODE_ENV" "production" "Node.js environment for production"
+
+# Additional secrets for EKS deployment
+print_info "=== Setting EKS Deployment Secrets ==="
+
+# Prompt for additional EKS-specific secrets
+read -p "Enter your EKS cluster name (default: taxclusive-cluster): " EKS_CLUSTER_NAME
+EKS_CLUSTER_NAME=${EKS_CLUSTER_NAME:-taxclusive-cluster}
+
+read -p "Enter your ECR repository URI (e.g., 123456789012.dkr.ecr.us-east-1.amazonaws.com/taxclusive): " ECR_REPOSITORY
+
+read -p "Enter your domain name (e.g., taxclusive.com): " DOMAIN_NAME
+DOMAIN_NAME=${DOMAIN_NAME:-taxclusive.com}
+
+set_github_secret "EKS_CLUSTER_NAME" "$EKS_CLUSTER_NAME" "EKS cluster name for deployment"
+set_github_secret "ECR_REPOSITORY" "$ECR_REPOSITORY" "ECR repository URI for Docker images"
+set_github_secret "DOMAIN_NAME" "$DOMAIN_NAME" "Production domain name"
+
+# Optional: Set up database secrets if using RDS
 echo ""
-print_status "Next steps:"
-echo "1. Verify all secrets are correctly set: gh secret list"
-echo "2. Update any placeholder values if needed"
-echo "3. Push your code to trigger the deployment: git push origin main"
-echo "4. Monitor deployment in GitHub Actions tab"
-echo "5. Check application status in Azure Portal"
+print_info "Optional: Database Configuration"
+read -p "Do you want to set up database secrets? (y/N): " setup_db
+if [[ $setup_db =~ ^[Yy]$ ]]; then
+    read -p "Enter database host: " DB_HOST
+    read -p "Enter database name: " DB_NAME
+    read -p "Enter database username: " DB_USER
+    read -s -p "Enter database password: " DB_PASSWORD
+    echo ""
+    
+    set_github_secret "DB_HOST" "$DB_HOST" "Database host"
+    set_github_secret "DB_NAME" "$DB_NAME" "Database name"
+    set_github_secret "DB_USER" "$DB_USER" "Database username"
+    set_github_secret "DB_PASSWORD" "$DB_PASSWORD" "Database password"
+fi
 
+# Summary
+print_status "Setup Complete"
 echo ""
-print_info "Useful commands:"
-echo "• List all secrets: gh secret list"
-echo "• Update a secret: gh secret set SECRET_NAME --body 'new-value'"
-echo "• Delete a secret: gh secret delete SECRET_NAME"
-echo "• View workflow runs: gh run list"
-echo "• View specific run: gh run view RUN_ID"
+print_status "GitHub secrets have been configured for your repository"
+print_info "Repository: $REPO_OWNER/$REPO_NAME"
+echo ""
 
+print_info "Next Steps:"
+echo "1. Verify secrets in GitHub: https://github.com/$REPO_OWNER/$REPO_NAME/settings/secrets/actions"
+echo "2. Set up AWS EKS cluster using the provided Terraform scripts"
+echo "3. Create ECR repository for Docker images"
+echo "4. Update DNS records to point to your EKS load balancer"
+echo "5. Push code to trigger the GitHub Actions deployment workflow"
 echo ""
-print_warning "Security reminders:"
-echo "• Never commit secrets to your repository"
-echo "• Regularly rotate service principal credentials"
-echo "• Monitor access logs for unusual activity"
-echo "• Use least privilege principle for permissions"
+
+print_status "Your repository is now ready for AWS EKS deployment!"
+
+# Show current secrets (names only, not values)
+print_info "Current GitHub Secrets:"
+gh secret list --repo "$REPO_OWNER/$REPO_NAME" || print_warning "Could not list secrets (this is normal)"
