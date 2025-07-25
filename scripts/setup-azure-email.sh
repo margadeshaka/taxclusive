@@ -13,7 +13,7 @@ YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
 # Configuration variables
-RESOURCE_GROUP_NAME="taxclusive-rg"
+RESOURCE_GROUP_NAME="taxclusive"
 LOCATION="centralindia"  # Best location for Delhi NCR region
 ACS_NAME="taxclusive-communication"
 EMAIL_SERVICE_NAME="taxclusive-email-service"

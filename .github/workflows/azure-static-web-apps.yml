@@ -1,4 +1,4 @@
-name: Deploy to Azure Static Web Apps
+name: Deploy Taxclusive to Azure Static Web Apps
 
 on:
   push:
@@ -21,15 +21,34 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20.x'
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 8
       
       - name: Install dependencies
-        run: npm install --legacy-peer-deps
+        run: pnpm install --frozen-lockfile
       
-      - name: Build Next.js
-        run: npm run build
+      - name: Build Next.js Application
+        run: pnpm build
         env:
+          # Strapi Configuration
           NEXT_PUBLIC_STRAPI_URL: ${{ secrets.NEXT_PUBLIC_STRAPI_URL }}
+          
+          # Azure Communication Services
+          AZURE_COMMUNICATION_CONNECTION_STRING: ${{ secrets.AZURE_COMMUNICATION_CONNECTION_STRING }}
+          
+          # Email Configuration
+          EMAIL_SENDER_NAME: ${{ secrets.EMAIL_SENDER_NAME }}
+          EMAIL_SENDER_ADDRESS: ${{ secrets.EMAIL_SENDER_ADDRESS }}
+          EMAIL_RECIPIENT_ADDRESS: ${{ secrets.EMAIL_RECIPIENT_ADDRESS }}
+          EMAIL_RECIPIENT_NAME: ${{ secrets.EMAIL_RECIPIENT_NAME }}
+          
+          # Base URL
+          NEXT_PUBLIC_BASE_URL: ${{ secrets.NEXT_PUBLIC_BASE_URL }}
       
       - name: Build And Deploy
         id: builddeploy
@@ -38,10 +57,10 @@ jobs:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
-          app_location: "out"
+          app_location: "/"
           api_location: ""
-          output_location: ""
-          skip_app_build: true
+          output_location: ".next"
+          skip_deploy_on_missing_secrets: true
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'

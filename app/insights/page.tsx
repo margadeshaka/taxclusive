@@ -6,7 +6,7 @@ import { useState } from "react";
 
 import Footer from "@/components/footer";
 import Header from "@/components/header";
-import {submitNewsletterForm} from "@/lib/form-actions";
+import { emailService } from "@/lib/email-client";
 
 
 export default function InsightsPage() {
@@ -18,7 +18,11 @@ export default function InsightsPage() {
 
   async function handleSubmit(formData: FormData) {
     try {
-      const result = await submitNewsletterForm(formData);
+      const data = {
+        email: formData.get('email') as string,
+      };
+
+      const result = await emailService.submitNewsletterForm(data);
       setFormStatus({
         submitted: true,
         success: result.success,

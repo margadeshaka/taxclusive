@@ -3,7 +3,7 @@ import { useState } from "react";
 
 import Footer from "@/components/footer";
 import Header from "@/components/header";
-import {submitAppointmentForm} from "@/lib/form-actions";
+import { emailService } from "@/lib/email-client";
 
 
 
@@ -16,7 +16,24 @@ export default function AppointmentPage() {
 
   async function handleSubmit(formData: FormData) {
     try {
-      const result = await submitAppointmentForm(formData);
+      const fullName = formData.get('full-name') as string;
+      const nameParts = fullName.split(' ');
+      const firstName = nameParts[0];
+      const lastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : '';
+
+      const data = {
+        firstName,
+        lastName,
+        email: formData.get('email') as string,
+        phone: formData.get('phone') as string,
+        service: formData.get('service') as string,
+        date: formData.get('preferred-date') as string,
+        time: formData.get('preferred-time') as string,
+        meetingType: formData.get('meeting-type') as string,
+        message: formData.get('message') as string,
+      };
+
+      const result = await emailService.submitAppointmentForm(data);
       setFormStatus({
         submitted: true,
         success: result.success,

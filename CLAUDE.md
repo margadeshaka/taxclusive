@@ -10,7 +10,7 @@ This is a Next.js 15 application for TaxExclusive, a Chartered Accountancy firm.
 ### Development
 ```bash
 pnpm dev                 # Start development server
-pnpm build              # Build for production (static export)
+pnpm build              # Build for production (hybrid - static pages + API routes)
 pnpm start              # Start production server
 ```
 
@@ -34,6 +34,12 @@ pnpm test:e2e           # Run Playwright E2E tests
 ```bash
 pnpm analyze            # Analyze bundle size
 pnpm find-unused-deps   # Find unused dependencies
+```
+
+### Azure Deployment
+```bash
+pnpm build:azure        # Build for Azure deployment
+pnpm start:azure        # Start Azure production server
 ```
 
 ## Architecture Overview
@@ -85,27 +91,30 @@ pnpm find-unused-deps   # Find unused dependencies
    - Strapi CMS integration with typed interfaces matching the API schema
    - Type safety enforced throughout the application stack
 
-6. **Static Export with Dynamic Content**:
-   - Application configured for static site generation (`output: 'export'`)
-   - Dynamic content fetched from Strapi CMS at build time and runtime
-   - No server-side runtime available - all dynamic behavior handled client-side
+6. **Hybrid Architecture with Static Pages and API Routes**:
+   - Static pages generated at build time for optimal performance
+   - Dynamic API routes for email handling and server-side operations
+   - Azure Communication Services integration for professional email sending
+   - Client-side forms that submit to internal API routes
 
 7. **Component Library Integration**:
    - Shadcn UI as the foundational component library
    - Custom utility function (`cn()`) for conditional class merging using clsx and tailwind-merge
    - Consistent design system with CSS variables for theming
 
-8. **Form Handling Architecture**:
-   - React Hook Form with Zod validation for type-safe form handling
-   - Integration with Azure Communication Services for email delivery
-   - Centralized form validation and error handling patterns
+8. **Email Integration Architecture**:
+   - Azure Communication Services for professional email delivery
+   - API routes (`/api/contact`, `/api/appointment`, `/api/newsletter`, `/api/query`, `/api/message`) for form handling
+   - Enhanced email templates with professional styling and branding
+   - Client-side email service (`lib/email-client.ts`) that connects to local API routes
+   - Form validation and error handling with user-friendly messages
 
 ### Important Configuration Files
 
-- `next.config.mjs` - Static export configuration, security headers (requires server-side implementation)
+- `next.config.mjs` - Hybrid configuration with static pages and API routes enabled
 - `tailwind.config.ts` - Custom theme configuration, fonts (Poppins, Playfair Display), animations
 - `tsconfig.json` - Strict mode TypeScript with path aliases (@/*)
-- `.env.local` - Environment variables for Strapi URL and Azure email configuration
+- `.env.local` - Environment variables for Azure Communication Services and Strapi CMS configuration
 
 ### API Integration
 
@@ -185,7 +194,7 @@ The application integrates with Strapi CMS for content management:
 
 ### Key Dependencies
 
-- Next.js 15.2.4 with React 19
+- Next.js 15.2.4 with React 18.3.1
 - TypeScript for type safety  
 - Tailwind CSS for styling
 - Shadcn UI for component library

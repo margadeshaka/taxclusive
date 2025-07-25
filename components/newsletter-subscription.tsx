@@ -17,6 +17,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { newsletterSubscriptionSchema } from "@/lib/validation";
+import { emailService } from "@/lib/email-client";
 
 /**
  * Form values for the newsletter subscription form
@@ -53,25 +54,31 @@ export default function NewsletterSubscription({ className }: { className?: stri
    * @param {FormValues} data - Form data containing the email address
    * @returns {Promise<void>}
    */
-  async function onSubmit(_data: FormValues) {
+  async function onSubmit(data: FormValues) {
     setIsSubmitting(true);
 
     try {
-      // Simulate API call with a delay
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      // Submit using email service
+      const result = await emailService.submitNewsletterForm(data);
 
-      // In a real application, you would send the data to your API here
-      // Data to be sent: email address from the form
+      if (result.success) {
+        // Show success message
+        toast({
+          title: "Subscription successful!",
+          description: result.message,
+          variant: "default",
+        });
 
-      // Show success message
-      toast({
-        title: "Subscription successful!",
-        description: "Thank you for subscribing to our newsletter.",
-        variant: "default",
-      });
-
-      // Reset form
-      form.reset();
+        // Reset form
+        form.reset();
+      } else {
+        // Show error message
+        toast({
+          title: "Subscription failed",
+          description: result.message,
+          variant: "destructive",
+        });
+      }
     } catch (error) {
       // Show error message
       toast({

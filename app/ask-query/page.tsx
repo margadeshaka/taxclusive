@@ -5,7 +5,7 @@ import { useState } from "react";
 
 import Footer from "@/components/footer";
 import Header from "@/components/header";
-import {submitQueryForm} from "@/lib/form-actions";
+import { emailService } from "@/lib/email-client";
 
 
 export default function AskQueryPage() {
@@ -17,7 +17,21 @@ export default function AskQueryPage() {
 
   async function handleSubmit(formData: FormData) {
     try {
-      const result = await submitQueryForm(formData);
+      const fileInput = formData.get('file-upload') as File;
+      const files = fileInput && fileInput.name !== 'undefined' ? [fileInput.name] : [];
+
+      const data = {
+        fullName: formData.get('full-name') as string,
+        email: formData.get('email') as string,
+        phone: formData.get('phone') as string,
+        category: formData.get('category') as string,
+        priority: formData.get('priority') as string,
+        subject: formData.get('subject') as string,
+        query: formData.get('query') as string,
+        files,
+      };
+
+      const result = await emailService.submitQueryForm(data);
       setFormStatus({
         submitted: true,
         success: result.success,

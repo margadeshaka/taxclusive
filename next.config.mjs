@@ -10,8 +10,8 @@ let userConfig = undefined
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Use export for static deployment on Azure
-  output: 'export',
+  // Remove static export to enable API routes
+  // output: 'export',
   eslint: {
     ignoreDuringBuilds: true,
   },

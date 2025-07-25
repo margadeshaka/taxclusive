@@ -6,7 +6,7 @@ import { useState } from "react";
 
 import Footer from "@/components/footer";
 import Header from "@/components/header";
-import {submitContactForm} from "@/lib/form-actions";
+import { emailService } from "@/lib/email-client";
 import { generateStructuredData } from "@/lib/metadata";
 
 
@@ -19,7 +19,16 @@ export default function ContactPage() {
 
     async function handleSubmit(formData: FormData) {
         try {
-            const result = await submitContactForm(formData);
+            const data = {
+                firstName: formData.get('first-name') as string,
+                lastName: formData.get('last-name') as string,
+                email: formData.get('email') as string,
+                phone: formData.get('phone') as string,
+                subject: formData.get('subject') as string,
+                message: formData.get('message') as string,
+            };
+
+            const result = await emailService.submitContactForm(data);
             setFormStatus({
                 submitted: true,
                 success: result.success,

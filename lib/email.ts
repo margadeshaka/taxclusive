@@ -1,10 +1,17 @@
 import { EmailClient } from "@azure/communication-email";
+import * as emailTemplates from './email-templates';
 
 /**
  * Azure Communication Services Email Client configuration
  */
-const connectionString = process.env.AZURE_COMMUNICATION_CONNECTION_STRING || 
-  "endpoint=https://taxclusive-email.india.communication.azure.com/;accesskey=HaZyuNn1mNnOeb7npt2aZMRVo00seBTRAI4wtCzeiLNEhOkKkV2fJQQJ99BFACULyCpdfitoAAAAAZCS9QUr";
+const connectionString = process.env.AZURE_COMMUNICATION_CONNECTION_STRING;
+
+if (!connectionString) {
+  throw new Error(
+    'AZURE_COMMUNICATION_CONNECTION_STRING environment variable is required. ' +
+    'Please set it in your .env.local file.'
+  );
+}
 
 /**
  * Creates an Azure Communication Services Email Client
@@ -74,7 +81,7 @@ export async function sendEmail(data: EmailData): Promise<void> {
 }
 
 /**
- * Formats contact form data into an email
+ * Formats contact form data into an email using enhanced template
  *
  * @param formData - The contact form data
  * @returns The formatted email data
@@ -87,38 +94,18 @@ export function formatContactEmail(formData: {
   subject: string;
   message: string;
 }): EmailData {
-  const text = `
-    New Contact Form Submission
-
-    Name: ${formData.firstName} ${formData.lastName}
-    Email: ${formData.email}
-    Phone: ${formData.phone}
-    Subject: ${formData.subject}
-
-    Message:
-    ${formData.message}
-  `;
-
-  const html = `
-    <h2>New Contact Form Submission</h2>
-    <p><strong>Name:</strong> ${formData.firstName} ${formData.lastName}</p>
-    <p><strong>Email:</strong> ${formData.email}</p>
-    <p><strong>Phone:</strong> ${formData.phone}</p>
-    <p><strong>Subject:</strong> ${formData.subject}</p>
-    <h3>Message:</h3>
-    <p>${formData.message.replace(/\n/g, "<br>")}</p>
-  `;
+  const templateData = emailTemplates.getContactEmailTemplate(formData);
 
   return {
-    subject: `Contact Form: ${formData.subject}`,
-    text,
-    html,
+    subject: templateData.subject,
+    text: templateData.text,
+    html: templateData.html,
     replyTo: formData.email,
   };
 }
 
 /**
- * Formats appointment form data into an email
+ * Formats appointment form data into an email using enhanced template
  *
  * @param formData - The appointment form data
  * @returns The formatted email data
@@ -134,70 +121,35 @@ export function formatAppointmentEmail(formData: {
   meetingType: string;
   message?: string;
 }): EmailData {
-  const text = `
-    New Appointment Request
-
-    Name: ${formData.firstName} ${formData.lastName}
-    Email: ${formData.email}
-    Phone: ${formData.phone}
-    Service: ${formData.service}
-    Date: ${formData.date}
-    Time: ${formData.time}
-    Meeting Type: ${formData.meetingType}
-
-    Additional Information:
-    ${formData.message || "None provided"}
-  `;
-
-  const html = `
-    <h2>New Appointment Request</h2>
-    <p><strong>Name:</strong> ${formData.firstName} ${formData.lastName}</p>
-    <p><strong>Email:</strong> ${formData.email}</p>
-    <p><strong>Phone:</strong> ${formData.phone}</p>
-    <p><strong>Service:</strong> ${formData.service}</p>
-    <p><strong>Date:</strong> ${formData.date}</p>
-    <p><strong>Time:</strong> ${formData.time}</p>
-    <p><strong>Meeting Type:</strong> ${formData.meetingType}</p>
-    <h3>Additional Information:</h3>
-    <p>${formData.message ? formData.message.replace(/\n/g, "<br>") : "None provided"}</p>
-  `;
+  const templateData = emailTemplates.getAppointmentEmailTemplate(formData);
 
   return {
-    subject: `Appointment Request: ${formData.service}`,
-    text,
-    html,
+    subject: templateData.subject,
+    text: templateData.text,
+    html: templateData.html,
     replyTo: formData.email,
   };
 }
 
 /**
- * Formats newsletter subscription data into an email
+ * Formats newsletter subscription data into an email using enhanced template
  *
  * @param formData - The newsletter subscription data
  * @returns The formatted email data
  */
 export function formatNewsletterEmail(formData: { email: string }): EmailData {
-  const text = `
-    New Newsletter Subscription
-
-    Email: ${formData.email}
-  `;
-
-  const html = `
-    <h2>New Newsletter Subscription</h2>
-    <p><strong>Email:</strong> ${formData.email}</p>
-  `;
+  const templateData = emailTemplates.getNewsletterEmailTemplate(formData);
 
   return {
-    subject: "New Newsletter Subscription",
-    text,
-    html,
+    subject: templateData.subject,
+    text: templateData.text,
+    html: templateData.html,
     replyTo: formData.email,
   };
 }
 
 /**
- * Formats query form data into an email
+ * Formats query form data into an email using enhanced template
  * 
  * @param formData - The query form data
  * @returns The formatted email data
@@ -212,45 +164,18 @@ export function formatQueryEmail(formData: {
   query: string;
   files?: string[];
 }): EmailData {
-  const text = `
-    New Query Submission
-
-    Name: ${formData.fullName}
-    Email: ${formData.email}
-    Phone: ${formData.phone || 'Not provided'}
-    Category: ${formData.category}
-    Priority: ${formData.priority || 'Normal'}
-    Subject: ${formData.subject}
-
-    Query:
-    ${formData.query}
-
-    Files Attached: ${formData.files?.length ? 'Yes' : 'No'}
-  `;
-
-  const html = `
-    <h2>New Query Submission</h2>
-    <p><strong>Name:</strong> ${formData.fullName}</p>
-    <p><strong>Email:</strong> ${formData.email}</p>
-    <p><strong>Phone:</strong> ${formData.phone || 'Not provided'}</p>
-    <p><strong>Category:</strong> ${formData.category}</p>
-    <p><strong>Priority:</strong> ${formData.priority || 'Normal'}</p>
-    <p><strong>Subject:</strong> ${formData.subject}</p>
-    <h3>Query:</h3>
-    <p>${formData.query.replace(/\n/g, '<br>')}</p>
-    <p><strong>Files Attached:</strong> ${formData.files?.length ? 'Yes' : 'No'}</p>
-  `;
+  const templateData = emailTemplates.getQueryEmailTemplate(formData);
 
   return {
-    subject: `Query: ${formData.subject}`,
-    text,
-    html,
+    subject: templateData.subject,
+    text: templateData.text,
+    html: templateData.html,
     replyTo: formData.email,
   };
 }
 
 /**
- * Formats message form data into an email
+ * Formats message form data into an email using enhanced template
  * 
  * @param formData - The message form data
  * @returns The formatted email data
@@ -262,32 +187,12 @@ export function formatMessageEmail(formData: {
   subject: string;
   message: string;
 }): EmailData {
-  const text = `
-    New Message Submission
-
-    Name: ${formData.name}
-    Email: ${formData.email}
-    Phone: ${formData.phone || 'Not provided'}
-    Subject: ${formData.subject}
-
-    Message:
-    ${formData.message}
-  `;
-
-  const html = `
-    <h2>New Message Submission</h2>
-    <p><strong>Name:</strong> ${formData.name}</p>
-    <p><strong>Email:</strong> ${formData.email}</p>
-    <p><strong>Phone:</strong> ${formData.phone || 'Not provided'}</p>
-    <p><strong>Subject:</strong> ${formData.subject}</p>
-    <h3>Message:</h3>
-    <p>${formData.message.replace(/\n/g, '<br>')}</p>
-  `;
+  const templateData = emailTemplates.getMessageEmailTemplate(formData);
 
   return {
-    subject: `Message: ${formData.subject}`,
-    text,
-    html,
+    subject: templateData.subject,
+    text: templateData.text,
+    html: templateData.html,
     replyTo: formData.email,
   };
 }
