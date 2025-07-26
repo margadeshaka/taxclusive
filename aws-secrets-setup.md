@@ -5,6 +5,7 @@ This document outlines how to configure secrets and environment variables for th
 ## Overview
 
 The application uses a multi-layered approach for configuration management:
+
 1. **GitHub Secrets** - For CI/CD pipeline sensitive data
 2. **AWS Systems Manager (SSM) Parameter Store** - For runtime application configuration
 3. **Environment Variables** - For non-sensitive configuration
@@ -28,6 +29,7 @@ SSL_CERTIFICATE_ARN=arn:aws:acm:us-east-1:123456789012:certificate/...
 ### Environment-Specific Secrets
 
 #### Staging Environment
+
 Configure in GitHub Settings → Environments → staging:
 
 ```bash
@@ -49,6 +51,7 @@ CSRF_SECRET="staging-csrf-secret-random-string"
 ```
 
 #### Production Environment
+
 Configure in GitHub Settings → Environments → production:
 
 ```bash
@@ -254,35 +257,18 @@ The CDK stack automatically creates the necessary IAM roles, but ensure these pe
   "Statement": [
     {
       "Effect": "Allow",
-      "Action": [
-        "ses:SendEmail",
-        "ses:SendRawEmail",
-        "ses:GetSendQuota",
-        "ses:GetSendStatistics"
-      ],
+      "Action": ["ses:SendEmail", "ses:SendRawEmail", "ses:GetSendQuota", "ses:GetSendStatistics"],
       "Resource": "*"
     },
     {
       "Effect": "Allow",
-      "Action": [
-        "ssm:GetParameter",
-        "ssm:GetParameters",
-        "ssm:GetParametersByPath"
-      ],
-      "Resource": [
-        "arn:aws:ssm:*:*:parameter/taxclusive/*"
-      ]
+      "Action": ["ssm:GetParameter", "ssm:GetParameters", "ssm:GetParametersByPath"],
+      "Resource": ["arn:aws:ssm:*:*:parameter/taxclusive/*"]
     },
     {
       "Effect": "Allow",
-      "Action": [
-        "s3:GetObject",
-        "s3:ListBucket"
-      ],
-      "Resource": [
-        "arn:aws:s3:::taxclusive-assets-*",
-        "arn:aws:s3:::taxclusive-assets-*/*"
-      ]
+      "Action": ["s3:GetObject", "s3:ListBucket"],
+      "Resource": ["arn:aws:s3:::taxclusive-assets-*", "arn:aws:s3:::taxclusive-assets-*/*"]
     }
   ]
 }
@@ -342,6 +328,7 @@ node scripts/test-aws-ses.js
 ### Monitoring
 
 Monitor configuration usage through:
+
 - CloudWatch Logs for Lambda function
 - CloudWatch Metrics for SES usage
 - AWS Config for parameter changes

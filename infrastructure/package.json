@@ -5,7 +5,7 @@
   "main": "lib/taxclusive-cdk-stack.js",
   "scripts": {
     "build": "tsc",
-    "watch": "tsc -w", 
+    "watch": "tsc -w",
     "test": "jest",
     "cdk": "cdk",
     "deploy": "cdk deploy",

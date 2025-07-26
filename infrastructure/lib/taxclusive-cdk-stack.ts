@@ -1,18 +1,18 @@
-import * as cdk from 'aws-cdk-lib';
-import * as s3 from 'aws-cdk-lib/aws-s3';
-import * as cloudfront from 'aws-cdk-lib/aws-cloudfront';
-import * as origins from 'aws-cdk-lib/aws-cloudfront-origins';
-import * as lambda from 'aws-cdk-lib/aws-lambda';
-import * as lambdaNodejs from 'aws-cdk-lib/aws-lambda-nodejs';
-import * as iam from 'aws-cdk-lib/aws-iam';
-import * as logs from 'aws-cdk-lib/aws-logs';
-import * as ssm from 'aws-cdk-lib/aws-ssm';
-import * as route53 from 'aws-cdk-lib/aws-route53';
-import * as targets from 'aws-cdk-lib/aws-route53-targets';
-import * as certificatemanager from 'aws-cdk-lib/aws-certificatemanager';
-import * as s3deploy from 'aws-cdk-lib/aws-s3-deployment';
-import { Construct } from 'constructs';
-import * as path from 'path';
+import * as cdk from "aws-cdk-lib";
+import * as s3 from "aws-cdk-lib/aws-s3";
+import * as cloudfront from "aws-cdk-lib/aws-cloudfront";
+import * as origins from "aws-cdk-lib/aws-cloudfront-origins";
+import * as lambda from "aws-cdk-lib/aws-lambda";
+import * as lambdaNodejs from "aws-cdk-lib/aws-lambda-nodejs";
+import * as iam from "aws-cdk-lib/aws-iam";
+import * as logs from "aws-cdk-lib/aws-logs";
+import * as ssm from "aws-cdk-lib/aws-ssm";
+import * as route53 from "aws-cdk-lib/aws-route53";
+import * as targets from "aws-cdk-lib/aws-route53-targets";
+import * as certificatemanager from "aws-cdk-lib/aws-certificatemanager";
+import * as s3deploy from "aws-cdk-lib/aws-s3-deployment";
+import { Construct } from "constructs";
+import * as path from "path";
 
 export interface TaxclusiveCdkStackProps extends cdk.StackProps {
   environment: string;
@@ -33,28 +33,27 @@ export class TaxclusiveCdkStack extends cdk.Stack {
     super(scope, id, props);
 
     // S3 Bucket for static assets and deployment artifacts
-    this.s3Bucket = new s3.Bucket(this, 'StaticAssetsBucket', {
+    this.s3Bucket = new s3.Bucket(this, "StaticAssetsBucket", {
       bucketName: `taxclusive-assets-${props.environment}-${this.account}`,
-      removalPolicy: props.environment === 'production' 
-        ? cdk.RemovalPolicy.RETAIN 
-        : cdk.RemovalPolicy.DESTROY,
-      autoDeleteObjects: props.environment !== 'production',
+      removalPolicy:
+        props.environment === "production" ? cdk.RemovalPolicy.RETAIN : cdk.RemovalPolicy.DESTROY,
+      autoDeleteObjects: props.environment !== "production",
       versioned: true,
       cors: [
         {
           allowedMethods: [s3.HttpMethods.GET, s3.HttpMethods.HEAD],
-          allowedOrigins: ['*'],
-          allowedHeaders: ['*'],
+          allowedOrigins: ["*"],
+          allowedHeaders: ["*"],
           maxAge: 3600,
         },
       ],
       lifecycleRules: [
         {
-          id: 'DeleteIncompleteMultipartUploads',
+          id: "DeleteIncompleteMultipartUploads",
           abortIncompleteMultipartUploadAfter: cdk.Duration.days(1),
         },
         {
-          id: 'TransitionToIA',
+          id: "TransitionToIA",
           transitions: [
             {
               storageClass: s3.StorageClass.INFREQUENT_ACCESS,
@@ -66,22 +65,19 @@ export class TaxclusiveCdkStack extends cdk.Stack {
     });
 
     // IAM Role for Lambda function
-    const lambdaRole = new iam.Role(this, 'NextjsLambdaRole', {
-      assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
+    const lambdaRole = new iam.Role(this, "NextjsLambdaRole", {
+      assumedBy: new iam.ServicePrincipal("lambda.amazonaws.com"),
       managedPolicies: [
-        iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole'),
-        iam.ManagedPolicy.fromAwsManagedPolicyName('AWSXRayDaemonWriteAccess'),
+        iam.ManagedPolicy.fromAwsManagedPolicyName("service-role/AWSLambdaBasicExecutionRole"),
+        iam.ManagedPolicy.fromAwsManagedPolicyName("AWSXRayDaemonWriteAccess"),
       ],
       inlinePolicies: {
         S3Access: new iam.PolicyDocument({
           statements: [
             new iam.PolicyStatement({
               effect: iam.Effect.ALLOW,
-              actions: ['s3:GetObject', 's3:ListBucket'],
-              resources: [
-                this.s3Bucket.bucketArn,
-                `${this.s3Bucket.bucketArn}/*`,
-              ],
+              actions: ["s3:GetObject", "s3:ListBucket"],
+              resources: [this.s3Bucket.bucketArn, `${this.s3Bucket.bucketArn}/*`],
             }),
           ],
         }),
@@ -90,12 +86,12 @@ export class TaxclusiveCdkStack extends cdk.Stack {
             new iam.PolicyStatement({
               effect: iam.Effect.ALLOW,
               actions: [
-                'ses:SendEmail',
-                'ses:SendRawEmail',
-                'ses:GetSendQuota',
-                'ses:GetSendStatistics',
+                "ses:SendEmail",
+                "ses:SendRawEmail",
+                "ses:GetSendQuota",
+                "ses:GetSendStatistics",
               ],
-              resources: ['*'],
+              resources: ["*"],
             }),
           ],
         }),
@@ -103,11 +99,7 @@ export class TaxclusiveCdkStack extends cdk.Stack {
           statements: [
             new iam.PolicyStatement({
               effect: iam.Effect.ALLOW,
-              actions: [
-                'ssm:GetParameter',
-                'ssm:GetParameters',
-                'ssm:GetParametersByPath',
-              ],
+              actions: ["ssm:GetParameter", "ssm:GetParameters", "ssm:GetParametersByPath"],
               resources: [
                 `arn:aws:ssm:${this.region}:${this.account}:parameter/taxclusive/${props.environment}/*`,
               ],
@@ -118,21 +110,21 @@ export class TaxclusiveCdkStack extends cdk.Stack {
     });
 
     // Lambda function for Next.js SSR
-    this.nextjsLambda = new lambdaNodejs.NodejsFunction(this, 'NextjsLambda', {
+    this.nextjsLambda = new lambdaNodejs.NodejsFunction(this, "NextjsLambda", {
       runtime: lambda.Runtime.NODEJS_18_X,
-      handler: 'handler',
-      entry: path.join(__dirname, '../lambda/nextjs-handler.ts'),
+      handler: "handler",
+      entry: path.join(__dirname, "../lambda/nextjs-handler.ts"),
       timeout: cdk.Duration.seconds(30),
       memorySize: 1024,
       role: lambdaRole,
       environment: {
-        NODE_ENV: 'production',
+        NODE_ENV: "production",
         ENVIRONMENT: props.environment,
         S3_BUCKET: this.s3Bucket.bucketName,
         REGION: this.region,
       },
       bundling: {
-        externalModules: ['aws-sdk'],
+        externalModules: ["aws-sdk"],
         minify: true,
         sourceMap: true,
       },
@@ -146,17 +138,17 @@ export class TaxclusiveCdkStack extends cdk.Stack {
       authType: lambda.FunctionUrlAuthType.NONE,
       cors: {
         allowCredentials: true,
-        allowedHeaders: ['*'],
+        allowedHeaders: ["*"],
         allowedMethods: [lambda.HttpMethod.ALL],
-        allowedOrigins: ['*'],
+        allowedOrigins: ["*"],
         maxAge: cdk.Duration.days(1),
       },
     });
 
     // Lambda@Edge function for request/response manipulation
-    const edgeFunction = new lambda.Function(this, 'EdgeFunction', {
+    const edgeFunction = new lambda.Function(this, "EdgeFunction", {
       runtime: lambda.Runtime.NODEJS_18_X,
-      handler: 'index.handler',
+      handler: "index.handler",
       code: lambda.Code.fromInline(`
         exports.handler = async (event) => {
           const request = event.Records[0].cf.request;
@@ -199,41 +191,48 @@ export class TaxclusiveCdkStack extends cdk.Stack {
     });
 
     // CloudFront Origin Request Policy
-    const originRequestPolicy = new cloudfront.OriginRequestPolicy(this, 'OriginRequestPolicy', {
+    const originRequestPolicy = new cloudfront.OriginRequestPolicy(this, "OriginRequestPolicy", {
       originRequestPolicyName: `taxclusive-origin-request-${props.environment}`,
-      comment: 'Origin request policy for Next.js SSR',
+      comment: "Origin request policy for Next.js SSR",
       cookieBehavior: cloudfront.OriginRequestCookieBehavior.all(),
       headerBehavior: cloudfront.OriginRequestHeaderBehavior.allowList(
-        'Accept',
-        'Accept-Language',
-        'Accept-Encoding',
-        'Host',
-        'User-Agent',
-        'Referer',
-        'X-Forwarded-For',
-        'CloudFront-Viewer-Country',
-        'CloudFront-Is-Mobile-Viewer',
-        'CloudFront-Is-Tablet-Viewer',
-        'CloudFront-Is-Desktop-Viewer'
+        "Accept",
+        "Accept-Language",
+        "Accept-Encoding",
+        "Host",
+        "User-Agent",
+        "Referer",
+        "X-Forwarded-For",
+        "CloudFront-Viewer-Country",
+        "CloudFront-Is-Mobile-Viewer",
+        "CloudFront-Is-Tablet-Viewer",
+        "CloudFront-Is-Desktop-Viewer"
       ),
       queryStringBehavior: cloudfront.OriginRequestQueryStringBehavior.all(),
     });
 
     // CloudFront Cache Policy
-    const cachePolicy = new cloudfront.CachePolicy(this, 'CachePolicy', {
+    const cachePolicy = new cloudfront.CachePolicy(this, "CachePolicy", {
       cachePolicyName: `taxclusive-cache-${props.environment}`,
-      comment: 'Cache policy for Next.js SSR',
+      comment: "Cache policy for Next.js SSR",
       defaultTtl: cdk.Duration.days(1),
       maxTtl: cdk.Duration.days(365),
       minTtl: cdk.Duration.seconds(0),
-      cookieBehavior: cloudfront.CacheCookieBehavior.allowList('__prerender_bypass', '__next_preview_data'),
-      headerBehavior: cloudfront.CacheHeaderBehavior.allowList(
-        'Accept',
-        'Accept-Language',
-        'Authorization',
-        'CloudFront-Viewer-Country'
+      cookieBehavior: cloudfront.CacheCookieBehavior.allowList(
+        "__prerender_bypass",
+        "__next_preview_data"
       ),
-      queryStringBehavior: cloudfront.CacheQueryStringBehavior.allowList('utm_source', 'utm_medium', 'utm_campaign'),
+      headerBehavior: cloudfront.CacheHeaderBehavior.allowList(
+        "Accept",
+        "Accept-Language",
+        "Authorization",
+        "CloudFront-Viewer-Country"
+      ),
+      queryStringBehavior: cloudfront.CacheQueryStringBehavior.allowList(
+        "utm_source",
+        "utm_medium",
+        "utm_campaign"
+      ),
       enableAcceptEncodingGzip: true,
       enableAcceptEncodingBrotli: true,
     });
@@ -243,13 +242,13 @@ export class TaxclusiveCdkStack extends cdk.Stack {
     if (props.certificateArn) {
       certificate = certificatemanager.Certificate.fromCertificateArn(
         this,
-        'SSLCertificate',
+        "SSLCertificate",
         props.certificateArn
       );
     }
 
     // CloudFront Distribution
-    this.cloudFrontDistribution = new cloudfront.Distribution(this, 'CloudFrontDistribution', {
+    this.cloudFrontDistribution = new cloudfront.Distribution(this, "CloudFrontDistribution", {
       defaultBehavior: {
         origin: new origins.FunctionUrlOrigin(lambdaUrl),
         viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
@@ -267,47 +266,47 @@ export class TaxclusiveCdkStack extends cdk.Stack {
       },
       additionalBehaviors: {
         // Static assets from S3
-        '/_next/static/*': {
+        "/_next/static/*": {
           origin: new origins.S3Origin(this.s3Bucket, {
-            originPath: '/current/_next/static',
+            originPath: "/current/_next/static",
           }),
           viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
           cachePolicy: cloudfront.CachePolicy.CACHING_OPTIMIZED,
           compress: true,
         },
-        '/static/*': {
+        "/static/*": {
           origin: new origins.S3Origin(this.s3Bucket, {
-            originPath: '/current/static',
+            originPath: "/current/static",
           }),
           viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
           cachePolicy: cloudfront.CachePolicy.CACHING_OPTIMIZED,
           compress: true,
         },
         // Public assets
-        '/favicon.ico': {
+        "/favicon.ico": {
           origin: new origins.S3Origin(this.s3Bucket, {
-            originPath: '/current/public',
+            originPath: "/current/public",
           }),
           viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
           cachePolicy: cloudfront.CachePolicy.CACHING_OPTIMIZED,
         },
-        '/*.png': {
+        "/*.png": {
           origin: new origins.S3Origin(this.s3Bucket, {
-            originPath: '/current/public',
+            originPath: "/current/public",
           }),
           viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
           cachePolicy: cloudfront.CachePolicy.CACHING_OPTIMIZED,
         },
-        '/*.jpg': {
+        "/*.jpg": {
           origin: new origins.S3Origin(this.s3Bucket, {
-            originPath: '/current/public',
+            originPath: "/current/public",
           }),
           viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
           cachePolicy: cloudfront.CachePolicy.CACHING_OPTIMIZED,
         },
-        '/*.svg': {
+        "/*.svg": {
           origin: new origins.S3Origin(this.s3Bucket, {
-            originPath: '/current/public',
+            originPath: "/current/public",
           }),
           viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
           cachePolicy: cloudfront.CachePolicy.CACHING_OPTIMIZED,
@@ -318,18 +317,18 @@ export class TaxclusiveCdkStack extends cdk.Stack {
       priceClass: cloudfront.PriceClass.PRICE_CLASS_100,
       enabled: true,
       comment: `Taxclusive Next.js distribution - ${props.environment}`,
-      defaultRootObject: '',
+      defaultRootObject: "",
       errorResponses: [
         {
           httpStatus: 404,
           responseHttpStatus: 404,
-          responsePagePath: '/404',
+          responsePagePath: "/404",
           ttl: cdk.Duration.minutes(5),
         },
         {
           httpStatus: 500,
           responseHttpStatus: 500,
-          responsePagePath: '/500',
+          responsePagePath: "/500",
           ttl: cdk.Duration.minutes(1),
         },
       ],
@@ -339,13 +338,13 @@ export class TaxclusiveCdkStack extends cdk.Stack {
 
     // Route53 DNS (if domain is provided)
     if (certificate && props.domainName) {
-      const hostedZone = route53.HostedZone.fromLookup(this, 'HostedZone', {
-        domainName: props.domainName.includes('.') 
-          ? props.domainName.split('.').slice(-2).join('.') 
+      const hostedZone = route53.HostedZone.fromLookup(this, "HostedZone", {
+        domainName: props.domainName.includes(".")
+          ? props.domainName.split(".").slice(-2).join(".")
           : props.domainName,
       });
 
-      new route53.ARecord(this, 'AliasRecord', {
+      new route53.ARecord(this, "AliasRecord", {
         zone: hostedZone,
         recordName: props.domainName,
         target: route53.RecordTarget.fromAlias(
@@ -353,7 +352,7 @@ export class TaxclusiveCdkStack extends cdk.Stack {
         ),
       });
 
-      new route53.AaaaRecord(this, 'AliasRecordIPv6', {
+      new route53.AaaaRecord(this, "AliasRecordIPv6", {
         zone: hostedZone,
         recordName: props.domainName,
         target: route53.RecordTarget.fromAlias(
@@ -363,55 +362,55 @@ export class TaxclusiveCdkStack extends cdk.Stack {
     }
 
     // SSM Parameters for application configuration
-    new ssm.StringParameter(this, 'CloudFrontDistributionId', {
+    new ssm.StringParameter(this, "CloudFrontDistributionId", {
       parameterName: `/taxclusive/${props.environment}/cloudfront/distribution-id`,
       stringValue: this.cloudFrontDistribution.distributionId,
-      description: 'CloudFront distribution ID',
+      description: "CloudFront distribution ID",
     });
 
-    new ssm.StringParameter(this, 'CloudFrontDomainName', {
+    new ssm.StringParameter(this, "CloudFrontDomainName", {
       parameterName: `/taxclusive/${props.environment}/cloudfront/domain-name`,
       stringValue: this.cloudFrontDistribution.distributionDomainName,
-      description: 'CloudFront distribution domain name',
+      description: "CloudFront distribution domain name",
     });
 
-    new ssm.StringParameter(this, 'S3BucketName', {
+    new ssm.StringParameter(this, "S3BucketName", {
       parameterName: `/taxclusive/${props.environment}/s3/bucket-name`,
       stringValue: this.s3Bucket.bucketName,
-      description: 'S3 bucket name for static assets',
+      description: "S3 bucket name for static assets",
     });
 
-    new ssm.StringParameter(this, 'LambdaFunctionName', {
+    new ssm.StringParameter(this, "LambdaFunctionName", {
       parameterName: `/taxclusive/${props.environment}/lambda/function-name`,
       stringValue: this.nextjsLambda.functionName,
-      description: 'Lambda function name for Next.js SSR',
+      description: "Lambda function name for Next.js SSR",
     });
 
     // Outputs
-    new cdk.CfnOutput(this, 'CloudFrontDistributionId', {
+    new cdk.CfnOutput(this, "CloudFrontDistributionId", {
       value: this.cloudFrontDistribution.distributionId,
-      description: 'CloudFront Distribution ID',
+      description: "CloudFront Distribution ID",
     });
 
-    new cdk.CfnOutput(this, 'CloudFrontDistributionDomainName', {
+    new cdk.CfnOutput(this, "CloudFrontDistributionDomainName", {
       value: this.cloudFrontDistribution.distributionDomainName,
-      description: 'CloudFront Distribution Domain Name',
+      description: "CloudFront Distribution Domain Name",
     });
 
-    new cdk.CfnOutput(this, 'S3BucketName', {
+    new cdk.CfnOutput(this, "S3BucketName", {
       value: this.s3Bucket.bucketName,
-      description: 'S3 Bucket Name',
+      description: "S3 Bucket Name",
     });
 
-    new cdk.CfnOutput(this, 'LambdaFunctionUrl', {
+    new cdk.CfnOutput(this, "LambdaFunctionUrl", {
       value: lambdaUrl.url,
-      description: 'Lambda Function URL',
+      description: "Lambda Function URL",
     });
 
     if (certificate && props.domainName) {
-      new cdk.CfnOutput(this, 'WebsiteUrl', {
+      new cdk.CfnOutput(this, "WebsiteUrl", {
         value: `https://${props.domainName}`,
-        description: 'Website URL',
+        description: "Website URL",
       });
     }
   }

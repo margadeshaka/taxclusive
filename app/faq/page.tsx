@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { Search } from "lucide-react";
 import Link from "next/link";
@@ -7,8 +7,6 @@ import Script from "next/script";
 import Footer from "@/components/footer";
 import Header from "@/components/header";
 import { generateStructuredData } from "@/lib/metadata";
-
-
 
 export default function FAQPage() {
   return (
@@ -225,8 +223,8 @@ export default function FAQPage() {
                         </ul>
                         <p className="mt-2">
                           We believe in transparent pricing and will discuss all fees upfront before
-                          beginning any work. During your initial consultation, we&apos;ll assess your
-                          specific needs and provide a clear fee estimate.
+                          beginning any work. During your initial consultation, we&apos;ll assess
+                          your specific needs and provide a clear fee estimate.
                         </p>
                       </div>
                     </details>
@@ -300,9 +298,9 @@ export default function FAQPage() {
                       <div className="mt-4 text-muted-foreground">
                         <p>
                           We recommend quarterly tax planning meetings for most businesses to ensure
-                          you&apos;re taking advantage of all available tax strategies and to adjust your
-                          plan as needed throughout the year. For individuals with complex financial
-                          situations, we typically suggest semi-annual meetings.
+                          you&apos;re taking advantage of all available tax strategies and to adjust
+                          your plan as needed throughout the year. For individuals with complex
+                          financial situations, we typically suggest semi-annual meetings.
                         </p>
                         <p className="mt-2">
                           However, the frequency can vary based on your specific situation, business
@@ -360,8 +358,8 @@ export default function FAQPage() {
                           <li>Business loan documents</li>
                         </ul>
                         <p className="mt-2">
-                          We&apos;ll provide you with a detailed checklist specific to your situation
-                          before your appointment.
+                          We&apos;ll provide you with a detailed checklist specific to your
+                          situation before your appointment.
                         </p>
                       </div>
                     </details>
@@ -649,8 +647,8 @@ export default function FAQPage() {
                     Still have questions?
                   </h2>
                   <p className="text-muted-foreground">
-                    If you couldn&apos;t find the answer you were looking for, please feel free to reach
-                    out to us directly.
+                    If you couldn&apos;t find the answer you were looking for, please feel free to
+                    reach out to us directly.
                   </p>
                   <div className="flex flex-col sm:flex-row gap-4 justify-center mt-4">
                     <Link

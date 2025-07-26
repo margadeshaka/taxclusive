@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { sendEmail, formatNewsletterEmail } from '@/lib/email';
+import { NextRequest, NextResponse } from "next/server";
+import { sendEmail, formatNewsletterEmail } from "@/lib/email";
 
 export async function POST(req: NextRequest) {
   try {
@@ -10,10 +10,10 @@ export async function POST(req: NextRequest) {
     // Validate required fields
     if (!email) {
       return NextResponse.json(
-        { 
-          success: false, 
-          message: 'Please provide your email address.',
-          errors: { email: 'Email is required' }
+        {
+          success: false,
+          message: "Please provide your email address.",
+          errors: { email: "Email is required" },
         },
         { status: 400 }
       );
@@ -23,10 +23,10 @@ export async function POST(req: NextRequest) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       return NextResponse.json(
-        { 
-          success: false, 
-          message: 'Please provide a valid email address.',
-          errors: { email: 'Invalid email format' }
+        {
+          success: false,
+          message: "Please provide a valid email address.",
+          errors: { email: "Invalid email format" },
         },
         { status: 400 }
       );
@@ -38,18 +38,18 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      message: 'Thank you for subscribing to our newsletter! You will receive updates about tax regulations and financial insights.',
-      data: { email }
+      message:
+        "Thank you for subscribing to our newsletter! You will receive updates about tax regulations and financial insights.",
+      data: { email },
     });
-
   } catch (error) {
-    console.error('Error submitting newsletter form:', error);
-    
+    console.error("Error submitting newsletter form:", error);
+
     return NextResponse.json(
       {
         success: false,
-        message: 'Failed to subscribe to newsletter. Please try again later.',
-        errors: { server: 'Internal server error' }
+        message: "Failed to subscribe to newsletter. Please try again later.",
+        errors: { server: "Internal server error" },
       },
       { status: 500 }
     );
@@ -61,9 +61,9 @@ export async function OPTIONS() {
   return new NextResponse(null, {
     status: 200,
     headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'POST, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type',
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "POST, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type",
     },
   });
 }

@@ -109,7 +109,11 @@ export type ApiError = Error | Response | { status?: number; message?: string };
 /**
  * Type for error interceptor function
  */
-export type ErrorInterceptor = (error: ApiError, url: string, options: RequestOptions) => ApiError | Promise<ApiError>;
+export type ErrorInterceptor = (
+  error: ApiError,
+  url: string,
+  options: RequestOptions
+) => ApiError | Promise<ApiError>;
 
 /**
  * Options for API requests

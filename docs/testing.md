@@ -48,13 +48,11 @@ This will create a coverage report in the `coverage` directory, which you can vi
 When testing React components, follow these guidelines:
 
 1. **Focus on behavior, not implementation details**:
-
    - Test what the component does, not how it's implemented
    - Avoid testing component state directly
    - Use user-centric queries (getByRole, getByText) instead of test IDs when possible
 
 2. **Test from the user's perspective**:
-
    - Test interactions as a user would perform them
    - Use `fireEvent` or `userEvent` to simulate user interactions
 
@@ -107,12 +105,10 @@ pnpm test -- -u
 When testing API calls and utility functions:
 
 1. **Mock external dependencies**:
-
    - Mock fetch or axios for API calls
    - Provide mock implementations that return predictable data
 
 2. **Test success and error cases**:
-
    - Test both successful responses and error handling
    - Verify that errors are properly caught and handled
 
@@ -192,23 +188,19 @@ render(<MyComponent />, { wrapper });
 ## Best Practices
 
 1. **Keep tests simple and focused**:
-
    - Each test should verify one specific behavior
    - Avoid testing multiple behaviors in a single test
 
 2. **Use descriptive test names**:
-
    - Test names should describe what is being tested
    - Use the pattern "it should..." or "it does..." for test names
 
 3. **Arrange, Act, Assert**:
-
    - Arrange: Set up the test environment
    - Act: Perform the action being tested
    - Assert: Verify the expected outcome
 
 4. **Clean up after tests**:
-
    - Reset mocks and clean up side effects in beforeEach/afterEach
    - Ensure tests don't affect each other
 

@@ -17,9 +17,10 @@ export default function HeroSection() {
                 <strong>Insightful</strong> partner in finance, your <strong>Trusted</strong>{" "}
                 advisor in tax, and your <strong>Innovative</strong> guide in business strategy.
                 Backed by deep industry expertise and a client-first approach, we specialize in
-                delivering smart, customized solutions that drive clarity and growth. Whether you&apos;re
-                an individual or a business, we&apos;re here to simplify complexity and support your
-                success—because we believe in <em>Mastering taxes, delivering excellence</em>.
+                delivering smart, customized solutions that drive clarity and growth. Whether
+                you&apos;re an individual or a business, we&apos;re here to simplify complexity and
+                support your success—because we believe in{" "}
+                <em>Mastering taxes, delivering excellence</em>.
               </p>
             </div>
             <div className="flex flex-col gap-2 min-[400px]:flex-row">

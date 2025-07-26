@@ -46,12 +46,14 @@ gh secret set EMAIL_RECIPIENT_ADDRESS --body "contact@taxclusive.com" --repo mar
 ## Step 3: Initial Infrastructure Setup
 
 1. **Start Docker** (required for Lambda bundling):
+
    ```bash
    open -a Docker
    # Wait for Docker to fully start
    ```
 
 2. **Run setup script**:
+
    ```bash
    ./scripts/aws/setup-aws-deployment.sh staging us-east-1
    ```
@@ -66,6 +68,7 @@ gh secret set EMAIL_RECIPIENT_ADDRESS --body "contact@taxclusive.com" --repo mar
 ## Step 4: Deploy via GitHub Actions
 
 1. **Commit deployment files**:
+
    ```bash
    git add .
    git commit -m "Add AWS deployment configuration"
@@ -80,6 +83,7 @@ gh secret set EMAIL_RECIPIENT_ADDRESS --body "contact@taxclusive.com" --repo mar
 ## Step 5: Verify Deployment
 
 1. **Check CloudFront URL**:
+
    ```bash
    aws cloudfront list-distributions --query "DistributionList.Items[?Comment=='Taxclusive staging'].DomainName" --output text
    ```
@@ -92,26 +96,31 @@ gh secret set EMAIL_RECIPIENT_ADDRESS --body "contact@taxclusive.com" --repo mar
 ## Common Commands
 
 ### Deploy to staging
+
 ```bash
 git push origin develop
 ```
 
 ### Deploy to production
+
 ```bash
 git push origin main
 ```
 
 ### Check deployment status
+
 ```bash
 aws cloudformation describe-stacks --stack-name taxclusive-staging --query "Stacks[0].StackStatus"
 ```
 
 ### View logs
+
 ```bash
 aws logs tail /aws/lambda/taxclusive-nextjs-staging --follow
 ```
 
 ### Update environment variables
+
 ```bash
 ./scripts/aws/setup-ssm-parameters.sh staging
 ```
@@ -119,6 +128,7 @@ aws logs tail /aws/lambda/taxclusive-nextjs-staging --follow
 ## Troubleshooting
 
 ### Docker not running
+
 ```bash
 # macOS
 open -a Docker
@@ -128,11 +138,13 @@ sudo systemctl start docker
 ```
 
 ### Deployment fails
+
 1. Check GitHub Actions logs
 2. Verify all secrets are set correctly
 3. Ensure AWS credentials have sufficient permissions
 
 ### SSL Certificate issues
+
 1. Verify domain ownership in Route53
 2. Wait for ACM certificate validation (can take 30 minutes)
 3. Check certificate status:
@@ -141,6 +153,7 @@ sudo systemctl start docker
    ```
 
 ### Application errors
+
 1. Check Lambda logs in CloudWatch
 2. Verify environment variables in SSM Parameter Store
 3. Test API endpoints directly
@@ -148,6 +161,7 @@ sudo systemctl start docker
 ## Next Steps
 
 1. **Set up custom domain** (if not done):
+
    ```bash
    ./scripts/aws/setup-aws-deployment.sh staging us-east-1 yourdomain.com
    ```

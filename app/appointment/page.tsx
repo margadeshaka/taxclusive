@@ -1,36 +1,34 @@
-'use client';
+"use client";
 import { useState } from "react";
 
 import Footer from "@/components/footer";
 import Header from "@/components/header";
 import { emailService } from "@/lib/email-client";
 
-
-
 export default function AppointmentPage() {
   const [formStatus, setFormStatus] = useState({
     submitted: false,
     success: false,
-    message: '',
+    message: "",
   });
 
   async function handleSubmit(formData: FormData) {
     try {
-      const fullName = formData.get('full-name') as string;
-      const nameParts = fullName.split(' ');
+      const fullName = formData.get("full-name") as string;
+      const nameParts = fullName.split(" ");
       const firstName = nameParts[0];
-      const lastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : '';
+      const lastName = nameParts.length > 1 ? nameParts.slice(1).join(" ") : "";
 
       const data = {
         firstName,
         lastName,
-        email: formData.get('email') as string,
-        phone: formData.get('phone') as string,
-        service: formData.get('service') as string,
-        date: formData.get('preferred-date') as string,
-        time: formData.get('preferred-time') as string,
-        meetingType: formData.get('meeting-type') as string,
-        message: formData.get('message') as string,
+        email: formData.get("email") as string,
+        phone: formData.get("phone") as string,
+        service: formData.get("service") as string,
+        date: formData.get("preferred-date") as string,
+        time: formData.get("preferred-time") as string,
+        meetingType: formData.get("meeting-type") as string,
+        message: formData.get("message") as string,
       };
 
       const result = await emailService.submitAppointmentForm(data);
@@ -43,7 +41,7 @@ export default function AppointmentPage() {
       setFormStatus({
         submitted: true,
         success: false,
-        message: 'An unexpected error occurred. Please try again later.',
+        message: "An unexpected error occurred. Please try again later.",
       });
     }
   }
@@ -70,7 +68,9 @@ export default function AppointmentPage() {
               <h3 className="text-xl font-bold mb-6">Book Your Appointment</h3>
 
               {formStatus.submitted && (
-                <div className={`p-4 mb-6 rounded-md ${formStatus.success ? 'bg-green-50 border border-green-200 text-green-800' : 'bg-red-50 border border-red-200 text-red-800'}`}>
+                <div
+                  className={`p-4 mb-6 rounded-md ${formStatus.success ? "bg-green-50 border border-green-200 text-green-800" : "bg-red-50 border border-red-200 text-red-800"}`}
+                >
                   <p className="text-sm font-medium">{formStatus.message}</p>
                 </div>
               )}
@@ -259,9 +259,9 @@ export default function AppointmentPage() {
               <div className="space-y-2 p-6 border border-border rounded-lg hover:border-primary/30 transition-colors">
                 <h3 className="text-xl font-bold">What should I bring to my appointment?</h3>
                 <p className="text-muted-foreground">
-                  After booking, we&apos;ll send you a detailed email with specific documents to bring
-                  based on your needs. Generally, recent financial statements, tax returns, and any
-                  specific financial concerns are helpful.
+                  After booking, we&apos;ll send you a detailed email with specific documents to
+                  bring based on your needs. Generally, recent financial statements, tax returns,
+                  and any specific financial concerns are helpful.
                 </p>
               </div>
               <div className="space-y-2 p-6 border border-border rounded-lg hover:border-primary/30 transition-colors">

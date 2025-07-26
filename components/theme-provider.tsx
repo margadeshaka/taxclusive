@@ -1,6 +1,9 @@
 "use client";
 
-import { ThemeProvider as NextThemesProvider, type ThemeProviderProps as NextThemeProviderProps } from "next-themes";
+import {
+  ThemeProvider as NextThemesProvider,
+  type ThemeProviderProps as NextThemeProviderProps,
+} from "next-themes";
 import type * as React from "react";
 
 interface ThemeProviderProps extends NextThemeProviderProps {

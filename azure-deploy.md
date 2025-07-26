@@ -1,6 +1,7 @@
 # Azure App Service Deployment Guide for TaxExclusive
 
 ## Prerequisites
+
 - Azure CLI installed locally
 - Azure subscription with appropriate permissions
 - Resource group "taxclusive" already created
@@ -8,12 +9,14 @@
 ## Deployment Steps
 
 ### 1. Install Dependencies and Build
+
 ```bash
 pnpm install
 pnpm run build
 ```
 
 ### 2. Create Azure App Service
+
 ```bash
 # Create App Service Plan (Linux)
 az appservice plan create \
@@ -31,6 +34,7 @@ az webapp create \
 ```
 
 ### 3. Configure Application Settings
+
 ```bash
 # Set Node.js version
 az webapp config appsettings set \
@@ -57,6 +61,7 @@ az webapp config set \
 ```
 
 ### 4. Deploy Using Git
+
 ```bash
 # Configure deployment credentials
 az webapp deployment user set \
@@ -76,6 +81,7 @@ git push azure main
 ```
 
 ### 5. Alternative: Deploy Using ZIP
+
 ```bash
 # Create deployment package
 zip -r deploy.zip . -x "node_modules/*" ".git/*" ".next/*" "*.log"
@@ -90,6 +96,7 @@ az webapp deployment source config-zip \
 ## Post-Deployment Configuration
 
 ### Enable Application Insights
+
 ```bash
 az monitor app-insights component create \
   --app taxexclusive-insights \
@@ -104,6 +111,7 @@ az webapp config appsettings set \
 ```
 
 ### Configure Custom Domain (Optional)
+
 ```bash
 # Add custom domain
 az webapp config hostname add \
@@ -120,6 +128,7 @@ az webapp config ssl upload \
 ```
 
 ### Enable Auto-Scaling (Optional)
+
 ```bash
 # Enable autoscale
 az monitor autoscale create \
@@ -142,6 +151,7 @@ az monitor autoscale rule create \
 ## Monitoring and Logs
 
 ### View Application Logs
+
 ```bash
 # Enable logging
 az webapp log config \
@@ -157,6 +167,7 @@ az webapp log tail \
 ```
 
 ### Access Kudu Console
+
 Visit: `https://taxexclusive-app.scm.azurewebsites.net`
 
 ## Troubleshooting
@@ -186,41 +197,42 @@ name: Deploy to Azure Web App
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   workflow_dispatch:
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    
+
     steps:
-    - uses: actions/checkout@v3
-    
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '20.x'
-        
-    - name: Install pnpm
-      uses: pnpm/action-setup@v2
-      with:
-        version: 8
-        
-    - name: Install dependencies
-      run: pnpm install
-      
-    - name: Build
-      run: pnpm run build
-      
-    - name: Deploy to Azure
-      uses: azure/webapps-deploy@v2
-      with:
-        app-name: 'taxexclusive-app'
-        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-        package: .
+      - uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20.x"
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build
+        run: pnpm run build
+
+      - name: Deploy to Azure
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: "taxexclusive-app"
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          package: .
 ```
 
 Get publish profile:
+
 ```bash
 az webapp deployment list-publishing-profiles \
   --name taxexclusive-app \

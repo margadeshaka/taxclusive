@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -8,18 +8,17 @@ import Footer from "@/components/footer";
 import Header from "@/components/header";
 import { emailService } from "@/lib/email-client";
 
-
 export default function InsightsPage() {
   const [formStatus, setFormStatus] = useState({
     submitted: false,
     success: false,
-    message: '',
+    message: "",
   });
 
   async function handleSubmit(formData: FormData) {
     try {
       const data = {
-        email: formData.get('email') as string,
+        email: formData.get("email") as string,
       };
 
       const result = await emailService.submitNewsletterForm(data);
@@ -32,7 +31,7 @@ export default function InsightsPage() {
       setFormStatus({
         submitted: true,
         success: false,
-        message: 'An unexpected error occurred. Please try again later.',
+        message: "An unexpected error occurred. Please try again later.",
       });
     }
   }
@@ -389,7 +388,9 @@ export default function InsightsPage() {
                     </p>
 
                     {formStatus.submitted && (
-                      <div className={`p-4 mb-6 rounded-md ${formStatus.success ? 'bg-green-50 border border-green-200 text-green-800' : 'bg-red-50 border border-red-200 text-red-800'}`}>
+                      <div
+                        className={`p-4 mb-6 rounded-md ${formStatus.success ? "bg-green-50 border border-green-200 text-green-800" : "bg-red-50 border border-red-200 text-red-800"}`}
+                      >
                         <p className="text-sm font-medium">{formStatus.message}</p>
                       </div>
                     )}

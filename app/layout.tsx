@@ -7,7 +7,10 @@ import ContactButtons from "@/components/contact-buttons";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
 import { clientConfig } from "@/lib/config/client-config";
-import { generateLocalBusinessStructuredData, generateLocalFAQStructuredData } from "@/lib/local-seo";
+import {
+  generateLocalBusinessStructuredData,
+  generateLocalFAQStructuredData,
+} from "@/lib/local-seo";
 import { generateMetadata as generateSiteMetadata } from "@/lib/metadata";
 
 // Load fonts with explicit weights (Next.js requirement)
@@ -46,54 +49,62 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="manifest" href="/site.webmanifest" />
       </head>
       <body className={`${playfair.variable} ${poppins.variable} font-sans`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
-        >
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
           {children}
           <ContactButtons />
           <Toaster />
         </ThemeProvider>
         {/* Enhanced Local Business Structured Data */}
-        <Script id="local-business-schema" type="application/ld+json" dangerouslySetInnerHTML={{
-          __html: generateLocalBusinessStructuredData()
-        }} />
-        
+        <Script
+          id="local-business-schema"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: generateLocalBusinessStructuredData(),
+          }}
+        />
+
         {/* Website structured data with local search */}
-        <Script id="website-schema" type="application/ld+json" dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "WebSite",
-            name: "Taxclusive - Expert Chartered Accountants Delhi NCR",
-            alternateName: ["Taxclusive CA Services", "Best CA in Gurugram"],
-            url: "https://www.taxclusive.com",
-            description: "Leading Chartered Accountancy firm providing expert CA services across Delhi NCR - Gurugram, Delhi, Noida, Ghaziabad, Faridabad",
-            inLanguage: "en-IN",
-            potentialAction: [
-              {
-                "@type": "SearchAction",
-                target: "https://www.taxclusive.com/search?q={search_term_string}",
-                "query-input": "required name=search_term_string"
-              },
-              {
-                "@type": "ContactAction",
-                target: "https://www.taxclusive.com/contact"
-              }
-            ],
-            sameAs: [
-              "https://www.linkedin.com/company/taxclusive",
-              "https://www.facebook.com/taxclusive",
-              "https://twitter.com/taxclusive"
-            ]
-          })
-        }} />
+        <Script
+          id="website-schema"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              name: "Taxclusive - Expert Chartered Accountants Delhi NCR",
+              alternateName: ["Taxclusive CA Services", "Best CA in Gurugram"],
+              url: "https://www.taxclusive.com",
+              description:
+                "Leading Chartered Accountancy firm providing expert CA services across Delhi NCR - Gurugram, Delhi, Noida, Ghaziabad, Faridabad",
+              inLanguage: "en-IN",
+              potentialAction: [
+                {
+                  "@type": "SearchAction",
+                  target: "https://www.taxclusive.com/search?q={search_term_string}",
+                  "query-input": "required name=search_term_string",
+                },
+                {
+                  "@type": "ContactAction",
+                  target: "https://www.taxclusive.com/contact",
+                },
+              ],
+              sameAs: [
+                "https://www.linkedin.com/company/taxclusive",
+                "https://www.facebook.com/taxclusive",
+                "https://twitter.com/taxclusive",
+              ],
+            }),
+          }}
+        />
 
         {/* Local FAQ Structured Data */}
-        <Script id="local-faq-schema" type="application/ld+json" dangerouslySetInnerHTML={{
-          __html: generateLocalFAQStructuredData()
-        }} />
+        <Script
+          id="local-faq-schema"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: generateLocalFAQStructuredData(),
+          }}
+        />
       </body>
     </html>
   );

@@ -120,13 +120,11 @@ describe("YourComponent", () => {
 1. **TypeScript**: The project uses TypeScript for type safety. Ensure all components and functions have proper type definitions.
 
 2. **Component Structure**:
-
    - Functional components with named exports
    - Props interfaces defined at the top of the file
    - Use of React hooks for state and side effects
 
 3. **Styling**:
-
    - Tailwind CSS for styling components
    - Use className prop for conditional styling
    - Follow the project's color scheme and design tokens

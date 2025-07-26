@@ -159,9 +159,9 @@ export interface ThemeConfiguration {
     md: string;
     lg: string;
     xl: string;
-    '2xl': string;
-    '3xl': string;
-    '4xl': string;
+    "2xl": string;
+    "3xl": string;
+    "4xl": string;
   };
   borderRadius: {
     sm: string;
@@ -215,7 +215,7 @@ export interface ContentConfiguration {
     mission: string;
     vision: string;
     values: string[];
-    
+
     // Contact Information
     contact: {
       phone: string;
@@ -224,7 +224,7 @@ export interface ContentConfiguration {
       supportEmail: string;
       salesEmail: string;
     };
-    
+
     // Address
     address: {
       streetAddress: string;
@@ -234,30 +234,30 @@ export interface ContentConfiguration {
       addressCountry: string;
       countryCode: string;
     };
-    
+
     // Geographic coordinates
     geo: {
       latitude: number;
       longitude: number;
     };
-    
+
     // Business hours
     openingHours: string[];
     timeZone: string;
-    
+
     // Service areas
     serviceAreas: Array<{
       name: string;
-      type: 'city' | 'state' | 'country';
+      type: "city" | "state" | "country";
       radius?: number;
     }>;
-    
+
     // Price range
     priceRange: string;
-    
+
     // Payment methods
     paymentMethods: string[];
-    
+
     // Social media
     socialMedia: {
       linkedin?: string;
@@ -267,7 +267,7 @@ export interface ContentConfiguration {
       youtube?: string;
       whatsapp?: string;
     };
-    
+
     // Ratings and reviews
     rating: {
       value: string;
@@ -275,7 +275,7 @@ export interface ContentConfiguration {
       bestRating: string;
       worstRating: string;
     };
-    
+
     // Professional credentials
     credentials: Array<{
       name: string;
@@ -283,11 +283,11 @@ export interface ContentConfiguration {
       abbreviation?: string;
       url?: string;
     }>;
-    
+
     // Industries served
     industries: string[];
   };
-  
+
   // Page-specific content
   pages: {
     home: {
@@ -357,7 +357,7 @@ export interface ContentConfiguration {
         };
       };
     };
-    
+
     about: {
       hero: {
         title: string;
@@ -411,7 +411,7 @@ export interface ContentConfiguration {
         }>;
       };
     };
-    
+
     services: {
       hero: {
         title: string;
@@ -431,7 +431,7 @@ export interface ContentConfiguration {
           benefits: string[];
           process?: string[];
           pricing?: {
-            type: 'fixed' | 'hourly' | 'package' | 'custom';
+            type: "fixed" | "hourly" | "package" | "custom";
             amount?: string;
             description?: string;
           };
@@ -441,7 +441,7 @@ export interface ContentConfiguration {
         }>;
       }>;
     };
-    
+
     contact: {
       hero: {
         title: string;
@@ -453,7 +453,7 @@ export interface ContentConfiguration {
         description: string;
         fields: Array<{
           id: string;
-          type: 'text' | 'email' | 'phone' | 'textarea' | 'select' | 'checkbox' | 'radio';
+          type: "text" | "email" | "phone" | "textarea" | "select" | "checkbox" | "radio";
           label: string;
           placeholder?: string;
           required: boolean;
@@ -485,7 +485,7 @@ export interface ContentConfiguration {
         };
       }>;
     };
-    
+
     faq: {
       hero: {
         title: string;
@@ -505,7 +505,7 @@ export interface ContentConfiguration {
       }>;
     };
   };
-  
+
   // Navigation
   navigation: {
     header: {
@@ -531,10 +531,10 @@ export interface ContentConfiguration {
       cta?: {
         text: string;
         url: string;
-        style: 'primary' | 'secondary' | 'outline';
+        style: "primary" | "secondary" | "outline";
       };
     };
-    
+
     footer: {
       description?: string;
       sections: Array<{
@@ -557,7 +557,7 @@ export interface ContentConfiguration {
       };
     };
   };
-  
+
   // SEO Configuration
   seo: {
     defaultTitle: string;
@@ -657,25 +657,25 @@ export interface FeatureConfiguration {
   };
   integrations: {
     crm?: {
-      type: 'hubspot' | 'salesforce' | 'pipedrive' | 'custom';
+      type: "hubspot" | "salesforce" | "pipedrive" | "custom";
       apiKey?: string;
       endpoint?: string;
     };
     email: {
-      provider: 'sendgrid' | 'mailchimp' | 'constant-contact' | 'azure' | 'custom';
+      provider: "sendgrid" | "mailchimp" | "constant-contact" | "azure" | "custom";
       apiKey?: string;
       templates?: Record<string, string>;
     };
     calendar: {
-      provider?: 'calendly' | 'acuity' | 'custom';
+      provider?: "calendly" | "acuity" | "custom";
       url?: string;
     };
     chat: {
-      provider?: 'intercom' | 'zendesk' | 'custom';
+      provider?: "intercom" | "zendesk" | "custom";
       id?: string;
     };
     maps: {
-      provider: 'google' | 'mapbox' | 'openstreetmap';
+      provider: "google" | "mapbox" | "openstreetmap";
       apiKey?: string;
     };
   };
@@ -697,10 +697,10 @@ export interface FeatureConfiguration {
     pwa: boolean;
   };
   forms: {
-    validation: 'client' | 'server' | 'both';
+    validation: "client" | "server" | "both";
     captcha: {
       enabled: boolean;
-      provider?: 'recaptcha' | 'hcaptcha' | 'turnstile';
+      provider?: "recaptcha" | "hcaptcha" | "turnstile";
       siteKey?: string;
     };
     honeypot: boolean;
@@ -731,7 +731,7 @@ export interface FeatureConfiguration {
 
 export interface WebsiteConfiguration {
   version: string;
-  environment: 'development' | 'staging' | 'production';
+  environment: "development" | "staging" | "production";
   lastUpdated: string;
   theme: ThemeConfiguration;
   content: ContentConfiguration;

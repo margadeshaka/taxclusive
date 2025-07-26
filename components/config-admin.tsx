@@ -1,38 +1,44 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { 
-  useConfig, 
-  useTheme, 
-  useContent, 
-  useBusiness, 
-  validateConfig, 
-  exportConfig, 
+import React, { useState } from "react";
+import {
+  useConfig,
+  useTheme,
+  useContent,
+  useBusiness,
+  validateConfig,
+  exportConfig,
   importConfig,
-  getConfigHealth 
-} from '@/lib/config';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Badge } from '@/components/ui/badge';
-import { Separator } from '@/components/ui/separator';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { 
-  Download, 
-  Upload, 
-  Save, 
-  RotateCcw, 
-  Palette, 
-  FileText, 
-  Image, 
-  Settings, 
-  AlertTriangle, 
-  CheckCircle 
-} from 'lucide-react';
+  getConfigHealth,
+} from "@/lib/config";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import {
+  Download,
+  Upload,
+  Save,
+  RotateCcw,
+  Palette,
+  FileText,
+  Image,
+  Settings,
+  AlertTriangle,
+  CheckCircle,
+} from "lucide-react";
 
 /**
  * Configuration Admin Panel
@@ -43,8 +49,8 @@ export function ConfigAdmin() {
   const { theme, updateTheme } = useTheme();
   const { content, updateContent } = useContent();
   const business = useBusiness();
-  
-  const [activeTab, setActiveTab] = useState('overview');
+
+  const [activeTab, setActiveTab] = useState("overview");
   const [validationResult, setValidationResult] = useState(validateConfig(config));
   const [healthScore, setHealthScore] = useState(getConfigHealth(config));
 
@@ -56,11 +62,11 @@ export function ConfigAdmin() {
 
   const handleExport = () => {
     const configJson = exportConfig(config);
-    const blob = new Blob([configJson], { type: 'application/json' });
+    const blob = new Blob([configJson], { type: "application/json" });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = url;
-    a.download = `taxclusive-config-${new Date().toISOString().split('T')[0]}.json`;
+    a.download = `taxclusive-config-${new Date().toISOString().split("T")[0]}.json`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -77,7 +83,7 @@ export function ConfigAdmin() {
           const importedConfig = importConfig(configJson);
           updateConfig(importedConfig);
         } catch (error) {
-          console.error('Failed to import configuration:', error);
+          console.error("Failed to import configuration:", error);
         }
       };
       reader.readAsText(file);
@@ -126,13 +132,19 @@ export function ConfigAdmin() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               Configuration Health
-              <Badge variant={healthScore.score > 80 ? 'default' : healthScore.score > 60 ? 'secondary' : 'destructive'}>
+              <Badge
+                variant={
+                  healthScore.score > 80
+                    ? "default"
+                    : healthScore.score > 60
+                      ? "secondary"
+                      : "destructive"
+                }
+              >
                 {healthScore.score}/100
               </Badge>
             </CardTitle>
-            <CardDescription>
-              Overall health score of your website configuration
-            </CardDescription>
+            <CardDescription>Overall health score of your website configuration</CardDescription>
           </CardHeader>
           <CardContent>
             {errors.length > 0 && (
@@ -182,7 +194,9 @@ export function ConfigAdmin() {
                 <h4 className="font-semibold">Suggestions:</h4>
                 <ul className="list-disc pl-4 space-y-1">
                   {healthScore.suggestions.map((suggestion, index) => (
-                    <li key={index} className="text-sm text-muted-foreground">{suggestion}</li>
+                    <li key={index} className="text-sm text-muted-foreground">
+                      {suggestion}
+                    </li>
                   ))}
                 </ul>
               </div>
@@ -276,20 +290,20 @@ function OverviewTab({ config }: { config: any }) {
         <CardContent className="space-y-2">
           <div className="flex items-center justify-between">
             <span className="text-sm">Dark Mode</span>
-            <Badge variant={config.features.features.darkMode ? 'default' : 'secondary'}>
-              {config.features.features.darkMode ? 'Enabled' : 'Disabled'}
+            <Badge variant={config.features.features.darkMode ? "default" : "secondary"}>
+              {config.features.features.darkMode ? "Enabled" : "Disabled"}
             </Badge>
           </div>
           <div className="flex items-center justify-between">
             <span className="text-sm">Blog</span>
-            <Badge variant={config.features.features.blog ? 'default' : 'secondary'}>
-              {config.features.features.blog ? 'Enabled' : 'Disabled'}
+            <Badge variant={config.features.features.blog ? "default" : "secondary"}>
+              {config.features.features.blog ? "Enabled" : "Disabled"}
             </Badge>
           </div>
           <div className="flex items-center justify-between">
             <span className="text-sm">Animations</span>
-            <Badge variant={config.features.features.animations ? 'default' : 'secondary'}>
-              {config.features.features.animations ? 'Enabled' : 'Disabled'}
+            <Badge variant={config.features.features.animations ? "default" : "secondary"}>
+              {config.features.features.animations ? "Enabled" : "Disabled"}
             </Badge>
           </div>
         </CardContent>
@@ -321,12 +335,12 @@ function ThemeTab({ theme, updateTheme }: { theme: any; updateTheme: any }) {
               <Label htmlFor="primary-font">Primary Font</Label>
               <Select
                 value={theme.fonts.primary.family}
-                onValueChange={(value) => 
+                onValueChange={(value) =>
                   updateTheme({
                     fonts: {
                       ...theme.fonts,
-                      primary: { ...theme.fonts.primary, family: value }
-                    }
+                      primary: { ...theme.fonts.primary, family: value },
+                    },
                   })
                 }
               >
@@ -346,12 +360,12 @@ function ThemeTab({ theme, updateTheme }: { theme: any; updateTheme: any }) {
               <Label htmlFor="secondary-font">Secondary Font</Label>
               <Select
                 value={theme.fonts.secondary.family}
-                onValueChange={(value) => 
+                onValueChange={(value) =>
                   updateTheme({
                     fonts: {
                       ...theme.fonts,
-                      secondary: { ...theme.fonts.secondary, family: value }
-                    }
+                      secondary: { ...theme.fonts.secondary, family: value },
+                    },
                   })
                 }
               >
@@ -408,9 +422,9 @@ function ContentTab({ content, updateContent }: { content: any; updateContent: a
             <Input
               id="site-name"
               value={content.site.name}
-              onChange={(e) => 
+              onChange={(e) =>
                 updateContent({
-                  site: { ...content.site, name: e.target.value }
+                  site: { ...content.site, name: e.target.value },
                 })
               }
             />
@@ -421,9 +435,9 @@ function ContentTab({ content, updateContent }: { content: any; updateContent: a
             <Input
               id="site-tagline"
               value={content.site.tagline}
-              onChange={(e) => 
+              onChange={(e) =>
                 updateContent({
-                  site: { ...content.site, tagline: e.target.value }
+                  site: { ...content.site, tagline: e.target.value },
                 })
               }
             />
@@ -435,9 +449,9 @@ function ContentTab({ content, updateContent }: { content: any; updateContent: a
               id="site-description"
               value={content.site.description}
               rows={3}
-              onChange={(e) => 
+              onChange={(e) =>
                 updateContent({
-                  site: { ...content.site, description: e.target.value }
+                  site: { ...content.site, description: e.target.value },
                 })
               }
             />
@@ -456,15 +470,15 @@ function ContentTab({ content, updateContent }: { content: any; updateContent: a
             <Input
               id="hero-title"
               value={content.pages.home.hero.title}
-              onChange={(e) => 
+              onChange={(e) =>
                 updateContent({
                   pages: {
                     ...content.pages,
                     home: {
                       ...content.pages.home,
-                      hero: { ...content.pages.home.hero, title: e.target.value }
-                    }
-                  }
+                      hero: { ...content.pages.home.hero, title: e.target.value },
+                    },
+                  },
                 })
               }
             />
@@ -475,15 +489,15 @@ function ContentTab({ content, updateContent }: { content: any; updateContent: a
             <Input
               id="hero-subtitle"
               value={content.pages.home.hero.subtitle}
-              onChange={(e) => 
+              onChange={(e) =>
                 updateContent({
                   pages: {
                     ...content.pages,
                     home: {
                       ...content.pages.home,
-                      hero: { ...content.pages.home.hero, subtitle: e.target.value }
-                    }
-                  }
+                      hero: { ...content.pages.home.hero, subtitle: e.target.value },
+                    },
+                  },
                 })
               }
             />
@@ -495,15 +509,15 @@ function ContentTab({ content, updateContent }: { content: any; updateContent: a
               id="hero-description"
               value={content.pages.home.hero.description}
               rows={3}
-              onChange={(e) => 
+              onChange={(e) =>
                 updateContent({
                   pages: {
                     ...content.pages,
                     home: {
                       ...content.pages.home,
-                      hero: { ...content.pages.home.hero, description: e.target.value }
-                    }
-                  }
+                      hero: { ...content.pages.home.hero, description: e.target.value },
+                    },
+                  },
                 })
               }
             />
@@ -529,9 +543,9 @@ function BusinessTab({ business, updateContent }: { business: any; updateContent
               <Input
                 id="legal-name"
                 value={business.legalName}
-                onChange={(e) => 
+                onChange={(e) =>
                   updateContent({
-                    business: { ...business, legalName: e.target.value }
+                    business: { ...business, legalName: e.target.value },
                   })
                 }
               />
@@ -542,9 +556,9 @@ function BusinessTab({ business, updateContent }: { business: any; updateContent
               <Input
                 id="display-name"
                 value={business.displayName}
-                onChange={(e) => 
+                onChange={(e) =>
                   updateContent({
-                    business: { ...business, displayName: e.target.value }
+                    business: { ...business, displayName: e.target.value },
                   })
                 }
               />
@@ -557,9 +571,9 @@ function BusinessTab({ business, updateContent }: { business: any; updateContent
               id="business-description"
               value={business.description}
               rows={3}
-              onChange={(e) => 
+              onChange={(e) =>
                 updateContent({
-                  business: { ...business, description: e.target.value }
+                  business: { ...business, description: e.target.value },
                 })
               }
             />
@@ -573,12 +587,12 @@ function BusinessTab({ business, updateContent }: { business: any; updateContent
               <Input
                 id="phone"
                 value={business.contact.phone}
-                onChange={(e) => 
+                onChange={(e) =>
                   updateContent({
-                    business: { 
-                      ...business, 
-                      contact: { ...business.contact, phone: e.target.value }
-                    }
+                    business: {
+                      ...business,
+                      contact: { ...business.contact, phone: e.target.value },
+                    },
                   })
                 }
               />
@@ -589,12 +603,12 @@ function BusinessTab({ business, updateContent }: { business: any; updateContent
               <Input
                 id="email"
                 value={business.contact.email}
-                onChange={(e) => 
+                onChange={(e) =>
                   updateContent({
-                    business: { 
-                      ...business, 
-                      contact: { ...business.contact, email: e.target.value }
-                    }
+                    business: {
+                      ...business,
+                      contact: { ...business.contact, email: e.target.value },
+                    },
                   })
                 }
               />
@@ -615,9 +629,9 @@ function FeaturesTab({ config, updateConfig }: { config: any; updateConfig: any 
         ...config.features,
         features: {
           ...features,
-          [featureName]: !features[featureName]
-        }
-      }
+          [featureName]: !features[featureName],
+        },
+      },
     });
   };
 
@@ -633,18 +647,18 @@ function FeaturesTab({ config, updateConfig }: { config: any; updateConfig: any 
             <div key={featureName} className="flex items-center justify-between">
               <div>
                 <Label className="font-medium">
-                  {featureName.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
+                  {featureName.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase())}
                 </Label>
                 <p className="text-sm text-muted-foreground">
                   {getFeatureDescription(featureName)}
                 </p>
               </div>
               <Button
-                variant={enabled ? 'default' : 'outline'}
+                variant={enabled ? "default" : "outline"}
                 size="sm"
                 onClick={() => toggleFeature(featureName)}
               >
-                {enabled ? 'Enabled' : 'Disabled'}
+                {enabled ? "Enabled" : "Disabled"}
               </Button>
             </div>
           ))}
@@ -656,24 +670,24 @@ function FeaturesTab({ config, updateConfig }: { config: any; updateConfig: any 
 
 function getFeatureDescription(featureName: string): string {
   const descriptions: Record<string, string> = {
-    darkMode: 'Allow users to switch between light and dark themes',
-    multiLanguage: 'Support for multiple languages',
-    blog: 'Enable blog functionality',
-    testimonials: 'Show customer testimonials',
-    newsletter: 'Newsletter signup functionality',
-    search: 'Site-wide search functionality',
-    breadcrumbs: 'Navigation breadcrumbs',
-    progressIndicators: 'Loading progress indicators',
-    animations: 'Enable CSS animations and transitions',
-    lazyLoading: 'Lazy load images and content',
-    infiniteScroll: 'Infinite scroll for long lists',
-    socialSharing: 'Social media sharing buttons',
-    printFriendly: 'Print-optimized layouts',
-    offline: 'Offline functionality',
-    pwa: 'Progressive Web App features',
+    darkMode: "Allow users to switch between light and dark themes",
+    multiLanguage: "Support for multiple languages",
+    blog: "Enable blog functionality",
+    testimonials: "Show customer testimonials",
+    newsletter: "Newsletter signup functionality",
+    search: "Site-wide search functionality",
+    breadcrumbs: "Navigation breadcrumbs",
+    progressIndicators: "Loading progress indicators",
+    animations: "Enable CSS animations and transitions",
+    lazyLoading: "Lazy load images and content",
+    infiniteScroll: "Infinite scroll for long lists",
+    socialSharing: "Social media sharing buttons",
+    printFriendly: "Print-optimized layouts",
+    offline: "Offline functionality",
+    pwa: "Progressive Web App features",
   };
 
-  return descriptions[featureName] || 'Feature configuration';
+  return descriptions[featureName] || "Feature configuration";
 }
 
 export default ConfigAdmin;

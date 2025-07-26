@@ -22,6 +22,7 @@ chmod +x scripts/setup-aws-ses.sh
 ```
 
 This script will:
+
 - Create an IAM user with SES permissions
 - Set up domain verification in AWS SES
 - Generate access keys
@@ -33,6 +34,7 @@ This script will:
 After running the setup script, you'll need to add the following DNS records to your domain:
 
 #### Domain Verification Record
+
 ```
 Name: _amazonses.taxclusive.com
 Type: TXT
@@ -40,6 +42,7 @@ Value: [verification token from script output]
 ```
 
 #### DKIM Records (add all 3)
+
 ```
 Name: [token1]._domainkey.taxclusive.com
 Type: CNAME
@@ -55,6 +58,7 @@ Value: [token3].dkim.amazonses.com
 ```
 
 #### SPF Record (if not already exists)
+
 ```
 Name: taxclusive.com
 Type: TXT
@@ -62,6 +66,7 @@ Value: "v=spf1 include:amazonses.com ~all"
 ```
 
 #### DMARC Record (recommended)
+
 ```
 Name: _dmarc.taxclusive.com
 Type: TXT
@@ -153,15 +158,15 @@ EMAIL_RECIPIENT_NAME="Taxclusive Support"
 
 ## Environment Variables Reference
 
-| Variable | Description | Required | Example |
-|----------|-------------|----------|---------|
-| `AWS_REGION` | AWS region for SES | Yes | `us-east-1` |
-| `AWS_ACCESS_KEY_ID` | IAM user access key ID | Yes | `AKIAIOSFODNN7EXAMPLE` |
-| `AWS_SECRET_ACCESS_KEY` | IAM user secret access key | Yes | `wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY` |
-| `EMAIL_SENDER_NAME` | Display name for sender | No | `Taxclusive` |
-| `EMAIL_SENDER_ADDRESS` | Verified sender email | Yes | `noreply@taxclusive.com` |
-| `EMAIL_RECIPIENT_ADDRESS` | Where form emails are sent | Yes | `contact@taxclusive.com` |
-| `EMAIL_RECIPIENT_NAME` | Display name for recipient | No | `Taxclusive Support` |
+| Variable                  | Description                | Required | Example                                    |
+| ------------------------- | -------------------------- | -------- | ------------------------------------------ |
+| `AWS_REGION`              | AWS region for SES         | Yes      | `us-east-1`                                |
+| `AWS_ACCESS_KEY_ID`       | IAM user access key ID     | Yes      | `AKIAIOSFODNN7EXAMPLE`                     |
+| `AWS_SECRET_ACCESS_KEY`   | IAM user secret access key | Yes      | `wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY` |
+| `EMAIL_SENDER_NAME`       | Display name for sender    | No       | `Taxclusive`                               |
+| `EMAIL_SENDER_ADDRESS`    | Verified sender email      | Yes      | `noreply@taxclusive.com`                   |
+| `EMAIL_RECIPIENT_ADDRESS` | Where form emails are sent | Yes      | `contact@taxclusive.com`                   |
+| `EMAIL_RECIPIENT_NAME`    | Display name for recipient | No       | `Taxclusive Support`                       |
 
 ## Troubleshooting
 
@@ -170,6 +175,7 @@ EMAIL_RECIPIENT_NAME="Taxclusive Support"
 **Problem:** Domain verification is pending or failed.
 
 **Solutions:**
+
 1. Check that DNS records are correctly added
 2. Wait for DNS propagation (up to 48 hours)
 3. Use online DNS checkers to verify records
@@ -180,6 +186,7 @@ EMAIL_RECIPIENT_NAME="Taxclusive Support"
 **Problem:** Emails are not being sent or received.
 
 **Solutions:**
+
 1. Verify sender domain/email address
 2. Check if account is in sandbox mode
 3. Ensure recipient email is verified (sandbox mode only)
@@ -191,6 +198,7 @@ EMAIL_RECIPIENT_NAME="Taxclusive Support"
 **Problem:** Can only send emails to verified addresses.
 
 **Solutions:**
+
 1. Request production access through AWS Console
 2. Go to SES → Account dashboard → Request production access
 3. Provide use case and expected sending volume
@@ -201,6 +209,7 @@ EMAIL_RECIPIENT_NAME="Taxclusive Support"
 **Problem:** AWS SES has suspended sending due to high bounce/complaint rates.
 
 **Solutions:**
+
 1. Monitor bounce and complaint rates in SES console
 2. Implement proper bounce/complaint handling
 3. Maintain clean email lists
@@ -211,6 +220,7 @@ EMAIL_RECIPIENT_NAME="Taxclusive Support"
 ### Regular Checks
 
 1. **Monitor sending statistics:**
+
    ```bash
    aws ses get-send-statistics --region us-east-1
    ```

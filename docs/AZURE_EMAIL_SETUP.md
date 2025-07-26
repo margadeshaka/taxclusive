@@ -13,11 +13,13 @@ This guide explains how to set up Azure Communication Services for email functio
 ### 1. Install Azure CLI
 
 **macOS:**
+
 ```bash
 brew install azure-cli
 ```
 
 **Ubuntu/Debian:**
+
 ```bash
 curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 ```
@@ -33,6 +35,7 @@ cd scripts
 ```
 
 The script will:
+
 - Create Azure resource group in Central India region (optimal for Delhi NCR)
 - Set up Azure Communication Services resource
 - Create Email Communication Service
@@ -75,21 +78,24 @@ The setup script will prompt you to add a custom domain. If you choose to set it
 Add these DNS records to your domain provider:
 
 **TXT Record for Domain Verification:**
+
 ```
 Name: @
 Value: ms-domain-verification=<verification-string>
 ```
 
 **CNAME Records for DKIM:**
+
 ```
 Name: selector1._domainkey
 Value: selector1-<domain-guid>._domainkey.<region>.azurecomm.net
 
-Name: selector2._domainkey  
+Name: selector2._domainkey
 Value: selector2-<domain-guid>._domainkey.<region>.azurecomm.net
 ```
 
 **MX Record (if using custom domain for receiving emails):**
+
 ```
 Name: @
 Value: <domain-guid>.azurecomm.net
@@ -99,6 +105,7 @@ Priority: 10
 ### 3. Verify Domain
 
 After adding DNS records:
+
 1. Go to Azure Portal > Communication Services > Email
 2. Select your email service
 3. Click on your custom domain
@@ -149,6 +156,7 @@ pnpm dev
 ### Logs and Debugging
 
 Enable detailed logging by setting:
+
 ```env
 NODE_ENV=development
 DEBUG=azure:communication:email
@@ -157,6 +165,7 @@ DEBUG=azure:communication:email
 ### Azure Portal Monitoring
 
 Monitor email sending in Azure Portal:
+
 1. Go to Azure Communication Services
 2. Select your resource
 3. Click on "Metrics" to view email sending statistics

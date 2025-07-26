@@ -16,7 +16,7 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
-  
+
   // Get configuration data
   const { navigation, site, assets } = clientConfig;
 
@@ -107,11 +107,11 @@ export default function Header() {
             aria-label={`${site.name} - Home`}
           >
             {navigation.header.logo.image ? (
-              <Image 
-                src={navigation.header.logo.image} 
-                alt={`${site.name} Logo`} 
-                width={navigation.header.logo.width || 250} 
-                height={navigation.header.logo.height || 100} 
+              <Image
+                src={navigation.header.logo.image}
+                alt={`${site.name} Logo`}
+                width={navigation.header.logo.width || 250}
+                height={navigation.header.logo.height || 100}
               />
             ) : (
               <span className="text-xl font-bold">{navigation.header.logo.text || site.name}</span>
@@ -137,11 +137,11 @@ export default function Header() {
             <Link
               href={navigation.header.cta.url}
               className={`inline-flex h-10 items-center justify-center rounded-md px-6 text-sm font-medium shadow transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring ${
-                navigation.header.cta.style === 'primary'
-                  ? 'bg-primary text-primary-foreground hover:bg-primary/90'
-                  : navigation.header.cta.style === 'secondary'
-                  ? 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
-                  : 'border border-primary bg-background text-primary hover:bg-primary/10'
+                navigation.header.cta.style === "primary"
+                  ? "bg-primary text-primary-foreground hover:bg-primary/90"
+                  : navigation.header.cta.style === "secondary"
+                    ? "bg-secondary text-secondary-foreground hover:bg-secondary/80"
+                    : "border border-primary bg-background text-primary hover:bg-primary/10"
               }`}
             >
               {navigation.header.cta.text}

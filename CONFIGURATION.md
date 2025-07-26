@@ -61,11 +61,11 @@ The theme system uses a comprehensive color palette with 11 shades for each colo
 // Color palette structure
 interface ThemeColors {
   primary: {
-    50: string;   // Lightest
+    50: string; // Lightest
     100: string;
     // ... through ...
     900: string;
-    950: string;  // Darkest
+    950: string; // Darkest
   };
   // Also includes: secondary, accent, neutral, success, warning, error
 }
@@ -81,7 +81,7 @@ fonts: {
     weights: [400, 500, 600, 700],
   },
   secondary: {
-    family: 'Playfair Display', 
+    family: 'Playfair Display',
     fallback: ['Georgia', 'serif'],
     weights: [400, 500, 600, 700],
   }
@@ -125,7 +125,7 @@ pages: {
   home: {
     hero: {
       title: 'Expert Chartered Accountants in Gurugram',
-      subtitle: 'Your Trusted Financial Partner', 
+      subtitle: 'Your Trusted Financial Partner',
       description: 'Leading CA firm providing...',
       primaryCta: { text: 'Book Consultation', url: '/contact' },
       secondaryCta: { text: 'Our Services', url: '/services' }
@@ -155,16 +155,16 @@ navigation: {
   header: {
     logo: {
       text: 'Taxclusive',
-      image: '/logo.png', 
+      image: '/logo.png',
       width: 250,
       height: 100
     },
     menu: [
       { id: 'home', label: 'Home', url: '/' },
       { id: 'about', label: 'About', url: '/about' },
-      { 
-        id: 'services', 
-        label: 'Services', 
+      {
+        id: 'services',
+        label: 'Services',
         url: '/services',
         children: [
           { id: 'tax', label: 'Tax Planning', url: '/services/tax' }
@@ -173,7 +173,7 @@ navigation: {
     ],
     cta: {
       text: 'Book Consultation',
-      url: '/contact', 
+      url: '/contact',
       style: 'primary'
     }
   },
@@ -206,7 +206,7 @@ business: {
   vision: 'To be the most trusted...',
   values: [
     'Integrity and Ethics',
-    'Client-First Approach', 
+    'Client-First Approach',
     'Professional Excellence'
   ]
 }
@@ -217,7 +217,7 @@ business: {
 ```typescript
 contact: {
   phone: '+91-97739-79042',
-  email: 'contact@taxclusive.com', 
+  email: 'contact@taxclusive.com',
   website: 'https://www.taxclusive.com',
   supportEmail: 'support@taxclusive.com'
 },
@@ -225,7 +225,7 @@ contact: {
 address: {
   streetAddress: 'JMD Megapolis, Sector 48',
   addressLocality: 'Gurugram',
-  addressRegion: 'Haryana', 
+  addressRegion: 'Haryana',
   postalCode: '122001',
   addressCountry: 'IN'
 },
@@ -247,7 +247,7 @@ serviceAreas: [
 
 industries: [
   'Real Estate & Construction',
-  'Technology & Startups', 
+  'Technology & Startups',
   'Healthcare & Life Sciences'
 ]
 ```
@@ -273,14 +273,14 @@ assets: {
     },
     backgrounds: {
       hero: '/images/hero-bg.jpg',
-      section: '/images/section-bg.jpg' 
+      section: '/images/section-bg.jpg'
     },
     social: {
       ogImage: '/images/og-image.jpg',
       twitterImage: '/images/twitter-image.jpg'
     }
   },
-  
+
   icons: {
     services: {
       'tax-planning': 'calculator',
@@ -301,18 +301,18 @@ features: {
     googleAnalytics: 'GA-XXXXXXX',
     googleTagManager: 'GTM-XXXXXXX'
   },
-  
+
   integrations: {
     email: {
       provider: 'azure',
       apiKey: process.env.AZURE_EMAIL_API_KEY
     },
     maps: {
-      provider: 'google', 
+      provider: 'google',
       apiKey: process.env.GOOGLE_MAPS_API_KEY
     }
   },
-  
+
   features: {
     darkMode: true,
     blog: true,
@@ -353,7 +353,7 @@ import { clientConfig } from '@/lib/config/client-config';
 
 function MyComponent() {
   const { site, business, navigation } = clientConfig;
-  
+
   return (
     <div>
       <h1>{site.name}</h1>
@@ -366,15 +366,15 @@ function MyComponent() {
 
 ### Using Configuration Hooks (Full System)
 
-```typescript 
+```typescript
 // Using the full configuration system with React hooks
 import { useConfig, useBusiness, useTheme } from '@/lib/config';
 
 function ConfigurableComponent() {
   const { config, updateConfig } = useConfig();
-  const business = useBusiness(); 
+  const business = useBusiness();
   const { theme, updateTheme } = useTheme();
-  
+
   return (
     <div style={{ fontFamily: theme.fonts.primary.family }}>
       <h1>{business.displayName}</h1>
@@ -392,12 +392,12 @@ function ConfigurableComponent() {
 // Header component using configuration
 function Header() {
   const { navigation, site } = clientConfig;
-  
+
   return (
     <header>
       <Link href="/">
         {navigation.header.logo.image ? (
-          <img 
+          <img
             src={navigation.header.logo.image}
             alt={`${site.name} Logo`}
             width={navigation.header.logo.width}
@@ -407,7 +407,7 @@ function Header() {
           <span>{navigation.header.logo.text}</span>
         )}
       </Link>
-      
+
       <nav>
         {navigation.header.menu.map(item => (
           <Link key={item.id} href={item.url}>
@@ -415,7 +415,7 @@ function Header() {
           </Link>
         ))}
       </nav>
-      
+
       {navigation.header.cta && (
         <Link href={navigation.header.cta.url}>
           {navigation.header.cta.text}
@@ -433,19 +433,19 @@ function Header() {
 The system includes comprehensive validation:
 
 ```typescript
-import { validateConfig, getConfigHealth } from '@/lib/config';
+import { validateConfig, getConfigHealth } from "@/lib/config";
 
 // Validate entire configuration
 const validation = validateConfig(config);
-console.log(validation.isValid);      // boolean
-console.log(validation.errors);       // string[]
-console.log(validation.warnings);     // string[]
-console.log(validation.deprecated);   // string[]
+console.log(validation.isValid); // boolean
+console.log(validation.errors); // string[]
+console.log(validation.warnings); // string[]
+console.log(validation.deprecated); // string[]
 
 // Get health score
 const health = getConfigHealth(config);
-console.log(health.score);            // 0-100
-console.log(health.suggestions);      // string[]
+console.log(health.score); // 0-100
+console.log(health.suggestions); // string[]
 ```
 
 ### Field Validation Rules
@@ -457,7 +457,7 @@ console.log(health.suggestions);      // string[]
   pattern: '^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$'
 },
 
-// Phone validation  
+// Phone validation
 'business.contact.phone': {
   type: 'phone',
   pattern: '^[+]?[0-9]{10,15}$'
@@ -478,7 +478,7 @@ console.log(health.suggestions);      // string[]
 The system includes a complete admin panel (`/components/config-admin.tsx`):
 
 ```typescript
-import ConfigAdmin from '@/components/config-admin';
+import ConfigAdmin from "@/components/config-admin";
 
 // Features:
 // - Visual configuration editor
@@ -504,21 +504,21 @@ import ConfigAdmin from '@/components/config-admin';
 ```typescript
 import {
   createConfig,
-  exportConfig, 
+  exportConfig,
   importConfig,
   backupConfig,
-  restoreConfig
-} from '@/lib/config';
+  restoreConfig,
+} from "@/lib/config";
 
 // Create custom configuration
 const customConfig = createConfig({
-  site: { name: 'My Custom Site' }
+  site: { name: "My Custom Site" },
 });
 
 // Export configuration to JSON
 const configJson = exportConfig(config);
 
-// Import configuration from JSON  
+// Import configuration from JSON
 const importedConfig = importConfig(jsonString);
 
 // Backup configuration
@@ -531,11 +531,7 @@ const restored = restoreConfig(backupJson);
 ### Theme Utilities
 
 ```typescript
-import {
-  generateCSSVariables,
-  generateTailwindConfig,
-  generateColorPalette
-} from '@/lib/config';
+import { generateCSSVariables, generateTailwindConfig, generateColorPalette } from "@/lib/config";
 
 // Generate CSS custom properties
 const cssVars = generateCSSVariables(theme);
@@ -544,26 +540,22 @@ const cssVars = generateCSSVariables(theme);
 const tailwindConfig = generateTailwindConfig(theme);
 
 // Generate color palette from base color
-const palette = generateColorPalette('#3b82f6');
+const palette = generateColorPalette("#3b82f6");
 ```
 
 ### Content Utilities
 
 ```typescript
-import {
-  generateBreadcrumbs,
-  getPageTitle,
-  generatePageStructuredData
-} from '@/lib/config';
+import { generateBreadcrumbs, getPageTitle, generatePageStructuredData } from "@/lib/config";
 
 // Generate breadcrumbs from path
-const breadcrumbs = generateBreadcrumbs('/services/tax-planning', config);
+const breadcrumbs = generateBreadcrumbs("/services/tax-planning", config);
 
 // Get formatted page title
-const title = getPageTitle('Tax Planning', config);
+const title = getPageTitle("Tax Planning", config);
 
 // Generate structured data
-const structuredData = generatePageStructuredData('service', pageData, config);
+const structuredData = generatePageStructuredData("service", pageData, config);
 ```
 
 ## 📋 Best Practices
@@ -581,25 +573,25 @@ const structuredData = generatePageStructuredData('service', pageData, config);
 // Always validate configuration changes
 const validation = validateConfig(newConfig);
 if (!validation.isValid) {
-  console.error('Invalid configuration:', validation.errors);
+  console.error("Invalid configuration:", validation.errors);
   return;
 }
 
 // Test configuration health
 const health = getConfigHealth(newConfig);
 if (health.score < 80) {
-  console.warn('Configuration needs improvement:', health.suggestions);
+  console.warn("Configuration needs improvement:", health.suggestions);
 }
 ```
 
 ### 3. Environment-Specific Configuration
 
-```typescript 
-import { getEnvironmentConfig } from '@/lib/config';
+```typescript
+import { getEnvironmentConfig } from "@/lib/config";
 
 // Get configuration for specific environment
-const devConfig = getEnvironmentConfig('development');
-const prodConfig = getEnvironmentConfig('production');
+const devConfig = getEnvironmentConfig("development");
+const prodConfig = getEnvironmentConfig("production");
 ```
 
 ### 4. Performance Considerations
@@ -621,13 +613,13 @@ const prodConfig = getEnvironmentConfig('production');
 ### Configuration Migration
 
 ```typescript
-import { migrateConfig } from '@/lib/config';
+import { migrateConfig } from "@/lib/config";
 
 // Migrate configuration between versions
 const migratedConfig = migrateConfig(
-  oldConfig, 
-  '1.0.0',  // from version
-  '2.0.0'   // to version
+  oldConfig,
+  "1.0.0", // from version
+  "2.0.0" // to version
 );
 ```
 
@@ -643,12 +635,12 @@ const migratedConfig = migrateConfig(
 ### Industry-Specific Presets
 
 ```typescript
-import { CONFIG_PRESETS } from '@/lib/config';
+import { CONFIG_PRESETS } from "@/lib/config";
 
 // Available presets:
 // - CHARTERED_ACCOUNTANT (current)
 // - LAW_FIRM
-// - CONSULTING_FIRM  
+// - CONSULTING_FIRM
 // - HEALTHCARE
 // - TECHNOLOGY
 
@@ -658,20 +650,20 @@ const lawFirmConfig = createConfig(CONFIG_PRESETS.LAW_FIRM);
 ### Custom Preset Creation
 
 ```typescript
-import { createTheme, createBusinessConfig } from '@/lib/config';
+import { createTheme, createBusinessConfig } from "@/lib/config";
 
 // Create custom theme
 const customTheme = createTheme({
-  name: 'Modern Professional',
-  primaryColor: '#1e40af',
-  fontPrimary: 'Inter'
+  name: "Modern Professional",
+  primaryColor: "#1e40af",
+  fontPrimary: "Inter",
 });
 
 // Create business configuration
 const businessConfig = createBusinessConfig({
-  name: 'My Consulting Firm',
-  email: 'contact@myconsulting.com',
-  phone: '+1-555-0123'
+  name: "My Consulting Firm",
+  email: "contact@myconsulting.com",
+  phone: "+1-555-0123",
 });
 ```
 

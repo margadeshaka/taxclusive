@@ -40,7 +40,9 @@ export function BlogDetail({ id }: BlogDetailProps) {
       <div className="flex justify-center py-12">
         <div className="rounded-lg bg-muted p-6">
           <h3 className="text-lg font-medium">Blog not found</h3>
-          <p className="mt-2">The blog you&apos;re looking for doesn&apos;t exist or has been removed.</p>
+          <p className="mt-2">
+            The blog you&apos;re looking for doesn&apos;t exist or has been removed.
+          </p>
           <Link
             href="/blogs"
             className="mt-4 inline-flex items-center text-sm font-medium text-primary hover:underline"

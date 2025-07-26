@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { CheckCircle, Award, Users, BookOpen } from "lucide-react";
 import Image from "next/image";
@@ -8,8 +8,6 @@ import Script from "next/script";
 import Footer from "@/components/footer";
 import Header from "@/components/header";
 import { generateStructuredData } from "@/lib/metadata";
-
-
 
 export default function AboutPage() {
   return (

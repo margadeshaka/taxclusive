@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import {
   ChevronRight,
@@ -18,8 +18,6 @@ import Header from "@/components/header";
 import { generateStructuredData } from "@/lib/metadata";
 
 // Metadata for this page is handled by layout since it's a client component
-
-
 
 export default function ServicesPage() {
   return (
@@ -59,9 +57,9 @@ export default function ServicesPage() {
                     individuals, startups, and enterprises alike.
                   </p>
                   <p className="text-muted-foreground md:text-xl/relaxed">
-                    Whether you&apos;re an individual, a small business, or a large corporation, our team
-                    of experienced professionals is dedicated to providing exceptional service and
-                    strategic guidance.
+                    Whether you&apos;re an individual, a small business, or a large corporation, our
+                    team of experienced professionals is dedicated to providing exceptional service
+                    and strategic guidance.
                   </p>
                 </div>
                 <div className="flex flex-col gap-2 min-[400px]:flex-row pt-4">
@@ -482,9 +480,9 @@ export default function ServicesPage() {
                     </svg>
                   </div>
                   <p className="text-muted-foreground italic">
-                    &ldquo;Taxclusive has been instrumental in helping our business navigate complex tax
-                    regulations. Their expertise and personalized approach have saved us both time
-                    and money.&rdquo;
+                    &ldquo;Taxclusive has been instrumental in helping our business navigate complex
+                    tax regulations. Their expertise and personalized approach have saved us both
+                    time and money.&rdquo;
                   </p>
                   <div className="pt-4">
                     <p className="font-bold">Rajesh Patel</p>
@@ -552,9 +550,9 @@ export default function ServicesPage() {
                     </svg>
                   </div>
                   <p className="text-muted-foreground italic">
-                    &quot;I&apos;ve been working with Taxclusive for over 10 years, and their financial
-                    guidance has been invaluable. They truly understand my business and provide
-                    tailored solutions.&quot;
+                    &quot;I&apos;ve been working with Taxclusive for over 10 years, and their
+                    financial guidance has been invaluable. They truly understand my business and
+                    provide tailored solutions.&quot;
                   </p>
                   <div className="pt-4">
                     <p className="font-bold">Anita Sharma</p>

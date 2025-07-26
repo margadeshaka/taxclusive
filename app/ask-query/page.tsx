@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { HelpCircle, Clock, CheckCircle } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
@@ -7,27 +7,26 @@ import Footer from "@/components/footer";
 import Header from "@/components/header";
 import { emailService } from "@/lib/email-client";
 
-
 export default function AskQueryPage() {
   const [formStatus, setFormStatus] = useState({
     submitted: false,
     success: false,
-    message: '',
+    message: "",
   });
 
   async function handleSubmit(formData: FormData) {
     try {
-      const fileInput = formData.get('file-upload') as File;
-      const files = fileInput && fileInput.name !== 'undefined' ? [fileInput.name] : [];
+      const fileInput = formData.get("file-upload") as File;
+      const files = fileInput && fileInput.name !== "undefined" ? [fileInput.name] : [];
 
       const data = {
-        fullName: formData.get('full-name') as string,
-        email: formData.get('email') as string,
-        phone: formData.get('phone') as string,
-        category: formData.get('category') as string,
-        priority: formData.get('priority') as string,
-        subject: formData.get('subject') as string,
-        query: formData.get('query') as string,
+        fullName: formData.get("full-name") as string,
+        email: formData.get("email") as string,
+        phone: formData.get("phone") as string,
+        category: formData.get("category") as string,
+        priority: formData.get("priority") as string,
+        subject: formData.get("subject") as string,
+        query: formData.get("query") as string,
         files,
       };
 
@@ -41,7 +40,7 @@ export default function AskQueryPage() {
       setFormStatus({
         submitted: true,
         success: false,
-        message: 'An unexpected error occurred. Please try again later.',
+        message: "An unexpected error occurred. Please try again later.",
       });
     }
   }
@@ -115,8 +114,8 @@ export default function AskQueryPage() {
                   <div className="space-y-1">
                     <h3 className="font-bold">Receive Your Answer</h3>
                     <p className="text-muted-foreground">
-                      You&apos;ll receive a personalized response via email within 1-2 business days. For
-                      complex queries, we may schedule a follow-up call.
+                      You&apos;ll receive a personalized response via email within 1-2 business
+                      days. For complex queries, we may schedule a follow-up call.
                     </p>
                   </div>
                 </div>
@@ -165,7 +164,9 @@ export default function AskQueryPage() {
               <h3 className="text-xl font-bold mb-6">Submit Your Query</h3>
 
               {formStatus.submitted && (
-                <div className={`p-4 mb-6 rounded-md ${formStatus.success ? 'bg-green-50 border border-green-200 text-green-800' : 'bg-red-50 border border-red-200 text-red-800'}`}>
+                <div
+                  className={`p-4 mb-6 rounded-md ${formStatus.success ? "bg-green-50 border border-green-200 text-green-800" : "bg-red-50 border border-red-200 text-red-800"}`}
+                >
                   <p className="text-sm font-medium">{formStatus.message}</p>
                 </div>
               )}

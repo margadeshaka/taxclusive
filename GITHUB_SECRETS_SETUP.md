@@ -7,11 +7,13 @@ This guide walks you through setting up GitHub repository secrets for automated 
 Navigate to your GitHub repository → Settings → Secrets and variables → Actions, then add these secrets:
 
 ### 1. AWS Credentials
+
 - **`AWS_ACCESS_KEY_ID`**: Your AWS IAM access key
 - **`AWS_SECRET_ACCESS_KEY`**: Your AWS IAM secret key
 - **`AWS_REGION`**: `us-east-1` (or your preferred region)
 
 ### 2. Environment Variables (from .env.local)
+
 - **`NEXT_PUBLIC_STRAPI_URL`**: `https://beneficial-bell-dbe99c11c9.strapiapp.com`
 - **`NEXT_PUBLIC_BASE_URL`**: `https://yourdomain.com` (update with actual domain)
 - **`EMAIL_SENDER_NAME`**: `Taxclusive`
@@ -20,6 +22,7 @@ Navigate to your GitHub repository → Settings → Secrets and variables → Ac
 - **`EMAIL_RECIPIENT_NAME`**: `Taxclusive Support`
 
 ### 3. Deployment Configuration
+
 - **`STAGING_DOMAIN`**: `staging.taxclusive.com` (your staging domain)
 - **`PRODUCTION_DOMAIN`**: `taxclusive.com` (your production domain)
 - **`CERTIFICATE_ARN`**: AWS ACM certificate ARN (will be created during setup)
@@ -52,11 +55,13 @@ gh secret set PRODUCTION_DOMAIN --body "taxclusive.com"
 For different environments, prefix secrets with the environment name:
 
 ### Staging
+
 - `STAGING_AWS_ACCESS_KEY_ID`
 - `STAGING_AWS_SECRET_ACCESS_KEY`
 - `STAGING_NEXT_PUBLIC_BASE_URL`
 
 ### Production
+
 - `PRODUCTION_AWS_ACCESS_KEY_ID`
 - `PRODUCTION_AWS_SECRET_ACCESS_KEY`
 - `PRODUCTION_NEXT_PUBLIC_BASE_URL`
@@ -109,14 +114,17 @@ Create an IAM user with these permissions for deployment:
 ## Troubleshooting
 
 ### Secret not found error
+
 - Ensure secret names match exactly (case-sensitive)
 - Check if secrets are set at repository level, not organization level
 
 ### Permission denied
+
 - Verify IAM user has required permissions
 - Check AWS credentials are active and not expired
 
 ### Deployment fails
+
 - Review GitHub Actions logs for specific errors
 - Ensure all required secrets are set
 - Verify domain ownership in Route53

@@ -5,7 +5,7 @@
         "order": 0,
         "parts": {
           "0": {
-            "position": {"x": 0, "y": 0, "colSpan": 6, "rowSpan": 4},
+            "position": { "x": 0, "y": 0, "colSpan": 6, "rowSpan": 4 },
             "metadata": {
               "inputs": [
                 {
@@ -25,7 +25,7 @@
             }
           },
           "1": {
-            "position": {"x": 6, "y": 0, "colSpan": 6, "rowSpan": 4},
+            "position": { "x": 6, "y": 0, "colSpan": 6, "rowSpan": 4 },
             "metadata": {
               "inputs": [
                 {

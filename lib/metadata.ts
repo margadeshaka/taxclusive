@@ -13,36 +13,63 @@ const defaultMetadata: Metadata = {
   },
   description: SEO_CONFIG.site.description,
   keywords: [
-    "chartered accountant gurugram", "CA services delhi ncr", "tax planning gurugram", "GST compliance delhi", 
-    "audit services noida", "financial advisory ghaziabad", "business registration faridabad", "tax consultant delhi", 
-    "accounting firm gurugram", "CA near me", "income tax return filing", "GST registration delhi ncr",
-    "company incorporation gurugram", "tax planning strategies", "business advisory delhi", "audit and assurance",
-    "chartered accountant gurgaon", "best CA in gurugram", "top tax consultant delhi ncr", "CA services haryana",
-    "chartered accountant delhi", "tax planning services noida", "GST filing ghaziabad", "audit services faridabad",
-    "financial consultant gurugram", "accounting services delhi ncr", "tax advisory gurugram", "CA firm haryana",
-    "chartered accountant near me", "business consultant gurugram", "tax compliance delhi", "GST consultant ncr",
-    "income tax gurugram", "chartered accountant sohna road", "CA services sector 48", "tax expert delhi ncr"
+    "chartered accountant gurugram",
+    "CA services delhi ncr",
+    "tax planning gurugram",
+    "GST compliance delhi",
+    "audit services noida",
+    "financial advisory ghaziabad",
+    "business registration faridabad",
+    "tax consultant delhi",
+    "accounting firm gurugram",
+    "CA near me",
+    "income tax return filing",
+    "GST registration delhi ncr",
+    "company incorporation gurugram",
+    "tax planning strategies",
+    "business advisory delhi",
+    "audit and assurance",
+    "chartered accountant gurgaon",
+    "best CA in gurugram",
+    "top tax consultant delhi ncr",
+    "CA services haryana",
+    "chartered accountant delhi",
+    "tax planning services noida",
+    "GST filing ghaziabad",
+    "audit services faridabad",
+    "financial consultant gurugram",
+    "accounting services delhi ncr",
+    "tax advisory gurugram",
+    "CA firm haryana",
+    "chartered accountant near me",
+    "business consultant gurugram",
+    "tax compliance delhi",
+    "GST consultant ncr",
+    "income tax gurugram",
+    "chartered accountant sohna road",
+    "CA services sector 48",
+    "tax expert delhi ncr",
   ].join(", "),
   authors: [{ name: SEO_CONFIG.site.author }],
   creator: SEO_CONFIG.site.name,
   publisher: SEO_CONFIG.site.name,
   category: "Professional Services",
-  
+
   icons: {
     icon: "/favicon.ico",
     apple: "/apple-touch-icon.png",
     shortcut: "/favicon.ico",
   },
   manifest: "/site.webmanifest",
-  
+
   formatDetection: {
     email: false,
     address: false,
     telephone: false,
   },
-  
+
   metadataBase: new URL(baseUrl),
-  
+
   alternates: {
     canonical: "/",
     languages: {
@@ -50,7 +77,7 @@ const defaultMetadata: Metadata = {
       "hi-IN": "/hi",
     },
   },
-  
+
   openGraph: {
     title: SEO_CONFIG.site.title,
     description: SEO_CONFIG.site.description,
@@ -67,20 +94,21 @@ const defaultMetadata: Metadata = {
     locale: SEO_CONFIG.openGraph.locale,
     type: SEO_CONFIG.openGraph.type,
   },
-  
+
   twitter: {
     card: SEO_CONFIG.twitter.card,
     title: "Taxclusive - Expert Chartered Accountants | Tax Planning Services",
-    description: "Leading CA firm in Gurugram. Expert tax planning, GST compliance, audit & financial advisory services. Trusted by 500+ clients.",
+    description:
+      "Leading CA firm in Gurugram. Expert tax planning, GST compliance, audit & financial advisory services. Trusted by 500+ clients.",
     images: ["/images/twitter-image.jpg"],
     site: SEO_CONFIG.twitter.site,
     creator: SEO_CONFIG.twitter.creator,
   },
-  
+
   robots: SEO_CONFIG.robots,
-  
+
   verification: SEO_CONFIG.verification,
-  
+
   // Additional SEO enhancements
   applicationName: SEO_CONFIG.site.name,
   referrer: "origin-when-cross-origin",
@@ -115,7 +143,8 @@ export function generateMetadata(options?: {
       metadata.openGraph.title = options.title;
     }
     if (metadata.twitter) {
-      metadata.twitter.title = options.title.length > 70 ? options.title.substring(0, 67) + "..." : options.title;
+      metadata.twitter.title =
+        options.title.length > 70 ? options.title.substring(0, 67) + "..." : options.title;
     }
   }
 
@@ -126,7 +155,10 @@ export function generateMetadata(options?: {
       metadata.openGraph.description = options.description;
     }
     if (metadata.twitter) {
-      metadata.twitter.description = options.description.length > 200 ? options.description.substring(0, 197) + "..." : options.description;
+      metadata.twitter.description =
+        options.description.length > 200
+          ? options.description.substring(0, 197) + "..."
+          : options.description;
     }
   }
 
@@ -211,7 +243,16 @@ export function generateMetadata(options?: {
  * @returns JSON-LD structured data as a string
  */
 export function generateStructuredData(
-  type: "Organization" | "AccountingService" | "Article" | "FAQPage" | "Service" | "Person" | "LocalBusiness" | "BreadcrumbList" | "WebPage",
+  type:
+    | "Organization"
+    | "AccountingService"
+    | "Article"
+    | "FAQPage"
+    | "Service"
+    | "Person"
+    | "LocalBusiness"
+    | "BreadcrumbList"
+    | "WebPage",
   data: Record<string, unknown>
 ): string {
   const baseData = {
@@ -228,7 +269,7 @@ export function generateStructuredData(
  */
 export function generateBusinessStructuredData(): string {
   const business = SEO_CONFIG.business;
-  
+
   return generateStructuredData("AccountingService", {
     "@type": ["AccountingService", "ProfessionalService", "LocalBusiness"],
     name: business.name,
@@ -240,7 +281,7 @@ export function generateBusinessStructuredData(): string {
     slogan: business.slogan,
     foundingDate: business.foundingDate,
     numberOfEmployees: business.numberOfEmployees,
-    
+
     address: {
       "@type": "PostalAddress",
       streetAddress: business.address.streetAddress,
@@ -276,8 +317,12 @@ export function generateBusinessStructuredData(): string {
     priceRange: business.priceRange,
     paymentAccepted: business.paymentAccepted,
 
-    areaServed: business.serviceAreas.map(area => ({
-      "@type": area.includes("India") ? "Country" : area.includes("Haryana") || area.includes("Delhi") ? "State" : "City",
+    areaServed: business.serviceAreas.map((area) => ({
+      "@type": area.includes("India")
+        ? "Country"
+        : area.includes("Haryana") || area.includes("Delhi")
+          ? "State"
+          : "City",
       name: area,
     })),
 
@@ -294,7 +339,7 @@ export function generateBusinessStructuredData(): string {
     hasOfferCatalog: {
       "@type": "OfferCatalog",
       name: "Chartered Accountancy Services",
-      itemListElement: business.services.map(service => ({
+      itemListElement: business.services.map((service) => ({
         "@type": "Offer",
         itemOffered: {
           "@type": "Service",
@@ -336,7 +381,7 @@ export function generateBusinessStructuredData(): string {
  */
 export function generateFAQStructuredData(faqs: { question: string; answer: string }[]): string {
   return generateStructuredData("FAQPage", {
-    mainEntity: faqs.map(faq => ({
+    mainEntity: faqs.map((faq) => ({
       "@type": "Question",
       name: faq.question,
       acceptedAnswer: {
@@ -360,7 +405,7 @@ export function generateServiceStructuredData(service: {
   offers?: { name: string; description: string; price?: string }[];
 }): string {
   const business = SEO_CONFIG.business;
-  
+
   return generateStructuredData("Service", {
     name: service.name,
     description: service.description,
@@ -369,11 +414,13 @@ export function generateServiceStructuredData(service: {
       name: service.provider || business.name,
       url: business.contact.website,
     },
-    areaServed: service.areaServed || business.serviceAreas.map(area => ({
-      "@type": "City",
-      name: area,
-    })),
-    offers: service.offers?.map(offer => ({
+    areaServed:
+      service.areaServed ||
+      business.serviceAreas.map((area) => ({
+        "@type": "City",
+        name: area,
+      })),
+    offers: service.offers?.map((offer) => ({
       "@type": "Offer",
       name: offer.name,
       description: offer.description,
@@ -387,7 +434,9 @@ export function generateServiceStructuredData(service: {
  * @param breadcrumbs - Array of breadcrumb items
  * @returns JSON-LD structured data for breadcrumbs
  */
-export function generateBreadcrumbStructuredData(breadcrumbs: { name: string; url: string }[]): string {
+export function generateBreadcrumbStructuredData(
+  breadcrumbs: { name: string; url: string }[]
+): string {
   return generateStructuredData("BreadcrumbList", {
     itemListElement: breadcrumbs.map((crumb, index) => ({
       "@type": "ListItem",
@@ -415,11 +464,13 @@ export function generateArticleStructuredData(article: {
 }): string {
   const site = SEO_CONFIG.site;
   const business = SEO_CONFIG.business;
-  
+
   return generateStructuredData("Article", {
     headline: article.title,
     description: article.description,
-    image: article.image ? `${SEO_CONFIG.baseUrl}${article.image}` : `${SEO_CONFIG.baseUrl}/images/blog-default.jpg`,
+    image: article.image
+      ? `${SEO_CONFIG.baseUrl}${article.image}`
+      : `${SEO_CONFIG.baseUrl}/images/blog-default.jpg`,
     author: {
       "@type": "Person",
       name: article.author,
@@ -455,7 +506,7 @@ export function generateWebPageStructuredData(page: {
   breadcrumbs?: { name: string; url: string }[];
 }): string {
   const business = SEO_CONFIG.business;
-  
+
   const webPageData: Record<string, unknown> = {
     name: page.name,
     description: page.description,

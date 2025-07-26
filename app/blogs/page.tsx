@@ -72,7 +72,9 @@ export default function BlogsPage() {
   return (
     <div className="flex min-h-screen flex-col">
       <Header />
-      <Suspense fallback={<div className="flex-1 flex items-center justify-center">Loading...</div>}>
+      <Suspense
+        fallback={<div className="flex-1 flex items-center justify-center">Loading...</div>}
+      >
         <BlogContent />
       </Suspense>
       <Footer />

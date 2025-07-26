@@ -1,15 +1,15 @@
 #!/usr/bin/env node
-import 'source-map-support/register';
-import * as cdk from 'aws-cdk-lib';
-import { TaxclusiveCdkStack } from '../lib/taxclusive-cdk-stack';
-import { TaxclusiveMonitoringStack } from '../lib/taxclusive-monitoring-stack';
+import "source-map-support/register";
+import * as cdk from "aws-cdk-lib";
+import { TaxclusiveCdkStack } from "../lib/taxclusive-cdk-stack";
+import { TaxclusiveMonitoringStack } from "../lib/taxclusive-monitoring-stack";
 
 const app = new cdk.App();
 
 // Get context values
-const environment = app.node.tryGetContext('environment') || 'staging';
-const domainName = app.node.tryGetContext('domainName') || 'taxclusive.com';
-const certificateArn = app.node.tryGetContext('certificateArn');
+const environment = app.node.tryGetContext("environment") || "staging";
+const domainName = app.node.tryGetContext("domainName") || "taxclusive.com";
+const certificateArn = app.node.tryGetContext("certificateArn");
 
 // Define environment-specific configurations
 const envConfig = {
@@ -19,7 +19,7 @@ const envConfig = {
     logRetentionDays: 7,
     enableXRayTracing: false,
     minCapacity: 1,
-    maxCapacity: 5
+    maxCapacity: 5,
   },
   production: {
     domainName: domainName,
@@ -27,8 +27,8 @@ const envConfig = {
     logRetentionDays: 30,
     enableXRayTracing: true,
     minCapacity: 2,
-    maxCapacity: 10
-  }
+    maxCapacity: 10,
+  },
 };
 
 const config = envConfig[environment as keyof typeof envConfig] || envConfig.staging;
@@ -37,7 +37,7 @@ const config = envConfig[environment as keyof typeof envConfig] || envConfig.sta
 const mainStack = new TaxclusiveCdkStack(app, `TaxclusiveCdkStack-${environment}`, {
   env: {
     account: process.env.CDK_DEFAULT_ACCOUNT,
-    region: process.env.CDK_DEFAULT_REGION || 'us-east-1',
+    region: process.env.CDK_DEFAULT_REGION || "us-east-1",
   },
   description: `Taxclusive Next.js application infrastructure - ${environment}`,
   environment,
@@ -53,7 +53,7 @@ const mainStack = new TaxclusiveCdkStack(app, `TaxclusiveCdkStack-${environment}
 const monitoringStack = new TaxclusiveMonitoringStack(app, `TaxclusiveMonitoring-${environment}`, {
   env: {
     account: process.env.CDK_DEFAULT_ACCOUNT,
-    region: process.env.CDK_DEFAULT_REGION || 'us-east-1',
+    region: process.env.CDK_DEFAULT_REGION || "us-east-1",
   },
   description: `Taxclusive monitoring and observability - ${environment}`,
   environment,
@@ -67,11 +67,11 @@ monitoringStack.addDependency(mainStack);
 
 // Add tags to all stacks
 const tags = {
-  Project: 'Taxclusive',
+  Project: "Taxclusive",
   Environment: environment,
-  ManagedBy: 'CDK',
-  CostCenter: 'Engineering',
-  Owner: 'DevOps'
+  ManagedBy: "CDK",
+  CostCenter: "Engineering",
+  Owner: "DevOps",
 };
 
 Object.entries(tags).forEach(([key, value]) => {

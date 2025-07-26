@@ -35,7 +35,6 @@ pnpm test:e2e --ui
 The tests are organized by feature:
 
 - **navigation.spec.ts**: Tests for navigation across the site, including:
-
   - Navigation between all main pages
   - Mobile menu functionality
 

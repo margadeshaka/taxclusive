@@ -90,8 +90,9 @@ export default function ContactSection() {
                 Get in Touch
               </h2>
               <p className="max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                Ready to take the next step? Whether you&rsquo;re looking for expert advice or have a
-                quick question, we&rsquo;re here to help you every step of the way. Get in touch today!
+                Ready to take the next step? Whether you&rsquo;re looking for expert advice or have
+                a quick question, we&rsquo;re here to help you every step of the way. Get in touch
+                today!
               </p>
             </div>
             <div className="space-y-4">

@@ -28,32 +28,36 @@ EMAIL_RECIPIENT_NAME="Taxclusive Support"
 ## Production Deployment
 
 ### Azure Static Web Apps
+
 Set environment variables in Azure portal:
 
 1. Go to Azure Portal → Static Web Apps → Your App
 2. Navigate to **Settings → Configuration**
 3. Add the following variables:
 
-| Variable | Value | Required |
-|----------|-------|----------|
-| `AZURE_COMMUNICATION_CONNECTION_STRING` | Your connection string | Yes |
-| `EMAIL_SENDER_NAME` | Taxclusive | Yes |
-| `EMAIL_SENDER_ADDRESS` | DoNotReply@taxclusive.com | Yes |
-| `EMAIL_RECIPIENT_ADDRESS` | contact@taxclusive.com | Yes |
-| `EMAIL_RECIPIENT_NAME` | Taxclusive Support | Yes |
+| Variable                                | Value                     | Required |
+| --------------------------------------- | ------------------------- | -------- |
+| `AZURE_COMMUNICATION_CONNECTION_STRING` | Your connection string    | Yes      |
+| `EMAIL_SENDER_NAME`                     | Taxclusive                | Yes      |
+| `EMAIL_SENDER_ADDRESS`                  | DoNotReply@taxclusive.com | Yes      |
+| `EMAIL_RECIPIENT_ADDRESS`               | contact@taxclusive.com    | Yes      |
+| `EMAIL_RECIPIENT_NAME`                  | Taxclusive Support        | Yes      |
 
 ### GitHub Secrets (for CI/CD)
+
 If using GitHub Actions, set secrets at: **Repository → Settings → Secrets and variables → Actions**
 
 Use the provided script: `./scripts/setup-github-secrets.sh`
 
 ### Vercel Deployment
+
 1. Go to Vercel Dashboard → Project → Settings → Environment Variables
 2. Add the same variables as listed above
 
 ## Testing Email Configuration
 
 ### Test Script
+
 Run the email test script to verify configuration:
 
 ```bash
@@ -61,6 +65,7 @@ node scripts/test-email.js
 ```
 
 ### Manual Testing
+
 1. Start development server: `pnpm dev`
 2. Visit contact form: `http://localhost:3000/contact`
 3. Submit a test message
@@ -69,12 +74,14 @@ node scripts/test-email.js
 ## Security Best Practices
 
 ### ✅ What's Already Implemented
+
 - Environment variables properly excluded from version control
 - Secure access patterns in application code
 - Proper error handling without exposing secrets
 - Connection string validation on startup
 
 ### 🔒 Additional Security Recommendations
+
 1. **Rotate Keys Regularly**: Update Azure access keys monthly
 2. **Monitor Usage**: Check Azure portal for unusual activity
 3. **Environment Separation**: Use different keys for dev/staging/production
@@ -94,7 +101,9 @@ node scripts/test-email.js
 **Solution**: Restart the development server after modifying `.env.local`
 
 ### Debug Mode
+
 Enable debug logging:
+
 ```bash
 DEBUG="azure:communication:email" pnpm dev
 ```
@@ -102,6 +111,7 @@ DEBUG="azure:communication:email" pnpm dev
 ## Architecture Notes
 
 The application uses:
+
 - **lib/email.ts**: Core email functionality with environment variable access
 - **API Routes**: `/api/contact`, `/api/appointment`, etc. for form handling
 - **Azure Communication Services**: For reliable email delivery

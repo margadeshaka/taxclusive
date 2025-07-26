@@ -27,6 +27,7 @@ Server actions for form submissions are defined in `/lib/form-actions.ts`. This 
 - `submitNewsletterForm`: Handles newsletter subscription form submissions
 
 Each server action:
+
 1. Extracts form data
 2. Validates required fields
 3. Formats the email using the appropriate function from `/lib/email.ts`
@@ -43,6 +44,7 @@ The following form components have been modified to use the server actions:
 - Newsletter subscription form (`/app/insights/page.tsx`)
 
 Each form component:
+
 1. Imports the necessary server action
 2. Uses React state to manage form submission status
 3. Defines a form submission handler that calls the server action

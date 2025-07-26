@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { Mail, MapPin, Phone } from "lucide-react";
 import Link from "next/link";
 import Script from "next/script";
@@ -9,44 +9,43 @@ import Header from "@/components/header";
 import { emailService } from "@/lib/email-client";
 import { generateStructuredData } from "@/lib/metadata";
 
-
 export default function ContactPage() {
-    const [formStatus, setFormStatus] = useState({
-        submitted: false,
+  const [formStatus, setFormStatus] = useState({
+    submitted: false,
+    success: false,
+    message: "",
+  });
+
+  async function handleSubmit(formData: FormData) {
+    try {
+      const data = {
+        firstName: formData.get("first-name") as string,
+        lastName: formData.get("last-name") as string,
+        email: formData.get("email") as string,
+        phone: formData.get("phone") as string,
+        subject: formData.get("subject") as string,
+        message: formData.get("message") as string,
+      };
+
+      const result = await emailService.submitContactForm(data);
+      setFormStatus({
+        submitted: true,
+        success: result.success,
+        message: result.message,
+      });
+    } catch (error) {
+      setFormStatus({
+        submitted: true,
         success: false,
-        message: '',
-    });
-
-    async function handleSubmit(formData: FormData) {
-        try {
-            const data = {
-                firstName: formData.get('first-name') as string,
-                lastName: formData.get('last-name') as string,
-                email: formData.get('email') as string,
-                phone: formData.get('phone') as string,
-                subject: formData.get('subject') as string,
-                message: formData.get('message') as string,
-            };
-
-            const result = await emailService.submitContactForm(data);
-            setFormStatus({
-                submitted: true,
-                success: result.success,
-                message: result.message,
-            });
-        } catch (error) {
-            setFormStatus({
-                submitted: true,
-                success: false,
-                message: 'An unexpected error occurred. Please try again later.',
-            });
-        }
+        message: "An unexpected error occurred. Please try again later.",
+      });
     }
+  }
 
-    return (
-        <div className="flex min-h-screen flex-col">
-            <Header />
-            <main className="flex-1">
+  return (
+    <div className="flex min-h-screen flex-col">
+      <Header />
+      <main className="flex-1">
         <section className="w-full py-12 md:py-24 lg:py-32 ethnic-pattern">
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
@@ -110,8 +109,8 @@ export default function ContactPage() {
                       Have questions about tax planning, compliance, or our services?
                     </p>
                     <p className="text-muted-foreground">
-                      Reach out to us anytime at <strong>contact@taxclusive.com</strong> — we&apos;re
-                      here to provide expert guidance and timely responses.
+                      Reach out to us anytime at <strong>contact@taxclusive.com</strong> —
+                      we&apos;re here to provide expert guidance and timely responses.
                     </p>
                   </div>
                 </div>
@@ -191,118 +190,120 @@ export default function ContactPage() {
                             </div> */}
             </div>
             <div className="rounded-lg border bg-background p-8 shadow-sm">
-                            <h3 className="text-xl font-bold mb-6">Send us a Message</h3>
+              <h3 className="text-xl font-bold mb-6">Send us a Message</h3>
 
-                            {formStatus.submitted && (
-                                <div className={`p-4 mb-6 rounded-md ${formStatus.success ? 'bg-green-50 border border-green-200 text-green-800' : 'bg-red-50 border border-red-200 text-red-800'}`}>
-                                    <p className="text-sm font-medium">{formStatus.message}</p>
-                                </div>
-                            )}
+              {formStatus.submitted && (
+                <div
+                  className={`p-4 mb-6 rounded-md ${formStatus.success ? "bg-green-50 border border-green-200 text-green-800" : "bg-red-50 border border-red-200 text-red-800"}`}
+                >
+                  <p className="text-sm font-medium">{formStatus.message}</p>
+                </div>
+              )}
 
-                            <form action={handleSubmit} className="space-y-6">
-                                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                                    <div className="space-y-2">
-                                        <label
-                                            htmlFor="first-name"
-                                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                                        >
-                                            First Name <span className="text-red-500">*</span>
-                                        </label>
-                                        <input
-                                            id="first-name"
-                                            name="first-name"
-                                            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                                            placeholder="Enter your first name"
-                                            required
-                                        />
-                                    </div>
-                                    <div className="space-y-2">
-                                        <label
-                                            htmlFor="last-name"
-                                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                                        >
-                                            Last Name <span className="text-red-500">*</span>
-                                        </label>
-                                        <input
-                                            id="last-name"
-                                            name="last-name"
-                                            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                                            placeholder="Enter your last name"
-                                            required
-                                        />
-                                    </div>
-                                </div>
-                                <div className="space-y-2">
-                                    <label
-                                        htmlFor="email"
-                                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                                    >
-                                        Email <span className="text-red-500">*</span>
-                                    </label>
-                                    <input
-                                        id="email"
-                                        name="email"
-                                        type="email"
-                                        className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                                        placeholder="Enter your email"
-                                        required
-                                    />
-                                </div>
-                                <div className="space-y-2">
-                                    <label
-                                        htmlFor="phone"
-                                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                                    >
-                                        Phone Number
-                                    </label>
-                                    <input
-                                        id="phone"
-                                        name="phone"
-                                        type="tel"
-                                        className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                                        placeholder="Enter your phone number"
-                                    />
-                                </div>
-                                <div className="space-y-2">
-                                    <label
-                                        htmlFor="subject"
-                                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                                    >
-                                        Subject <span className="text-red-500">*</span>
-                                    </label>
-                                    <input
-                                        id="subject"
-                                        name="subject"
-                                        className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                                        placeholder="Enter subject"
-                                        required
-                                    />
-                                </div>
-                                <div className="space-y-2">
-                                    <label
-                                        htmlFor="message"
-                                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                                    >
-                                        Message <span className="text-red-500">*</span>
-                                    </label>
-                                    <textarea
-                                        id="message"
-                                        name="message"
-                                        className="flex min-h-[120px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                                        placeholder="Enter your message"
-                                        required
-                                    />
-                                </div>
-                                <button
-                                    type="submit"
-                                    className="inline-flex h-10 w-full items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
-                                >
-                                    Send Message
-                                </button>
-                                <p className="text-xs text-muted-foreground text-center">
-                                    Fields marked with <span className="text-red-500">*</span> are required
-                                </p>
-                            </form>
+              <form action={handleSubmit} className="space-y-6">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  <div className="space-y-2">
+                    <label
+                      htmlFor="first-name"
+                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                    >
+                      First Name <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      id="first-name"
+                      name="first-name"
+                      className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                      placeholder="Enter your first name"
+                      required
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label
+                      htmlFor="last-name"
+                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                    >
+                      Last Name <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      id="last-name"
+                      name="last-name"
+                      className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                      placeholder="Enter your last name"
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <label
+                    htmlFor="email"
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  >
+                    Email <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                    placeholder="Enter your email"
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label
+                    htmlFor="phone"
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  >
+                    Phone Number
+                  </label>
+                  <input
+                    id="phone"
+                    name="phone"
+                    type="tel"
+                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                    placeholder="Enter your phone number"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label
+                    htmlFor="subject"
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  >
+                    Subject <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    id="subject"
+                    name="subject"
+                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                    placeholder="Enter subject"
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label
+                    htmlFor="message"
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  >
+                    Message <span className="text-red-500">*</span>
+                  </label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    className="flex min-h-[120px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                    placeholder="Enter your message"
+                    required
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="inline-flex h-10 w-full items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
+                >
+                  Send Message
+                </button>
+                <p className="text-xs text-muted-foreground text-center">
+                  Fields marked with <span className="text-red-500">*</span> are required
+                </p>
+              </form>
             </div>
           </div>
         </section>
@@ -387,7 +388,8 @@ export default function ContactPage() {
           url: "https://www.taxclusive.com",
           logo: "https://www.taxclusive.com/logo.png",
           image: "https://www.taxclusive.com/about.png",
-          description: "Leading Chartered Accountancy firm in Gurugram providing expert CA services, tax planning, GST compliance and financial advisory.",
+          description:
+            "Leading Chartered Accountancy firm in Gurugram providing expert CA services, tax planning, GST compliance and financial advisory.",
           contactPoint: [
             {
               "@type": "ContactPoint",
@@ -399,8 +401,8 @@ export default function ContactPage() {
                 "@type": "OpeningHoursSpecification",
                 dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
                 opens: "09:00",
-                closes: "18:00"
-              }
+                closes: "18:00",
+              },
             },
           ],
           address: {
@@ -416,30 +418,27 @@ export default function ContactPage() {
             latitude: 28.4089,
             longitude: 77.0378,
           },
-          openingHours: [
-            "Mo-Fr 09:00-18:00",
-            "Sa 09:00-14:00"
-          ],
+          openingHours: ["Mo-Fr 09:00-18:00", "Sa 09:00-14:00"],
           priceRange: "₹₹",
           paymentAccepted: ["Cash", "Credit Card", "Debit Card", "Bank Transfer", "UPI"],
           currenciesAccepted: "INR",
           areaServed: [
             {
               "@type": "City",
-              name: "Gurugram"
+              name: "Gurugram",
             },
             {
-              "@type": "City", 
-              name: "New Delhi"
-            },
-            {
-              "@type": "State",
-              name: "Haryana"
+              "@type": "City",
+              name: "New Delhi",
             },
             {
               "@type": "State",
-              name: "Delhi"
-            }
+              name: "Haryana",
+            },
+            {
+              "@type": "State",
+              name: "Delhi",
+            },
           ],
           sameAs: [
             "https://www.linkedin.com/company/taxclusive",

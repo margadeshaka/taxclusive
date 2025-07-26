@@ -3,7 +3,7 @@
  * Validates website configuration for completeness and correctness
  */
 
-import { WebsiteConfiguration, ConfigValidation } from './website-config';
+import { WebsiteConfiguration, ConfigValidation } from "./website-config";
 
 // =============================================================================
 // VALIDATION RULES
@@ -11,54 +11,50 @@ import { WebsiteConfiguration, ConfigValidation } from './website-config';
 
 const validationRules: ConfigValidation = {
   required: [
-    'version',
-    'environment',
-    'theme',
-    'content.site.name',
-    'content.business.legalName',
-    'content.business.contact.email',
-    'content.business.contact.phone',
-    'content.business.address',
-    'assets.images.logo.main',
+    "version",
+    "environment",
+    "theme",
+    "content.site.name",
+    "content.business.legalName",
+    "content.business.contact.email",
+    "content.business.contact.phone",
+    "content.business.address",
+    "assets.images.logo.main",
   ],
-  optional: [
-    'content.business.socialMedia',
-    'features.analytics',
-    'assets.videos',
-  ],
+  optional: ["content.business.socialMedia", "features.analytics", "assets.videos"],
   deprecated: [
-    'theme.oldColorScheme', // Example deprecated field
+    "theme.oldColorScheme", // Example deprecated field
   ],
   validation: {
-    'content.business.contact.email': {
-      type: 'email',
-      pattern: '^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$',
+    "content.business.contact.email": {
+      type: "email",
+      pattern: "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$",
     },
-    'content.business.contact.phone': {
-      type: 'phone',
-      pattern: '^[+]?[0-9]{10,15}$',
+    "content.business.contact.phone": {
+      type: "phone",
+      pattern: "^[+]?[0-9]{10,15}$",
     },
-    'content.business.geo.latitude': {
-      type: 'number',
+    "content.business.geo.latitude": {
+      type: "number",
       min: -90,
       max: 90,
     },
-    'content.business.geo.longitude': {
-      type: 'number',
+    "content.business.geo.longitude": {
+      type: "number",
       min: -180,
       max: 180,
     },
-    'content.business.rating.value': {
-      type: 'string',
-      pattern: '^[1-5](\\.\\d)?$',
+    "content.business.rating.value": {
+      type: "string",
+      pattern: "^[1-5](\\.\\d)?$",
     },
-    'assets.images.logo.main': {
-      type: 'string',
-      pattern: '^/.+\\.(png|jpg|jpeg|svg|webp)$',
+    "assets.images.logo.main": {
+      type: "string",
+      pattern: "^/.+\\.(png|jpg|jpeg|svg|webp)$",
     },
-    'environment': {
-      type: 'string',
-      enum: ['development', 'staging', 'production'],
+    environment: {
+      type: "string",
+      enum: ["development", "staging", "production"],
     },
   },
 };
@@ -118,9 +114,8 @@ export function validateConfig(config: WebsiteConfiguration): ValidationResult {
     // Accessibility validations
     const accessibilityWarnings = validateAccessibility(config);
     warnings.push(...accessibilityWarnings);
-
   } catch (error) {
-    errors.push(`Validation error: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    errors.push(`Validation error: ${error instanceof Error ? error.message : "Unknown error"}`);
   }
 
   return {
@@ -145,7 +140,7 @@ function validateField(fieldPath: string, value: any, rule: any): string[] {
   }
 
   // Pattern validation
-  if (rule.pattern && typeof value === 'string') {
+  if (rule.pattern && typeof value === "string") {
     const regex = new RegExp(rule.pattern);
     if (!regex.test(value)) {
       errors.push(`Field '${fieldPath}' does not match required pattern`);
@@ -154,11 +149,11 @@ function validateField(fieldPath: string, value: any, rule: any): string[] {
 
   // Enum validation
   if (rule.enum && !rule.enum.includes(value)) {
-    errors.push(`Field '${fieldPath}' must be one of: ${rule.enum.join(', ')}`);
+    errors.push(`Field '${fieldPath}' must be one of: ${rule.enum.join(", ")}`);
   }
 
   // Number range validation
-  if (rule.type === 'number') {
+  if (rule.type === "number") {
     if (rule.min !== undefined && value < rule.min) {
       errors.push(`Field '${fieldPath}' must be greater than or equal to ${rule.min}`);
     }
@@ -168,7 +163,7 @@ function validateField(fieldPath: string, value: any, rule: any): string[] {
   }
 
   // String length validation
-  if (rule.type === 'string') {
+  if (rule.type === "string") {
     if (rule.minLength !== undefined && value.length < rule.minLength) {
       errors.push(`Field '${fieldPath}' must be at least ${rule.minLength} characters long`);
     }
@@ -200,9 +195,9 @@ function validateBusinessLogic(config: WebsiteConfiguration): string[] {
   if (config.content.business.serviceAreas) {
     for (const area of config.content.business.serviceAreas) {
       if (!area.name || !area.type) {
-        errors.push('Service area must have both name and type');
+        errors.push("Service area must have both name and type");
       }
-      if (!['city', 'state', 'country'].includes(area.type)) {
+      if (!["city", "state", "country"].includes(area.type)) {
         errors.push(`Invalid service area type: ${area.type}`);
       }
     }
@@ -241,21 +236,21 @@ function validatePerformance(config: WebsiteConfiguration): string[] {
 
   // Check for performance features
   if (!config.features.performance.lazyImages) {
-    warnings.push('Consider enabling lazy image loading for better performance');
+    warnings.push("Consider enabling lazy image loading for better performance");
   }
 
   if (!config.features.performance.compression) {
-    warnings.push('Consider enabling compression for better performance');
+    warnings.push("Consider enabling compression for better performance");
   }
 
   // Check image optimization
   if (config.assets.images.hero.home && !isOptimizedImageFormat(config.assets.images.hero.home)) {
-    warnings.push('Consider using optimized image formats (WebP, AVIF) for hero images');
+    warnings.push("Consider using optimized image formats (WebP, AVIF) for hero images");
   }
 
   // Check CDN usage
   if (!config.features.performance.cdn.enabled) {
-    warnings.push('Consider enabling CDN for better global performance');
+    warnings.push("Consider enabling CDN for better global performance");
   }
 
   return warnings;
@@ -275,9 +270,11 @@ function validateAccessibility(config: WebsiteConfiguration): string[] {
   }
 
   // Check for alt texts in images
-  if (config.content.pages.home.hero.backgroundImage && 
-      !config.content.pages.home.hero.backgroundImage.includes('alt=')) {
-    warnings.push('Consider adding alt text descriptions for background images');
+  if (
+    config.content.pages.home.hero.backgroundImage &&
+    !config.content.pages.home.hero.backgroundImage.includes("alt=")
+  ) {
+    warnings.push("Consider adding alt text descriptions for background images");
   }
 
   return warnings;
@@ -288,7 +285,7 @@ function validateAccessibility(config: WebsiteConfiguration): string[] {
 // =============================================================================
 
 function getNestedValue(obj: any, path: string): any {
-  return path.split('.').reduce((current, key) => {
+  return path.split(".").reduce((current, key) => {
     return current && current[key] !== undefined ? current[key] : undefined;
   }, obj);
 }
@@ -316,9 +313,29 @@ function validateThemeColors(colors: any): string[] {
   const errors: string[] = [];
 
   const validateColorPalette = (palette: any, themeName: string) => {
-    const requiredShades = ['50', '100', '200', '300', '400', '500', '600', '700', '800', '900', '950'];
-    
-    for (const colorName of ['primary', 'secondary', 'accent', 'neutral', 'success', 'warning', 'error']) {
+    const requiredShades = [
+      "50",
+      "100",
+      "200",
+      "300",
+      "400",
+      "500",
+      "600",
+      "700",
+      "800",
+      "900",
+      "950",
+    ];
+
+    for (const colorName of [
+      "primary",
+      "secondary",
+      "accent",
+      "neutral",
+      "success",
+      "warning",
+      "error",
+    ]) {
       if (palette[colorName]) {
         for (const shade of requiredShades) {
           if (!palette[colorName][shade]) {
@@ -331,8 +348,8 @@ function validateThemeColors(colors: any): string[] {
     }
   };
 
-  if (colors.light) validateColorPalette(colors.light, 'light');
-  if (colors.dark) validateColorPalette(colors.dark, 'dark');
+  if (colors.light) validateColorPalette(colors.light, "light");
+  if (colors.dark) validateColorPalette(colors.dark, "dark");
 
   return errors;
 }
@@ -342,13 +359,13 @@ function validateNavigation(menu: any[]): string[] {
 
   for (const item of menu) {
     if (!item.id || !item.label || !item.url) {
-      errors.push('Navigation menu item must have id, label, and url');
+      errors.push("Navigation menu item must have id, label, and url");
     }
 
     if (item.children) {
       for (const child of item.children) {
         if (!child.id || !child.label || !child.url) {
-          errors.push('Navigation submenu item must have id, label, and url');
+          errors.push("Navigation submenu item must have id, label, and url");
         }
       }
     }
@@ -365,11 +382,12 @@ function validateColorContrast(colors: any): string[] {
     if (fg && bg) {
       const fgLuminance = getColorLuminance(fg);
       const bgLuminance = getColorLuminance(bg);
-      
+
       if (fgLuminance !== null && bgLuminance !== null) {
         const contrast = Math.max(fgLuminance, bgLuminance) / Math.min(fgLuminance, bgLuminance);
-        
-        if (contrast < 4.5) { // WCAG AA standard for normal text
+
+        if (contrast < 4.5) {
+          // WCAG AA standard for normal text
           warnings.push(`Low color contrast in ${context}: ${contrast.toFixed(2)} (minimum 4.5)`);
         }
       }
@@ -377,11 +395,11 @@ function validateColorContrast(colors: any): string[] {
   };
 
   if (colors.light) {
-    checkContrast(colors.light.foreground, colors.light.background, 'light theme');
+    checkContrast(colors.light.foreground, colors.light.background, "light theme");
   }
 
   if (colors.dark) {
-    checkContrast(colors.dark.foreground, colors.dark.background, 'dark theme');
+    checkContrast(colors.dark.foreground, colors.dark.background, "dark theme");
   }
 
   return warnings;
@@ -400,7 +418,7 @@ function getColorLuminance(hex: string): number | null {
   const b = parseInt(hex.slice(5, 7), 16) / 255;
 
   // Calculate relative luminance
-  const sRGB = [r, g, b].map(c => {
+  const sRGB = [r, g, b].map((c) => {
     return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
   });
 
@@ -418,30 +436,29 @@ export function getConfigHealth(config: WebsiteConfiguration): {
 } {
   const validation = validateConfig(config);
   const totalIssues = validation.errors.length + validation.warnings.length;
-  
+
   // Calculate health score (0-100)
-  const maxPossibleIssues = validationRules.required.length + 
-                           Object.keys(validationRules.validation).length + 
-                           10; // Estimated other checks
-  
+  const maxPossibleIssues =
+    validationRules.required.length + Object.keys(validationRules.validation).length + 10; // Estimated other checks
+
   const score = Math.max(0, Math.round((1 - totalIssues / maxPossibleIssues) * 100));
 
   const suggestions: string[] = [];
 
   if (validation.errors.length > 0) {
-    suggestions.push('Fix critical configuration errors');
+    suggestions.push("Fix critical configuration errors");
   }
 
   if (validation.warnings.length > 3) {
-    suggestions.push('Address performance and accessibility warnings');
+    suggestions.push("Address performance and accessibility warnings");
   }
 
   if (validation.deprecated.length > 0) {
-    suggestions.push('Update deprecated configuration fields');
+    suggestions.push("Update deprecated configuration fields");
   }
 
   if (score < 70) {
-    suggestions.push('Review and improve overall configuration quality');
+    suggestions.push("Review and improve overall configuration quality");
   }
 
   return {

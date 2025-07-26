@@ -2,27 +2,31 @@
 
 ## ✅ Completed Setup
 
-### 1. **GitHub Actions Workflow** 
+### 1. **GitHub Actions Workflow**
+
 - Created `.github/workflows/aws-deploy.yml`
 - Multi-stage pipeline: Test → Build → Deploy
 - Environment-specific deployments (staging/production)
 - Automatic rollback on failure
 
 ### 2. **AWS Infrastructure (CDK)**
+
 - **Lambda Functions** for Next.js SSR
-- **CloudFront CDN** for global distribution  
+- **CloudFront CDN** for global distribution
 - **S3 Buckets** for static assets
 - **Route53** for DNS management
 - **CloudWatch** monitoring and alerts
 - **SSM Parameter Store** for secrets
 
 ### 3. **Documentation**
+
 - `AWS_DEPLOYMENT_GUIDE.md` - Complete deployment guide
 - `AWS_DEPLOYMENT_QUICKSTART.md` - Quick start instructions
 - `GITHUB_SECRETS_SETUP.md` - GitHub secrets configuration
 - `AWS_CREDENTIALS_SETUP.md` - AWS IAM setup guide
 
 ### 4. **Deployment Scripts**
+
 - `setup-aws-deployment.sh` - Automated infrastructure setup
 - `setup-ssm-parameters.sh` - Environment variable management
 - `test-deployment.sh` - Deployment validation
@@ -30,12 +34,14 @@
 ## 🚀 Ready to Deploy
 
 ### Prerequisites Check:
+
 - ✅ AWS Account: `626635423620`
 - ✅ AWS CLI Configured: User `hitesh.gupta`
 - ✅ GitHub Repository: `margadeshaka/taxexclusive`
 - ⏳ Docker Desktop: Starting...
 
 ### Environment Variables Configured:
+
 - ✅ AWS SES credentials
 - ✅ Strapi CMS URL
 - ✅ Email configuration
@@ -46,6 +52,7 @@
 1. **Wait for Docker to start** (required for Lambda bundling)
 
 2. **Set GitHub Secrets**:
+
    ```bash
    gh secret set AWS_ACCESS_KEY_ID --body "AKIAZDZTBX6CDPOF54EB" --repo margadeshaka/taxexclusive
    gh secret set AWS_SECRET_ACCESS_KEY --repo margadeshaka/taxexclusive
@@ -53,6 +60,7 @@
    ```
 
 3. **Run initial deployment**:
+
    ```bash
    ./scripts/aws/setup-aws-deployment.sh staging us-east-1
    ```
@@ -98,6 +106,7 @@ GitHub Push → GitHub Actions → AWS
 ## 🆘 Support
 
 If you encounter issues:
+
 1. Check GitHub Actions logs
 2. Review CloudFormation events in AWS Console
 3. Check CloudWatch logs for Lambda errors

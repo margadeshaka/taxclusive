@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { sendEmail } from '@/lib/email';
+import { NextRequest, NextResponse } from "next/server";
+import { sendEmail } from "@/lib/email";
 
 export async function POST(req: NextRequest) {
   try {
@@ -10,9 +10,9 @@ export async function POST(req: NextRequest) {
     // Validate required fields
     if (!subject || !text) {
       return NextResponse.json(
-        { 
-          success: false, 
-          message: 'Subject and text are required' 
+        {
+          success: false,
+          message: "Subject and text are required",
         },
         { status: 400 }
       );
@@ -28,16 +28,15 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      message: 'Email sent successfully',
+      message: "Email sent successfully",
     });
-
   } catch (error) {
-    console.error('Error sending email:', error);
-    
+    console.error("Error sending email:", error);
+
     return NextResponse.json(
       {
         success: false,
-        message: 'Failed to send email',
+        message: "Failed to send email",
       },
       { status: 500 }
     );
@@ -49,9 +48,9 @@ export async function OPTIONS() {
   return new NextResponse(null, {
     status: 200,
     headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'POST, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type',
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "POST, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type",
     },
   });
 }

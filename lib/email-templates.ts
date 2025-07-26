@@ -17,7 +17,7 @@ function getBaseTemplate(content: string, data: EmailTemplateData = {}): string 
   const {
     companyName = "Taxclusive",
     contactEmail = "contact@taxclusive.com",
-    websiteUrl = "https://www.taxclusive.com"
+    websiteUrl = "https://www.taxclusive.com",
   } = data;
 
   return `
@@ -162,10 +162,10 @@ function getBaseTemplate(content: string, data: EmailTemplateData = {}): string 
         <div class="content">
             ${content}
             <div class="timestamp">
-                Received on ${new Date().toLocaleString('en-IN', { 
-                    timeZone: 'Asia/Kolkata',
-                    dateStyle: 'full',
-                    timeStyle: 'short'
+                Received on ${new Date().toLocaleString("en-IN", {
+                  timeZone: "Asia/Kolkata",
+                  dateStyle: "full",
+                  timeStyle: "short",
                 })} IST
             </div>
         </div>
@@ -228,7 +228,7 @@ export function getContactEmailTemplate(formData: {
     <div class="field-group">
         <div class="field-label">Message</div>
         <div class="message-content">
-            ${formData.message.replace(/\n/g, '<br>')}
+            ${formData.message.replace(/\n/g, "<br>")}
         </div>
     </div>
     
@@ -238,7 +238,7 @@ export function getContactEmailTemplate(formData: {
   `;
 
   const html = getBaseTemplate(content);
-  
+
   const text = `
 New Contact Form Submission - Taxclusive
 
@@ -250,7 +250,7 @@ Subject: ${formData.subject}
 Message:
 ${formData.message}
 
-Received: ${new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })} IST
+Received: ${new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })} IST
 
 Please respond within 24 hours to maintain excellent client service.
 `;
@@ -258,7 +258,7 @@ Please respond within 24 hours to maintain excellent client service.
   return {
     subject: `🔔 Contact Form: ${formData.subject} - ${formData.firstName} ${formData.lastName}`,
     html,
-    text
+    text,
   };
 }
 
@@ -300,11 +300,11 @@ export function getAppointmentEmailTemplate(formData: {
     <div class="field-group">
         <div class="field-label">Preferred Date & Time</div>
         <div class="field-value">
-            <strong>${new Date(formData.date).toLocaleDateString('en-IN', { 
-                weekday: 'long', 
-                year: 'numeric', 
-                month: 'long', 
-                day: 'numeric' 
+            <strong>${new Date(formData.date).toLocaleDateString("en-IN", {
+              weekday: "long",
+              year: "numeric",
+              month: "long",
+              day: "numeric",
             })}</strong><br>
             Time: ${formData.time}
         </div>
@@ -315,13 +315,17 @@ export function getAppointmentEmailTemplate(formData: {
         <div class="field-value">${formData.meetingType}</div>
     </div>
     
-    ${formData.message ? `
+    ${
+      formData.message
+        ? `
     <div class="field-group">
         <div class="field-label">Additional Information</div>
         <div class="message-content">
-            ${formData.message.replace(/\n/g, '<br>')}
+            ${formData.message.replace(/\n/g, "<br>")}
         </div>
-    </div>` : ''}
+    </div>`
+        : ""
+    }
     
     <p style="margin-top: 30px; padding: 15px; background-color: #fef3c7; border-radius: 6px; border-left: 4px solid #f59e0b;">
         <strong>⚡ Action Required:</strong> Please confirm this appointment within 4 hours and send calendar invite to the client.
@@ -329,7 +333,7 @@ export function getAppointmentEmailTemplate(formData: {
   `;
 
   const html = getBaseTemplate(content);
-  
+
   const text = `
 New Appointment Request - Taxclusive
 
@@ -337,21 +341,21 @@ Client: ${formData.firstName} ${formData.lastName}
 Email: ${formData.email}
 Phone: ${formData.phone}
 Service: ${formData.service}
-Date: ${new Date(formData.date).toLocaleDateString('en-IN')}
+Date: ${new Date(formData.date).toLocaleDateString("en-IN")}
 Time: ${formData.time}
 Meeting Type: ${formData.meetingType}
 
-${formData.message ? `Additional Information:\n${formData.message}\n` : ''}
+${formData.message ? `Additional Information:\n${formData.message}\n` : ""}
 
 URGENT: Please confirm within 4 hours and send calendar invite.
 
-Received: ${new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })} IST
+Received: ${new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })} IST
 `;
 
   return {
-    subject: `🚨 URGENT: Appointment Request - ${formData.service} on ${new Date(formData.date).toLocaleDateString('en-IN')}`,
+    subject: `🚨 URGENT: Appointment Request - ${formData.service} on ${new Date(formData.date).toLocaleDateString("en-IN")}`,
     html,
-    text
+    text,
   };
 }
 
@@ -368,8 +372,12 @@ export function getQueryEmailTemplate(formData: {
   query: string;
   files?: string[];
 }): { subject: string; html: string; text: string } {
-  const priorityClass = formData.priority === 'High' ? 'priority-high' : 
-                       formData.priority === 'Medium' ? 'priority-medium' : 'priority-low';
+  const priorityClass =
+    formData.priority === "High"
+      ? "priority-high"
+      : formData.priority === "Medium"
+        ? "priority-medium"
+        : "priority-low";
 
   const content = `
     <h2>❓ New Query Submission</h2>
@@ -383,7 +391,7 @@ export function getQueryEmailTemplate(formData: {
         <div class="field-label">Contact Information</div>
         <div class="field-value">
             Email: <a href="mailto:${formData.email}" style="color: #3b82f6;">${formData.email}</a>
-            ${formData.phone ? `<br>Phone: <a href="tel:${formData.phone}" style="color: #3b82f6;">${formData.phone}</a>` : ''}
+            ${formData.phone ? `<br>Phone: <a href="tel:${formData.phone}" style="color: #3b82f6;">${formData.phone}</a>` : ""}
         </div>
     </div>
     
@@ -392,18 +400,25 @@ export function getQueryEmailTemplate(formData: {
         <div class="field-value">${formData.category}</div>
     </div>
     
-    ${formData.priority ? `
+    ${
+      formData.priority
+        ? `
     <div class="field-group ${priorityClass}">
         <div class="field-label">Priority Level</div>
         <div class="field-value">
             <span style="font-weight: bold; color: ${
-              formData.priority === 'High' ? '#ef4444' : 
-              formData.priority === 'Medium' ? '#f59e0b' : '#10b981'
+              formData.priority === "High"
+                ? "#ef4444"
+                : formData.priority === "Medium"
+                  ? "#f59e0b"
+                  : "#10b981"
             };">
                 ${formData.priority}
             </span>
         </div>
-    </div>` : ''}
+    </div>`
+        : ""
+    }
     
     <div class="field-group">
         <div class="field-label">Subject</div>
@@ -413,17 +428,21 @@ export function getQueryEmailTemplate(formData: {
     <div class="field-group">
         <div class="field-label">Query Details</div>
         <div class="message-content">
-            ${formData.query.replace(/\n/g, '<br>')}
+            ${formData.query.replace(/\n/g, "<br>")}
         </div>
     </div>
     
-    ${formData.files && formData.files.length > 0 ? `
+    ${
+      formData.files && formData.files.length > 0
+        ? `
     <div class="field-group">
         <div class="field-label">Files Attached</div>
         <div class="field-value">
-            ${formData.files.map(file => `📎 ${file}`).join('<br>')}
+            ${formData.files.map((file) => `📎 ${file}`).join("<br>")}
         </div>
-    </div>` : ''}
+    </div>`
+        : ""
+    }
     
     <p style="margin-top: 30px; padding: 15px; background-color: #ecfdf5; border-radius: 6px; border-left: 4px solid #10b981;">
         <strong>📋 Assignment:</strong> Please review this query and assign to the appropriate specialist within 2 hours.
@@ -431,43 +450,45 @@ export function getQueryEmailTemplate(formData: {
   `;
 
   const html = getBaseTemplate(content);
-  
+
   const text = `
 New Query Submission - Taxclusive
 
 Client: ${formData.fullName}
 Email: ${formData.email}
-${formData.phone ? `Phone: ${formData.phone}` : ''}
+${formData.phone ? `Phone: ${formData.phone}` : ""}
 Category: ${formData.category}
-${formData.priority ? `Priority: ${formData.priority}` : ''}
+${formData.priority ? `Priority: ${formData.priority}` : ""}
 Subject: ${formData.subject}
 
 Query:
 ${formData.query}
 
-${formData.files && formData.files.length > 0 ? `Files: ${formData.files.join(', ')}` : ''}
+${formData.files && formData.files.length > 0 ? `Files: ${formData.files.join(", ")}` : ""}
 
 Please assign to appropriate specialist within 2 hours.
 
-Received: ${new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })} IST
+Received: ${new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })} IST
 `;
 
-  const priorityIcon = formData.priority === 'High' ? '🔴' : 
-                      formData.priority === 'Medium' ? '🟡' : '🟢';
+  const priorityIcon =
+    formData.priority === "High" ? "🔴" : formData.priority === "Medium" ? "🟡" : "🟢";
 
   return {
     subject: `${priorityIcon} Query: ${formData.category} - ${formData.subject}`,
     html,
-    text
+    text,
   };
 }
 
 /**
  * Enhanced newsletter subscription email template
  */
-export function getNewsletterEmailTemplate(formData: {
-  email: string;
-}): { subject: string; html: string; text: string } {
+export function getNewsletterEmailTemplate(formData: { email: string }): {
+  subject: string;
+  html: string;
+  text: string;
+} {
   const content = `
     <h2>📰 New Newsletter Subscription</h2>
     
@@ -486,7 +507,7 @@ export function getNewsletterEmailTemplate(formData: {
   `;
 
   const html = getBaseTemplate(content);
-  
+
   const text = `
 New Newsletter Subscription - Taxclusive
 
@@ -494,13 +515,13 @@ New Subscriber: ${formData.email}
 
 Action Required: Add to mailing list and send welcome email.
 
-Received: ${new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })} IST
+Received: ${new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })} IST
 `;
 
   return {
     subject: `📬 New Newsletter Subscription from ${formData.email}`,
     html,
-    text
+    text,
   };
 }
 
@@ -526,7 +547,7 @@ export function getMessageEmailTemplate(formData: {
         <div class="field-label">Contact Information</div>
         <div class="field-value">
             Email: <a href="mailto:${formData.email}" style="color: #3b82f6;">${formData.email}</a>
-            ${formData.phone ? `<br>Phone: <a href="tel:${formData.phone}" style="color: #3b82f6;">${formData.phone}</a>` : ''}
+            ${formData.phone ? `<br>Phone: <a href="tel:${formData.phone}" style="color: #3b82f6;">${formData.phone}</a>` : ""}
         </div>
     </div>
     
@@ -538,7 +559,7 @@ export function getMessageEmailTemplate(formData: {
     <div class="field-group">
         <div class="field-label">Message</div>
         <div class="message-content">
-            ${formData.message.replace(/\n/g, '<br>')}
+            ${formData.message.replace(/\n/g, "<br>")}
         </div>
     </div>
     
@@ -548,13 +569,13 @@ export function getMessageEmailTemplate(formData: {
   `;
 
   const html = getBaseTemplate(content);
-  
+
   const text = `
 New Message - Taxclusive
 
 From: ${formData.name}
 Email: ${formData.email}
-${formData.phone ? `Phone: ${formData.phone}` : ''}
+${formData.phone ? `Phone: ${formData.phone}` : ""}
 Subject: ${formData.subject}
 
 Message:
@@ -562,12 +583,12 @@ ${formData.message}
 
 Please respond within 24 hours.
 
-Received: ${new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })} IST
+Received: ${new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })} IST
 `;
 
   return {
     subject: `💌 Message: ${formData.subject} - ${formData.name}`,
     html,
-    text
+    text,
   };
 }

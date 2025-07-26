@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import Script from "next/script";
 
@@ -7,7 +7,6 @@ import Footer from "@/components/footer";
 import Header from "@/components/header";
 import { dynamicImport } from "@/lib/dynamic-import";
 import { generateStructuredData } from "@/lib/metadata";
-
 
 // Lazy load components that are below the fold with enhanced error handling
 const ExpertiseSection = dynamicImport(
@@ -18,7 +17,6 @@ const ContactSection = dynamicImport(() => import("@/components/features/home/co
 const NewsletterSubscription = dynamicImport(() => import("@/components/newsletter-subscription"), {
   loading: () => <div className="w-full py-12 animate-pulse"></div>,
 });
-
 
 export default function Home() {
   return (

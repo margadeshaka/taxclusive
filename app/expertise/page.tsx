@@ -1,12 +1,10 @@
-'use client';
+"use client";
 
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 
 import Footer from "@/components/footer";
 import Header from "@/components/header";
-
-
 
 export default function ExpertisePage() {
   return (

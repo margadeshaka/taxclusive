@@ -16,6 +16,7 @@ Follow these steps to configure AWS credentials for deployment.
    - Navigate to IAM (Identity and Access Management)
 
 2. **Create New User**
+
    ```
    IAM → Users → Add User
    - User name: taxclusive-deployer
@@ -38,6 +39,7 @@ Instead of using AdministratorAccess, create a least-privilege policy:
 1. **Go to IAM → Policies → Create Policy**
 
 2. **Use this JSON policy**:
+
 ```json
 {
   "Version": "2012-10-17",
@@ -227,6 +229,7 @@ Instead of using AdministratorAccess, create a least-privilege policy:
 ## Step 4: Configure AWS CLI
 
 1. **Install AWS CLI** (if not already installed):
+
    ```bash
    # macOS
    brew install awscli
@@ -236,9 +239,10 @@ Instead of using AdministratorAccess, create a least-privilege policy:
    ```
 
 2. **Configure credentials**:
+
    ```bash
    aws configure
-   
+
    # Enter when prompted:
    AWS Access Key ID: [Your Access Key]
    AWS Secret Access Key: [Your Secret Key]
@@ -247,11 +251,13 @@ Instead of using AdministratorAccess, create a least-privilege policy:
    ```
 
 3. **Test configuration**:
+
    ```bash
    aws sts get-caller-identity
    ```
 
    Should return:
+
    ```json
    {
      "UserId": "AIDAXXXXXXXXXXXXXXXXX",
@@ -276,6 +282,7 @@ gh secret set AWS_REGION --body "us-east-1" --repo margadeshaka/taxexclusive
 Since you're using AWS SES for emails:
 
 1. **Verify email addresses** in SES:
+
    ```bash
    aws ses verify-email-identity --email-address noreply@taxclusive.com
    aws ses verify-email-identity --email-address contact@taxclusive.com
@@ -296,15 +303,18 @@ Since you're using AWS SES for emails:
 ## Troubleshooting
 
 ### Permission Denied Errors
+
 - Ensure IAM user has all required policies attached
 - Check if you're in the correct AWS region
 
 ### SES Not Sending Emails
+
 - Verify email addresses are confirmed
 - Check if account is still in SES sandbox mode
 - Review SES sending limits
 
 ### Deployment Fails
+
 - Check CloudFormation stack events for errors
 - Verify all required secrets are set in GitHub
 - Ensure Docker is running for Lambda bundling
@@ -314,11 +324,13 @@ Since you're using AWS SES for emails:
 After setting up credentials:
 
 1. Run the deployment setup script:
+
    ```bash
    ./scripts/aws/setup-aws-deployment.sh staging us-east-1
    ```
 
 2. Push to GitHub to trigger deployment:
+
    ```bash
    git push origin main
    ```

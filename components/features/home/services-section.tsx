@@ -16,8 +16,8 @@ export default function ServicesSection() {
               Our comprehensive financial solutions are designed to empower businesses and
               individuals with <strong>insightful</strong> planning, <strong>trusted</strong>{" "}
               guidance, and <strong>innovative</strong> strategies. From tax optimization to
-              business advisory, we&apos;re committed to <em>Mastering taxes, delivering excellence</em>{" "}
-              every step of the way.
+              business advisory, we&apos;re committed to{" "}
+              <em>Mastering taxes, delivering excellence</em> every step of the way.
             </p>
           </div>
         </div>

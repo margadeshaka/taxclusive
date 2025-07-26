@@ -98,7 +98,6 @@ For local development, copy `.env.local.example` to `.env.local` and fill in the
 TaxExclusive uses GitHub Actions for CI/CD:
 
 1. **Continuous Integration**:
-
    - Runs on every push and pull request
    - Runs linting, type checking, and tests
    - Builds the application to ensure it compiles correctly
@@ -160,13 +159,11 @@ Ensure the following security measures are in place:
 ### Common Deployment Issues
 
 1. **Build Failures**:
-
    - Check the build logs for errors
    - Verify that all dependencies are correctly installed
    - Ensure environment variables are correctly set
 
 2. **Runtime Errors**:
-
    - Check the browser console for JavaScript errors
    - Verify API endpoints are accessible
    - Check Sentry for error reports

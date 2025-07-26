@@ -5,175 +5,179 @@
 
 export const SEO_CONFIG = {
   // Base URL
-  baseUrl: process.env.NEXT_PUBLIC_BASE_URL || 'https://www.taxclusive.com',
-  
+  baseUrl: process.env.NEXT_PUBLIC_BASE_URL || "https://www.taxclusive.com",
+
   // Default site information
   site: {
-    name: 'Taxclusive',
-    title: 'Taxclusive - Expert Chartered Accountants in Delhi NCR | Gurugram, Noida, Ghaziabad',
-    description: 'Leading Chartered Accountancy firm in Delhi NCR providing expert tax planning, GST compliance, audit services & financial advisory in Gurugram, Delhi, Noida, Ghaziabad, Faridabad. 35+ years experience, 500+ clients.',
-    keywords: 'chartered accountant gurugram, CA services delhi ncr, tax planning gurugram, GST compliance delhi, audit services noida, financial advisory ghaziabad, business registration faridabad, chartered accountant near me, CA firm haryana, tax consultant delhi, income tax gurugram, GST registration delhi ncr, company incorporation gurugram, accounting firm delhi, best CA gurugram, top chartered accountant delhi, tax planning services noida, GST filing ghaziabad, audit services faridabad',
-    author: 'Taxclusive Team',
-    locale: 'en_IN',
-    language: 'en-IN',
+    name: "Taxclusive",
+    title: "Taxclusive - Expert Chartered Accountants in Delhi NCR | Gurugram, Noida, Ghaziabad",
+    description:
+      "Leading Chartered Accountancy firm in Delhi NCR providing expert tax planning, GST compliance, audit services & financial advisory in Gurugram, Delhi, Noida, Ghaziabad, Faridabad. 35+ years experience, 500+ clients.",
+    keywords:
+      "chartered accountant gurugram, CA services delhi ncr, tax planning gurugram, GST compliance delhi, audit services noida, financial advisory ghaziabad, business registration faridabad, chartered accountant near me, CA firm haryana, tax consultant delhi, income tax gurugram, GST registration delhi ncr, company incorporation gurugram, accounting firm delhi, best CA gurugram, top chartered accountant delhi, tax planning services noida, GST filing ghaziabad, audit services faridabad",
+    author: "Taxclusive Team",
+    locale: "en_IN",
+    language: "en-IN",
   },
-  
+
   // Business information
   business: {
-    name: 'Taxclusive - Chartered Accountants',
-    legalName: 'Taxclusive Chartered Accountants LLP',
-    description: 'Leading Chartered Accountancy firm in Gurugram providing expert CA services across India',
-    foundingDate: '2010',
-    numberOfEmployees: '25',
-    slogan: 'Your Trusted Financial Partner',
-    logo: '/logo.png',
-    image: '/about.png',
-    
+    name: "Taxclusive - Chartered Accountants",
+    legalName: "Taxclusive Chartered Accountants LLP",
+    description:
+      "Leading Chartered Accountancy firm in Gurugram providing expert CA services across India",
+    foundingDate: "2010",
+    numberOfEmployees: "25",
+    slogan: "Your Trusted Financial Partner",
+    logo: "/logo.png",
+    image: "/about.png",
+
     // Contact information
     contact: {
-      phone: '+919782799042',
-      email: 'contact@taxclusive.com',
-      website: 'https://www.taxclusive.com',
+      phone: "+919782799042",
+      email: "contact@taxclusive.com",
+      website: "https://www.taxclusive.com",
     },
-    
+
     // Address
     address: {
-      streetAddress: 'JMD Megapolis, Sector 48, Sohna Road',
-      addressLocality: 'Gurugram',
-      addressRegion: 'Haryana',
-      postalCode: '122001',
-      addressCountry: 'IN',
+      streetAddress: "JMD Megapolis, Sector 48, Sohna Road",
+      addressLocality: "Gurugram",
+      addressRegion: "Haryana",
+      postalCode: "122001",
+      addressCountry: "IN",
     },
-    
+
     // Geographic coordinates
     geo: {
       latitude: 28.4089,
       longitude: 77.0378,
     },
-    
+
     // Business hours
-    openingHours: ['Mo-Fr 09:00-18:00', 'Sa 09:00-14:00'],
-    
+    openingHours: ["Mo-Fr 09:00-18:00", "Sa 09:00-14:00"],
+
     // Service areas (optimized for local SEO)
     serviceAreas: [
-      'Gurugram',
-      'New Delhi', 
-      'Noida',
-      'Ghaziabad',
-      'Faridabad',
-      'Manesar',
-      'Dwarka',
-      'Vasant Kunj',
-      'Greater Noida',
-      'Indirapuram',
-      'Vaishali',
-      'Raj Nagar Extension',
-      'Crossings Republik',
-      'Neharpar Faridabad',
-      'Sector 15 Faridabad',
-      'Cyber City Gurugram',
-      'Golf Course Road',
-      'Sohna Road',
-      'MG Road Gurugram',
-      'Udyog Vihar',
-      'DLF Phase 1-5',
-      'Haryana',
-      'Delhi',
-      'Uttar Pradesh',
-      'Delhi NCR',
-      'NCR',
-      'India'
+      "Gurugram",
+      "New Delhi",
+      "Noida",
+      "Ghaziabad",
+      "Faridabad",
+      "Manesar",
+      "Dwarka",
+      "Vasant Kunj",
+      "Greater Noida",
+      "Indirapuram",
+      "Vaishali",
+      "Raj Nagar Extension",
+      "Crossings Republik",
+      "Neharpar Faridabad",
+      "Sector 15 Faridabad",
+      "Cyber City Gurugram",
+      "Golf Course Road",
+      "Sohna Road",
+      "MG Road Gurugram",
+      "Udyog Vihar",
+      "DLF Phase 1-5",
+      "Haryana",
+      "Delhi",
+      "Uttar Pradesh",
+      "Delhi NCR",
+      "NCR",
+      "India",
     ],
-    
+
     // Price range
-    priceRange: '₹₹',
-    
+    priceRange: "₹₹",
+
     // Payment methods
-    paymentAccepted: ['Cash', 'Credit Card', 'Debit Card', 'Bank Transfer', 'UPI', 'Net Banking'],
-    
+    paymentAccepted: ["Cash", "Credit Card", "Debit Card", "Bank Transfer", "UPI", "Net Banking"],
+
     // Social media
     socialMedia: {
-      linkedin: 'https://www.linkedin.com/company/taxclusive',
-      facebook: 'https://www.facebook.com/taxclusive',
-      twitter: 'https://twitter.com/taxclusive',
-      instagram: 'https://www.instagram.com/taxclusive',
+      linkedin: "https://www.linkedin.com/company/taxclusive",
+      facebook: "https://www.facebook.com/taxclusive",
+      twitter: "https://twitter.com/taxclusive",
+      instagram: "https://www.instagram.com/taxclusive",
     },
-    
+
     // Services offered
     services: [
       {
-        name: 'Tax Planning and Preparation',
-        description: 'Comprehensive tax planning and return filing services for individuals and businesses',
-        url: '/services#tax-planning'
+        name: "Tax Planning and Preparation",
+        description:
+          "Comprehensive tax planning and return filing services for individuals and businesses",
+        url: "/services#tax-planning",
       },
       {
-        name: 'GST Compliance and Returns',
-        description: 'Complete GST registration, compliance, and return filing services',
-        url: '/services#gst-compliance'
+        name: "GST Compliance and Returns",
+        description: "Complete GST registration, compliance, and return filing services",
+        url: "/services#gst-compliance",
       },
       {
-        name: 'Audit and Assurance Services',
-        description: 'Independent audit and assurance services for enhanced financial credibility',
-        url: '/services#audit-assurance'
+        name: "Audit and Assurance Services",
+        description: "Independent audit and assurance services for enhanced financial credibility",
+        url: "/services#audit-assurance",
       },
       {
-        name: 'Business Registration and Compliance',
-        description: 'Company incorporation, LLP registration, and regulatory compliance services',
-        url: '/services#business-registration'
+        name: "Business Registration and Compliance",
+        description: "Company incorporation, LLP registration, and regulatory compliance services",
+        url: "/services#business-registration",
       },
       {
-        name: 'Financial Advisory and Consulting',
-        description: 'Strategic financial planning and business advisory services',
-        url: '/services#financial-advisory'
+        name: "Financial Advisory and Consulting",
+        description: "Strategic financial planning and business advisory services",
+        url: "/services#financial-advisory",
       },
       {
-        name: 'Bookkeeping and Accounting',
-        description: 'Comprehensive bookkeeping and accounting services',
-        url: '/services#bookkeeping'
-      }
+        name: "Bookkeeping and Accounting",
+        description: "Comprehensive bookkeeping and accounting services",
+        url: "/services#bookkeeping",
+      },
     ],
-    
+
     // Industries served
     industries: [
-      'Real Estate & Construction',
-      'Technology & Startups',
-      'Manufacturing & Distribution', 
-      'Healthcare & Life Sciences',
-      'Retail & E-commerce',
-      'Nonprofit Organizations',
-      'Professional Services',
-      'Hospitality & Food Service',
-      'Financial Services'
+      "Real Estate & Construction",
+      "Technology & Startups",
+      "Manufacturing & Distribution",
+      "Healthcare & Life Sciences",
+      "Retail & E-commerce",
+      "Nonprofit Organizations",
+      "Professional Services",
+      "Hospitality & Food Service",
+      "Financial Services",
     ],
-    
+
     // Ratings and reviews
     aggregateRating: {
-      ratingValue: '4.8',
-      reviewCount: '150',
-      bestRating: '5',
-      worstRating: '1'
-    }
+      ratingValue: "4.8",
+      reviewCount: "150",
+      bestRating: "5",
+      worstRating: "1",
+    },
   },
-  
+
   // Open Graph defaults
   openGraph: {
-    type: 'website',
-    siteName: 'Taxclusive',
-    locale: 'en_IN',
+    type: "website",
+    siteName: "Taxclusive",
+    locale: "en_IN",
     images: {
-      default: '/images/og-image.jpg',
+      default: "/images/og-image.jpg",
       width: 1200,
-      height: 630
-    }
+      height: 630,
+    },
   },
-  
+
   // Twitter defaults
   twitter: {
-    card: 'summary_large_image',
-    site: '@taxclusive',
-    creator: '@taxclusive'
+    card: "summary_large_image",
+    site: "@taxclusive",
+    creator: "@taxclusive",
   },
-  
+
   // Robots configuration
   robots: {
     index: true,
@@ -181,24 +185,24 @@ export const SEO_CONFIG = {
     googleBot: {
       index: true,
       follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
     },
   },
-  
+
   // Verification codes
   verification: {
-    google: process.env.GOOGLE_SITE_VERIFICATION || '',
-    bing: process.env.BING_SITE_VERIFICATION || '',
-    yandex: process.env.YANDEX_SITE_VERIFICATION || '',
+    google: process.env.GOOGLE_SITE_VERIFICATION || "",
+    bing: process.env.BING_SITE_VERIFICATION || "",
+    yandex: process.env.YANDEX_SITE_VERIFICATION || "",
   },
-  
+
   // Analytics
   analytics: {
-    googleAnalytics: process.env.GOOGLE_ANALYTICS_ID || '',
-    googleTagManager: process.env.GOOGLE_TAG_MANAGER_ID || '',
-  }
+    googleAnalytics: process.env.GOOGLE_ANALYTICS_ID || "",
+    googleTagManager: process.env.GOOGLE_TAG_MANAGER_ID || "",
+  },
 };
 
 /**
@@ -210,11 +214,11 @@ export function generatePageSEO(page: {
   keywords?: string;
   image?: string;
   path?: string;
-  type?: 'website' | 'article' | 'profile';
+  type?: "website" | "article" | "profile";
   noIndex?: boolean;
 }) {
   const { site, baseUrl } = SEO_CONFIG;
-  
+
   return {
     title: page.title ? `${page.title} | ${site.name}` : site.title,
     description: page.description || site.description,
@@ -225,14 +229,16 @@ export function generatePageSEO(page: {
       description: page.description || site.description,
       url: page.path ? `${baseUrl}${page.path}` : baseUrl,
       siteName: site.name,
-      images: [{
-        url: page.image || SEO_CONFIG.openGraph.images.default,
-        width: SEO_CONFIG.openGraph.images.width,
-        height: SEO_CONFIG.openGraph.images.height,
-        alt: page.title || site.title,
-      }],
+      images: [
+        {
+          url: page.image || SEO_CONFIG.openGraph.images.default,
+          width: SEO_CONFIG.openGraph.images.width,
+          height: SEO_CONFIG.openGraph.images.height,
+          alt: page.title || site.title,
+        },
+      ],
       locale: site.locale,
-      type: page.type || 'website',
+      type: page.type || "website",
     },
     twitter: {
       card: SEO_CONFIG.twitter.card,
@@ -249,68 +255,80 @@ export function generatePageSEO(page: {
 /**
  * Generate structured data for different page types
  */
-export function generateStructuredDataConfig(type: 'organization' | 'localBusiness' | 'service' | 'faq' | 'article') {
+export function generateStructuredDataConfig(
+  type: "organization" | "localBusiness" | "service" | "faq" | "article"
+) {
   const { business } = SEO_CONFIG;
-  
+
   const baseData = {
-    '@context': 'https://schema.org',
-    '@type': type === 'organization' ? 'Organization' : 
-             type === 'localBusiness' ? ['AccountingService', 'LocalBusiness'] :
-             type === 'service' ? 'Service' :
-             type === 'faq' ? 'FAQPage' : 'Article',
+    "@context": "https://schema.org",
+    "@type":
+      type === "organization"
+        ? "Organization"
+        : type === "localBusiness"
+          ? ["AccountingService", "LocalBusiness"]
+          : type === "service"
+            ? "Service"
+            : type === "faq"
+              ? "FAQPage"
+              : "Article",
     name: business.name,
     url: business.contact.website,
     logo: business.logo,
     image: business.image,
     description: business.description,
   };
-  
-  if (type === 'localBusiness' || type === 'organization') {
+
+  if (type === "localBusiness" || type === "organization") {
     return {
       ...baseData,
       address: {
-        '@type': 'PostalAddress',
+        "@type": "PostalAddress",
         ...business.address,
       },
       geo: {
-        '@type': 'GeoCoordinates',
+        "@type": "GeoCoordinates",
         ...business.geo,
       },
       contactPoint: {
-        '@type': 'ContactPoint',
+        "@type": "ContactPoint",
         telephone: business.contact.phone,
         email: business.contact.email,
-        contactType: 'customer service',
-        availableLanguage: ['English', 'Hindi'],
+        contactType: "customer service",
+        availableLanguage: ["English", "Hindi"],
       },
       openingHours: business.openingHours,
       priceRange: business.priceRange,
       paymentAccepted: business.paymentAccepted,
-      areaServed: business.serviceAreas.map(area => ({
-        '@type': area.includes('India') ? 'Country' : area.includes('Haryana') || area.includes('Delhi') ? 'State' : 'City',
-        name: area
+      areaServed: business.serviceAreas.map((area) => ({
+        "@type": area.includes("India")
+          ? "Country"
+          : area.includes("Haryana") || area.includes("Delhi")
+            ? "State"
+            : "City",
+        name: area,
       })),
       sameAs: Object.values(business.socialMedia),
       aggregateRating: {
-        '@type': 'AggregateRating',
+        "@type": "AggregateRating",
         ...business.aggregateRating,
       },
       hasOfferCatalog: {
-        '@type': 'OfferCatalog',
-        name: 'Chartered Accountancy Services',
-        itemListElement: business.services.map(service => ({
-          '@type': 'Offer',
+        "@type": "OfferCatalog",
+        name: "Chartered Accountancy Services",
+        itemListElement: business.services.map((service) => ({
+          "@type": "Offer",
           itemOffered: {
-            '@type': 'Service',
+            "@type": "Service",
             name: service.name,
             description: service.description,
-            url: `${business.contact.website}${service.url}`
-          }
-        }))
-      }
+            url: `${business.contact.website}${service.url}`,
+          },
+        })),
+      },
     };
   }
-  
+
   return baseData;
 }
 

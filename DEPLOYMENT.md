@@ -21,6 +21,7 @@ This will handle the complete deployment process including infrastructure setup,
 ## What Gets Deployed
 
 ### Azure Resources
+
 - **Resource Group**: `taxclusive`
 - **App Service Plan**: `taxexclusive-plan` (B1 SKU, Linux)
 - **Web App**: `taxexclusive-app` (Node.js 20 LTS)
@@ -32,6 +33,7 @@ This will handle the complete deployment process including infrastructure setup,
 - **Custom Dashboard**: Performance and business metrics
 
 ### Monitoring Features
+
 - **Application Performance Monitoring**: Request tracking, dependency monitoring, exception tracking
 - **Business Metrics**: User engagement, conversion funnel, geographic distribution
 - **Infrastructure Monitoring**: CPU, memory, disk usage
@@ -41,6 +43,7 @@ This will handle the complete deployment process including infrastructure setup,
 - **Log Analytics**: Centralized logging with KQL queries
 
 ### GitHub Actions
+
 - **Automated CI/CD**: Triggers on push to main branch
 - **Quality Gates**: Linting, testing, building
 - **Security**: Uses service principal with least privilege access
@@ -51,11 +54,13 @@ This will handle the complete deployment process including infrastructure setup,
 ## Deployment Options
 
 ### Option 1: One-Command Deployment (Recommended)
+
 ```bash
 ./deploy.sh
 ```
 
 ### Option 2: Step-by-Step Deployment
+
 ```bash
 # 1. Deploy Azure infrastructure
 ./scripts/deploy-azure.sh
@@ -71,6 +76,7 @@ git push azure main
 ```
 
 ### Option 3: GitHub Actions Deployment
+
 ```bash
 # Setup secrets first
 ./scripts/setup-github-secrets.sh
@@ -82,19 +88,22 @@ git push origin main
 ## Configuration
 
 ### Environment Variables
+
 Configure these in Azure App Service or GitHub Secrets:
 
-| Variable | Description | Required |
-|----------|-------------|----------|
-| `NEXT_PUBLIC_STRAPI_URL` | Strapi CMS endpoint | Yes |
-| `AZURE_COMMUNICATION_CONNECTION_STRING` | Azure Communication Services | Yes |
-| `AZURE_COMMUNICATION_SENDER_ADDRESS` | Email sender address | Yes |
-| `APPINSIGHTS_INSTRUMENTATIONKEY` | Application Insights key | Auto-set |
-| `NODE_ENV` | Environment (production) | Auto-set |
-| `PORT` | Application port (8080) | Auto-set |
+| Variable                                | Description                  | Required |
+| --------------------------------------- | ---------------------------- | -------- |
+| `NEXT_PUBLIC_STRAPI_URL`                | Strapi CMS endpoint          | Yes      |
+| `AZURE_COMMUNICATION_CONNECTION_STRING` | Azure Communication Services | Yes      |
+| `AZURE_COMMUNICATION_SENDER_ADDRESS`    | Email sender address         | Yes      |
+| `APPINSIGHTS_INSTRUMENTATIONKEY`        | Application Insights key     | Auto-set |
+| `NODE_ENV`                              | Environment (production)     | Auto-set |
+| `PORT`                                  | Application port (8080)      | Auto-set |
 
 ### Azure App Service Settings
+
 The deployment automatically configures:
+
 - Node.js 20 LTS runtime
 - Always On enabled
 - Application Insights integration
@@ -104,6 +113,7 @@ The deployment automatically configures:
 ## Monitoring and Alerts
 
 ### Default Alerts
+
 - **High CPU Usage**: >80% for 5 minutes
 - **High Memory Usage**: >1GB for 5 minutes
 - **HTTP 5xx Errors**: >10 in 5 minutes
@@ -111,12 +121,14 @@ The deployment automatically configures:
 - **Low Availability**: <95% uptime
 
 ### Monitoring Dashboards
+
 - **Azure Portal**: Complete infrastructure monitoring
 - **Application Insights**: Application performance and user analytics
 - **Custom Workbook**: Business metrics and KPIs
 - **GitHub Actions**: Deployment status and history
 
 ### Key Metrics Tracked
+
 - Request rate and response times
 - Error rates and exception details
 - User sessions and page views
@@ -127,6 +139,7 @@ The deployment automatically configures:
 ## Commands Reference
 
 ### Deployment
+
 ```bash
 # Full deployment
 ./deploy.sh
@@ -142,6 +155,7 @@ The deployment automatically configures:
 ```
 
 ### Monitoring
+
 ```bash
 # Setup comprehensive monitoring
 ./monitoring/setup-monitoring.sh
@@ -154,6 +168,7 @@ az webapp log deployment show --name taxexclusive-app --resource-group taxclusiv
 ```
 
 ### GitHub Operations
+
 ```bash
 # List secrets
 gh secret list
@@ -169,6 +184,7 @@ gh run view RUN_ID --log
 ```
 
 ### Azure Operations
+
 ```bash
 # Restart application
 az webapp restart --name taxexclusive-app --resource-group taxclusive
@@ -185,38 +201,42 @@ az webapp config appsettings set --resource-group taxclusive --name taxexclusive
 ### Common Issues
 
 1. **Application Not Starting**
+
    ```bash
    # Check logs
    az webapp log tail --name taxexclusive-app --resource-group taxclusive
-   
+
    # Verify Node.js version
    az webapp config show --name taxexclusive-app --resource-group taxclusive
    ```
 
 2. **Build Failures**
+
    ```bash
    # Check build logs in Kudu
    # URL: https://taxexclusive-app.scm.azurewebsites.net
-   
+
    # Or via Azure CLI
    az webapp deployment source show --name taxexclusive-app --resource-group taxclusive
    ```
 
 3. **GitHub Actions Failures**
+
    ```bash
    # View failed run
    gh run list --status failure
    gh run view RUN_ID --log
-   
+
    # Check secrets
    gh secret list
    ```
 
 4. **Monitoring Issues**
+
    ```bash
    # Verify Application Insights
    az monitor app-insights component show --app taxexclusive-insights --resource-group taxclusive
-   
+
    # Check alert rules
    az monitor metrics alert list --resource-group taxclusive
    ```
@@ -224,19 +244,21 @@ az webapp config appsettings set --resource-group taxclusive --name taxexclusive
 ### Performance Optimization
 
 1. **Enable CDN** (Optional)
+
    ```bash
    # Create CDN profile
    az cdn profile create --name taxexclusive-cdn --resource-group taxclusive --sku Standard_Microsoft
-   
+
    # Create CDN endpoint
    az cdn endpoint create --name taxexclusive --profile-name taxexclusive-cdn --resource-group taxclusive --origin taxexclusive-app.azurewebsites.net
    ```
 
 2. **Scale Up/Out**
+
    ```bash
    # Scale up (better hardware)
    az appservice plan update --name taxexclusive-plan --resource-group taxclusive --sku S2
-   
+
    # Scale out (more instances)
    az appservice plan update --name taxexclusive-plan --resource-group taxclusive --number-of-workers 3
    ```
@@ -244,6 +266,7 @@ az webapp config appsettings set --resource-group taxclusive --name taxexclusive
 ## Security Best Practices
 
 1. **Service Principal Rotation**
+
    ```bash
    # Rotate credentials every 90 days
    az ad sp credential reset --id APP_ID --append
@@ -262,12 +285,14 @@ az webapp config appsettings set --resource-group taxclusive --name taxexclusive
 ## Backup and Recovery
 
 ### Backup Configuration
+
 ```bash
 # Enable backup
 az webapp config backup update --resource-group taxclusive --webapp-name taxexclusive-app --backup-name daily-backup --frequency 1440 --retain-one true --retentionPeriodInDays 30
 ```
 
 ### Disaster Recovery
+
 - Application source code: GitHub repository
 - Configuration: Infrastructure as Code scripts
 - Data: Strapi CMS backup (separate process)
@@ -276,12 +301,14 @@ az webapp config backup update --resource-group taxclusive --webapp-name taxexcl
 ## Cost Optimization
 
 ### Cost Monitoring
+
 ```bash
 # View costs
 az consumption usage list --billing-period-name $(az billing period list --query '[0].name' -o tsv)
 ```
 
 ### Cost Saving Tips
+
 - Use B1 tier for development/staging
 - Enable auto-shutdown for non-production
 - Monitor and adjust retention policies
@@ -290,6 +317,7 @@ az consumption usage list --billing-period-name $(az billing period list --query
 ## Support and Maintenance
 
 ### Regular Tasks
+
 - [ ] Weekly: Review monitoring dashboards
 - [ ] Monthly: Rotate service principal credentials
 - [ ] Monthly: Review and optimize costs
@@ -297,6 +325,7 @@ az consumption usage list --billing-period-name $(az billing period list --query
 - [ ] Annually: Disaster recovery testing
 
 ### Getting Help
+
 - Azure Support Portal for infrastructure issues
 - GitHub Issues for application bugs
 - Application Insights for performance troubleshooting

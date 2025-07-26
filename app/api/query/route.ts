@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { sendEmail, formatQueryEmail } from '@/lib/email';
+import { NextRequest, NextResponse } from "next/server";
+import { sendEmail, formatQueryEmail } from "@/lib/email";
 
 export async function POST(req: NextRequest) {
   try {
@@ -10,16 +10,16 @@ export async function POST(req: NextRequest) {
     // Validate required fields
     if (!fullName || !email || !category || !subject || !query) {
       return NextResponse.json(
-        { 
-          success: false, 
-          message: 'Please fill in all required fields.',
+        {
+          success: false,
+          message: "Please fill in all required fields.",
           errors: {
-            fullName: !fullName ? 'Full name is required' : undefined,
-            email: !email ? 'Email is required' : undefined,
-            category: !category ? 'Category is required' : undefined,
-            subject: !subject ? 'Subject is required' : undefined,
-            query: !query ? 'Query is required' : undefined,
-          }
+            fullName: !fullName ? "Full name is required" : undefined,
+            email: !email ? "Email is required" : undefined,
+            category: !category ? "Category is required" : undefined,
+            subject: !subject ? "Subject is required" : undefined,
+            query: !query ? "Query is required" : undefined,
+          },
         },
         { status: 400 }
       );
@@ -29,10 +29,10 @@ export async function POST(req: NextRequest) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       return NextResponse.json(
-        { 
-          success: false, 
-          message: 'Please provide a valid email address.',
-          errors: { email: 'Invalid email format' }
+        {
+          success: false,
+          message: "Please provide a valid email address.",
+          errors: { email: "Invalid email format" },
         },
         { status: 400 }
       );
@@ -54,18 +54,18 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      message: 'Your query has been submitted successfully! Our experts will review it and get back to you soon.',
-      data: { fullName, email, category, subject }
+      message:
+        "Your query has been submitted successfully! Our experts will review it and get back to you soon.",
+      data: { fullName, email, category, subject },
     });
-
   } catch (error) {
-    console.error('Error submitting query form:', error);
-    
+    console.error("Error submitting query form:", error);
+
     return NextResponse.json(
       {
         success: false,
-        message: 'Failed to submit query. Please try again later.',
-        errors: { server: 'Internal server error' }
+        message: "Failed to submit query. Please try again later.",
+        errors: { server: "Internal server error" },
       },
       { status: 500 }
     );
@@ -77,9 +77,9 @@ export async function OPTIONS() {
   return new NextResponse(null, {
     status: 200,
     headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'POST, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type',
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "POST, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type",
     },
   });
 }

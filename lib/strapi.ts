@@ -217,7 +217,9 @@ function buildQueryString(params: PaginationParams): string {
  * @param params - Pagination parameters
  * @returns Promise with paginated blog data
  */
-export async function fetchBlogs(params: PaginationParams = {}): Promise<PaginatedResponse<unknown>> {
+export async function fetchBlogs(
+  params: PaginationParams = {}
+): Promise<PaginatedResponse<unknown>> {
   const queryString = buildQueryString(params);
   const cacheKey = `blogs:${queryString}`;
 

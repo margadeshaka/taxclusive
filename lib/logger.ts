@@ -13,7 +13,14 @@ export enum LogLevel {
 }
 
 // Type for log context values
-export type LogContextValue = string | number | boolean | null | undefined | LogContextObject | LogContextArray;
+export type LogContextValue =
+  | string
+  | number
+  | boolean
+  | null
+  | undefined
+  | LogContextObject
+  | LogContextArray;
 export interface LogContextObject {
   [key: string]: LogContextValue;
 }
@@ -164,7 +171,11 @@ export function info(message: string, context?: Record<string, LogContextValue>)
  * @param context - Additional context
  * @param error - Error object if applicable
  */
-export function warn(message: string, context?: Record<string, LogContextValue>, error?: Error): void {
+export function warn(
+  message: string,
+  context?: Record<string, LogContextValue>,
+  error?: Error
+): void {
   logEntry(createLogEntry(LogLevel.WARN, message, context, error));
 }
 
@@ -174,7 +185,11 @@ export function warn(message: string, context?: Record<string, LogContextValue>,
  * @param context - Additional context
  * @param error - Error object if applicable
  */
-export function error(message: string, context?: Record<string, LogContextValue>, error?: Error): void {
+export function error(
+  message: string,
+  context?: Record<string, LogContextValue>,
+  error?: Error
+): void {
   logEntry(createLogEntry(LogLevel.ERROR, message, context, error));
 }
 
@@ -184,7 +199,11 @@ export function error(message: string, context?: Record<string, LogContextValue>
  * @param context - Additional context
  * @param error - Error object if applicable
  */
-export function fatal(message: string, context?: Record<string, LogContextValue>, error?: Error): void {
+export function fatal(
+  message: string,
+  context?: Record<string, LogContextValue>,
+  error?: Error
+): void {
   logEntry(createLogEntry(LogLevel.FATAL, message, context, error));
 }
 

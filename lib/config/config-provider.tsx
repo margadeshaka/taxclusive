@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import React, { createContext, useContext, useEffect, useState } from 'react';
-import { WebsiteConfiguration } from './website-config';
-import { defaultConfig } from './default-config';
-import { validateConfig } from './config-validator';
+import React, { createContext, useContext, useEffect, useState } from "react";
+import { WebsiteConfiguration } from "./website-config";
+import { defaultConfig } from "./default-config";
+import { validateConfig } from "./config-validator";
 
 // =============================================================================
 // CONFIGURATION CONTEXT
@@ -52,8 +52,8 @@ export function ConfigProvider({
         }
 
         // Load from localStorage if enabled
-        if (enableLocalStorage && typeof window !== 'undefined') {
-          const savedConfig = localStorage.getItem('website-config');
+        if (enableLocalStorage && typeof window !== "undefined") {
+          const savedConfig = localStorage.getItem("website-config");
           if (savedConfig) {
             const parsedConfig = JSON.parse(savedConfig);
             loadedConfig = mergeConfigs(loadedConfig, parsedConfig);
@@ -65,7 +65,7 @@ export function ConfigProvider({
           const validationResult = validateConfig(loadedConfig);
           if (!validationResult.isValid) {
             setErrors(validationResult.errors);
-            console.warn('Configuration validation failed:', validationResult.errors);
+            console.warn("Configuration validation failed:", validationResult.errors);
           } else {
             setErrors([]);
           }
@@ -73,8 +73,8 @@ export function ConfigProvider({
 
         setConfig(loadedConfig);
       } catch (error) {
-        console.error('Failed to load configuration:', error);
-        setErrors(['Failed to load configuration']);
+        console.error("Failed to load configuration:", error);
+        setErrors(["Failed to load configuration"]);
         setConfig(defaultConfig);
       } finally {
         setIsLoading(false);
@@ -88,13 +88,13 @@ export function ConfigProvider({
   const updateConfig = (newConfig: Partial<WebsiteConfiguration>) => {
     try {
       const updatedConfig = mergeConfigs(config, newConfig);
-      
+
       // Validate if enabled
       if (enableValidation) {
         const validationResult = validateConfig(updatedConfig);
         if (!validationResult.isValid) {
           setErrors(validationResult.errors);
-          console.warn('Configuration update validation failed:', validationResult.errors);
+          console.warn("Configuration update validation failed:", validationResult.errors);
           return; // Don't update if validation fails
         } else {
           setErrors([]);
@@ -104,12 +104,12 @@ export function ConfigProvider({
       setConfig(updatedConfig);
 
       // Save to localStorage if enabled
-      if (enableLocalStorage && typeof window !== 'undefined') {
-        localStorage.setItem('website-config', JSON.stringify(updatedConfig));
+      if (enableLocalStorage && typeof window !== "undefined") {
+        localStorage.setItem("website-config", JSON.stringify(updatedConfig));
       }
     } catch (error) {
-      console.error('Failed to update configuration:', error);
-      setErrors(['Failed to update configuration']);
+      console.error("Failed to update configuration:", error);
+      setErrors(["Failed to update configuration"]);
     }
   };
 
@@ -117,9 +117,9 @@ export function ConfigProvider({
   const resetConfig = () => {
     setConfig(defaultConfig);
     setErrors([]);
-    
-    if (enableLocalStorage && typeof window !== 'undefined') {
-      localStorage.removeItem('website-config');
+
+    if (enableLocalStorage && typeof window !== "undefined") {
+      localStorage.removeItem("website-config");
     }
   };
 
@@ -131,11 +131,7 @@ export function ConfigProvider({
     errors,
   };
 
-  return (
-    <ConfigContext.Provider value={contextValue}>
-      {children}
-    </ConfigContext.Provider>
-  );
+  return <ConfigContext.Provider value={contextValue}>{children}</ConfigContext.Provider>;
 }
 
 // =============================================================================
@@ -146,7 +142,7 @@ export function ConfigProvider({
 export function useConfig(): ConfigContextType {
   const context = useContext(ConfigContext);
   if (context === undefined) {
-    throw new Error('useConfig must be used within a ConfigProvider');
+    throw new Error("useConfig must be used within a ConfigProvider");
   }
   return context;
 }
@@ -154,7 +150,7 @@ export function useConfig(): ConfigContextType {
 // Hook for theme configuration
 export function useTheme() {
   const { config, updateConfig } = useConfig();
-  
+
   return {
     theme: config.theme,
     updateTheme: (newTheme: Partial<typeof config.theme>) => {
@@ -166,7 +162,7 @@ export function useTheme() {
 // Hook for content configuration
 export function useContent() {
   const { config, updateConfig } = useConfig();
-  
+
   return {
     content: config.content,
     updateContent: (newContent: Partial<typeof config.content>) => {
@@ -178,7 +174,7 @@ export function useContent() {
 // Hook for assets configuration
 export function useAssets() {
   const { config, updateConfig } = useConfig();
-  
+
   return {
     assets: config.assets,
     updateAssets: (newAssets: Partial<typeof config.assets>) => {
@@ -190,7 +186,7 @@ export function useAssets() {
 // Hook for features configuration
 export function useFeatures() {
   const { config, updateConfig } = useConfig();
-  
+
   return {
     features: config.features,
     updateFeatures: (newFeatures: Partial<typeof config.features>) => {
@@ -214,15 +210,15 @@ export function useSite() {
 // Hook for navigation
 export function useNavigation() {
   const { config, updateConfig } = useConfig();
-  
+
   return {
     navigation: config.content.navigation,
     updateNavigation: (newNavigation: Partial<typeof config.content.navigation>) => {
-      updateConfig({ 
-        content: { 
-          ...config.content, 
-          navigation: mergeConfigs(config.content.navigation, newNavigation) 
-        } 
+      updateConfig({
+        content: {
+          ...config.content,
+          navigation: mergeConfigs(config.content.navigation, newNavigation),
+        },
       });
     },
   };
@@ -231,7 +227,7 @@ export function useNavigation() {
 // Hook for page content
 export function usePageContent<T extends keyof typeof config.content.pages>(
   page: T
-): typeof config.content.pages[T] {
+): (typeof config.content.pages)[T] {
   const { config } = useConfig();
   return config.content.pages[page];
 }
@@ -239,15 +235,15 @@ export function usePageContent<T extends keyof typeof config.content.pages>(
 // Hook for SEO configuration
 export function useSEO() {
   const { config, updateConfig } = useConfig();
-  
+
   return {
     seo: config.content.seo,
     updateSEO: (newSEO: Partial<typeof config.content.seo>) => {
-      updateConfig({ 
-        content: { 
-          ...config.content, 
-          seo: mergeConfigs(config.content.seo, newSEO) 
-        } 
+      updateConfig({
+        content: {
+          ...config.content,
+          seo: mergeConfigs(config.content.seo, newSEO),
+        },
       });
     },
   };
@@ -260,13 +256,13 @@ export function useColorScheme() {
 
   useEffect(() => {
     // Check system preference
-    if (typeof window !== 'undefined') {
-      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    if (typeof window !== "undefined") {
+      const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
       setIsDark(mediaQuery.matches);
-      
+
       const handler = (e: MediaQueryListEvent) => setIsDark(e.matches);
-      mediaQuery.addEventListener('change', handler);
-      return () => mediaQuery.removeEventListener('change', handler);
+      mediaQuery.addEventListener("change", handler);
+      return () => mediaQuery.removeEventListener("change", handler);
     }
   }, []);
 
@@ -288,10 +284,10 @@ function mergeConfigs<T extends Record<string, any>>(target: T, source: Partial<
   for (const key in source) {
     if (source[key] !== undefined) {
       if (
-        typeof source[key] === 'object' &&
+        typeof source[key] === "object" &&
         source[key] !== null &&
         !Array.isArray(source[key]) &&
-        typeof target[key] === 'object' &&
+        typeof target[key] === "object" &&
         target[key] !== null &&
         !Array.isArray(target[key])
       ) {

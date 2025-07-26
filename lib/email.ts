@@ -1,5 +1,5 @@
 import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses";
-import * as emailTemplates from './email-templates';
+import * as emailTemplates from "./email-templates";
 
 /**
  * AWS SES Client configuration
@@ -149,7 +149,7 @@ export function formatNewsletterEmail(formData: { email: string }): EmailData {
 
 /**
  * Formats query form data into an email using enhanced template
- * 
+ *
  * @param formData - The query form data
  * @returns The formatted email data
  */
@@ -175,7 +175,7 @@ export function formatQueryEmail(formData: {
 
 /**
  * Formats message form data into an email using enhanced template
- * 
+ *
  * @param formData - The message form data
  * @returns The formatted email data
  */

@@ -116,11 +116,7 @@
     {
       "name": "taxexclusive-availability-test",
       "url": "https://taxexclusive-app.azurewebsites.net",
-      "locations": [
-        "emea-nl-ams-azr",
-        "us-fl-mia-edge",
-        "apac-sg-sin-azr"
-      ],
+      "locations": ["emea-nl-ams-azr", "us-fl-mia-edge", "apac-sg-sin-azr"],
       "frequency": 300,
       "timeout": 120,
       "expectedHttpStatusCode": 200
