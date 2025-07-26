@@ -1,0 +1,349 @@
+name: Deploy to AWS
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to deploy to'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - staging
+          - production
+
+env:
+  AWS_REGION: us-east-1
+  NODE_VERSION: '18'
+  PNPM_VERSION: '8'
+
+jobs:
+  test:
+    name: Test & Quality Checks
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: ${{ env.PNPM_VERSION }}
+          
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
+          
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+        
+      - name: Run linting
+        run: pnpm lint
+        
+      - name: Check formatting
+        run: pnpm format:check
+        
+      - name: Run unit tests
+        run: pnpm test:coverage
+        
+      - name: Upload coverage reports
+        uses: codecov/codecov-action@v3
+        with:
+          file: ./coverage/lcov.info
+          flags: unittests
+          name: codecov-umbrella
+          
+      - name: Build application
+        run: pnpm build
+        env:
+          NEXT_PUBLIC_BASE_URL: https://www.taxclusive.com
+          NEXT_PUBLIC_STRAPI_API_URL: ${{ secrets.STRAPI_API_URL }}
+          
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+        
+      - name: Run E2E tests
+        run: pnpm test:e2e
+        env:
+          NEXT_PUBLIC_BASE_URL: http://localhost:3000
+
+  build:
+    name: Build & Push to S3
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop' || github.event_name == 'workflow_dispatch'
+    
+    strategy:
+      matrix:
+        environment: 
+          - ${{ github.ref == 'refs/heads/main' && 'production' || github.ref == 'refs/heads/develop' && 'staging' || github.event.inputs.environment }}
+    
+    environment: ${{ matrix.environment }}
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: ${{ env.PNPM_VERSION }}
+          
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
+          
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+          
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+        
+      - name: Build application
+        run: pnpm build
+        env:
+          NODE_ENV: production
+          NEXT_PUBLIC_BASE_URL: ${{ vars.NEXT_PUBLIC_BASE_URL }}
+          NEXT_PUBLIC_STRAPI_API_URL: ${{ secrets.STRAPI_API_URL }}
+          NEXT_PUBLIC_GOOGLE_ANALYTICS_ID: ${{ secrets.GOOGLE_ANALYTICS_ID }}
+          AWS_REGION: ${{ env.AWS_REGION }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          EMAIL_SENDER_NAME: ${{ secrets.EMAIL_SENDER_NAME }}
+          EMAIL_SENDER_ADDRESS: ${{ secrets.EMAIL_SENDER_ADDRESS }}
+          EMAIL_RECIPIENT_ADDRESS: ${{ secrets.EMAIL_RECIPIENT_ADDRESS }}
+          EMAIL_RECIPIENT_NAME: ${{ secrets.EMAIL_RECIPIENT_NAME }}
+          STRAPI_API_TOKEN: ${{ secrets.STRAPI_API_TOKEN }}
+          CSRF_SECRET: ${{ secrets.CSRF_SECRET }}
+          
+      - name: Generate build info
+        run: |
+          echo "BUILD_ID=$(date +%s)" >> $GITHUB_ENV
+          echo "COMMIT_SHA=${GITHUB_SHA}" >> $GITHUB_ENV
+          echo "BRANCH_NAME=${GITHUB_REF_NAME}" >> $GITHUB_ENV
+          
+      - name: Create deployment package
+        run: |
+          mkdir -p deployment-package
+          cp -r .next deployment-package/
+          cp -r public deployment-package/
+          cp package.json deployment-package/
+          cp next.config.mjs deployment-package/
+          echo '{"buildId":"${{ env.BUILD_ID }}","commitSha":"${{ env.COMMIT_SHA }}","branchName":"${{ env.BRANCH_NAME }}","timestamp":"$(date -u +%Y-%m-%dT%H:%M:%SZ)"}' > deployment-package/build-info.json
+          
+      - name: Upload to S3
+        run: |
+          aws s3 sync deployment-package/ s3://${{ vars.S3_DEPLOYMENT_BUCKET }}/releases/${{ env.BUILD_ID }}/ \
+            --delete \
+            --cache-control max-age=31536000 \
+            --exclude "*.html" \
+            --exclude "build-info.json"
+          
+          aws s3 sync deployment-package/ s3://${{ vars.S3_DEPLOYMENT_BUCKET }}/releases/${{ env.BUILD_ID }}/ \
+            --cache-control max-age=0 \
+            --include "*.html" \
+            --include "build-info.json"
+            
+      - name: Update current release pointer
+        run: |
+          echo '{"buildId":"${{ env.BUILD_ID }}","commitSha":"${{ env.COMMIT_SHA }}","branchName":"${{ env.BRANCH_NAME }}","timestamp":"$(date -u +%Y-%m-%dT%H:%M:%SZ)","environment":"${{ matrix.environment }}"}' | \
+          aws s3 cp - s3://${{ vars.S3_DEPLOYMENT_BUCKET }}/current-release.json \
+            --content-type application/json \
+            --cache-control max-age=0
+
+  deploy:
+    name: Deploy Infrastructure & Application
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop' || github.event_name == 'workflow_dispatch'
+    
+    strategy:
+      matrix:
+        environment: 
+          - ${{ github.ref == 'refs/heads/main' && 'production' || github.ref == 'refs/heads/develop' && 'staging' || github.event.inputs.environment }}
+    
+    environment: ${{ matrix.environment }}
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+          
+      - name: Install AWS CDK
+        run: npm install -g aws-cdk@latest
+        
+      - name: Install CDK dependencies
+        run: cd infrastructure && npm install
+        
+      - name: CDK Bootstrap (if needed)
+        run: |
+          cd infrastructure
+          cdk bootstrap aws://${{ secrets.AWS_ACCOUNT_ID }}/${{ env.AWS_REGION }} \
+            --context environment=${{ matrix.environment }}
+            
+      - name: Deploy infrastructure
+        run: |
+          cd infrastructure
+          cdk deploy --all --require-approval=never \
+            --context environment=${{ matrix.environment }} \
+            --context domainName=${{ vars.DOMAIN_NAME }} \
+            --context certificateArn=${{ secrets.SSL_CERTIFICATE_ARN }} \
+            --outputs-file cdk-outputs.json
+            
+      - name: Update Lambda functions
+        run: |
+          cd infrastructure
+          DISTRIBUTION_ID=$(cat cdk-outputs.json | jq -r '.TaxclusiveCdkStack.CloudFrontDistributionId')
+          echo "DISTRIBUTION_ID=$DISTRIBUTION_ID" >> $GITHUB_ENV
+          
+      - name: Invalidate CloudFront cache
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id ${{ env.DISTRIBUTION_ID }} \
+            --paths "/*" \
+            --query 'Invalidation.Id' \
+            --output text
+            
+      - name: Wait for deployment to be ready
+        run: |
+          echo "Waiting for deployment to be ready..."
+          sleep 30
+          
+      - name: Run smoke tests
+        run: |
+          DOMAIN_URL="https://${{ vars.DOMAIN_NAME }}"
+          echo "Running smoke tests against $DOMAIN_URL"
+          
+          # Test homepage
+          curl -f -s "$DOMAIN_URL" > /dev/null || exit 1
+          
+          # Test API health
+          curl -f -s "$DOMAIN_URL/api/health" > /dev/null || exit 1
+          
+          # Test SSR pages
+          curl -f -s "$DOMAIN_URL/about" > /dev/null || exit 1
+          curl -f -s "$DOMAIN_URL/services" > /dev/null || exit 1
+          
+          echo "Smoke tests passed!"
+
+  post-deploy:
+    name: Post-Deployment Tasks
+    needs: deploy
+    runs-on: ubuntu-latest
+    if: success()
+    
+    strategy:
+      matrix:
+        environment: 
+          - ${{ github.ref == 'refs/heads/main' && 'production' || github.ref == 'refs/heads/develop' && 'staging' || github.event.inputs.environment }}
+    
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+          
+      - name: Update deployment status
+        run: |
+          aws ssm put-parameter \
+            --name "/taxclusive/${{ matrix.environment }}/deployment/status" \
+            --value "success" \
+            --type String \
+            --overwrite
+            
+          aws ssm put-parameter \
+            --name "/taxclusive/${{ matrix.environment }}/deployment/timestamp" \
+            --value "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+            --type String \
+            --overwrite
+            
+          aws ssm put-parameter \
+            --name "/taxclusive/${{ matrix.environment }}/deployment/commit" \
+            --value "${{ github.sha }}" \
+            --type String \
+            --overwrite
+            
+      - name: Send notification
+        if: matrix.environment == 'production'
+        run: |
+          echo "Production deployment completed successfully!"
+          echo "Commit: ${{ github.sha }}"
+          echo "Branch: ${{ github.ref_name }}"
+          echo "Deployed at: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+
+  rollback:
+    name: Rollback Deployment
+    runs-on: ubuntu-latest
+    if: failure() && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop')
+    needs: [deploy]
+    
+    strategy:
+      matrix:
+        environment: 
+          - ${{ github.ref == 'refs/heads/main' && 'production' || 'staging' }}
+    
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+          
+      - name: Get previous successful deployment
+        run: |
+          PREVIOUS_BUILD=$(aws ssm get-parameter \
+            --name "/taxclusive/${{ matrix.environment }}/deployment/previous-build-id" \
+            --query 'Parameter.Value' \
+            --output text 2>/dev/null || echo "")
+            
+          if [ -n "$PREVIOUS_BUILD" ]; then
+            echo "PREVIOUS_BUILD_ID=$PREVIOUS_BUILD" >> $GITHUB_ENV
+          else
+            echo "No previous build found for rollback"
+            exit 1
+          fi
+          
+      - name: Rollback to previous version
+        run: |
+          if [ -n "${{ env.PREVIOUS_BUILD_ID }}" ]; then
+            # Copy previous build to current
+            aws s3 sync s3://${{ vars.S3_DEPLOYMENT_BUCKET }}/releases/${{ env.PREVIOUS_BUILD_ID }}/ \
+              s3://${{ vars.S3_DEPLOYMENT_BUCKET }}/current/ \
+              --delete
+              
+            # Update current release pointer
+            echo '{"buildId":"${{ env.PREVIOUS_BUILD_ID }}","rollback":true,"timestamp":"$(date -u +%Y-%m-%dT%H:%M:%SZ)","environment":"${{ matrix.environment }}"}' | \
+            aws s3 cp - s3://${{ vars.S3_DEPLOYMENT_BUCKET }}/current-release.json \
+              --content-type application/json \
+              --cache-control max-age=0
+              
+            echo "Rollback completed to build ${{ env.PREVIOUS_BUILD_ID }}"
+          fi
