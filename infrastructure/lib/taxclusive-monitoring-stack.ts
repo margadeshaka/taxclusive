@@ -1,5 +1,6 @@
 import * as cdk from 'aws-cdk-lib';
 import * as cloudwatch from 'aws-cdk-lib/aws-cloudwatch';
+import * as actions from 'aws-cdk-lib/aws-cloudwatch-actions';
 import * as cloudfront from 'aws-cdk-lib/aws-cloudfront';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as s3 from 'aws-cdk-lib/aws-s3';
@@ -218,7 +219,7 @@ export class TaxclusiveMonitoringStack extends cdk.Stack {
       comparisonOperator: cloudwatch.ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
       treatMissingData: cloudwatch.TreatMissingData.NOT_BREACHING,
     });
-    lambdaErrorAlarm.addAlarmAction(new cloudwatch.SnsAction(alertTopic));
+    lambdaErrorAlarm.addAlarmAction(new actions.SnsAction(alertTopic));
 
     // Lambda Duration Alarm
     const lambdaDurationAlarm = new cloudwatch.Alarm(this, 'LambdaDurationAlarm', {
@@ -230,7 +231,7 @@ export class TaxclusiveMonitoringStack extends cdk.Stack {
       comparisonOperator: cloudwatch.ComparisonOperator.GREATER_THAN_THRESHOLD,
       treatMissingData: cloudwatch.TreatMissingData.NOT_BREACHING,
     });
-    lambdaDurationAlarm.addAlarmAction(new cloudwatch.SnsAction(alertTopic));
+    lambdaDurationAlarm.addAlarmAction(new actions.SnsAction(alertTopic));
 
     // CloudFront 5xx Error Rate Alarm
     const cloudFront5xxAlarm = new cloudwatch.Alarm(this, 'CloudFront5xxAlarm', {
@@ -242,7 +243,7 @@ export class TaxclusiveMonitoringStack extends cdk.Stack {
       comparisonOperator: cloudwatch.ComparisonOperator.GREATER_THAN_THRESHOLD,
       treatMissingData: cloudwatch.TreatMissingData.NOT_BREACHING,
     });
-    cloudFront5xxAlarm.addAlarmAction(new cloudwatch.SnsAction(alertTopic));
+    cloudFront5xxAlarm.addAlarmAction(new actions.SnsAction(alertTopic));
 
     // High traffic alarm (production only)
     if (props.environment === 'production') {
@@ -256,7 +257,7 @@ export class TaxclusiveMonitoringStack extends cdk.Stack {
         treatMissingData: cloudwatch.TreatMissingData.NOT_BREACHING,
       });
       // Don't alarm on high traffic, just notify
-      highTrafficAlarm.addAlarmAction(new cloudwatch.SnsAction(alertTopic));
+      highTrafficAlarm.addAlarmAction(new actions.SnsAction(alertTopic));
     }
 
     // Cost monitoring (production only)
@@ -280,7 +281,7 @@ export class TaxclusiveMonitoringStack extends cdk.Stack {
         comparisonOperator: cloudwatch.ComparisonOperator.GREATER_THAN_THRESHOLD,
         treatMissingData: cloudwatch.TreatMissingData.NOT_BREACHING,
       });
-      costAlarm.addAlarmAction(new cloudwatch.SnsAction(alertTopic));
+      costAlarm.addAlarmAction(new actions.SnsAction(alertTopic));
 
       dashboard.addWidgets(
         new cloudwatch.GraphWidget({

@@ -39,9 +39,7 @@ export class TaxclusiveCdkStack extends cdk.Stack {
         ? cdk.RemovalPolicy.RETAIN 
         : cdk.RemovalPolicy.DESTROY,
       autoDeleteObjects: props.environment !== 'production',
-      versioning: {
-        enabled: true,
-      },
+      versioned: true,
       cors: [
         {
           allowedMethods: [s3.HttpMethods.GET, s3.HttpMethods.HEAD],
