@@ -1,2 +1,5 @@
+packages:
+  - '.'
+  - 'infrastructure'
 onlyBuiltDependencies:
   - unrs-resolver
