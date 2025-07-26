@@ -1,3 +1,172 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Header matches snapshot 1`] = `null`;
+exports[`Header matches snapshot 1`] = `
+<header
+  aria-label="Main navigation"
+  className="sticky top-0 z-50 w-full border-b transition-all duration-300 bg-background"
+>
+  <div
+    className="container flex h-16 items-center justify-between"
+  >
+    <div
+      className="flex items-center gap-2"
+    >
+      <a
+        aria-label="Taxclusive - Home"
+        className="flex items-center gap-2 font-serif font-bold text-xl pt-4"
+        href="/"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+      >
+        <img
+          alt="Taxclusive Logo"
+          data-nimg="1"
+          decoding="async"
+          height={100}
+          loading="lazy"
+          onError={[Function]}
+          onLoad={[Function]}
+          src="/_next/image?url=%2Flogo.png&w=640&q=75"
+          srcSet="/_next/image?url=%2Flogo.png&w=256&q=75 1x, /_next/image?url=%2Flogo.png&w=640&q=75 2x"
+          style={
+            {
+              "color": "transparent",
+            }
+          }
+          width={250}
+        />
+      </a>
+    </div>
+    <nav
+      aria-label="Main"
+      className="hidden md:flex gap-6"
+    >
+      <a
+        className="text-sm font-medium transition-colors hover:text-primary text-primary font-bold"
+        href="/"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+      >
+        Home
+      </a>
+      <a
+        className="text-sm font-medium transition-colors hover:text-primary "
+        href="/about"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+      >
+        About
+      </a>
+      <a
+        className="text-sm font-medium transition-colors hover:text-primary "
+        href="/services"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+      >
+        Services
+      </a>
+      <a
+        className="text-sm font-medium transition-colors hover:text-primary "
+        href="/expertise"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+      >
+        Expertise
+      </a>
+      <a
+        className="text-sm font-medium transition-colors hover:text-primary "
+        href="/blogs"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+      >
+        Insights
+      </a>
+      <a
+        className="text-sm font-medium transition-colors hover:text-primary "
+        href="/faq"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+      >
+        FAQ
+      </a>
+      <a
+        className="text-sm font-medium transition-colors hover:text-primary "
+        href="/contact"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+      >
+        Contact
+      </a>
+    </nav>
+    <div
+      className="hidden md:flex items-center gap-4"
+    >
+      <a
+        className="inline-flex h-10 items-center justify-center rounded-md px-6 text-sm font-medium shadow transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring bg-primary text-primary-foreground hover:bg-primary/90"
+        href="/contact"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+      >
+        Book Consultation
+      </a>
+      <a
+        className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-6 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+        href="/contact"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+      >
+        Get in Touch
+      </a>
+    </div>
+    <button
+      aria-controls="mobile-menu"
+      aria-expanded={false}
+      aria-label="Open menu"
+      className="flex items-center md:hidden"
+      onClick={[Function]}
+    >
+      <svg
+        className="lucide lucide-menu h-6 w-6"
+        fill="none"
+        height={24}
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        viewBox="0 0 24 24"
+        width={24}
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <line
+          x1="4"
+          x2="20"
+          y1="12"
+          y2="12"
+        />
+        <line
+          x1="4"
+          x2="20"
+          y1="6"
+          y2="6"
+        />
+        <line
+          x1="4"
+          x2="20"
+          y1="18"
+          y2="18"
+        />
+      </svg>
+    </button>
+  </div>
+</header>
+`;
