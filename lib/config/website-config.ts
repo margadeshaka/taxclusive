@@ -662,7 +662,7 @@ export interface FeatureConfiguration {
       endpoint?: string;
     };
     email: {
-      provider: "sendgrid" | "mailchimp" | "constant-contact" | "azure" | "custom";
+      provider: "sendgrid" | "mailchimp" | "constant-contact" | "aws-ses" | "custom";
       apiKey?: string;
       templates?: Record<string, string>;
     };

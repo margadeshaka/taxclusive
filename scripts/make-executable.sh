@@ -12,9 +12,6 @@ chmod +x scripts/aws/test-deployment.sh
 
 # Other deployment scripts
 chmod +x scripts/setup-github-secrets.sh
-chmod +x scripts/deploy-azure.sh
-chmod +x scripts/setup-azure-deployment.sh
-chmod +x scripts/setup-azure-email.sh
 chmod +x scripts/check-ses-status.sh
 chmod +x scripts/setup-aws-ses.sh
 

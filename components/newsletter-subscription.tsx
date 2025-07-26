@@ -16,8 +16,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { newsletterSubscriptionSchema } from "@/lib/validation";
 import { emailService } from "@/lib/email-client";
+import { newsletterSubscriptionSchema } from "@/lib/validation";
 
 /**
  * Form values for the newsletter subscription form

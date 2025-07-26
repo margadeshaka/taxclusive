@@ -41,12 +41,6 @@ pnpm analyze            # Analyze bundle size
 pnpm find-unused-deps   # Find unused dependencies
 ```
 
-### Azure Deployment
-
-```bash
-pnpm build:azure        # Build for Azure deployment
-pnpm start:azure        # Start Azure production server
-```
 
 ## Architecture Overview
 
@@ -110,7 +104,7 @@ pnpm start:azure        # Start Azure production server
    - Consistent design system with CSS variables for theming
 
 8. **Email Integration Architecture**:
-   - Azure Communication Services for professional email delivery
+   - AWS SES (Simple Email Service) for professional email delivery
    - API routes (`/api/contact`, `/api/appointment`, `/api/newsletter`, `/api/query`, `/api/message`) for form handling
    - Enhanced email templates with professional styling and branding
    - Client-side email service (`lib/email-client.ts`) that connects to local API routes
@@ -121,7 +115,7 @@ pnpm start:azure        # Start Azure production server
 - `next.config.mjs` - Hybrid configuration with static pages and API routes enabled
 - `tailwind.config.ts` - Custom theme configuration, fonts (Poppins, Playfair Display), animations
 - `tsconfig.json` - Strict mode TypeScript with path aliases (@/\*)
-- `.env.local` - Environment variables for Azure Communication Services and Strapi CMS configuration
+- `.env.local` - Environment variables for AWS SES and Strapi CMS configuration
 
 ### API Integration
 
@@ -217,7 +211,7 @@ The application integrates with Strapi CMS for content management:
 - Tailwind CSS for styling
 - Shadcn UI for component library
 - React Hook Form + Zod for form handling
-- Azure Communication Services for email
+- AWS SES for email
 - Strapi CMS integration
 - Framer Motion for animations
 - React Intersection Observer for scroll animations

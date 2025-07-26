@@ -1,22 +1,28 @@
 # Environment Variables Setup Guide
 
-This guide explains how to configure environment variables for secure access to Azure Communication Services and other secrets.
+This guide explains how to configure environment variables for secure access to AWS SES and other secrets.
 
 ## Development Setup
 
 ### 1. Local Development (.env.local)
 
-Your `.env.local` file is already configured with:
+Create a `.env.local` file with the following configuration:
 
 ```bash
-# Azure Communication Services Configuration
-AZURE_COMMUNICATION_CONNECTION_STRING="endpoint=https://taxclusive-communication.india.communication.azure.com/;accesskey=50751d46yjZTeuEyOBfs0QYMGpwCIoLWW768GSRIFlK5bRlUYnysJQQJ99BGACULyCpdfitoAAAAAZCSjHWQ"
+# AWS Configuration
+AWS_REGION=us-east-1
+AWS_ACCESS_KEY_ID=your-access-key-id
+AWS_SECRET_ACCESS_KEY=your-secret-access-key
 
 # Email Configuration
 EMAIL_SENDER_NAME="Taxclusive"
-EMAIL_SENDER_ADDRESS="DoNotReply@taxclusive.com"
+EMAIL_SENDER_ADDRESS="noreply@taxclusive.com"
 EMAIL_RECIPIENT_ADDRESS="contact@taxclusive.com"
 EMAIL_RECIPIENT_NAME="Taxclusive Support"
+
+# Strapi CMS Configuration (if applicable)
+NEXT_PUBLIC_STRAPI_API_URL=http://localhost:1337
+STRAPI_API_TOKEN=your-strapi-api-token
 ```
 
 ### 2. Security Features
@@ -27,32 +33,60 @@ EMAIL_RECIPIENT_NAME="Taxclusive Support"
 
 ## Production Deployment
 
-### Azure Static Web Apps
+### AWS Deployment
 
-Set environment variables in Azure portal:
+When deploying to AWS, set environment variables through:
 
-1. Go to Azure Portal → Static Web Apps → Your App
-2. Navigate to **Settings → Configuration**
-3. Add the following variables:
+1. **AWS Systems Manager Parameter Store** (Recommended)
+2. **AWS Secrets Manager** (For sensitive data)
+3. **Environment variables in your deployment platform**
 
-| Variable                                | Value                     | Required |
-| --------------------------------------- | ------------------------- | -------- |
-| `AZURE_COMMUNICATION_CONNECTION_STRING` | Your connection string    | Yes      |
-| `EMAIL_SENDER_NAME`                     | Taxclusive                | Yes      |
-| `EMAIL_SENDER_ADDRESS`                  | DoNotReply@taxclusive.com | Yes      |
-| `EMAIL_RECIPIENT_ADDRESS`               | contact@taxclusive.com    | Yes      |
-| `EMAIL_RECIPIENT_NAME`                  | Taxclusive Support        | Yes      |
+### Required Environment Variables
+
+| Variable                    | Description                         | Required |
+| --------------------------- | ----------------------------------- | -------- |
+| `AWS_REGION`                | AWS region (e.g., us-east-1)        | Yes      |
+| `AWS_ACCESS_KEY_ID`         | AWS access key ID                   | Yes      |
+| `AWS_SECRET_ACCESS_KEY`     | AWS secret access key               | Yes      |
+| `EMAIL_SENDER_NAME`         | Display name for emails             | Yes      |
+| `EMAIL_SENDER_ADDRESS`      | Verified SES sender email           | Yes      |
+| `EMAIL_RECIPIENT_ADDRESS`   | Email to receive form submissions   | Yes      |
+| `EMAIL_RECIPIENT_NAME`      | Display name for recipient          | Yes      |
 
 ### GitHub Secrets (for CI/CD)
 
 If using GitHub Actions, set secrets at: **Repository → Settings → Secrets and variables → Actions**
 
-Use the provided script: `./scripts/setup-github-secrets.sh`
-
 ### Vercel Deployment
 
 1. Go to Vercel Dashboard → Project → Settings → Environment Variables
 2. Add the same variables as listed above
+
+## AWS SES Setup
+
+### Prerequisites
+
+1. Verify sender email address in AWS SES
+2. Move out of SES sandbox for production use
+3. Configure proper IAM permissions
+
+### IAM Policy for SES
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ses:SendEmail",
+        "ses:SendRawEmail"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
+```
 
 ## Testing Email Configuration
 
@@ -78,43 +112,44 @@ node scripts/test-email.js
 - Environment variables properly excluded from version control
 - Secure access patterns in application code
 - Proper error handling without exposing secrets
-- Connection string validation on startup
+- AWS credentials validation on startup
 
 ### 🔒 Additional Security Recommendations
 
-1. **Rotate Keys Regularly**: Update Azure access keys monthly
-2. **Monitor Usage**: Check Azure portal for unusual activity
-3. **Environment Separation**: Use different keys for dev/staging/production
-4. **Access Control**: Limit who can view production secrets
+1. **Use IAM Roles**: Prefer IAM roles over access keys in production
+2. **Rotate Keys Regularly**: Update AWS access keys monthly
+3. **Monitor Usage**: Use CloudWatch to monitor SES activity
+4. **Environment Separation**: Use different AWS accounts/keys for dev/staging/production
+5. **Access Control**: Limit who can view production secrets
 
 ## Troubleshooting
 
 ### Common Issues
 
-**Issue**: `AZURE_COMMUNICATION_CONNECTION_STRING environment variable is required`
-**Solution**: Ensure `.env.local` exists and contains the connection string
+**Issue**: `AWS_ACCESS_KEY_ID environment variable is required`
+**Solution**: Ensure `.env.local` exists and contains AWS credentials
 
-**Issue**: Email sending fails
-**Solution**: Verify the connection string format and Azure service status
+**Issue**: Email sending fails with "MessageRejected"
+**Solution**: Verify sender email is verified in SES and you're out of sandbox mode
 
 **Issue**: Development server not loading environment variables
 **Solution**: Restart the development server after modifying `.env.local`
 
 ### Debug Mode
 
-Enable debug logging:
+Enable AWS SDK debug logging:
 
 ```bash
-DEBUG="azure:communication:email" pnpm dev
+AWS_SDK_LOAD_CONFIG=1 DEBUG="aws-sdk:*" pnpm dev
 ```
 
 ## Architecture Notes
 
 The application uses:
 
-- **lib/email.ts**: Core email functionality with environment variable access
+- **lib/email.ts**: Core email functionality with AWS SES integration
 - **API Routes**: `/api/contact`, `/api/appointment`, etc. for form handling
-- **Azure Communication Services**: For reliable email delivery
+- **AWS SES**: For reliable email delivery
 - **Error Boundaries**: Graceful handling of email service failures
 
 ---

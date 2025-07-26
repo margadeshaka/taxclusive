@@ -3,8 +3,8 @@
  * Helper functions for working with website configuration
  */
 
-import { WebsiteConfiguration, ThemeColors } from "./website-config";
 import { defaultConfig } from "./default-config";
+import { WebsiteConfiguration, ThemeColors } from "./website-config";
 
 // =============================================================================
 // CONFIGURATION UTILITIES

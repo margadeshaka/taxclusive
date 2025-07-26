@@ -1338,8 +1338,8 @@ export const defaultConfig: WebsiteConfiguration = {
     },
     integrations: {
       email: {
-        provider: "azure",
-        apiKey: process.env.AZURE_EMAIL_API_KEY,
+        provider: "aws-ses",
+        apiKey: process.env.AWS_ACCESS_KEY_ID,
       },
       maps: {
         provider: "google",

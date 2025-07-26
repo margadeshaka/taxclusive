@@ -4,15 +4,15 @@
 
 /**
  * Client-side email service for static sites
- * This works with Azure Communication Services via a serverless function
+ * This works with AWS SES via API routes
  */
 export class EmailService {
   private static instance: EmailService;
-  private azureEndpoint: string;
+  private apiEndpoint: string;
 
   private constructor() {
     // Use the same web app's API routes
-    this.azureEndpoint = process.env.NEXT_PUBLIC_BASE_URL
+    this.apiEndpoint = process.env.NEXT_PUBLIC_BASE_URL
       ? `${process.env.NEXT_PUBLIC_BASE_URL}/api`
       : "/api";
   }
@@ -69,7 +69,7 @@ export class EmailService {
     }
 
     try {
-      const response = await fetch(`${this.azureEndpoint}/contact`, {
+      const response = await fetch(`${this.apiEndpoint}/contact`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -165,7 +165,7 @@ export class EmailService {
     }
 
     try {
-      const response = await fetch(`${this.azureEndpoint}/appointment`, {
+      const response = await fetch(`${this.apiEndpoint}/appointment`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -223,7 +223,7 @@ export class EmailService {
     }
 
     try {
-      const response = await fetch(`${this.azureEndpoint}/newsletter`, {
+      const response = await fetch(`${this.apiEndpoint}/newsletter`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -300,7 +300,7 @@ export class EmailService {
     }
 
     try {
-      const response = await fetch(`${this.azureEndpoint}/query`, {
+      const response = await fetch(`${this.apiEndpoint}/query`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -367,7 +367,7 @@ export class EmailService {
     }
 
     try {
-      const response = await fetch(`${this.azureEndpoint}/message`, {
+      const response = await fetch(`${this.apiEndpoint}/message`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -2,7 +2,7 @@
   "name": "taxclusive-infrastructure",
   "version": "1.0.0",
   "description": "AWS CDK infrastructure for Taxclusive Next.js application",
-  "main": "lib/taxclusive-cdk-stack.js",
+  "main": "lib/taxexclusive-stack.js",
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",

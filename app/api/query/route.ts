@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+
 import { sendEmail, formatQueryEmail } from "@/lib/email";
 
 export async function POST(req: NextRequest) {

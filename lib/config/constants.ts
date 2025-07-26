@@ -255,7 +255,6 @@ export const FEATURE_CONSTANTS = {
     SENDGRID: "sendgrid",
     MAILCHIMP: "mailchimp",
     CONSTANT_CONTACT: "constant-contact",
-    AZURE: "azure",
     AWS_SES: "aws-ses",
     CUSTOM: "custom",
   },

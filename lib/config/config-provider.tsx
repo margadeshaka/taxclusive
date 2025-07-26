@@ -1,9 +1,10 @@
 "use client";
 
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { WebsiteConfiguration } from "./website-config";
-import { defaultConfig } from "./default-config";
+
 import { validateConfig } from "./config-validator";
+import { defaultConfig } from "./default-config";
+import { WebsiteConfiguration } from "./website-config";
 
 // =============================================================================
 // CONFIGURATION CONTEXT

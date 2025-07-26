@@ -3,7 +3,11 @@ import { NextResponse } from "next/server";
 export async function GET() {
   try {
     // Check if email configuration is available
-    const hasEmailConfig = !!process.env.AZURE_COMMUNICATION_CONNECTION_STRING;
+    const hasEmailConfig = !!(
+      process.env.AWS_ACCESS_KEY_ID && 
+      process.env.AWS_SECRET_ACCESS_KEY &&
+      process.env.EMAIL_SENDER_ADDRESS
+    );
 
     const health = {
       status: "healthy",

@@ -1,9 +1,9 @@
 /**
  * Email Testing Script for Taxclusive CA Firm
- * Tests Azure Communication Services email functionality
+ * Tests AWS SES email functionality
  */
 
-const { EmailClient } = require("@azure/communication-email");
+const { SESClient, SendEmailCommand } = require("@aws-sdk/client-ses");
 require("dotenv").config({ path: ".env.local" });
 
 // Color codes for console output
@@ -30,7 +30,9 @@ function validateConfig() {
   log.info("Validating configuration...");
 
   const requiredVars = [
-    "AZURE_COMMUNICATION_CONNECTION_STRING",
+    "AWS_REGION",
+    "AWS_ACCESS_KEY_ID",
+    "AWS_SECRET_ACCESS_KEY",
     "EMAIL_SENDER_ADDRESS",
     "EMAIL_RECIPIENT_ADDRESS",
   ];
@@ -40,7 +42,7 @@ function validateConfig() {
   if (missing.length > 0) {
     log.error("Missing required environment variables:");
     missing.forEach((varName) => console.log(`  - ${varName}`));
-    log.warning("Please check your .env.local file and run the Azure setup script if needed.");
+    log.warning("Please check your .env.local file and configure AWS credentials.");
     return false;
   }
 
@@ -55,18 +57,26 @@ async function testBasicEmail() {
   log.info("Testing basic email functionality...");
 
   try {
-    const client = new EmailClient(process.env.AZURE_COMMUNICATION_CONNECTION_STRING);
+    const client = new SESClient({
+      region: process.env.AWS_REGION || "us-east-1",
+      credentials: {
+        accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+      },
+    });
 
-    const emailMessage = {
-      senderAddress: process.env.EMAIL_SENDER_ADDRESS,
-      content: {
-        subject: "Test Email - Taxclusive System Check",
-        plainText:
-          "This is a test email to verify Azure Communication Services setup for Taxclusive CA firm website.",
-        html: `
+    const params = {
+      Destination: {
+        ToAddresses: [process.env.EMAIL_RECIPIENT_ADDRESS],
+      },
+      Message: {
+        Body: {
+          Html: {
+            Charset: "UTF-8",
+            Data: `
                     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
                         <h2 style="color: #2563eb;">Taxclusive - Email System Test</h2>
-                        <p>This is a test email to verify Azure Communication Services setup.</p>
+                        <p>This is a test email to verify AWS SES setup.</p>
                         <hr style="border: 1px solid #e5e7eb; margin: 20px 0;">
                         <p><strong>System Information:</strong></p>
                         <ul>
@@ -79,23 +89,25 @@ async function testBasicEmail() {
                         </p>
                     </div>
                 `,
-      },
-      recipients: {
-        to: [
-          {
-            address: process.env.EMAIL_RECIPIENT_ADDRESS,
-            displayName: process.env.EMAIL_RECIPIENT_NAME || "Taxclusive Support",
           },
-        ],
+          Text: {
+            Charset: "UTF-8",
+            Data: "This is a test email to verify AWS SES setup for Taxclusive CA firm website.",
+          },
+        },
+        Subject: {
+          Charset: "UTF-8",
+          Data: "Test Email - Taxclusive System Check",
+        },
       },
+      Source: process.env.EMAIL_SENDER_ADDRESS,
     };
 
-    const poller = await client.beginSend(emailMessage);
-    const result = await poller.pollUntilDone();
+    const command = new SendEmailCommand(params);
+    const result = await client.send(command);
 
     log.success(`Basic email sent successfully!`);
-    console.log(`  Message ID: ${result.id}`);
-    console.log(`  Status: ${result.status}`);
+    console.log(`  Message ID: ${result.MessageId}`);
 
     return true;
   } catch (error) {
@@ -272,7 +284,7 @@ async function runAllTests() {
     console.log("✅ Emails will be sent from:", process.env.EMAIL_SENDER_ADDRESS);
   } else {
     console.log("❌ Please fix the failing tests before deploying to production.");
-    console.log("📖 Check the Azure Email Setup documentation for troubleshooting.");
+    console.log("📖 Check AWS SES documentation for troubleshooting.");
   }
 }
 
