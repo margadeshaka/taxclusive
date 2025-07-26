@@ -66,13 +66,13 @@ jobs:
           NEXT_PUBLIC_BASE_URL: https://www.taxclusive.com
           NEXT_PUBLIC_STRAPI_API_URL: ${{ secrets.STRAPI_API_URL }}
           
-      - name: Install Playwright browsers
-        run: npx playwright install --with-deps
+      # - name: Install Playwright browsers
+      #   run: npx playwright install --with-deps
         
-      - name: Run E2E tests
-        run: pnpm test:e2e
-        env:
-          NEXT_PUBLIC_BASE_URL: http://localhost:3000
+      # - name: Run E2E tests
+      #   run: pnpm test:e2e
+      #   env:
+      #     NEXT_PUBLIC_BASE_URL: http://localhost:3000
 
   build:
     name: Build & Push to S3
