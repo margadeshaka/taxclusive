@@ -2,7 +2,12 @@
 
 import Script from "next/script";
 
-import { HeroSection, ServicesSection } from "@/components/features/home";
+import { 
+  HeroSection, 
+  ServicesSection, 
+  WhyChooseUsSection, 
+  TestimonialsSection 
+} from "@/components/features/home";
 import Footer from "@/components/footer";
 import Header from "@/components/header";
 import { dynamicImport } from "@/lib/dynamic-import";
@@ -25,6 +30,8 @@ export default function Home() {
       <main className="flex-1">
         <HeroSection />
         <ServicesSection />
+        <WhyChooseUsSection />
+        <TestimonialsSection />
         <ExpertiseSection />
         <InsightsSection />
         <ContactSection />
@@ -39,17 +46,17 @@ export default function Home() {
       {/* Home page specific structured data */}
       <Script id="home-schema-org" type="application/ld+json">
         {generateStructuredData("Organization", {
-          name: "Taxclusive",
-          url: "https://www.taxclusive.com",
-          logo: "https://www.taxclusive.com/logo.png",
+          name: "TaxExclusive",
+          url: "https://www.taxexclusive.com",
+          logo: "https://www.taxexclusive.com/logo.png",
           description:
-            "Professional chartered accountancy firm providing comprehensive accounting, taxation, and financial advisory services with cultural expertise.",
+            "Professional chartered accountancy firm providing comprehensive accounting, taxation, and financial advisory services across Delhi NCR.",
           contactPoint: [
             {
               "@type": "ContactPoint",
-              telephone: "+1-555-123-4567",
+              telephone: "+91-9999-123456",
               contactType: "customer service",
-              areaServed: "US",
+              areaServed: "IN",
               availableLanguage: ["English", "Hindi"],
             },
           ],

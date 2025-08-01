@@ -61,3 +61,55 @@ export async function fetchBlogById(id: string) {
     throw error;
   }
 }
+
+/**
+ * Fetch a single blog by slug from Strapi CMS
+ * @param slug - The slug of the blog to fetch
+ * @returns Promise with blog data
+ */
+export async function fetchBlogBySlug(slug: string) {
+  try {
+    const response = await fetch(
+      `${STRAPI_API_URL}/api/articles?filters[slug][$eq]=${slug}&populate=*`,
+      {
+        method: "GET",
+        headers: defaultHeaders,
+        next: { revalidate: 3600 }, // Revalidate every hour
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`Error fetching blog: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data.data?.[0] || null; // Return first match or null
+  } catch (error) {
+    console.error(`Error fetching blog with slug ${slug}:`, error);
+    return null;
+  }
+}
+
+/**
+ * Fetch all blogs for static generation
+ * @returns Promise with blog data
+ */
+export async function fetchAllBlogs() {
+  try {
+    const response = await fetch(`${STRAPI_API_URL}/api/articles?populate=*`, {
+      method: "GET",
+      headers: defaultHeaders,
+      next: { revalidate: 3600 }, // Revalidate every hour
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error fetching blogs: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data.data || [];
+  } catch (error) {
+    console.error("Error fetching all blogs:", error);
+    return [];
+  }
+}

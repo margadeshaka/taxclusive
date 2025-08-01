@@ -3,51 +3,73 @@ import Link from "next/link";
 
 export default function HeroSection() {
   return (
-    <section className="w-full py-12 md:py-24 lg:py-32 ethnic-pattern">
+    <section className="w-full py-16 md:py-24 lg:py-32 minimal-pattern">
       <div className="container px-4 md:px-6">
-        <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 xl:grid-cols-2">
-          <div className="flex flex-col justify-center space-y-4">
-            <div className="space-y-2">
-              <div className="w-16 h-1 bg-primary mb-4"></div>
-              <h1 className="text-3xl font-bold tracking-tighter font-serif sm:text-5xl xl:text-6xl/none">
-                Traditional Values, Modern Expertise
-              </h1>
-              <p className="max-w-[600px] text-muted-foreground md:text-xl">
-                At <span>Tax</span>clusive, we pride ourselves on being your{" "}
-                <strong>Insightful</strong> partner in finance, your <strong>Trusted</strong>{" "}
-                advisor in tax, and your <strong>Innovative</strong> guide in business strategy.
-                Backed by deep industry expertise and a client-first approach, we specialize in
-                delivering smart, customized solutions that drive clarity and growth. Whether
-                you&apos;re an individual or a business, we&apos;re here to simplify complexity and
-                support your success—because we believe in{" "}
-                <em>Mastering taxes, delivering excellence</em>.
-              </p>
+        <div className="grid gap-12 lg:grid-cols-2 lg:gap-16 xl:grid-cols-2 items-center">
+          <div className="flex flex-col justify-center space-y-8">
+            <div className="space-y-6">
+              <div className="minimal-border">
+                <h1 className="prose-minimal">
+                  <span className="block text-base font-medium text-muted-foreground uppercase tracking-widest mb-2">
+                    Chartered Accountants
+                  </span>
+                  Excellence in Financial Advisory
+                </h1>
+              </div>
+              <div className="prose-minimal">
+                <p className="text-xl leading-relaxed">
+                  TaxExclusive is your trusted partner for comprehensive accounting, taxation, and financial advisory services. 
+                  We combine traditional expertise with modern technology to deliver exceptional results for individuals and businesses across India.
+                </p>
+              </div>
+              
+              {/* Key statistics */}
+              <div className="grid grid-cols-3 gap-6 py-8 border-t border-b border-primary/20">
+                <div className="text-center">
+                  <div className="stat-number">500+</div>
+                  <div className="stat-label">Clients Served</div>
+                </div>
+                <div className="text-center">
+                  <div className="stat-number">15+</div>
+                  <div className="stat-label">Years Experience</div>
+                </div>
+                <div className="text-center">
+                  <div className="stat-number">99%</div>
+                  <div className="stat-label">Success Rate</div>
+                </div>
+              </div>
             </div>
-            <div className="flex flex-col gap-2 min-[400px]:flex-row">
+            
+            <div className="flex flex-col gap-4 sm:flex-row">
               <Link
                 href="/appointment"
-                className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-8 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                className="minimal-button-primary"
               >
-                Book an Appointment
+                Schedule Consultation
               </Link>
               <Link
                 href="/services"
-                className="inline-flex h-10 items-center justify-center rounded-md border border-primary bg-background px-8 text-sm font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                className="minimal-button-outline"
               >
-                Our Services
+                View Services
               </Link>
             </div>
           </div>
+          
           <div className="flex items-center justify-center">
-            <div className="ethnic-border p-4">
+            <div className="relative">
               <Image
                 src="/home.png"
-                width={550}
-                height={550}
-                alt="Professional accountants working together in a modern office environment"
-                className="rounded-lg object-cover"
+                width={500}
+                height={500}
+                alt="Professional chartered accountants providing expert financial services"
+                className="object-cover rounded-sm shadow-sm"
                 priority
               />
+              <div className="absolute -bottom-6 -right-6 bg-card border border-border rounded-sm p-4 shadow-sm">
+                <div className="text-sm font-medium">Trusted by 500+ Clients</div>
+                <div className="text-xs text-muted-foreground">Across Delhi NCR</div>
+              </div>
             </div>
           </div>
         </div>

@@ -32,6 +32,10 @@ pnpm test               # Run unit tests
 pnpm test:watch         # Run tests in watch mode
 pnpm test:coverage      # Generate test coverage report
 pnpm test:e2e           # Run Playwright E2E tests
+
+# Run specific tests
+pnpm test -- --testPathPattern=utils  # Run tests matching 'utils'
+pnpm test -- header.test.tsx          # Run specific test file
 ```
 
 ### Utilities
@@ -41,24 +45,35 @@ pnpm analyze            # Analyze bundle size
 pnpm find-unused-deps   # Find unused dependencies
 ```
 
+### Deployment
+
+```bash
+# AWS CDK deployment (requires AWS credentials)
+cd infrastructure && npm install
+cdk deploy --all        # Deploy infrastructure
+```
+
 
 ## Architecture Overview
 
 ### Directory Structure
 
 - `/app/` - Next.js App Router pages and layouts. Each route has its own directory (e.g., /about, /services, /blogs)
+  - API routes in `/app/api/` for email handling (contact, appointment, newsletter, query, message)
 - `/components/` - React components organized by:
-  - `/features/` - Page-specific feature components
+  - `/features/` - Page-specific feature components (home sections, etc.)
   - `/shared/` - Shared components like ErrorBoundary
   - `/ui/` - Shadcn UI components (buttons, cards, forms, etc.)
 - `/lib/` - Core business logic:
   - `/api/` - Strapi API client and data fetching logic
+  - `/config/` - Configuration management system with validation and presets
   - `/context/` - React Context providers for state management
   - `/helpers/` - Utility functions
   - `/types/` - TypeScript type definitions
 - `/hooks/` - Custom React hooks
+- `/infrastructure/` - AWS CDK infrastructure as code
 - `/e2e/` - Playwright E2E tests
-- `/__tests__/` - Jest unit tests
+- `/__tests__/` - Jest unit tests with snapshots in `__snapshots__/`
 
 ### Key Architectural Patterns
 
@@ -116,6 +131,9 @@ pnpm find-unused-deps   # Find unused dependencies
 - `tailwind.config.ts` - Custom theme configuration, fonts (Poppins, Playfair Display), animations
 - `tsconfig.json` - Strict mode TypeScript with path aliases (@/\*)
 - `.env.local` - Environment variables for AWS SES and Strapi CMS configuration
+- `jest.config.js` - Jest configuration with path aliases and custom setup
+- `playwright.config.ts` - E2E test configuration for multiple browsers (Chrome, Firefox, Safari, Mobile)
+- `.github/workflows/deploy.yml` - GitHub Actions deployment to AWS (S3 + CloudFront)
 
 ### API Integration
 
@@ -204,6 +222,34 @@ The application integrates with Strapi CMS for content management:
 - Implement proper error boundaries for graceful error handling
 - Follow the established patterns for interceptors and middleware
 
+### Environment Variables
+
+Required environment variables for full functionality:
+
+```bash
+# Strapi CMS Configuration
+NEXT_PUBLIC_STRAPI_API_URL=    # Strapi API URL
+STRAPI_API_TOKEN=              # Strapi API authentication token
+
+# AWS Configuration
+AWS_REGION=                    # AWS region (e.g., us-east-1)
+AWS_ACCESS_KEY_ID=             # AWS access key for SES
+AWS_SECRET_ACCESS_KEY=         # AWS secret key for SES
+
+# Email Configuration
+EMAIL_SENDER_NAME=             # Email sender display name
+EMAIL_SENDER_ADDRESS=          # Verified SES email address
+EMAIL_RECIPIENT_ADDRESS=       # Default recipient for form submissions
+
+# Security
+CSRF_SECRET=                   # Secret for CSRF token generation
+
+# Deployment (GitHub Actions)
+NEXT_PUBLIC_BASE_URL=          # Production URL
+S3_BUCKET_NAME=                # S3 bucket for static hosting
+CLOUDFRONT_DISTRIBUTION_ID=    # CloudFront distribution ID
+```
+
 ### Key Dependencies
 
 - Next.js 15.2.4 with React 18.3.1
@@ -211,9 +257,9 @@ The application integrates with Strapi CMS for content management:
 - Tailwind CSS for styling
 - Shadcn UI for component library
 - React Hook Form + Zod for form handling
-- AWS SES for email
+- AWS SES (@aws-sdk/client-ses) for email
 - Strapi CMS integration
-- Framer Motion for animations
-- React Intersection Observer for scroll animations
+- SWR for data fetching
 - Jest + React Testing Library for unit testing
 - Playwright for E2E testing
+- Husky + Lint-staged for pre-commit hooks

@@ -2,6 +2,8 @@ import "./globals.css";
 import { Playfair_Display, Poppins } from "next/font/google";
 import Script from "next/script";
 import type React from "react";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import ContactButtons from "@/components/contact-buttons";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -54,6 +56,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <ContactButtons />
           <Toaster />
         </ThemeProvider>
+        <Analytics />
+        <SpeedInsights />
         {/* Enhanced Local Business Structured Data */}
         <Script
           id="local-business-schema"
