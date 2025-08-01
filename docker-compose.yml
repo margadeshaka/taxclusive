@@ -1,0 +1,110 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: taxexclusive-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: taxexclusive
+      POSTGRES_USER: taxexclusive
+      POSTGRES_PASSWORD: taxexclusive123
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - taxexclusive-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U taxexclusive -d taxexclusive"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Database Migration Runner
+  migrate:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    container_name: taxexclusive-migrate
+    environment:
+      DATABASE_URL: "postgresql://taxexclusive:taxexclusive123@postgres:5432/taxexclusive"
+    command: sh -c "pnpm prisma migrate deploy && pnpm db:seed"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - taxexclusive-network
+    volumes:
+      - .:/app
+      - /app/node_modules
+
+  # Next.js Application
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    container_name: taxexclusive-app
+    restart: unless-stopped
+    environment:
+      # Database
+      DATABASE_URL: "postgresql://taxexclusive:taxexclusive123@postgres:5432/taxexclusive"
+      
+      # NextAuth
+      NEXTAUTH_URL: "http://localhost:3000"
+      NEXTAUTH_SECRET: "your-nextauth-secret-change-in-production"
+      
+      # AWS SES (add your credentials)
+      AWS_REGION: "us-east-1"
+      AWS_ACCESS_KEY_ID: ""
+      AWS_SECRET_ACCESS_KEY: ""
+      
+      # Email Configuration
+      EMAIL_SENDER_NAME: "TaxExclusive"
+      EMAIL_SENDER_ADDRESS: ""
+      EMAIL_RECIPIENT_ADDRESS: ""
+      
+      
+      # Security
+      CSRF_SECRET: "your-csrf-secret-change-in-production"
+      
+      # Base URL
+      NEXT_PUBLIC_BASE_URL: "http://localhost:3000"
+      
+      # Node environment
+      NODE_ENV: "development"
+    ports:
+      - "3000:3000"
+    command: pnpm dev
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    networks:
+      - taxexclusive-network
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+
+  # Adminer for database management
+  adminer:
+    image: adminer
+    container_name: taxexclusive-adminer
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    networks:
+      - taxexclusive-network
+    depends_on:
+      - postgres
+
+volumes:
+  postgres_data:
+
+networks:
+  taxexclusive-network:
+    driver: bridge

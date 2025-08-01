@@ -2,11 +2,11 @@ import { render, screen, waitFor } from "@testing-library/react";
 import { SWRConfig } from "swr";
 import { BlogList } from "@/app/blogs/components/blog-list";
 import { BlogDetail } from "@/app/blogs/components/blog-detail";
-import * as strapiApi from "@/lib/strapi";
+import * as blogsApi from "@/lib/api/blogs";
 
-// Mock the strapi API functions
-jest.mock("@/lib/strapi", () => ({
-  fetchBlogs: jest.fn(),
+// Mock the local blog API functions
+jest.mock("@/lib/api/blogs", () => ({
+  fetchAllBlogs: jest.fn(),
   fetchBlogById: jest.fn(),
 }));
 
@@ -59,7 +59,7 @@ describe.skip("Blog Flow Integration", () => {
   it("handles API errors when fetching blogs", async () => {
     // Mock the fetchBlogs function to throw an error
     const error = new Error("Failed to fetch blogs");
-    (strapiApi.fetchBlogs as jest.Mock).mockRejectedValue(error);
+    (blogsApi.fetchAllBlogs as jest.Mock).mockRejectedValue(error);
 
     // Render the BlogList component
     render(<BlogList />, { wrapper: Wrapper });
@@ -79,12 +79,12 @@ describe.skip("Blog Flow Integration", () => {
     ).toBeInTheDocument();
 
     // Verify that the API was called correctly
-    expect(strapiApi.fetchBlogs).toHaveBeenCalledTimes(1);
+    expect(blogsApi.fetchAllBlogs).toHaveBeenCalledTimes(1);
   });
 
   it("handles empty blog list", async () => {
     // Mock the fetchBlogs function to return an empty array
-    (strapiApi.fetchBlogs as jest.Mock).mockResolvedValue([]);
+    (blogsApi.fetchAllBlogs as jest.Mock).mockResolvedValue([]);
 
     // Render the BlogList component
     render(<BlogList />, { wrapper: Wrapper });
@@ -102,13 +102,13 @@ describe.skip("Blog Flow Integration", () => {
     expect(screen.getByText("Check back later for new content.")).toBeInTheDocument();
 
     // Verify that the API was called correctly
-    expect(strapiApi.fetchBlogs).toHaveBeenCalledTimes(1);
+    expect(blogsApi.fetchAllBlogs).toHaveBeenCalledTimes(1);
   });
 
   it("handles API errors when displaying a blog", async () => {
     // Mock the fetchBlogs function to throw an error
     const error = new Error("Failed to fetch blogs");
-    (strapiApi.fetchBlogs as jest.Mock).mockRejectedValue(error);
+    (blogsApi.fetchAllBlogs as jest.Mock).mockRejectedValue(error);
 
     // Render the BlogDetail component
     render(<BlogDetail id="1" />, { wrapper: Wrapper });
@@ -128,12 +128,12 @@ describe.skip("Blog Flow Integration", () => {
     ).toBeInTheDocument();
 
     // Verify that the API was called correctly
-    expect(strapiApi.fetchBlogs).toHaveBeenCalledTimes(1);
+    expect(blogsApi.fetchAllBlogs).toHaveBeenCalledTimes(1);
   });
 
   it("displays a list of blogs", async () => {
     // Mock the fetchBlogs function to return test data
-    (strapiApi.fetchBlogs as jest.Mock).mockResolvedValue(mockBlogs);
+    (blogsApi.fetchAllBlogs as jest.Mock).mockResolvedValue(mockBlogs);
 
     // Render the BlogList component
     render(<BlogList />, { wrapper: Wrapper });
@@ -159,12 +159,12 @@ describe.skip("Blog Flow Integration", () => {
     expect(screen.getByText("January 2, 2023")).toBeInTheDocument();
 
     // Verify that the API was called correctly
-    expect(strapiApi.fetchBlogs).toHaveBeenCalledTimes(1);
+    expect(blogsApi.fetchAllBlogs).toHaveBeenCalledTimes(1);
   });
 
   it("displays a single blog post", async () => {
     // Mock the fetchBlogs function to return test data
-    (strapiApi.fetchBlogs as jest.Mock).mockResolvedValue(mockBlogs);
+    (blogsApi.fetchAllBlogs as jest.Mock).mockResolvedValue(mockBlogs);
 
     // Render the BlogDetail component with an ID
     render(<BlogDetail id="1" />, { wrapper: Wrapper });
@@ -186,12 +186,12 @@ describe.skip("Blog Flow Integration", () => {
     expect(screen.getByText("This is the content of test blog post 1")).toBeInTheDocument();
 
     // Verify that the API was called correctly
-    expect(strapiApi.fetchBlogs).toHaveBeenCalledTimes(1);
+    expect(blogsApi.fetchAllBlogs).toHaveBeenCalledTimes(1);
   });
 
   it("handles blog not found", async () => {
     // Mock the fetchBlogs function to return test data
-    (strapiApi.fetchBlogs as jest.Mock).mockResolvedValue(mockBlogs);
+    (blogsApi.fetchAllBlogs as jest.Mock).mockResolvedValue(mockBlogs);
 
     // Render the BlogDetail component with a non-existent ID
     render(<BlogDetail id="999" />, { wrapper: Wrapper });
@@ -212,6 +212,6 @@ describe.skip("Blog Flow Integration", () => {
     expect(screen.getByText("Back to Blogs")).toBeInTheDocument();
 
     // Verify that the API was called correctly
-    expect(strapiApi.fetchBlogs).toHaveBeenCalledTimes(1);
+    expect(blogsApi.fetchAllBlogs).toHaveBeenCalledTimes(1);
   });
 });

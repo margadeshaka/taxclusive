@@ -8,6 +8,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import ContactButtons from "@/components/contact-buttons";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
+import { ErrorBoundary } from "@/components/shared";
 import { clientConfig } from "@/lib/config/client-config";
 import {
   generateLocalBusinessStructuredData,
@@ -51,11 +52,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="manifest" href="/site.webmanifest" />
       </head>
       <body className={`${playfair.variable} ${poppins.variable} font-sans`}>
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
-          {children}
-          <ContactButtons />
-          <Toaster />
-        </ThemeProvider>
+        <ErrorBoundary>
+          <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
+            {children}
+            <ContactButtons />
+            <Toaster />
+          </ThemeProvider>
+        </ErrorBoundary>
         <Analytics />
         <SpeedInsights />
         {/* Enhanced Local Business Structured Data */}

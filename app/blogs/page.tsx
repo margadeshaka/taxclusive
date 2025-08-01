@@ -6,8 +6,9 @@ import { Calendar, Clock, ArrowRight } from "lucide-react";
 import Footer from "@/components/footer";
 import Header from "@/components/header";
 import NewsletterSubscription from "@/components/newsletter-subscription";
-import { fetchAllBlogs } from "@/lib/api/strapi";
+import { fetchAllBlogs } from "@/lib/api/blogs";
 import { generateMetadata as generatePageMetadata } from "@/lib/metadata";
+import { formatDate, calculateReadingTime } from "@/lib/date-utils";
 
 // Generate metadata for the blogs page
 export const metadata: Metadata = generatePageMetadata({
@@ -65,9 +66,9 @@ export default async function BlogsPage() {
                 </div>
                 
                 <div className="space-y-6">
-                  {blogs[0].category && (
+                  {blogs[0].tags && blogs[0].tags.length > 0 && (
                     <span className="inline-block px-3 py-1 text-xs font-medium bg-primary/10 text-primary rounded-full">
-                      {blogs[0].category.name}
+                      {blogs[0].tags[0].name}
                     </span>
                   )}
                   
@@ -82,11 +83,11 @@ export default async function BlogsPage() {
                   <div className="flex items-center gap-4 text-sm text-muted-foreground">
                     <div className="flex items-center gap-1">
                       <Calendar className="h-4 w-4" />
-                      <span>{new Date(blogs[0].published_at).toLocaleDateString()}</span>
+                      <span>{formatDate(blogs[0].published_at)}</span>
                     </div>
                     <div className="flex items-center gap-1">
                       <Clock className="h-4 w-4" />
-                      <span>{Math.ceil((blogs[0].content?.length || 0) / 200)} min read</span>
+                      <span>{calculateReadingTime(blogs[0].content || '')} min read</span>
                     </div>
                   </div>
                   
@@ -113,8 +114,8 @@ export default async function BlogsPage() {
             
             <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
               {blogs.slice(1).map((blog) => {
-                const publishedDate = new Date(blog.published_at).toLocaleDateString();
-                const readingTime = Math.ceil((blog.content?.length || 0) / 200);
+                const publishedDate = formatDate(blog.published_at);
+                const readingTime = calculateReadingTime(blog.content || '');
                 
                 return (
                   <article key={blog.id} className="minimal-card group animate-fade-in">
@@ -131,9 +132,9 @@ export default async function BlogsPage() {
                     )}
                     
                     <div className="space-y-3">
-                      {blog.category && (
+                      {blog.tags && blog.tags.length > 0 && (
                         <span className="inline-block px-2 py-1 text-xs font-medium bg-primary/10 text-primary rounded-full">
-                          {blog.category.name}
+                          {blog.tags[0].name}
                         </span>
                       )}
                       

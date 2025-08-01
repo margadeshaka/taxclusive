@@ -1,0 +1,68 @@
+# Page snapshot
+
+```yaml
+- img
+- heading "Admin Portal" [level=1]
+- paragraph: TaxExclusive
+- navigation:
+  - link "Dashboard":
+    - /url: /admin
+    - img
+    - text: Dashboard
+  - link "Blogs":
+    - /url: /admin/blogs
+    - img
+    - text: Blogs
+  - link "Testimonials":
+    - /url: /admin/testimonials
+    - img
+    - text: Testimonials
+- text: E
+- paragraph: Editor User
+- paragraph: EDITOR
+- button "Sign Out":
+  - img
+  - text: Sign Out
+- main:
+  - heading "Testimonials" [level=1]
+  - paragraph: Manage client testimonials and reviews
+  - button "Add Testimonial":
+    - img
+    - text: Add Testimonial
+  - text: All Testimonials Manage client testimonials and their approval status
+  - table:
+    - rowgroup:
+      - row "Client Content Rating Status Created Actions":
+        - cell "Client"
+        - cell "Content"
+        - cell "Rating"
+        - cell "Status"
+        - cell "Created"
+        - cell "Actions"
+    - rowgroup:
+      - row "Rahul Sharma Business Owner, Sharma Enterprises Delhi TaxExclusive has been instrumental in managing our company finances. Their expertise in tax planning has saved us significant costs while ensuring full compliance. Featured Approved 8/1/2025":
+        - cell "Rahul Sharma Business Owner, Sharma Enterprises Delhi"
+        - cell "TaxExclusive has been instrumental in managing our company finances. Their expertise in tax planning has saved us significant costs while ensuring full compliance."
+        - cell:
+          - img
+          - img
+          - img
+          - img
+          - img
+        - cell "Featured Approved"
+        - cell "8/1/2025"
+        - cell:
+          - button:
+            - img
+          - button:
+            - img
+- region "Notifications (F8)":
+  - list
+- button "Open contact options":
+  - img
+- region "Notifications (F8)":
+  - list
+- button "Open Next.js Dev Tools":
+  - img
+- alert
+```

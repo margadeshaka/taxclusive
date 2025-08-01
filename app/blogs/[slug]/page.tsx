@@ -7,8 +7,9 @@ import Image from "next/image";
 import Footer from "@/components/footer";
 import Header from "@/components/header";
 import NewsletterSubscription from "@/components/newsletter-subscription";
-import { fetchBlogBySlug, fetchAllBlogs } from "@/lib/api/strapi";
+import { fetchBlogBySlug, fetchAllBlogs } from "@/lib/api/blogs";
 import { generateMetadata as generateBlogMetadata } from "@/lib/metadata";
+import { formatDate, calculateReadingTime } from "@/lib/date-utils";
 
 interface BlogPageProps {
   params: { slug: string };
@@ -66,13 +67,8 @@ export default async function BlogPost({ params }: BlogPageProps) {
       notFound();
     }
 
-    const publishedDate = new Date(blog.published_at).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
-
-    const readingTime = Math.ceil((blog.content?.length || 0) / 200); // Approximate reading time
+    const publishedDate = formatDate(blog.published_at);
+    const readingTime = calculateReadingTime(blog.content || '');
 
     return (
       <div className="flex min-h-screen flex-col">
@@ -93,10 +89,10 @@ export default async function BlogPost({ params }: BlogPageProps) {
 
                 {/* Blog header */}
                 <header className="mb-12">
-                  {blog.category && (
+                  {blog.tags && blog.tags.length > 0 && (
                     <div className="mb-4">
                       <span className="inline-block px-3 py-1 text-xs font-medium bg-primary/10 text-primary rounded-full">
-                        {blog.category.name}
+                        {blog.tags[0].name}
                       </span>
                     </div>
                   )}

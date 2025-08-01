@@ -1,0 +1,79 @@
+# Page snapshot
+
+```yaml
+- img
+- heading "Admin Portal" [level=1]
+- paragraph: TaxExclusive
+- navigation:
+  - link "Dashboard":
+    - /url: /admin
+    - img
+    - text: Dashboard
+  - link "Blogs":
+    - /url: /admin/blogs
+    - img
+    - text: Blogs
+  - link "Testimonials":
+    - /url: /admin/testimonials
+    - img
+    - text: Testimonials
+  - link "Users":
+    - /url: /admin/users
+    - img
+    - text: Users
+  - link "Settings":
+    - /url: /admin/settings
+    - img
+    - text: Settings
+- text: A
+- paragraph: Admin User
+- paragraph: ADMIN
+- button "Sign Out":
+  - img
+  - text: Sign Out
+- main:
+  - link "Back to Blogs":
+    - /url: /admin/blogs
+    - button "Back to Blogs":
+      - img
+      - text: Back to Blogs
+  - heading "Create New Blog" [level=1]
+  - paragraph: Write and publish a new blog post
+  - text: Blog Content Write your blog post content using Markdown Title *
+  - textbox "Title *"
+  - text: Excerpt
+  - textbox "Excerpt"
+  - text: Content *
+  - button "Bold":
+    - img
+  - button "Italic":
+    - img
+  - button "List":
+    - img
+  - button "Link":
+    - img
+  - button "Image":
+    - img
+  - button "Code":
+    - img
+  - textbox "Write your blog content here..."
+  - text: "Use Markdown syntax for formatting. Bold: **text**, Italic: *text*, Links: [text](url) Publish Settings Configure how your blog post will be published Status"
+  - combobox: Draft
+  - switch "Featured post"
+  - text: Featured post Media & SEO Add images and optimize for search engines Cover Image URL
+  - textbox "Cover Image URL"
+  - text: Tags
+  - textbox "Tags"
+  - text: Separate tags with commas
+  - button "Cancel"
+  - button "Create Blog"
+- region "Notifications (F8)":
+  - list
+- button "Open contact options":
+  - img
+- region "Notifications (F8)":
+  - list
+- button "Open Next.js Dev Tools":
+  - img
+- alert
+```

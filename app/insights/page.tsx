@@ -73,7 +73,6 @@ export default function InsightsPage() {
                 <div className="group relative overflow-hidden rounded-lg border bg-background shadow-sm transition-all hover:shadow-md">
                   <div className="aspect-video overflow-hidden">
                     <Image
-                      // src="https://placehold.co/1200x600"
                       src="/latestfinancial.png"
                       width={1200}
                       height={600}
@@ -130,7 +129,6 @@ export default function InsightsPage() {
                   <article className="group relative overflow-hidden rounded-lg border bg-background shadow-sm transition-all hover:shadow-md">
                     <div className="aspect-video overflow-hidden">
                       <Image
-                        //src="https://placehold.co/600x400"
                         src="/insights1.png"
                         width={600}
                         height={400}
@@ -166,7 +164,6 @@ export default function InsightsPage() {
                   <article className="group relative overflow-hidden rounded-lg border bg-background shadow-sm transition-all hover:shadow-md">
                     <div className="aspect-video overflow-hidden">
                       <Image
-                        // src="https://placehold.co/600x400"
                         src="/insights2.png"
                         width={600}
                         height={400}
@@ -201,7 +198,6 @@ export default function InsightsPage() {
                   <article className="group relative overflow-hidden rounded-lg border bg-background shadow-sm transition-all hover:shadow-md">
                     <div className="aspect-video overflow-hidden">
                       <Image
-                        // src="https://placehold.co/600x400"
                         src="/insights3.png"
                         width={600}
                         height={400}
@@ -236,7 +232,6 @@ export default function InsightsPage() {
                   <article className="group relative overflow-hidden rounded-lg border bg-background shadow-sm transition-all hover:shadow-md">
                     <div className="aspect-video overflow-hidden">
                       <Image
-                        // src="https://placehold.co/600x400"
                         src="/insights4.png"
                         width={600}
                         height={400}
