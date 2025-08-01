@@ -53,7 +53,7 @@ const testimonials = [
 
 export default function TestimonialsSection() {
   return (
-    <section className="w-full py-16 md:py-24 lg:py-32 bg-muted/20">
+    <section className="w-full py-16 md:py-24 lg:py-32 bg-primary/5">
       <div className="container px-4 md:px-6">
         <div className="text-center mb-16">
           <div className="minimal-divider">
@@ -100,22 +100,22 @@ export default function TestimonialsSection() {
         </div>
 
         {/* Trust indicators */}
-        <div className="mt-16 pt-12 border-t border-border">
+        <div className="mt-16 pt-12 border-t border-primary/20">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             <div>
-              <div className="stat-number text-primary">500+</div>
+              <div className="stat-number">500+</div>
               <div className="stat-label">Happy Clients</div>
             </div>
             <div>
-              <div className="stat-number text-primary">15+</div>
+              <div className="stat-number">15+</div>
               <div className="stat-label">Years Experience</div>
             </div>
             <div>
-              <div className="stat-number text-primary">99%</div>
+              <div className="stat-number">99%</div>
               <div className="stat-label">Success Rate</div>
             </div>
             <div>
-              <div className="stat-number text-primary">24/7</div>
+              <div className="stat-number">24/7</div>
               <div className="stat-label">Support Available</div>
             </div>
           </div>

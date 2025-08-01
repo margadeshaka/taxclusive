@@ -92,7 +92,7 @@ export default function WhyChooseUsSection() {
         </div>
 
         {/* Our Process */}
-        <div className="bg-muted/20 rounded-sm border border-border p-8 md:p-12">
+        <div className="bg-primary/5 rounded-sm border border-primary/20 p-8 md:p-12">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-semibold mb-4">Our Process</h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">

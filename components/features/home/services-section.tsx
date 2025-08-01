@@ -97,7 +97,7 @@ export default function ServicesSection() {
             View All Services
           </Link>
           
-          <div className="mt-8 p-6 bg-muted/20 rounded-sm border border-border">
+          <div className="mt-8 p-6 bg-primary/5 rounded-sm border border-primary/20">
             <h3 className="text-lg font-semibold mb-2">Need Expert Advice?</h3>
             <p className="text-muted-foreground mb-4">
               Get personalized consultation from our experienced chartered accountants.

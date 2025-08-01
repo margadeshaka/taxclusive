@@ -168,7 +168,7 @@ export default async function BlogPost({ params }: BlogPageProps) {
                 )}
 
                 {/* Call to action */}
-                <div className="mt-16 p-8 bg-muted/20 rounded-sm border border-border text-center">
+                <div className="mt-16 p-8 bg-primary/5 rounded-sm border border-primary/20 text-center">
                   <h3 className="text-xl font-semibold mb-4">Need Expert Financial Advice?</h3>
                   <p className="text-muted-foreground mb-6">
                     Get personalized consultation from our experienced chartered accountants.

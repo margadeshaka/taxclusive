@@ -104,7 +104,7 @@ export default async function BlogsPage() {
         )}
 
         {/* All blogs grid */}
-        <section className="w-full py-16 bg-muted/20">
+        <section className="w-full py-16 bg-primary/5">
           <div className="container px-4 md:px-6">
             <div className="mb-12">
               <h2 className="text-2xl font-semibold mb-2">Latest Articles</h2>
@@ -176,7 +176,7 @@ export default async function BlogsPage() {
         {/* Call to action */}
         <section className="w-full py-16">
           <div className="container px-4 md:px-6">
-            <div className="text-center p-12 bg-muted/20 rounded-sm border border-border">
+            <div className="text-center p-12 bg-primary/5 rounded-sm border border-primary/20">
               <h2 className="text-2xl font-semibold mb-4">Stay Updated</h2>
               <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
                 Don&apos;t miss out on the latest tax updates, financial tips, and business insights. 
