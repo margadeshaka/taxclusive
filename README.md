@@ -6,12 +6,14 @@ Welcome to the TaxExclusive project - a modern web application for a Chartered A
 
 TaxExclusive is a Next.js-based web application that provides information about taxation services and allows clients to access resources like blogs and contact information. The project uses modern web technologies including:
 
-- Next.js (App Router)
+- Next.js 15 (App Router)
 - TypeScript
 - Tailwind CSS
 - Shadcn UI components
-- Jest for testing
-- Strapi for content management
+- Prisma ORM with PostgreSQL
+- NextAuth for authentication
+- AWS SES for email services
+- Jest & Playwright for testing
 
 ## 🚀 Getting Started
 
