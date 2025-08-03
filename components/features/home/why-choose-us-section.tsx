@@ -63,7 +63,7 @@ export default function WhyChooseUsSection() {
         {/* Why Choose Us */}
         <div className="text-center mb-16">
           <div className="minimal-divider">
-            <span>Why Choose TaxExclusive</span>
+            <span>Why Choose Taxclusive</span>
           </div>
           <h2 className="prose-minimal text-center">
             Your Trusted Financial Partner

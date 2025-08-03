@@ -44,8 +44,8 @@ test.describe('Admin User Management', () => {
       await expect(page.locator('th:has-text("Role")')).toBeVisible()
       
       // Check existing test users
-      await expect(page.locator('text=admin@taxexclusive.com')).toBeVisible()
-      await expect(page.locator('text=editor@taxexclusive.com')).toBeVisible()
+      await expect(page.locator('text=admin@taxclusive.com')).toBeVisible()
+      await expect(page.locator('text=editor@taxclusive.com')).toBeVisible()
     })
 
     test('should create new user', async ({ page }) => {
@@ -130,7 +130,7 @@ test.describe('Admin User Management', () => {
       
       // Try to create user with existing email
       await page.fill('input[name="name"]', 'Duplicate User')
-      await page.fill('input[name="email"]', 'admin@taxexclusive.com')
+      await page.fill('input[name="email"]', 'admin@taxclusive.com')
       await page.fill('input[name="password"]', 'password123')
       
       await page.click('button[role="combobox"]')
@@ -179,10 +179,10 @@ test.describe('Admin User Management', () => {
       await page.goto('/admin/users')
       
       // Check admin badge
-      await expect(page.locator('tr:has-text("admin@taxexclusive.com") .badge:has-text("ADMIN")')).toBeVisible()
+      await expect(page.locator('tr:has-text("admin@taxclusive.com") .badge:has-text("ADMIN")')).toBeVisible()
       
       // Check editor badge
-      await expect(page.locator('tr:has-text("editor@taxexclusive.com") .badge:has-text("EDITOR")')).toBeVisible()
+      await expect(page.locator('tr:has-text("editor@taxclusive.com") .badge:has-text("EDITOR")')).toBeVisible()
     })
   })
 
@@ -195,14 +195,14 @@ test.describe('Admin User Management', () => {
       await page.fill('input[placeholder*="Search"]', 'Admin')
       
       // Should show only admin user
-      await expect(page.locator('text=admin@taxexclusive.com')).toBeVisible()
-      await expect(page.locator('text=editor@taxexclusive.com')).not.toBeVisible()
+      await expect(page.locator('text=admin@taxclusive.com')).toBeVisible()
+      await expect(page.locator('text=editor@taxclusive.com')).not.toBeVisible()
       
       // Clear search
       await page.fill('input[placeholder*="Search"]', '')
       
       // Should show all users again
-      await expect(page.locator('text=editor@taxexclusive.com')).toBeVisible()
+      await expect(page.locator('text=editor@taxclusive.com')).toBeVisible()
     })
 
     test('should filter users by role', async ({ page }) => {

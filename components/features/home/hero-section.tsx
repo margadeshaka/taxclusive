@@ -1,12 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
+import { SPACING } from "@/lib/constants/spacing";
+import { ConsistentButton } from "@/components/ui/consistent-button";
 
 export default function HeroSection() {
   return (
-    <section className="w-full py-16 md:py-24 lg:py-32 minimal-pattern">
-      <div className="container px-4 md:px-6">
-        <div className="grid gap-12 lg:grid-cols-2 lg:gap-16 xl:grid-cols-2 items-center">
-          <div className="flex flex-col justify-center space-y-8">
+    <section className={`w-full ${SPACING.section.full} minimal-pattern`}>
+      <div className={`container ${SPACING.container.full}`}>
+        <div className={`grid ${SPACING.gap.lg} lg:grid-cols-2 lg:${SPACING.gap.xl} items-center`}>
+          <div className={`flex flex-col justify-center space-y-8`}>
             <div className="space-y-6">
               <div className="minimal-border">
                 <h1 className="prose-minimal">
@@ -18,13 +20,13 @@ export default function HeroSection() {
               </div>
               <div className="prose-minimal">
                 <p className="text-xl leading-relaxed">
-                  TaxExclusive is your trusted partner for comprehensive accounting, taxation, and financial advisory services. 
+                  Taxclusive is your trusted partner for comprehensive accounting, taxation, and financial advisory services. 
                   We combine traditional expertise with modern technology to deliver exceptional results for individuals and businesses across India.
                 </p>
               </div>
               
               {/* Key statistics */}
-              <div className="grid grid-cols-3 gap-6 py-8 border-t border-b border-primary/20">
+              <div className={`grid grid-cols-3 ${SPACING.gap.md} py-8 border-t border-b border-primary/20`}>
                 <div className="text-center">
                   <div className="stat-number">500+</div>
                   <div className="stat-label">Clients Served</div>
@@ -40,19 +42,17 @@ export default function HeroSection() {
               </div>
             </div>
             
-            <div className="flex flex-col gap-4 sm:flex-row">
-              <Link
-                href="/appointment"
-                className="minimal-button-primary"
-              >
-                Schedule Consultation
-              </Link>
-              <Link
-                href="/services"
-                className="minimal-button-outline"
-              >
-                View Services
-              </Link>
+            <div className={`flex flex-col ${SPACING.gap.sm} sm:flex-row`}>
+              <ConsistentButton asChild>
+                <Link href="/appointment">
+                  Schedule Consultation
+                </Link>
+              </ConsistentButton>
+              <ConsistentButton variant="outline" asChild>
+                <Link href="/services">
+                  View Services
+                </Link>
+              </ConsistentButton>
             </div>
           </div>
           

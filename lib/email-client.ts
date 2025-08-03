@@ -1,5 +1,12 @@
 "use client";
 
+// Type definitions for email service responses
+interface EmailServiceResponse {
+  success: boolean;
+  message: string;
+  errors?: Record<string, string | undefined>;
+}
+
 // Email templates are now handled by the API routes
 
 /**
@@ -36,7 +43,7 @@ export class EmailService {
     phone: string;
     subject: string;
     message: string;
-  }): Promise<{ success: boolean; message: string; errors?: any }> {
+  }): Promise<EmailServiceResponse> {
     // Validate required fields
     if (
       !formData.firstName ||
@@ -113,7 +120,7 @@ export class EmailService {
     time: string;
     meetingType: string;
     message?: string;
-  }): Promise<{ success: boolean; message: string; errors?: any }> {
+  }): Promise<EmailServiceResponse> {
     // Validate required fields
     if (
       !formData.firstName ||
@@ -202,7 +209,7 @@ export class EmailService {
    */
   async submitNewsletterForm(formData: {
     email: string;
-  }): Promise<{ success: boolean; message: string; errors?: any }> {
+  }): Promise<EmailServiceResponse> {
     // Validate required fields
     if (!formData.email) {
       return {
@@ -267,7 +274,7 @@ export class EmailService {
     subject: string;
     query: string;
     files?: string[];
-  }): Promise<{ success: boolean; message: string; errors?: any }> {
+  }): Promise<EmailServiceResponse> {
     // Validate required fields
     if (
       !formData.fullName ||
@@ -341,7 +348,7 @@ export class EmailService {
     phone?: string;
     subject: string;
     message: string;
-  }): Promise<{ success: boolean; message: string; errors?: any }> {
+  }): Promise<EmailServiceResponse> {
     // Validate required fields
     if (!formData.name || !formData.email || !formData.subject || !formData.message) {
       return {

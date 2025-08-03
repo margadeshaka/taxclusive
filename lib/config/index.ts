@@ -227,7 +227,7 @@ export function migrateConfig(
   toVersion: string
 ): WebsiteConfiguration {
   // This would contain migration logic for different versions
-  console.log(`Migrating configuration from ${fromVersion} to ${toVersion}`);
+  // Migration from ${fromVersion} to ${toVersion}
 
   // For now, merge with current default config
   return createConfig(oldConfig);

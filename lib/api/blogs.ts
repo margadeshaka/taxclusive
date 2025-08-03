@@ -40,7 +40,7 @@ export async function fetchAllBlogs() {
       updated_at: blog.updatedAt.toISOString(),
       created_at: blog.createdAt.toISOString(),
       author: blog.author ? {
-        name: blog.author.name || 'TaxExclusive Team',
+        name: blog.author.name || 'Taxclusive Team',
         email: blog.author.email
       } : null,
       tags: blog.tags?.map(tag => ({ name: tag.name, slug: tag.slug })) || [],
@@ -96,7 +96,7 @@ export async function fetchBlogBySlug(slug: string) {
       updated_at: blog.updatedAt.toISOString(),
       created_at: blog.createdAt.toISOString(),
       author: blog.author ? {
-        name: blog.author.name || 'TaxExclusive Team',
+        name: blog.author.name || 'Taxclusive Team',
         email: blog.author.email
       } : null,
       tags: blog.tags?.map(tag => ({ name: tag.name, slug: tag.slug })) || [],
@@ -152,7 +152,7 @@ export async function fetchBlogById(id: string) {
       updated_at: blog.updatedAt.toISOString(),
       created_at: blog.createdAt.toISOString(),
       author: blog.author ? {
-        name: blog.author.name || 'TaxExclusive Team',
+        name: blog.author.name || 'Taxclusive Team',
         email: blog.author.email
       } : null,
       tags: blog.tags?.map(tag => ({ name: tag.name, slug: tag.slug })) || [],
@@ -208,7 +208,7 @@ export async function fetchFeaturedBlogs(limit: number = 3) {
       updated_at: blog.updatedAt.toISOString(),
       created_at: blog.createdAt.toISOString(),
       author: blog.author ? {
-        name: blog.author.name || 'TaxExclusive Team',
+        name: blog.author.name || 'Taxclusive Team',
         email: blog.author.email
       } : null,
       tags: blog.tags?.map(tag => ({ name: tag.name, slug: tag.slug })) || [],

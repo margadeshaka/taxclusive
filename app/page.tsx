@@ -46,7 +46,7 @@ export default function Home() {
       {/* Home page specific structured data */}
       <Script id="home-schema-org" type="application/ld+json">
         {generateStructuredData("Organization", {
-          name: "TaxExclusive",
+          name: "Taxclusive",
           url: "https://www.taxexclusive.com",
           logo: "https://www.taxexclusive.com/logo.png",
           description:

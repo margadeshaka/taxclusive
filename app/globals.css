@@ -5,47 +5,47 @@
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 222 84% 4.9%;
+    --foreground: 225 73% 40%; /* Royal Blue for text */
     --card: 0 0% 100%;
-    --card-foreground: 222 84% 4.9%;
+    --card-foreground: 225 73% 40%; /* Royal Blue for card text */
     --popover: 0 0% 100%;
-    --popover-foreground: 222 84% 4.9%;
-    --primary: 217 91% 60%;
-    --primary-foreground: 222 47% 11%;
-    --secondary: 210 40% 96%;
-    --secondary-foreground: 222 47% 11%;
-    --muted: 210 40% 96%;
-    --muted-foreground: 215 16% 47%;
-    --accent: 210 40% 96%;
-    --accent-foreground: 222 47% 11%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214 32% 91%;
-    --input: 214 32% 91%;
-    --ring: 217 91% 60%;
+    --popover-foreground: 225 73% 40%; /* Royal Blue for popover text */
+    --primary: 225 73% 40%; /* Royal Blue as primary */
+    --primary-foreground: 210 20% 98%;
+    --secondary: 220 14% 96%;
+    --secondary-foreground: 225 73% 40%; /* Royal Blue for secondary text */
+    --muted: 220 14% 96%;
+    --muted-foreground: 225 73% 45%; /* Lighter royal blue for muted text */
+    --accent: 220 14% 96%;
+    --accent-foreground: 225 73% 35%; /* Darker royal blue for accent text */
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 20% 98%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 225 73% 40%; /* Royal Blue for focus ring */
     --radius: 0.5rem;
   }
 
   .dark {
-    --background: 222 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 217 91% 60%;
-    --primary-foreground: 222 47% 11%;
-    --secondary: 217 33% 17%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217 33% 17%;
-    --muted-foreground: 215 20% 65%;
-    --accent: 217 33% 17%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
+    --background: 222 47% 11%;
+    --foreground: 225 73% 75%; /* Lighter royal blue for dark mode */
+    --card: 222 47% 15%;
+    --card-foreground: 225 73% 75%;
+    --popover: 222 47% 15%;
+    --popover-foreground: 225 73% 75%;
+    --primary: 225 73% 60%; /* Royal blue adjusted for dark mode */
+    --primary-foreground: 210 20% 98%;
+    --secondary: 222 47% 20%;
+    --secondary-foreground: 225 73% 75%;
+    --muted: 217 33% 25%;
+    --muted-foreground: 225 73% 65%;
+    --accent: 222 47% 20%;
+    --accent-foreground: 225 73% 70%;
+    --destructive: 0 62.8% 50%;
     --destructive-foreground: 210 40% 98%;
-    --border: 217 33% 17%;
-    --input: 217 33% 17%;
-    --ring: 217 91% 60%;
+    --border: 217 33% 25%;
+    --input: 217 33% 25%;
+    --ring: 225 73% 60%;
   }
 }
 
@@ -97,19 +97,19 @@
 }
 
 .prose-minimal h1 {
-  @apply text-4xl sm:text-5xl lg:text-6xl font-normal mb-6;
+  @apply text-4xl sm:text-5xl lg:text-6xl font-normal mb-6 text-foreground;
 }
 
 .prose-minimal h2 {
-  @apply text-3xl sm:text-4xl font-normal mb-4;
+  @apply text-3xl sm:text-4xl font-normal mb-4 text-foreground;
 }
 
 .prose-minimal h3 {
-  @apply text-2xl sm:text-3xl font-normal mb-3;
+  @apply text-2xl sm:text-3xl font-normal mb-3 text-foreground;
 }
 
 .prose-minimal p {
-  @apply text-base sm:text-lg text-muted-foreground mb-4 leading-relaxed;
+  @apply text-base sm:text-lg text-foreground/80 mb-4 leading-relaxed;
 }
 
 /* Minimal card styles */
@@ -123,11 +123,11 @@
 }
 
 .minimal-button-primary {
-  @apply minimal-button bg-primary text-primary-foreground hover:bg-primary/90;
+  @apply minimal-button bg-royal-blue text-white hover:bg-royal-blue-600;
 }
 
 .minimal-button-outline {
-  @apply minimal-button border border-primary text-primary hover:bg-primary hover:text-primary-foreground;
+  @apply minimal-button border border-royal-blue text-royal-blue hover:bg-royal-blue hover:text-white;
 }
 
 /* Clean animations */
@@ -146,9 +146,41 @@
   animation: fadeIn 0.5s ease-out;
 }
 
+/* Text color handling for light/dark mode */
+h1, h2, h3, h4, h5, h6 {
+  @apply text-foreground;
+}
+
+p, span, div, a, li, td, th {
+  @apply text-foreground;
+}
+
+/* Override for light mode to maintain royal blue */
+.light h1, .light h2, .light h3, .light h4, .light h5, .light h6,
+.light p, .light span, .light div, .light a, .light li, .light td, .light th {
+  color: #4169E1;
+}
+
+.light .text-muted-foreground {
+  color: #7593F3;
+}
+
 /* Stats and metrics styling */
 .stat-number {
   @apply text-5xl sm:text-6xl font-light tracking-tighter text-primary;
+}
+
+/* Dark mode specific adjustments */
+.dark .minimal-card {
+  @apply bg-card/50 border-border/50;
+}
+
+.dark .minimal-divider::before {
+  @apply bg-border/50;
+}
+
+.dark .minimal-divider span {
+  @apply bg-background;
 }
 
 .stat-label {

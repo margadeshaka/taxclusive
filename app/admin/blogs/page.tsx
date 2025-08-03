@@ -1,14 +1,16 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { Plus, Edit, Trash2, Loader2, Eye } from "lucide-react"
 import Link from "next/link"
+import { useState, useEffect, useCallback } from "react"
+
 import { AdminWrapper } from "@/components/admin/admin-wrapper"
+import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Badge } from "@/components/ui/badge"
 import { useToast } from "@/components/ui/use-toast"
-import { Plus, Edit, Trash2, Loader2, Eye } from "lucide-react"
+
 
 interface Blog {
   id: string
@@ -32,7 +34,7 @@ export default function BlogsPage() {
   const [isLoading, setIsLoading] = useState(true)
   const { toast } = useToast()
 
-  const fetchBlogs = async () => {
+  const fetchBlogs = useCallback(async () => {
     try {
       const response = await fetch("/api/admin/blogs")
       if (response.ok) {
@@ -48,11 +50,11 @@ export default function BlogsPage() {
     } finally {
       setIsLoading(false)
     }
-  }
+  }, [toast])
 
   useEffect(() => {
     fetchBlogs()
-  }, [])
+  }, [fetchBlogs])
 
   const handleDelete = async (blog: Blog) => {
     if (!confirm("Are you sure you want to delete this blog?")) return

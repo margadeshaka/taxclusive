@@ -1,11 +1,11 @@
 export const testUsers = {
   admin: {
-    email: 'admin@taxexclusive.com',
+    email: 'admin@taxclusive.com',
     password: 'admin123',
     role: 'ADMIN'
   },
   editor: {
-    email: 'editor@taxexclusive.com',
+    email: 'editor@taxclusive.com',
     password: 'editor123',
     role: 'EDITOR'
   },
@@ -46,7 +46,7 @@ export const testTestimonial = {
   designation: 'CEO',
   company: 'Test Company Ltd',
   location: 'Test City',
-  content: 'This is an excellent service provided by TaxExclusive. Highly recommended for all tax and accounting needs.',
+  content: 'This is an excellent service provided by Taxclusive. Highly recommended for all tax and accounting needs.',
   rating: 5
 }
 

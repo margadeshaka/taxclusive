@@ -2,7 +2,6 @@
  * Enhanced API client with caching, retry logic, timeout handling, and interceptors
  */
 import { getCSRFToken } from "./csrf";
-import { rateLimitedFetch } from "./rate-limit";
 import {
   NetworkError,
   AuthenticationError,
@@ -11,6 +10,7 @@ import {
   RateLimitError,
   handleError,
 } from "./error-handler";
+import { rateLimitedFetch } from "./rate-limit";
 
 // Default timeout for API requests (in milliseconds)
 const DEFAULT_TIMEOUT = 10000;

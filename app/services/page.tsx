@@ -2,9 +2,6 @@
 
 import Script from "next/script";
 
-import Footer from "@/components/footer";
-import Header from "@/components/header";
-import { generateStructuredData } from "@/lib/metadata";
 import {
   ServicesHeroSection,
   IntroSection,
@@ -13,6 +10,9 @@ import {
   TestimonialsSection,
   ServicesCTASection,
 } from "@/components/features/services";
+import Footer from "@/components/footer";
+import Header from "@/components/header";
+import { generateStructuredData } from "@/lib/metadata";
 
 // Metadata for this page is handled by layout since it's a client component
 

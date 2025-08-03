@@ -154,7 +154,7 @@ test.describe('API Endpoints', () => {
     test('should authenticate valid admin credentials', async ({ page }) => {
       const response = await page.request.post('/api/auth/signin', {
         data: {
-          email: 'admin@taxexclusive.com',
+          email: 'admin@taxclusive.com',
           password: 'admin123'
         }
       })

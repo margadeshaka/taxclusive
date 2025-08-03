@@ -1,14 +1,15 @@
 "use client"
 
-import { useState } from "react"
-import { signIn, getSession } from "next-auth/react"
+import { Loader2, Shield } from "lucide-react"
 import { useRouter } from "next/navigation"
+import { signIn, getSession } from "next-auth/react"
+import { useState } from "react"
+
+import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Loader2, Shield } from "lucide-react"
 
 export default function AdminLogin() {
   const [email, setEmail] = useState("")
@@ -57,7 +58,7 @@ export default function AdminLogin() {
           </div>
           <CardTitle className="text-2xl font-semibold">Admin Portal</CardTitle>
           <CardDescription>
-            Sign in to access the TaxExclusive admin dashboard
+            Sign in to access the Taxclusive admin dashboard
           </CardDescription>
         </CardHeader>
         <CardContent>

@@ -1,10 +1,12 @@
 "use client";
 
-import React, { useEffect } from "react";
-import { ErrorBoundary } from "./error-boundary";
 import { Loader2, RefreshCw } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import React, { useEffect } from "react";
+
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
+
+import { ErrorBoundary } from "./error-boundary";
 
 interface AsyncErrorFallbackProps {
   error: Error;
@@ -51,18 +53,22 @@ interface AsyncErrorBoundaryProps {
   onError?: (error: Error, errorInfo: React.ErrorInfo) => void;
 }
 
+function AsyncErrorBoundaryFallback(props: AsyncErrorFallbackProps & { onError?: (error: Error, errorInfo: React.ErrorInfo) => void }) {
+  const { onError, ...fallbackProps } = props;
+  
+  useEffect(() => {
+    if (onError) {
+      onError(props.error, props.errorInfo);
+    }
+  }, [onError, props.error, props.errorInfo]);
+  
+  return <AsyncErrorFallback {...fallbackProps} />;
+}
+
 export function AsyncErrorBoundary({ children, onError }: AsyncErrorBoundaryProps) {
   return (
     <ErrorBoundary
-      fallback={(props) => {
-        useEffect(() => {
-          if (onError) {
-            onError(props.error, props.errorInfo);
-          }
-        }, [props.error, props.errorInfo]);
-        
-        return <AsyncErrorFallback {...props} />;
-      }}
+      fallback={(props) => <AsyncErrorBoundaryFallback {...props} onError={onError} />}
     >
       {children}
     </ErrorBoundary>

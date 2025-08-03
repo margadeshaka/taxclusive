@@ -72,10 +72,8 @@ export async function sendEmail(data: EmailData): Promise<void> {
     };
 
     const command = new SendEmailCommand(params);
-    const result = await sesClient.send(command);
-    console.log("Email sent successfully", result.MessageId);
+    await sesClient.send(command);
   } catch (error) {
-    console.error("Error sending email:", error);
     throw new Error("Failed to send email");
   }
 }

@@ -1,14 +1,14 @@
 import "./globals.css";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Playfair_Display, Poppins } from "next/font/google";
 import Script from "next/script";
 import type React from "react";
-import { Analytics } from "@vercel/analytics/react";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import ContactButtons from "@/components/contact-buttons";
+import { ErrorBoundary } from "@/components/shared";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
-import { ErrorBoundary } from "@/components/shared";
 import { clientConfig } from "@/lib/config/client-config";
 import {
   generateLocalBusinessStructuredData,
@@ -53,14 +53,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className={`${playfair.variable} ${poppins.variable} font-sans`}>
         <ErrorBoundary>
-          <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
+          <Analytics/>
+          <SpeedInsights/>
+          <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
             {children}
             <ContactButtons />
             <Toaster />
           </ThemeProvider>
         </ErrorBoundary>
-        <Analytics />
-        <SpeedInsights />
         {/* Enhanced Local Business Structured Data */}
         <Script
           id="local-business-schema"

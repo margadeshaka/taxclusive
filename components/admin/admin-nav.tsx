@@ -1,10 +1,5 @@
 "use client"
 
-import Link from "next/link"
-import { usePathname } from "next/navigation"
-import { useSession, signOut } from "next-auth/react"
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
 import { 
   LayoutDashboard, 
   FileText, 
@@ -14,6 +9,13 @@ import {
   LogOut,
   Shield
 } from "lucide-react"
+import Link from "next/link"
+import { usePathname } from "next/navigation"
+import { useSession, signOut } from "next-auth/react"
+import { SimpleThemeToggle } from "@/components/theme-toggle"
+
+import { Button } from "@/components/ui/button"
+import { cn } from "@/lib/utils"
 
 const navigationItems = [
   {
@@ -60,12 +62,15 @@ export function AdminNav() {
 
   return (
     <div className="flex h-full w-64 flex-col bg-card border-r">
-      <div className="flex items-center gap-2 p-6 border-b">
-        <Shield className="h-8 w-8 text-primary" />
-        <div>
-          <h1 className="text-lg font-semibold">Admin Portal</h1>
-          <p className="text-sm text-muted-foreground">TaxExclusive</p>
+      <div className="flex items-center justify-between p-6 border-b">
+        <div className="flex items-center gap-2">
+          <Shield className="h-8 w-8 text-primary" />
+          <div>
+            <h1 className="text-lg font-semibold">Admin Portal</h1>
+            <p className="text-sm text-muted-foreground">Taxclusive</p>
+          </div>
         </div>
+        <SimpleThemeToggle />
       </div>
       
       <nav className="flex-1 p-4 space-y-2">

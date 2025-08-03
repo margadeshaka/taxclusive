@@ -5,6 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
+import { useTheme } from "next-themes";
+import { SimpleThemeToggle } from "@/components/theme-toggle";
 
 import { clientConfig } from "@/lib/config/client-config";
 
@@ -17,9 +19,18 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
+  const { theme } = useTheme();
+  const [mounted, setMounted] = useState(false);
 
   // Get configuration data
   const { navigation, site, assets } = clientConfig;
+
+  /**
+   * Effect to handle component mounting
+   */
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   /**
    * Effect to handle scroll events and update the header appearance
@@ -91,6 +102,15 @@ export default function Header() {
     return pathname === path;
   };
 
+  /**
+   * Get the logo source based on the current theme
+   * @returns {string} The logo source path
+   */
+  const getLogoSrc = () => {
+    if (!mounted) return "/logo-black.png"; // Default to light mode logo before mount
+    return theme === "dark" ? "/logo.png" : "/logo-black.png";
+  };
+
   return (
     <header
       className={`sticky top-0 z-50 w-full border-b transition-all duration-300 ${
@@ -109,7 +129,7 @@ export default function Header() {
           >
             {navigation.header.logo.image ? (
               <Image
-                src={navigation.header.logo.image}
+                src={getLogoSrc()}
                 alt={`${site.name} Logo`}
                 width={navigation.header.logo.width || 250}
                 height={navigation.header.logo.height || 100}
@@ -134,6 +154,7 @@ export default function Header() {
           ))}
         </nav>
         <div className="hidden md:flex items-center gap-4">
+          <SimpleThemeToggle />
           {navigation.header.cta && (
             <Link
               href={navigation.header.cta.url}
@@ -155,15 +176,18 @@ export default function Header() {
             Get in Touch
           </Link>
         </div>
-        <button
-          className="flex items-center md:hidden"
-          onClick={toggleMenu}
-          aria-expanded={isMenuOpen}
-          aria-controls="mobile-menu"
-          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-        >
-          {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-        </button>
+        <div className="flex items-center gap-2 md:hidden">
+          <SimpleThemeToggle />
+          <button
+            className="flex items-center"
+            onClick={toggleMenu}
+            aria-expanded={isMenuOpen}
+            aria-controls="mobile-menu"
+            aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+          >
+            {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile menu */}
@@ -179,7 +203,7 @@ export default function Header() {
               aria-label="Taxclusive - Home"
               onClick={closeMenu}
             >
-              <Image src="/logo.png" alt="Taxclusive Logo" width={250} height={100} />
+              <Image src={getLogoSrc()} alt="Taxclusive Logo" width={250} height={100} />
             </Link>
           </div>
           <nav className="flex flex-col space-y-6 mt-6" aria-label="Mobile">

@@ -1,15 +1,18 @@
-import { Metadata } from "next";
-import { notFound } from "next/navigation";
-import Link from "next/link";
 import { ChevronLeft, Calendar, Clock, User } from "lucide-react";
+import { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
+import { notFound } from "next/navigation";
 
 import Footer from "@/components/footer";
 import Header from "@/components/header";
+import { SimpleMarkdownRenderer } from "@/components/simple-markdown-renderer";
 import NewsletterSubscription from "@/components/newsletter-subscription";
 import { fetchBlogBySlug, fetchAllBlogs } from "@/lib/api/blogs";
-import { generateMetadata as generateBlogMetadata } from "@/lib/metadata";
 import { formatDate, calculateReadingTime } from "@/lib/date-utils";
+import { serializeMDX } from "@/lib/mdx";
+import { generateMetadata as generateBlogMetadata } from "@/lib/metadata";
+import { ConsistentButton } from "@/components/ui/consistent-button";
 
 interface BlogPageProps {
   params: { slug: string };
@@ -35,7 +38,7 @@ export async function generateMetadata({ params }: BlogPageProps): Promise<Metad
     
     if (!blog) {
       return {
-        title: "Blog Not Found | TaxExclusive",
+        title: "Blog Not Found | Taxclusive",
         description: "The requested blog post could not be found.",
       };
     }
@@ -46,14 +49,12 @@ export async function generateMetadata({ params }: BlogPageProps): Promise<Metad
       image: blog.featured_image?.url,
       url: `https://taxexclusive.com/blogs/${params.slug}`,
       publishedTime: blog.published_at,
-      modifiedTime: blog.updated_at,
-      author: blog.author?.name || "TaxExclusive Team",
-      tags: blog.tags?.map(tag => tag.name) || [],
+      authorName: blog.author?.name || "Taxclusive Team",
+      tags: blog.tags?.map((tag: { name: string }) => tag.name),
     });
   } catch (error) {
-    console.error("Error generating blog metadata:", error);
     return {
-      title: "Blog | TaxExclusive",
+      title: "Blog | Taxclusive",
       description: "Expert insights on taxation and financial management.",
     };
   }
@@ -111,7 +112,7 @@ export default async function BlogPost({ params }: BlogPageProps) {
                   <div className="flex flex-wrap items-center gap-6 py-6 border-t border-b border-border text-sm text-muted-foreground">
                     <div className="flex items-center gap-2">
                       <User className="h-4 w-4" />
-                      <span>{blog.author?.name || "TaxExclusive Team"}</span>
+                      <span>{blog.author?.name || "Taxclusive Team"}</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <Calendar className="h-4 w-4" />
@@ -139,12 +140,7 @@ export default async function BlogPost({ params }: BlogPageProps) {
                 )}
 
                 {/* Blog content */}
-                <div className="prose prose-gray max-w-none">
-                  <div 
-                    dangerouslySetInnerHTML={{ __html: blog.content }} 
-                    className="prose-minimal leading-relaxed"
-                  />
-                </div>
+                <SimpleMarkdownRenderer content={blog.content || ''} />
 
                 {/* Tags */}
                 {blog.tags && blog.tags.length > 0 && (
@@ -169,21 +165,44 @@ export default async function BlogPost({ params }: BlogPageProps) {
                   <p className="text-muted-foreground mb-6">
                     Get personalized consultation from our experienced chartered accountants.
                   </p>
-                  <Link href="/appointment" className="minimal-button-primary">
-                    Schedule Consultation
-                  </Link>
+                  <ConsistentButton asChild>
+                    <Link href="/appointment">
+                      Schedule Consultation
+                    </Link>
+                  </ConsistentButton>
                 </div>
               </div>
             </div>
           </article>
+
+          {/* Related blogs section */}
+          <section className="w-full py-12 md:py-16 lg:py-20 bg-muted">
+            <div className="container px-4 md:px-6">
+              <h2 className="text-3xl font-semibold text-center mb-12">
+                More Insights
+              </h2>
+              <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                {/* Related blogs will be populated here */}
+                <div className="text-center text-muted-foreground">
+                  Check out our other blog posts for more insights.
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Newsletter subscription */}
+          <section className="w-full py-12 md:py-16 lg:py-20">
+            <div className="container px-4 md:px-6">
+              <NewsletterSubscription />
+            </div>
+          </section>
         </main>
         
         <Footer />
-        <NewsletterSubscription />
       </div>
     );
   } catch (error) {
-    console.error("Error rendering blog post:", error);
+    console.error("Error loading blog post:", error);
     notFound();
   }
 }

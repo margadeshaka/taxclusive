@@ -1,10 +1,12 @@
 "use client"
 
-import { useSession } from "next-auth/react"
-import { useRouter } from "next/navigation"
-import { useEffect } from "react"
-import { AdminNav } from "./admin-nav"
 import { Loader2 } from "lucide-react"
+import { useRouter } from "next/navigation"
+import { useSession } from "next-auth/react"
+import { useEffect } from "react"
+
+import { AdminNav } from "./admin-nav"
+
 
 interface AdminWrapperProps {
   children: React.ReactNode

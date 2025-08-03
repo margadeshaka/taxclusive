@@ -1,9 +1,11 @@
 "use client";
 
-import React from "react";
-import { ErrorBoundary } from "./error-boundary";
 import { AlertTriangle } from "lucide-react";
+import React from "react";
+
 import { Button } from "@/components/ui/button";
+
+import { ErrorBoundary } from "./error-boundary";
 
 interface PageErrorFallbackProps {
   error: Error;

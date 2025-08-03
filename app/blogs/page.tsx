@@ -1,18 +1,18 @@
-import { Metadata } from "next";
-import Link from "next/link";
-import Image from "next/image";
 import { Calendar, Clock, ArrowRight } from "lucide-react";
+import { Metadata } from "next";
+import Image from "next/image";
+import Link from "next/link";
 
 import Footer from "@/components/footer";
 import Header from "@/components/header";
 import NewsletterSubscription from "@/components/newsletter-subscription";
 import { fetchAllBlogs } from "@/lib/api/blogs";
-import { generateMetadata as generatePageMetadata } from "@/lib/metadata";
 import { formatDate, calculateReadingTime } from "@/lib/date-utils";
+import { generateMetadata as generatePageMetadata } from "@/lib/metadata";
 
 // Generate metadata for the blogs page
 export const metadata: Metadata = generatePageMetadata({
-  title: "Expert Financial Insights & Tax Updates | TaxExclusive Blog",
+  title: "Expert Financial Insights & Tax Updates | Taxclusive Blog",
   description: "Stay updated with the latest tax laws, financial planning tips, and business insights from our expert chartered accountants. Professional advice you can trust.",
   url: "https://taxexclusive.com/blogs",
 });

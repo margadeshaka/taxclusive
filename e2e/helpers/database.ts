@@ -52,10 +52,10 @@ export async function seedTestUsers() {
   const editorPassword = await bcrypt.hash('editor123', 12)
 
   await prisma.user.upsert({
-    where: { email: 'admin@taxexclusive.com' },
+    where: { email: 'admin@taxclusive.com' },
     update: {},
     create: {
-      email: 'admin@taxexclusive.com',
+      email: 'admin@taxclusive.com',
       name: 'Admin User',
       password: adminPassword,
       role: 'ADMIN'
@@ -63,10 +63,10 @@ export async function seedTestUsers() {
   })
 
   await prisma.user.upsert({
-    where: { email: 'editor@taxexclusive.com' },
+    where: { email: 'editor@taxclusive.com' },
     update: {},
     create: {
-      email: 'editor@taxexclusive.com',
+      email: 'editor@taxclusive.com',
       name: 'Editor User',
       password: editorPassword,
       role: 'EDITOR'

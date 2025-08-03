@@ -1,8 +1,10 @@
 "use client"
 
+import { FileText, MessageSquare, TrendingUp, Users } from "lucide-react"
+import Link from "next/link"
+
 import { AdminWrapper } from "@/components/admin/admin-wrapper"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { FileText, MessageSquare, Users, TrendingUp } from "lucide-react"
 
 const stats = [
   {
@@ -42,7 +44,7 @@ export default function AdminDashboard() {
         <div className="mb-8">
           <h1 className="text-3xl font-semibold mb-2">Dashboard</h1>
           <p className="text-muted-foreground">
-            Welcome to the TaxExclusive admin portal. Manage your content and users from here.
+            Welcome to the Taxclusive admin portal. Manage your content and users from here.
           </p>
         </div>
 
@@ -110,27 +112,27 @@ export default function AdminDashboard() {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid gap-2">
-                <a 
+                <Link 
                   href="/admin/blogs/new" 
-                  className="p-3 border rounded-lg hover:bg-accent transition-colors cursor-pointer"
+                  className="p-3 border rounded-lg hover:bg-accent transition-colors cursor-pointer block"
                 >
                   <div className="font-medium">Create New Blog</div>
                   <div className="text-sm text-muted-foreground">Write and publish a new blog post</div>
-                </a>
-                <a 
+                </Link>
+                <Link 
                   href="/admin/testimonials/new" 
-                  className="p-3 border rounded-lg hover:bg-accent transition-colors cursor-pointer"
+                  className="p-3 border rounded-lg hover:bg-accent transition-colors cursor-pointer block"
                 >
                   <div className="font-medium">Add Testimonial</div>
                   <div className="text-sm text-muted-foreground">Add a new client testimonial</div>
-                </a>
-                <a 
+                </Link>
+                <Link 
                   href="/admin/users" 
-                  className="p-3 border rounded-lg hover:bg-accent transition-colors cursor-pointer"
+                  className="p-3 border rounded-lg hover:bg-accent transition-colors cursor-pointer block"
                 >
                   <div className="font-medium">Manage Users</div>
                   <div className="text-sm text-muted-foreground">Add or edit admin users</div>
-                </a>
+                </Link>
               </div>
             </CardContent>
           </Card>

@@ -2,9 +2,6 @@
 
 import Script from "next/script";
 
-import Footer from "@/components/footer";
-import Header from "@/components/header";
-import { generateStructuredData } from "@/lib/metadata";
 import {
   AboutHeroSection,
   StorySection,
@@ -12,6 +9,9 @@ import {
   ApproachSection,
   CTASection,
 } from "@/components/features/about";
+import Footer from "@/components/footer";
+import Header from "@/components/header";
+import { generateStructuredData } from "@/lib/metadata";
 
 export default function AboutPage() {
   return (

@@ -1,5 +1,7 @@
-import Link from "next/link";
 import { Calculator, FileText, TrendingUp, Building, Users, ShieldCheck } from "lucide-react";
+import Link from "next/link";
+import { SPACING } from "@/lib/constants/spacing";
+import { ConsistentButton } from "@/components/ui/consistent-button";
 
 const services = [
   {
@@ -42,8 +44,8 @@ const services = [
 
 export default function ServicesSection() {
   return (
-    <section className="w-full py-16 md:py-24 lg:py-32">
-      <div className="container px-4 md:px-6">
+    <section className={`w-full ${SPACING.section.full}`}>
+      <div className={`container ${SPACING.container.full}`}>
         <div className="text-center mb-16">
           <div className="minimal-divider">
             <span>Our Services</span>
@@ -57,12 +59,12 @@ export default function ServicesSection() {
           </p>
         </div>
         
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <div className={`grid ${SPACING.gap.lg} md:grid-cols-2 lg:grid-cols-3`}>
           {services.map((service, index) => {
             const Icon = service.icon;
             return (
               <div key={index} className="minimal-card animate-fade-in">
-                <div className="flex items-center gap-4 mb-4">
+                <div className={`flex items-center ${SPACING.gap.sm} mb-4`}>
                   <div className="flex h-12 w-12 items-center justify-center rounded-sm bg-primary text-primary-foreground">
                     <Icon className="h-6 w-6" />
                   </div>
@@ -90,21 +92,22 @@ export default function ServicesSection() {
         </div>
         
         <div className="text-center mt-16">
-          <Link
-            href="/services"
-            className="minimal-button-outline"
-          >
-            View All Services
-          </Link>
+          <ConsistentButton variant="outline" asChild>
+            <Link href="/services">
+              View All Services
+            </Link>
+          </ConsistentButton>
           
           <div className="mt-8 p-6 bg-primary/5 rounded-sm border border-primary/20">
             <h3 className="text-lg font-semibold mb-2">Need Expert Advice?</h3>
             <p className="text-muted-foreground mb-4">
               Get personalized consultation from our experienced chartered accountants.
             </p>
-            <Link href="/appointment" className="minimal-button-primary">
-              Schedule Free Consultation
-            </Link>
+            <ConsistentButton asChild>
+              <Link href="/appointment">
+                Schedule Free Consultation
+              </Link>
+            </ConsistentButton>
           </div>
         </div>
       </div>

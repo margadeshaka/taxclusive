@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a Next.js 15 application for TaxExclusive, a Chartered Accountancy firm. The application uses hybrid architecture (static pages + API routes), TypeScript, Shadcn UI components, Prisma ORM with PostgreSQL database, and NextAuth for authentication. It includes a comprehensive admin panel for content management.
+Taxclusive is a Next.js 15 application for a Chartered Accountancy firm providing taxation and financial services. Built with TypeScript, Shadcn UI, Prisma ORM (PostgreSQL), and NextAuth authentication. Features a comprehensive admin panel for managing blogs, testimonials, and users with role-based access control (ADMIN/EDITOR).
 
 ## Essential Commands
 
@@ -36,6 +36,7 @@ pnpm test:e2e           # Run Playwright E2E tests
 # Run specific tests
 pnpm test -- --testPathPattern=utils  # Run tests matching 'utils'
 pnpm test -- header.test.tsx          # Run specific test file
+pnpm test -- -t "should render"       # Run tests with matching description
 ```
 
 ### Database
@@ -58,16 +59,19 @@ pnpm docker:down       # Stop Docker services
 ### Utilities
 
 ```bash
-pnpm analyze            # Analyze bundle size
-pnpm find-unused-deps   # Find unused dependencies
+pnpm analyze            # Analyze bundle size (requires @next/bundle-analyzer)
+pnpm find-unused-deps   # Find unused dependencies (requires depcheck)
 ```
 
 ### Deployment
 
 ```bash
-# AWS CDK deployment (requires AWS credentials)
-cd infrastructure && npm install
-cdk deploy --all        # Deploy infrastructure
+# Deploy to Vercel (recommended for Next.js)
+vercel --prod
+
+# Or use manual deployment
+pnpm build
+# Upload .next directory to hosting provider
 ```
 
 
@@ -91,7 +95,6 @@ cdk deploy --all        # Deploy infrastructure
   - `auth.ts` - NextAuth configuration
   - `prisma.ts` - Prisma client instance
 - `/hooks/` - Custom React hooks
-- `/infrastructure/` - AWS CDK infrastructure as code
 - `/e2e/` - Playwright E2E tests with fixtures and helpers
 - `/__tests__/` - Jest unit tests with snapshots in `__snapshots__/`
 - `/prisma/` - Database schema, migrations, and seed scripts
@@ -126,8 +129,7 @@ cdk deploy --all        # Deploy infrastructure
 5. **Type-Safe Data Layer**:
    - Comprehensive TypeScript interfaces in `/lib/types/` for all data models
    - Strongly typed API responses, component props, and configuration objects
-   - Strapi CMS integration with typed interfaces matching the API schema
-   - Type safety enforced throughout the application stack
+   - Type safety enforced throughout the application stack with Prisma-generated types
 
 6. **Database-First Architecture with Prisma**:
    - PostgreSQL database with Prisma ORM for type-safe database operations
@@ -158,10 +160,9 @@ cdk deploy --all        # Deploy infrastructure
 - `next.config.mjs` - Hybrid configuration with static pages and API routes enabled
 - `tailwind.config.ts` - Custom theme configuration, fonts (Poppins, Playfair Display), animations
 - `tsconfig.json` - Strict mode TypeScript with path aliases (@/\*)
-- `.env.local` - Environment variables for AWS SES and Strapi CMS configuration
+- `.env.local` - Environment variables for AWS SES and database configuration
 - `jest.config.js` - Jest configuration with path aliases and custom setup
 - `playwright.config.ts` - E2E test configuration for multiple browsers (Chrome, Firefox, Safari, Mobile)
-- `.github/workflows/deploy.yml` - GitHub Actions deployment to AWS (S3 + CloudFront)
 
 ### Database & API Integration
 
@@ -285,10 +286,8 @@ EMAIL_RECIPIENT_ADDRESS=       # Default recipient for form submissions
 # Security
 CSRF_SECRET=                   # Secret for CSRF token generation
 
-# Deployment (GitHub Actions)
+# Production
 NEXT_PUBLIC_BASE_URL=          # Production URL
-S3_BUCKET_NAME=                # S3 bucket for static hosting
-CLOUDFRONT_DISTRIBUTION_ID=    # CloudFront distribution ID
 ```
 
 ### Key Dependencies

@@ -3,14 +3,8 @@
 import {
   Download,
   Upload,
-  Save,
   RotateCcw,
-  Palette,
-  FileText,
-  Image,
-  Settings,
   AlertTriangle,
-  CheckCircle,
 } from "lucide-react";
 import React, { useState } from "react";
 

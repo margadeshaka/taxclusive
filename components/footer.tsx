@@ -1,8 +1,24 @@
+"use client";
+
 import { Mail, Phone, MapPin } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useTheme } from "next-themes";
+import { useState, useEffect } from "react";
 
 export default function Footer() {
+  const { theme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const getLogoSrc = () => {
+    if (!mounted) return "/logo-black.png";
+    return theme === "dark" ? "/logo.png" : "/logo-black.png";
+  };
+
   return (
     <footer className="w-full border-t bg-background" aria-labelledby="footer-heading">
       <h2 id="footer-heading" className="sr-only">
@@ -11,7 +27,7 @@ export default function Footer() {
       <div className="container py-12 md:py-16">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
           <div className="space-y-4">
-            <Image src="/logo.png" alt="Taxclusive Logo" width={250} height={100} />
+            <Image src={getLogoSrc()} alt="Taxclusive Logo" width={250} height={100} />
             <p className="text-sm text-muted-foreground max-w-xs">
               Trusted by clients, driven by insight. Taxclusive delivers innovative tax solutions
               with precision, integrity, and a commitment to excellence.

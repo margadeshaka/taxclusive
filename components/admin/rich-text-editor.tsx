@@ -1,9 +1,10 @@
 "use client"
 
-import { Textarea } from "@/components/ui/textarea"
-import { Button } from "@/components/ui/button"
 import { Bold, Italic, List, Link, Image, Code } from "lucide-react"
 import { useState } from "react"
+
+import { Button } from "@/components/ui/button"
+import { Textarea } from "@/components/ui/textarea"
 
 interface RichTextEditorProps {
   value: string
@@ -70,7 +71,7 @@ export function RichTextEditor({ value, onChange, placeholder, disabled }: RichT
         className="min-h-64 font-mono text-sm resize-none rounded-t-none"
       />
       <div className="text-xs text-muted-foreground">
-        Use Markdown syntax for formatting. Bold: **text**, Italic: *text*, Links: [text](url)
+        Use MDX syntax for formatting. Bold: **text**, Italic: *text*, Links: [text](url), Code blocks: ```language
       </div>
     </div>
   )

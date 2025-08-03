@@ -1,57 +1,56 @@
-import { Star, Quote } from "lucide-react";
+"use client";
 
-const testimonials = [
+import { Star, Quote } from "lucide-react";
+import { useTestimonials } from "@/hooks/use-testimonials";
+
+// Fallback testimonials for when database is empty
+const fallbackTestimonials = [
   {
+    id: "fallback-1",
     name: "Rajesh Kumar",
-    designation: "CEO, Tech Solutions Pvt Ltd",
-    location: "Delhi",
+    role: "CEO, Tech Solutions Pvt Ltd",
+    company: "Tech Solutions Pvt Ltd",
     rating: 5,
-    content: "TaxExclusive has been instrumental in managing our company's tax compliance and financial planning. Their expertise in GST and corporate taxation saved us significant costs and time.",
-    avatar: "/testimonials/rajesh.jpg"
+    content: "Taxclusive has been instrumental in managing our company's tax compliance and financial planning. Their expertise in GST and corporate taxation saved us significant costs and time.",
+    image: "/testimonials/rajesh.jpg",
+    featured: true,
+    approved: true,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
   },
   {
+    id: "fallback-2",
     name: "Priya Sharma",
-    designation: "Entrepreneur",
-    location: "Gurugram",
+    role: "Entrepreneur",
+    company: "StartUp Inc",
     rating: 5,
     content: "As a startup founder, I needed reliable CA services for company incorporation and ongoing compliance. The team provided exceptional guidance throughout the process.",
-    avatar: "/testimonials/priya.jpg"
+    image: "/testimonials/priya.jpg",
+    featured: true,
+    approved: true,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
   },
   {
+    id: "fallback-3",
     name: "Amit Patel",
-    designation: "Investment Consultant",
-    location: "Noida",
+    role: "Investment Consultant",
+    company: "Wealth Advisors",
     rating: 5,
     content: "Their financial advisory services helped me optimize my tax planning and investment portfolio. Professional, timely, and always available for queries.",
-    avatar: "/testimonials/amit.jpg"
-  },
-  {
-    name: "Sneha Gupta",
-    designation: "Small Business Owner",
-    location: "Faridabad",
-    rating: 5,
-    content: "Excellent bookkeeping and accounting services. They simplified our financial processes and provided valuable insights for business growth.",
-    avatar: "/testimonials/sneha.jpg"
-  },
-  {
-    name: "Vikram Singh",
-    designation: "Real Estate Developer",
-    location: "Ghaziabad",
-    rating: 5,
-    content: "Complex real estate taxation made simple. Their deep understanding of property laws and tax implications has been invaluable for our projects.",
-    avatar: "/testimonials/vikram.jpg"
-  },
-  {
-    name: "Meera Joshi",
-    designation: "Freelance Designer",
-    location: "Delhi NCR",
-    rating: 5,
-    content: "Perfect for individual tax filing and ITR services. They made the entire process hassle-free and educated me on tax-saving opportunities.",
-    avatar: "/testimonials/meera.jpg"
+    image: "/testimonials/amit.jpg",
+    featured: true,
+    approved: true,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
   }
 ];
 
 export default function TestimonialsSection() {
+  const { testimonials, loading } = useTestimonials();
+  
+  // Use fallback if no testimonials or while loading
+  const displayTestimonials = (!loading && testimonials.length > 0) ? testimonials : fallbackTestimonials;
   return (
     <section className="w-full py-16 md:py-24 lg:py-32 bg-primary/5">
       <div className="container px-4 md:px-6">
@@ -68,7 +67,7 @@ export default function TestimonialsSection() {
         </div>
 
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {testimonials.map((testimonial, index) => (
+          {displayTestimonials.map((testimonial, index) => (
             <div key={index} className="minimal-card animate-fade-in">
               <div className="flex items-center gap-1 mb-4">
                 {[...Array(testimonial.rating)].map((_, i) => (
@@ -91,8 +90,10 @@ export default function TestimonialsSection() {
                 </div>
                 <div>
                   <div className="font-semibold text-foreground">{testimonial.name}</div>
-                  <div className="text-sm text-muted-foreground">{testimonial.designation}</div>
-                  <div className="text-xs text-muted-foreground">{testimonial.location}</div>
+                  <div className="text-sm text-muted-foreground">{testimonial.role}</div>
+                  {testimonial.company && (
+                    <div className="text-xs text-muted-foreground">{testimonial.company}</div>
+                  )}
                 </div>
               </div>
             </div>
