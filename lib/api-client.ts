@@ -2,6 +2,14 @@
  * Enhanced API client with caching, retry logic, timeout handling, and interceptors
  */
 import { getCSRFToken } from "./csrf";
+import {
+  NetworkError,
+  AuthenticationError,
+  AuthorizationError,
+  NotFoundError,
+  RateLimitError,
+  handleError,
+} from "./error-handler";
 import { rateLimitedFetch } from "./rate-limit";
 
 // Default timeout for API requests (in milliseconds)
@@ -217,8 +225,30 @@ export async function fetchWithRetry(url: string, options: RequestOptions = {}):
       }
 
       // If we're out of retries or the error is not retryable, create an error with the status code
-      const errorMessage = `API error: ${response.status}`;
-      const apiError = new Error(errorMessage);
+      let apiError: Error;
+      
+      switch (response.status) {
+        case 401:
+          apiError = new AuthenticationError(`Authentication failed`);
+          break;
+        case 403:
+          apiError = new AuthorizationError(`Access denied`);
+          break;
+        case 404:
+          apiError = new NotFoundError(`Resource not found`);
+          break;
+        case 429:
+          apiError = new RateLimitError(`Rate limit exceeded`);
+          break;
+        case 500:
+        case 502:
+        case 503:
+        case 504:
+          apiError = new NetworkError(`Server error: ${response.status}`, response.status);
+          break;
+        default:
+          apiError = new NetworkError(`API error: ${response.status}`, response.status);
+      }
       // Add the response to the error object for additional context
       Object.assign(apiError, { response: interceptedError });
 
@@ -227,7 +257,7 @@ export async function fetchWithRetry(url: string, options: RequestOptions = {}):
     } catch (error) {
       // If the error is an AbortError, it's a timeout
       if (error instanceof DOMException && error.name === "AbortError") {
-        const timeoutError = new Error(`Request timeout after ${timeout}ms`);
+        const timeoutError = new NetworkError(`Request timeout after ${timeout}ms`);
 
         // Apply error interceptors if not skipped
         let interceptedError: ApiError = timeoutError;
@@ -260,7 +290,7 @@ export async function fetchWithRetry(url: string, options: RequestOptions = {}):
       }
 
       // Apply error interceptors if not skipped
-      let interceptedError: ApiError = error instanceof Error ? error : new Error(String(error));
+      let interceptedError: ApiError = error instanceof Error ? error : new NetworkError(String(error));
       if (!skipInterceptors && errorInterceptors.length > 0) {
         for (const interceptor of errorInterceptors) {
           interceptedError = await interceptor(interceptedError, url, options);

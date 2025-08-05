@@ -1,10 +1,19 @@
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
+import createMDX from '@next/mdx';
 
 // Import bundle analyzer
 const withBundleAnalyzer = process.env.ANALYZE === 'true'
   ? require('@next/bundle-analyzer')({ enabled: true })
   : (config) => config;
+
+const withMDX = createMDX({
+  extension: /\.mdx?$/,
+  options: {
+    remarkPlugins: [],
+    rehypePlugins: [],
+  },
+});
 
 let userConfig = undefined
 
@@ -160,4 +169,4 @@ if (userConfig) {
   }
 }
 
-export default withBundleAnalyzer(nextConfig)
+export default withMDX(withBundleAnalyzer(nextConfig))

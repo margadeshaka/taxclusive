@@ -4,48 +4,48 @@
 
 @layer base {
   :root {
-    --background: 36 33% 97%;
-    --foreground: 20 14.3% 4.1%;
+    --background: 0 0% 100%;
+    --foreground: 225 73% 40%; /* Royal Blue for text */
     --card: 0 0% 100%;
-    --card-foreground: 20 14.3% 4.1%;
+    --card-foreground: 225 73% 40%; /* Royal Blue for card text */
     --popover: 0 0% 100%;
-    --popover-foreground: 20 14.3% 4.1%;
-    --primary: 217 91% 60%;
-    --primary-foreground: 60 9.1% 97.8%;
-    --secondary: 60 4.8% 95.9%;
-    --secondary-foreground: 24 9.8% 10%;
-    --muted: 12 6.5% 94.1%;
-    --muted-foreground: 25 5.3% 44.7%;
-    --accent: 12 6.5% 94.1%;
-    --accent-foreground: 24 9.8% 10%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 60 9.1% 97.8%;
-    --border: 20 5.9% 90%;
-    --input: 20 5.9% 90%;
-    --ring: 217 91% 60%;
+    --popover-foreground: 225 73% 40%; /* Royal Blue for popover text */
+    --primary: 225 73% 40%; /* Royal Blue as primary */
+    --primary-foreground: 210 20% 98%;
+    --secondary: 220 14% 96%;
+    --secondary-foreground: 225 73% 40%; /* Royal Blue for secondary text */
+    --muted: 220 14% 96%;
+    --muted-foreground: 225 73% 45%; /* Lighter royal blue for muted text */
+    --accent: 220 14% 96%;
+    --accent-foreground: 225 73% 35%; /* Darker royal blue for accent text */
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 20% 98%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 225 73% 40%; /* Royal Blue for focus ring */
     --radius: 0.5rem;
   }
 
   .dark {
-    --background: 20 14.3% 4.1%;
-    --foreground: 60 9.1% 97.8%;
-    --card: 20 14.3% 4.1%;
-    --card-foreground: 60 9.1% 97.8%;
-    --popover: 20 14.3% 4.1%;
-    --popover-foreground: 60 9.1% 97.8%;
-    --primary: 217 91% 60%;
-    --primary-foreground: 60 9.1% 97.8%;
-    --secondary: 12 6.5% 15.1%;
-    --secondary-foreground: 60 9.1% 97.8%;
-    --muted: 12 6.5% 15.1%;
-    --muted-foreground: 24 5.4% 63.9%;
-    --accent: 12 6.5% 15.1%;
-    --accent-foreground: 60 9.1% 97.8%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 60 9.1% 97.8%;
-    --border: 12 6.5% 15.1%;
-    --input: 12 6.5% 15.1%;
-    --ring: 217 91% 60%;
+    --background: 222 47% 11%;
+    --foreground: 225 73% 75%; /* Lighter royal blue for dark mode */
+    --card: 222 47% 15%;
+    --card-foreground: 225 73% 75%;
+    --popover: 222 47% 15%;
+    --popover-foreground: 225 73% 75%;
+    --primary: 225 73% 60%; /* Royal blue adjusted for dark mode */
+    --primary-foreground: 210 20% 98%;
+    --secondary: 222 47% 20%;
+    --secondary-foreground: 225 73% 75%;
+    --muted: 217 33% 25%;
+    --muted-foreground: 225 73% 65%;
+    --accent: 222 47% 20%;
+    --accent-foreground: 225 73% 70%;
+    --destructive: 0 62.8% 50%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217 33% 25%;
+    --input: 217 33% 25%;
+    --ring: 225 73% 60%;
   }
 }
 
@@ -54,74 +54,133 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
-    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%233b82f6' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "kern" 1;
+    text-rendering: optimizeLegibility;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply tracking-tight;
   }
 }
 
-.ethnic-border {
+/* Minimalistic design patterns */
+.minimal-border {
   @apply relative;
 }
 
-.ethnic-border::before,
-.ethnic-border::after {
+.minimal-border::after {
   content: "";
-  @apply absolute w-8 h-8 border-primary;
+  @apply absolute bottom-0 left-0 w-12 h-0.5 bg-primary;
 }
 
-.ethnic-border::before {
-  @apply top-0 left-0 border-t-2 border-l-2;
+.minimal-divider {
+  @apply relative flex items-center justify-center my-12;
 }
 
-.ethnic-border::after {
-  @apply bottom-0 right-0 border-b-2 border-r-2;
-}
-
-.ethnic-divider {
-  @apply relative flex items-center;
-}
-
-.ethnic-divider::before,
-.ethnic-divider::after {
+.minimal-divider::before {
   content: "";
-  @apply flex-grow border-t border-primary/30;
+  @apply absolute w-full h-px bg-border;
 }
 
-.ethnic-divider::before {
-  @apply mr-4;
+.minimal-divider span {
+  @apply relative bg-background px-4 text-sm text-muted-foreground;
 }
 
-.ethnic-divider::after {
-  @apply ml-4;
+/* Clean section pattern */
+.minimal-pattern {
+  @apply bg-gradient-to-b from-background to-primary/5;
 }
 
-.ethnic-pattern {
-  background-color: rgba(59, 130, 246, 0.1);
-  background-image: url("data:image/svg+xml,%3Csvg width='52' height='26' viewBox='0 0 52 26' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%233b82f6' fill-opacity='0.15'%3E%3Cpath d='M10 10c0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6h2c0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4v2c-3.314 0-6-2.686-6-6 0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6zm25.464-1.95l8.486 8.486-1.414 1.414-8.486-8.486 1.414-1.414z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+/* Typography enhancements */
+.prose-minimal {
+  @apply text-foreground leading-relaxed;
 }
 
-/* Pulse animation for contact button */
-.ethnic-pulse {
-  position: relative;
+.prose-minimal h1 {
+  @apply text-4xl sm:text-5xl lg:text-6xl font-normal mb-6 text-foreground;
 }
 
-.ethnic-pulse::before {
-  content: "";
-  position: absolute;
-  border: 1px solid hsl(var(--primary));
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  animation: pulse 2s infinite;
+.prose-minimal h2 {
+  @apply text-3xl sm:text-4xl font-normal mb-4 text-foreground;
 }
 
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(1.5);
+.prose-minimal h3 {
+  @apply text-2xl sm:text-3xl font-normal mb-3 text-foreground;
+}
+
+.prose-minimal p {
+  @apply text-base sm:text-lg text-foreground/80 mb-4 leading-relaxed;
+}
+
+/* Minimal card styles */
+.minimal-card {
+  @apply bg-card border border-border rounded-sm p-6 transition-all duration-200 hover:shadow-sm;
+}
+
+/* Button refinements */
+.minimal-button {
+  @apply inline-flex items-center justify-center px-6 py-3 text-sm font-medium transition-colors rounded-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary;
+}
+
+.minimal-button-primary {
+  @apply minimal-button bg-royal-blue text-white hover:bg-royal-blue-600;
+}
+
+.minimal-button-outline {
+  @apply minimal-button border border-royal-blue text-royal-blue hover:bg-royal-blue hover:text-white;
+}
+
+/* Clean animations */
+@keyframes fadeIn {
+  from {
     opacity: 0;
+    transform: translateY(10px);
   }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* Text color handling for light/dark mode */
+/* Let the design system handle text colors through utility classes */
+/* Removed global color overrides that were breaking button and component styling */
+
+/* Stats and metrics styling */
+.stat-number {
+  @apply text-5xl sm:text-6xl font-light tracking-tighter text-primary;
+}
+
+/* Dark mode specific adjustments */
+.dark .minimal-card {
+  @apply bg-card/50 border-border/50;
+}
+
+.dark .minimal-divider::before {
+  @apply bg-border/50;
+}
+
+.dark .minimal-divider span {
+  @apply bg-background;
+}
+
+.stat-label {
+  @apply text-sm text-muted-foreground uppercase tracking-widest;
+}
+
+/* Enhanced color variants */
+.text-brand-primary {
+  @apply text-primary;
+}
+
+.bg-brand-primary {
+  @apply bg-primary;
+}
+
+.border-brand-primary {
+  @apply border-primary;
 }

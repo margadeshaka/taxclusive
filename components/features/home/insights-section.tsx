@@ -1,7 +1,52 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useBlogs } from "@/hooks/use-blogs";
+import { ChevronRight } from "lucide-react";
+
+// Fallback articles for when database is empty
+const fallbackArticles = [
+  {
+    id: "fallback-1",
+    title: "Tax Planning Strategies for Small Businesses",
+    slug: "tax-planning-strategies",
+    excerpt: "With tax reforms underway, small businesses must adapt to new deductions and exemptions. Our expert tips help you optimize your tax strategy, ensuring you maximize savings while remaining compliant with the latest regulations.",
+    coverImage: "/extra.png",
+    publishedAt: new Date("2025-04-01").toISOString(),
+    author: { name: "Tax Expert" },
+    tags: [{ name: "Taxation" }]
+  },
+  {
+    id: "fallback-2",
+    title: "The Importance of Financial Forecasting",
+    slug: "financial-forecasting",
+    excerpt: "With a volatile global economy, accurate financial forecasting has never been more critical. This article explores techniques to help businesses predict financial outcomes, adapt to market changes, and make informed investment decisions.",
+    coverImage: "/insights2.png",
+    publishedAt: new Date("2025-03-15").toISOString(),
+    author: { name: "Financial Advisor" },
+    tags: [{ name: "Financial Advisory" }]
+  },
+  {
+    id: "fallback-3",
+    title: "The Importance of Regular Financial Audits",
+    slug: "importance-of-audits",
+    excerpt: "As businesses face increasing scrutiny, regular financial audits ensure transparency and build trust with stakeholders. Learn why audits are more important than ever and how they can help safeguard your company's future.",
+    coverImage: "/insights3.png",
+    publishedAt: new Date("2025-02-28").toISOString(),
+    author: { name: "Audit Expert" },
+    tags: [{ name: "Audit" }]
+  }
+];
 
 export default function InsightsSection() {
+  const { blogs, isLoading } = useBlogs();
+  
+  // Use first 3 featured/recent blogs or fallback if no blogs or loading
+  const displayBlogs = (!isLoading && blogs.length > 0) 
+    ? blogs.filter(blog => blog.status === 'PUBLISHED').slice(0, 3)
+    : fallbackArticles;
+
   return (
     <section className="w-full py-12 md:py-24 lg:py-32">
       <div className="container px-4 md:px-6">
@@ -22,111 +67,55 @@ export default function InsightsSection() {
           </div>
         </div>
         <div className="grid gap-8 pt-12 md:grid-cols-2 lg:grid-cols-3">
-          <article className="group relative overflow-hidden rounded-lg border bg-background shadow-sm transition-all hover:shadow-md">
-            <div className="aspect-video overflow-hidden">
-              <Image
-                src="/extra.png"
-                width={600}
-                height={400}
-                alt="Tax planning strategies for small businesses"
-                className="object-cover transition-all group-hover:scale-105"
-                loading="lazy"
-              />
-            </div>
-            <div className="p-6">
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <time dateTime="2023-04-01">April 1, 2025</time>
-                <span>•</span>
-                <span>Taxation</span>
+          {displayBlogs.map((blog) => (
+            <article key={blog.id} className="group relative overflow-hidden rounded-lg border bg-background shadow-sm transition-all hover:shadow-md">
+              <div className="aspect-video overflow-hidden">
+                <Image
+                  src={blog.coverImage || "/placeholder-blog.jpg"}
+                  width={600}
+                  height={400}
+                  alt={blog.title}
+                  className="object-cover transition-all group-hover:scale-105"
+                  loading="lazy"
+                />
               </div>
-              <h3 className="mt-3 text-xl font-bold">
-                Tax Planning Strategies for Small Businesses
-              </h3>
-              <p className="mt-2 line-clamp-3 text-muted-foreground">
-                With tax reforms underway, small businesses must adapt to new deductions and
-                exemptions. Our expert tips help you optimize your tax strategy, ensuring you
-                maximize savings while remaining compliant with the latest regulations.
-              </p>
-              {/* <Link
-                href="/insights/tax-planning-strategies"
-                className="mt-4 inline-flex items-center text-sm font-medium text-primary"
-                aria-label="Read more about Tax Planning Strategies for Small Businesses in 2023"
-              >
-                Read more 
-                <ChevronRight className="ml-1 h-4 w-4" aria-hidden="true" />
-              </Link> */}
-            </div>
-          </article>
-          <article className="group relative overflow-hidden rounded-lg border bg-background shadow-sm transition-all hover:shadow-md">
-            <div className="aspect-video overflow-hidden">
-              <Image
-                src="/insights2.png"
-                width={600}
-                height={400}
-                alt="Financial forecasting guide for business growth"
-                className="object-cover transition-all group-hover:scale-105"
-                loading="lazy"
-              />
-            </div>
-            <div className="p-6">
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <time dateTime="2023-03-15">March 15, 2025</time>
-                <span>•</span>
-                <span>Financial Advisory</span>
+              <div className="p-6">
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <time dateTime={blog.publishedAt}>
+                    {new Date(blog.publishedAt).toLocaleDateString('en-US', { 
+                      year: 'numeric', 
+                      month: 'long', 
+                      day: 'numeric' 
+                    })}
+                  </time>
+                  {blog.tags && blog.tags.length > 0 && (
+                    <>
+                      <span>•</span>
+                      <span>{blog.tags[0].name}</span>
+                    </>
+                  )}
+                </div>
+                <h3 className="mt-3 text-xl font-bold">
+                  {blog.title}
+                </h3>
+                <p className="mt-2 line-clamp-3 text-muted-foreground">
+                  {blog.excerpt}
+                </p>
+                <Link
+                  href={`/blogs/${blog.slug}`}
+                  className="mt-4 inline-flex items-center text-sm font-medium text-primary"
+                  aria-label={`Read more about ${blog.title}`}
+                >
+                  Read more 
+                  <ChevronRight className="ml-1 h-4 w-4" aria-hidden="true" />
+                </Link>
               </div>
-              <h3 className="mt-3 text-xl font-bold">The Importance of Financial Forecasting</h3>
-              <p className="mt-2 line-clamp-3 text-muted-foreground">
-                With a volatile global economy, accurate financial forecasting has never been more
-                critical. This article explores techniques to help businesses predict financial
-                outcomes, adapt to market changes, and make informed investment decisions.
-              </p>
-              {/* <Link
-                href="/insights/financial-forecasting"
-                className="mt-4 inline-flex items-center text-sm font-medium text-primary"
-                aria-label="Read more about Financial Forecasting: A Guide for Business Growth"
-              >
-                Read more 
-                <ChevronRight className="ml-1 h-4 w-4" aria-hidden="true" />
-              </Link> */}
-            </div>
-          </article>
-          <article className="group relative overflow-hidden rounded-lg border bg-background shadow-sm transition-all hover:shadow-md">
-            <div className="aspect-video overflow-hidden">
-              <Image
-                src="/insights3.png"
-                width={600}
-                height={400}
-                alt="The importance of regular financial audits"
-                className="object-cover transition-all group-hover:scale-105"
-                loading="lazy"
-              />
-            </div>
-            <div className="p-6">
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <time dateTime="2023-02-28">February 28, 2025</time>
-                <span>•</span>
-                <span>Audit</span>
-              </div>
-              <h3 className="mt-3 text-xl font-bold">The Importance of Regular Financial Audits</h3>
-              <p className="mt-2 line-clamp-3 text-muted-foreground">
-                As businesses face increasing scrutiny, regular financial audits ensure transparency
-                and build trust with stakeholders. Learn why audits are more important than ever and
-                how they can help safeguard your company&apos;s future.
-              </p>
-              {/* <Link
-                href="/insights/importance-of-audits"
-                className="mt-4 inline-flex items-center text-sm font-medium text-primary"
-                aria-label="Read more about The Importance of Regular Financial Audits"
-              >
-                Read more
-                 <ChevronRight className="ml-1 h-4 w-4" aria-hidden="true" />
-              </Link> */}
-            </div>
-          </article>
+            </article>
+          ))}
         </div>
         <div className="flex justify-center pt-8">
           <Link
-            href="/insights"
+            href="/blogs"
             className="inline-flex h-10 items-center justify-center rounded-md border border-input bg-background px-8 text-sm font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
           >
             View All Insights

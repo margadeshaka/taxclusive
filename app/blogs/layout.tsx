@@ -32,8 +32,8 @@ export default function BlogsLayout({ children }: { children: React.ReactNode })
           description:
             "Stay updated with the latest trends, insights, and expert advice on taxation, accounting, and financial management.",
           image: "https://www.taxclusive.com/images/blog-header.jpg",
-          datePublished: new Date().toISOString(),
-          dateModified: new Date().toISOString(),
+          datePublished: "2024-01-01T00:00:00.000Z",
+          dateModified: "2024-01-01T00:00:00.000Z",
           author: {
             "@type": "Organization",
             name: "Taxclusive",

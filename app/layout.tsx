@@ -1,9 +1,12 @@
 import "./globals.css";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Playfair_Display, Poppins } from "next/font/google";
 import Script from "next/script";
 import type React from "react";
 
 import ContactButtons from "@/components/contact-buttons";
+import { ErrorBoundary } from "@/components/shared";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
 import { clientConfig } from "@/lib/config/client-config";
@@ -49,11 +52,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="manifest" href="/site.webmanifest" />
       </head>
       <body className={`${playfair.variable} ${poppins.variable} font-sans`}>
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
-          {children}
-          <ContactButtons />
-          <Toaster />
-        </ThemeProvider>
+        <ErrorBoundary>
+          <Analytics/>
+          <SpeedInsights/>
+          <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
+            {children}
+            <ContactButtons />
+            <Toaster />
+          </ThemeProvider>
+        </ErrorBoundary>
         {/* Enhanced Local Business Structured Data */}
         <Script
           id="local-business-schema"

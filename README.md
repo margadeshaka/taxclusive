@@ -1,17 +1,19 @@
-# TaxExclusive
+# Taxclusive
 
-Welcome to the TaxExclusive project - a modern web application for a Chartered Accountancy firm committed to delivering excellence in financial and taxation services.
+Welcome to the Taxclusive project - a modern web application for a Chartered Accountancy firm committed to delivering excellence in financial and taxation services.
 
 ## 📋 Project Overview
 
-TaxExclusive is a Next.js-based web application that provides information about taxation services and allows clients to access resources like blogs and contact information. The project uses modern web technologies including:
+Taxclusive is a Next.js-based web application that provides information about taxation services and allows clients to access resources like blogs and contact information. The project uses modern web technologies including:
 
-- Next.js (App Router)
+- Next.js 15 (App Router)
 - TypeScript
 - Tailwind CSS
 - Shadcn UI components
-- Jest for testing
-- Strapi for content management
+- Prisma ORM with PostgreSQL
+- NextAuth for authentication
+- AWS SES for email services
+- Jest & Playwright for testing
 
 ## 🚀 Getting Started
 
@@ -25,8 +27,8 @@ TaxExclusive is a Next.js-based web application that provides information about 
 1. Clone the repository:
 
    ```bash
-   git clone git@github.com:margadeshaka/taxexclusive.git
-   cd taxexclusive
+   git clone git@github.com:margadeshaka/taxclusive.git
+   cd taxclusive
    ```
 
 2. Install dependencies:

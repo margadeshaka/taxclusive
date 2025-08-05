@@ -1,127 +1,114 @@
+import { Calculator, FileText, TrendingUp, Building, Users, ShieldCheck } from "lucide-react";
 import Link from "next/link";
+import { SPACING } from "@/lib/constants/spacing";
+import { ConsistentButton } from "@/components/ui/consistent-button";
+
+const services = [
+  {
+    icon: Calculator,
+    title: "Income Tax Services",
+    description: "Complete income tax planning, filing, and compliance services for individuals and businesses.",
+    features: ["Tax Return Filing", "Tax Planning", "Appeals & Assessments", "Advance Tax Calculation"]
+  },
+  {
+    icon: FileText,
+    title: "GST Services",
+    description: "End-to-end GST registration, filing, and compliance management.",
+    features: ["GST Registration", "Monthly/Quarterly Filing", "Input Tax Credit", "GST Audit"]
+  },
+  {
+    icon: Building,
+    title: "Company Formation",
+    description: "Complete assistance in company incorporation and regulatory compliance.",
+    features: ["Private Limited Company", "LLP Formation", "Partnership Firms", "Proprietorship"]
+  },
+  {
+    icon: TrendingUp,
+    title: "Financial Advisory",
+    description: "Strategic financial planning and investment advisory services.",
+    features: ["Investment Planning", "Retirement Planning", "Insurance Advisory", "Wealth Management"]
+  },
+  {
+    icon: ShieldCheck,
+    title: "Audit & Assurance",
+    description: "Independent audit services to ensure financial accuracy and compliance.",
+    features: ["Statutory Audit", "Internal Audit", "Tax Audit", "Concurrent Audit"]
+  },
+  {
+    icon: Users,
+    title: "Bookkeeping",
+    description: "Professional bookkeeping and accounting services for small to medium businesses.",
+    features: ["Daily Bookkeeping", "Financial Statements", "Payroll Management", "Expense Tracking"]
+  }
+];
 
 export default function ServicesSection() {
   return (
-    <section className="w-full py-12 md:py-24 lg:py-32">
-      <div className="container px-4 md:px-6">
-        <div className="flex flex-col items-center justify-center space-y-4 text-center">
-          <div className="space-y-2">
-            <div className="ethnic-divider">
-              <span className="text-primary font-serif px-4">Our Services</span>
-            </div>
-            <h2 className="text-3xl font-bold tracking-tighter font-serif md:text-4xl/tight">
-              Comprehensive Financial Solutions
-            </h2>
-            <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-              Our comprehensive financial solutions are designed to empower businesses and
-              individuals with <strong>insightful</strong> planning, <strong>trusted</strong>{" "}
-              guidance, and <strong>innovative</strong> strategies. From tax optimization to
-              business advisory, we&apos;re committed to{" "}
-              <em>Mastering taxes, delivering excellence</em> every step of the way.
+    <section className={`w-full ${SPACING.section.full}`}>
+      <div className={`container ${SPACING.container.full}`}>
+        <div className="text-center mb-16">
+          <div className="minimal-divider">
+            <span>Our Services</span>
+          </div>
+          <h2 className="prose-minimal text-center">
+            Comprehensive CA Services
+          </h2>
+          <p className="prose-minimal text-center max-w-3xl mx-auto">
+            From tax planning to business formation, we provide end-to-end financial services 
+            tailored to your specific needs. Our expert team ensures compliance while maximizing your financial potential.
+          </p>
+        </div>
+        
+        <div className={`grid ${SPACING.gap.lg} md:grid-cols-2 lg:grid-cols-3`}>
+          {services.map((service, index) => {
+            const Icon = service.icon;
+            return (
+              <div key={index} className="minimal-card animate-fade-in">
+                <div className={`flex items-center ${SPACING.gap.sm} mb-4`}>
+                  <div className="flex h-12 w-12 items-center justify-center rounded-sm bg-primary text-primary-foreground">
+                    <Icon className="h-6 w-6" />
+                  </div>
+                  <h3 className="text-xl font-semibold">{service.title}</h3>
+                </div>
+                
+                <p className="text-muted-foreground mb-6 leading-relaxed">
+                  {service.description}
+                </p>
+                
+                <div className="space-y-2">
+                  <div className="text-sm font-medium text-foreground mb-3">Key Services:</div>
+                  <ul className="space-y-1">
+                    {service.features.map((feature, featureIndex) => (
+                      <li key={featureIndex} className="text-sm text-muted-foreground flex items-center">
+                        <div className="w-1.5 h-1.5 bg-primary rounded-full mr-3"></div>
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+        
+        <div className="text-center mt-16">
+          <ConsistentButton variant="outline" asChild>
+            <Link href="/services">
+              View All Services
+            </Link>
+          </ConsistentButton>
+          
+          <div className="mt-8 p-6 bg-primary/5 rounded-sm border border-primary/20">
+            <h3 className="text-lg font-semibold mb-2">Need Expert Advice?</h3>
+            <p className="text-muted-foreground mb-4">
+              Get personalized consultation from our experienced chartered accountants.
             </p>
+            <ConsistentButton asChild>
+              <Link href="/appointment">
+                Schedule Free Consultation
+              </Link>
+            </ConsistentButton>
           </div>
-        </div>
-        <div className="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:grid-cols-3 lg:gap-12">
-          <div className="flex flex-col justify-center space-y-4">
-            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary text-primary-foreground relative after:absolute after:content-[''] after:w-full after:h-full after:border after:border-primary/30 after:rounded-lg after:-right-1 after:-bottom-1">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="h-6 w-6"
-                aria-hidden="true"
-              >
-                <path d="M4 22h14a2 2 0 0 0 2-2V7.5L14.5 2H6a2 2 0 0 0-2 2v4" />
-                <polyline points="14 2 14 8 20 8" />
-                <path d="M2 15h10" />
-                <path d="m9 18 3-3-3-3" />
-              </svg>
-            </div>
-            <div className="space-y-2">
-              <h3 className="text-xl font-bold">Taxation Services</h3>
-              <p className="text-muted-foreground">
-                Expert tax planning and compliance services to help you minimize liabilities and
-                stay ahead of regulations.
-              </p>
-            </div>
-            {/* <Link href="/services/taxation" className="inline-flex items-center text-sm font-medium text-primary">
-              Learn more <ChevronRight className="ml-1 h-4 w-4" aria-hidden="true" />
-            </Link> */}
-          </div>
-          <div className="flex flex-col justify-center space-y-4">
-            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary text-primary-foreground relative after:absolute after:content-[''] after:w-full after:h-full after:border after:border-primary/30 after:rounded-lg after:-right-1 after:-bottom-1">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="h-6 w-6"
-                aria-hidden="true"
-              >
-                <path d="M21 12V7H5a2 2 0 0 1 0-4h14v4" />
-                <path d="M3 5v14a2 2 0 0 0 2 2h16v-5" />
-                <path d="M18 12a2 2 0 0 0 0 4h4v-4Z" />
-              </svg>
-            </div>
-            <div className="space-y-2">
-              <h3 className="text-xl font-bold">Audit & Assurance</h3>
-              <p className="text-muted-foreground">
-                Delivering trusted audit insights to ensure transparency, accuracy, and confidence
-                in your financial reporting.
-              </p>
-            </div>
-            {/* <Link href="/services/audit" className="inline-flex items-center text-sm font-medium text-primary">
-              Learn more <ChevronRight className="ml-1 h-4 w-4" aria-hidden="true" />
-            </Link> */}
-          </div>
-          <div className="flex flex-col justify-center space-y-4">
-            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary text-primary-foreground relative after:absolute after:content-[''] after:w-full after:h-full after:border after:border-primary/30 after:rounded-lg after:-right-1 after:-bottom-1">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="h-6 w-6"
-                aria-hidden="true"
-              >
-                <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
-              </svg>
-            </div>
-            <div className="space-y-2">
-              <h3 className="text-xl font-bold">Financial Advisory</h3>
-              <p className="text-muted-foreground">
-                Our Financial Advisory services are tailored to help individuals and businesses make
-                informed decisions to achieve financial stability and growth.
-              </p>
-            </div>
-            {/* <Link href="/services/advisory" className="inline-flex items-center text-sm font-medium text-primary">
-              Learn more <ChevronRight className="ml-1 h-4 w-4" aria-hidden="true" />
-            </Link> */}
-          </div>
-        </div>
-        <div className="flex justify-center">
-          <Link
-            href="/services"
-            className="inline-flex h-10 items-center justify-center rounded-md border border-input bg-background px-8 text-sm font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
-          >
-            View All Services
-          </Link>
         </div>
       </div>
     </section>
