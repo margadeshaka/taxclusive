@@ -147,23 +147,8 @@
 }
 
 /* Text color handling for light/dark mode */
-h1, h2, h3, h4, h5, h6 {
-  @apply text-foreground;
-}
-
-p, span, div, a, li, td, th {
-  @apply text-foreground;
-}
-
-/* Override for light mode to maintain royal blue */
-.light h1, .light h2, .light h3, .light h4, .light h5, .light h6,
-.light p, .light span, .light div, .light a, .light li, .light td, .light th {
-  color: #4169E1;
-}
-
-.light .text-muted-foreground {
-  color: #7593F3;
-}
+/* Let the design system handle text colors through utility classes */
+/* Removed global color overrides that were breaking button and component styling */
 
 /* Stats and metrics styling */
 .stat-number {
