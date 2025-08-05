@@ -51,6 +51,7 @@ npm run db:studio   # Open Prisma Studio
 - **Styling**: Tailwind CSS + Shadcn UI components
 - **Database**: PostgreSQL with Prisma ORM
 - **Authentication**: NextAuth.js with credentials provider
+- **Data Fetching**: SWR for client-side data fetching and caching
 - **Email**: AWS SES
 - **Testing**: Jest (unit), Playwright (E2E)
 
@@ -84,9 +85,9 @@ npm run db:studio   # Open Prisma Studio
    - Response standardization through `response-handler.ts`
 
 3. **Data Flow**
-   - Client components use custom hooks (`use-blogs`, `use-testimonials`)
+   - Client components use custom hooks (`use-blogs`, `use-testimonials`, `use-dashboard-stats`)
    - API client with automatic error handling
-   - SWR for data fetching and caching
+   - SWR for data fetching and caching with real-time updates
 
 4. **Configuration System**
    - Centralized config in `/lib/config`
@@ -104,6 +105,8 @@ npm run db:studio   # Open Prisma Studio
 - `lib/config/website-config.ts` - Site-wide configuration
 - `lib/api-client.ts` - Centralized API client
 - `app/api/auth/[...nextauth]/route.ts` - Auth endpoints
+- `app/api/admin/dashboard/stats/route.ts` - Admin dashboard statistics API
+- `hooks/use-dashboard-stats.ts` - Dashboard data fetching hook
 - `prisma/schema.prisma` - Database schema
 
 ### Environment Variables Required
@@ -140,3 +143,6 @@ ANALYZE=true npm run build
 - Email functionality requires AWS SES configuration
 - Admin users must be created via database seed or manual entry
 - Test data is seeded automatically when running `npm run db:seed`
+- Admin dashboard displays real-time statistics from the database
+- Dashboard stats auto-refresh every 30 seconds via SWR
+- All dynamic route parameters in Next.js 15 must be awaited before use

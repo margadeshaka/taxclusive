@@ -6,16 +6,15 @@ import { notFound } from "next/navigation";
 
 import Footer from "@/components/footer";
 import Header from "@/components/header";
-import { SimpleMarkdownRenderer } from "@/components/simple-markdown-renderer";
+import { MarkdownRenderer } from "@/components/markdown-renderer";
 import NewsletterSubscription from "@/components/newsletter-subscription";
+import { ConsistentButton } from "@/components/ui/consistent-button";
 import { fetchBlogBySlug, fetchAllBlogs } from "@/lib/api/blogs";
 import { formatDate, calculateReadingTime } from "@/lib/date-utils";
-import { serializeMDX } from "@/lib/mdx";
 import { generateMetadata as generateBlogMetadata } from "@/lib/metadata";
-import { ConsistentButton } from "@/components/ui/consistent-button";
 
 interface BlogPageProps {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 // Generate static params for all blog posts
@@ -34,7 +33,8 @@ export async function generateStaticParams() {
 // Generate metadata for the blog post
 export async function generateMetadata({ params }: BlogPageProps): Promise<Metadata> {
   try {
-    const blog = await fetchBlogBySlug(params.slug);
+    const { slug } = await params;
+    const blog = await fetchBlogBySlug(slug);
     
     if (!blog) {
       return {
@@ -47,7 +47,7 @@ export async function generateMetadata({ params }: BlogPageProps): Promise<Metad
       title: blog.title,
       description: blog.excerpt || blog.content?.substring(0, 160) + "...",
       image: blog.featured_image?.url,
-      url: `https://taxexclusive.com/blogs/${params.slug}`,
+      url: `https://taxexclusive.com/blogs/${slug}`,
       publishedTime: blog.published_at,
       authorName: blog.author?.name || "Taxclusive Team",
       tags: blog.tags?.map((tag: { name: string }) => tag.name),
@@ -62,7 +62,8 @@ export async function generateMetadata({ params }: BlogPageProps): Promise<Metad
 
 export default async function BlogPost({ params }: BlogPageProps) {
   try {
-    const blog = await fetchBlogBySlug(params.slug);
+    const { slug } = await params;
+    const blog = await fetchBlogBySlug(slug);
 
     if (!blog) {
       notFound();
@@ -140,7 +141,7 @@ export default async function BlogPost({ params }: BlogPageProps) {
                 )}
 
                 {/* Blog content */}
-                <SimpleMarkdownRenderer content={blog.content || ''} />
+                <MarkdownRenderer content={blog.content || ''} />
 
                 {/* Tags */}
                 {blog.tags && blog.tags.length > 0 && (
