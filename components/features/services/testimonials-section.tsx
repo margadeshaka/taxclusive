@@ -1,30 +1,6 @@
-interface Testimonial {
-  rating: number;
-  content: string;
-  author: string;
-  position: string;
-}
+"use client";
 
-const testimonials: Testimonial[] = [
-  {
-    rating: 5,
-    content: "Taxclusive has been instrumental in helping our business navigate complex tax regulations. Their expertise and personalized approach have saved us both time and money.",
-    author: "Rajesh Patel",
-    position: "CEO, TechInnovate Solutions",
-  },
-  {
-    rating: 5,
-    content: "The team at Taxclusive has been managing our books for the past three years. Their attention to detail and proactive advice have been invaluable to our growth.",
-    author: "Priya Sharma",
-    position: "Founder, Green Earth Enterprises",
-  },
-  {
-    rating: 5,
-    content: "Exceptional service! Taxclusive helped us through a difficult audit process with professionalism and expertise. Highly recommended for any business.",
-    author: "Amit Kumar",
-    position: "CFO, Manufacturing Corp",
-  },
-];
+import { useTestimonials } from "@/hooks/use-testimonials";
 
 function StarIcon() {
   return (
@@ -43,6 +19,16 @@ function StarIcon() {
 }
 
 export function TestimonialsSection() {
+  const { testimonials, loading } = useTestimonials();
+  
+  // Only show testimonials from database, no fallbacks
+  const displayTestimonials = testimonials;
+  
+  // Don't render section if no testimonials or still loading
+  if (loading || displayTestimonials.length === 0) {
+    return null;
+  }
+
   return (
     <section className="w-full py-12 md:py-24 lg:py-32 ethnic-pattern">
       <div className="container px-4 md:px-6">
@@ -60,8 +46,8 @@ export function TestimonialsSection() {
           </div>
         </div>
         <div className="grid gap-6 pt-10 md:grid-cols-2 lg:grid-cols-3">
-          {testimonials.map((testimonial, index) => (
-            <div key={index} className="group relative overflow-hidden rounded-lg border bg-background p-6 shadow-sm transition-all hover:shadow-md hover:border-primary/50">
+          {displayTestimonials.map((testimonial) => (
+            <div key={testimonial.id} className="group relative overflow-hidden rounded-lg border bg-background p-6 shadow-sm transition-all hover:shadow-md hover:border-primary/50">
               <div className="flex flex-col space-y-2">
                 <div className="flex text-primary">
                   {Array.from({ length: testimonial.rating }).map((_, i) => (
@@ -72,8 +58,11 @@ export function TestimonialsSection() {
                   &ldquo;{testimonial.content}&rdquo;
                 </p>
                 <div className="pt-4">
-                  <p className="font-bold">{testimonial.author}</p>
-                  <p className="text-sm text-muted-foreground">{testimonial.position}</p>
+                  <p className="font-bold">{testimonial.name}</p>
+                  <p className="text-sm text-muted-foreground">{testimonial.designation}</p>
+                  {testimonial.company && (
+                    <p className="text-xs text-muted-foreground">{testimonial.company}</p>
+                  )}
                 </div>
               </div>
             </div>
