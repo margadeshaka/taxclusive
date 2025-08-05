@@ -1,43 +1,70 @@
 "use client"
 
-import { FileText, MessageSquare, TrendingUp, Users } from "lucide-react"
+import { FileText, MessageSquare, Users, BookOpen, Loader2 } from "lucide-react"
 import Link from "next/link"
 
 import { AdminWrapper } from "@/components/admin/admin-wrapper"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { useDashboardStats } from "@/hooks/use-dashboard-stats"
 
-const stats = [
-  {
-    title: "Total Blogs",
-    value: "24",
-    change: "+3 this month",
-    icon: FileText,
-    color: "text-blue-600"
-  },
-  {
-    title: "Testimonials",
-    value: "18",
-    change: "+2 this week",
-    icon: MessageSquare,
-    color: "text-green-600"
-  },
-  {
-    title: "Users",
-    value: "5",
-    change: "Active admins",
-    icon: Users,
-    color: "text-purple-600"
-  },
-  {
-    title: "Page Views",
-    value: "12.3K",
-    change: "+15% this month",
-    icon: TrendingUp,
-    color: "text-orange-600"
-  }
-]
+function formatTimeAgo(dateString: string) {
+  const now = new Date()
+  const date = new Date(dateString)
+  const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000)
+  
+  if (diffInSeconds < 60) return "Just now"
+  if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)} minutes ago`
+  if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)} hours ago`
+  if (diffInSeconds < 604800) return `${Math.floor(diffInSeconds / 86400)} days ago`
+  return `${Math.floor(diffInSeconds / 604800)} weeks ago`
+}
 
 export default function AdminDashboard() {
+  const { stats, isLoading, isError } = useDashboardStats()
+
+  if (isError) {
+    return (
+      <AdminWrapper>
+        <div className="p-8">
+          <div className="text-center py-8">
+            <p className="text-red-600">Failed to load dashboard data</p>
+          </div>
+        </div>
+      </AdminWrapper>
+    )
+  }
+
+  const statsConfig = [
+    {
+      title: "Total Blogs",
+      value: stats?.totalBlogs.value ?? 0,
+      change: stats?.totalBlogs.change ?? "Loading...",
+      icon: FileText,
+      color: "text-blue-600"
+    },
+    {
+      title: "Published Blogs",  
+      value: stats?.publishedBlogs.value ?? 0,
+      change: stats?.publishedBlogs.change ?? "Loading...",
+      icon: BookOpen,
+      color: "text-green-600"
+    },
+    {
+      title: "Testimonials",
+      value: stats?.testimonials.value ?? 0,
+      change: stats?.testimonials.change ?? "Loading...",
+      icon: MessageSquare,
+      color: "text-purple-600"
+    },
+    {
+      title: "Users",
+      value: stats?.users.value ?? 0,
+      change: stats?.users.change ?? "Loading...",
+      icon: Users,
+      color: "text-orange-600"
+    }
+  ]
+
   return (
     <AdminWrapper>
       <div className="p-8">
@@ -49,7 +76,7 @@ export default function AdminDashboard() {
         </div>
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 mb-8">
-          {stats.map((stat, index) => {
+          {statsConfig.map((stat, index) => {
             const Icon = stat.icon
             return (
               <Card key={index}>
@@ -59,7 +86,15 @@ export default function AdminDashboard() {
                       <p className="text-sm font-medium text-muted-foreground">
                         {stat.title}
                       </p>
-                      <p className="text-2xl font-bold">{stat.value}</p>
+                      <div className="flex items-center gap-2">
+                        <p className="text-2xl font-bold">
+                          {isLoading ? (
+                            <Loader2 className="h-6 w-6 animate-spin" />
+                          ) : (
+                            stat.value
+                          )}
+                        </p>
+                      </div>
                       <p className="text-xs text-muted-foreground mt-1">
                         {stat.change}
                       </p>
@@ -79,29 +114,33 @@ export default function AdminDashboard() {
               <CardDescription>Latest actions in your admin portal</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4">
-                <div className="flex items-center gap-4">
-                  <div className="h-2 w-2 bg-green-500 rounded-full"></div>
-                  <div className="flex-1">
-                    <p className="text-sm font-medium">New blog post published</p>
-                    <p className="text-xs text-muted-foreground">2 hours ago</p>
-                  </div>
+              {isLoading ? (
+                <div className="flex items-center justify-center py-8">
+                  <Loader2 className="h-6 w-6 animate-spin" />
                 </div>
-                <div className="flex items-center gap-4">
-                  <div className="h-2 w-2 bg-blue-500 rounded-full"></div>
-                  <div className="flex-1">
-                    <p className="text-sm font-medium">Testimonial approved</p>
-                    <p className="text-xs text-muted-foreground">1 day ago</p>
-                  </div>
+              ) : stats?.recentActivity && stats.recentActivity.length > 0 ? (
+                <div className="space-y-4">
+                  {stats.recentActivity.map((activity, index) => (
+                    <div key={index} className="flex items-center gap-4">
+                      <div className={`h-2 w-2 rounded-full ${
+                        activity.type === 'blog' ? 'bg-blue-500' : 'bg-green-500'
+                      }`}></div>
+                      <div className="flex-1">
+                        <p className="text-sm font-medium">
+                          {activity.type === 'blog' ? 'Blog published' : 'Testimonial added'}: {activity.name}
+                        </p>
+                        <p className="text-xs text-muted-foreground">
+                          {formatTimeAgo(activity.createdAt)}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-                <div className="flex items-center gap-4">
-                  <div className="h-2 w-2 bg-purple-500 rounded-full"></div>
-                  <div className="flex-1">
-                    <p className="text-sm font-medium">New user registered</p>
-                    <p className="text-xs text-muted-foreground">3 days ago</p>
-                  </div>
+              ) : (
+                <div className="text-center py-8 text-muted-foreground">
+                  No recent activity
                 </div>
-              </div>
+              )}
             </CardContent>
           </Card>
 

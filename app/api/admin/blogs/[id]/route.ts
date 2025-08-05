@@ -15,7 +15,7 @@ function generateSlug(title: string): string {
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions)
@@ -24,7 +24,7 @@ export async function GET(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 
-    const blogId = params.id
+    const { id: blogId } = await params
 
     const blog = await prisma.blog.findUnique({
       where: { id: blogId },
@@ -52,7 +52,7 @@ export async function GET(
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions)
@@ -71,7 +71,7 @@ export async function PUT(
       tags = [] 
     } = await req.json()
 
-    const blogId = params.id
+    const { id: blogId } = await params
 
     // Get current blog to check if slug needs updating
     const currentBlog = await prisma.blog.findUnique({
@@ -157,7 +157,7 @@ export async function PUT(
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions)
@@ -166,7 +166,7 @@ export async function DELETE(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 
-    const blogId = params.id
+    const { id: blogId } = await params
 
     await prisma.blog.delete({
       where: { id: blogId }
