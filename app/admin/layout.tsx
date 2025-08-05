@@ -1,4 +1,5 @@
 import { Metadata } from "next"
+
 import { SessionProvider } from "@/components/admin/session-provider"
 
 export const metadata: Metadata = {

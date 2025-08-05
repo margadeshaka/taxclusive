@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+
 import { fetchBlogBySlug } from '@/lib/api/blogs';
 
 export async function GET(

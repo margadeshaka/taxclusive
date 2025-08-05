@@ -1,6 +1,7 @@
 "use client";
 
 import { Star, Quote } from "lucide-react";
+
 import { useTestimonials } from "@/hooks/use-testimonials";
 
 export default function TestimonialsSection() {

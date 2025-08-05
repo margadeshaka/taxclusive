@@ -1,7 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
-import { SPACING } from "@/lib/constants/spacing";
+
 import { ConsistentButton } from "@/components/ui/consistent-button";
+import { SPACING } from "@/lib/constants/spacing";
 
 export default function HeroSection() {
   return (

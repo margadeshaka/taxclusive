@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+
 import { fetchAllTestimonials, fetchFeaturedTestimonials } from '@/lib/api/testimonials';
 
 export async function GET(request: Request) {

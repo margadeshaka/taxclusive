@@ -1,9 +1,10 @@
 "use client";
 
+import { ChevronRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+
 import { useBlogs } from "@/hooks/use-blogs";
-import { ChevronRight } from "lucide-react";
 
 // Fallback articles for when database is empty
 const fallbackArticles = [

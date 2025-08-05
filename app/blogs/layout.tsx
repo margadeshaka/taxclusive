@@ -21,38 +21,42 @@ export const metadata: Metadata = generateMetadata({
 // a library like next-seo or by updating document.title in the client component.
 
 export default function BlogsLayout({ children }: { children: React.ReactNode }) {
+  const structuredData = generateStructuredData("Article", {
+    headline: "Blogs & Insights | Taxclusive",
+    description:
+      "Stay updated with the latest trends, insights, and expert advice on taxation, accounting, and financial management.",
+    image: "https://www.taxclusive.com/images/blog-header.jpg",
+    datePublished: "2024-01-01T00:00:00.000Z",
+    dateModified: "2024-01-01T00:00:00.000Z",
+    author: {
+      "@type": "Organization",
+      name: "Taxclusive",
+      url: "https://www.taxclusive.com",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Taxclusive",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://www.taxclusive.com/logo.png",
+      },
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": "https://www.taxclusive.com/blogs",
+    },
+  });
+
   return (
     <>
       {children}
 
       {/* Blog section specific structured data */}
-      <Script id="blog-schema-org" type="application/ld+json">
-        {generateStructuredData("Article", {
-          headline: "Blogs & Insights | Taxclusive",
-          description:
-            "Stay updated with the latest trends, insights, and expert advice on taxation, accounting, and financial management.",
-          image: "https://www.taxclusive.com/images/blog-header.jpg",
-          datePublished: "2024-01-01T00:00:00.000Z",
-          dateModified: "2024-01-01T00:00:00.000Z",
-          author: {
-            "@type": "Organization",
-            name: "Taxclusive",
-            url: "https://www.taxclusive.com",
-          },
-          publisher: {
-            "@type": "Organization",
-            name: "Taxclusive",
-            logo: {
-              "@type": "ImageObject",
-              url: "https://www.taxclusive.com/logo.png",
-            },
-          },
-          mainEntityOfPage: {
-            "@type": "WebPage",
-            "@id": "https://www.taxclusive.com/blogs",
-          },
-        })}
-      </Script>
+      <Script
+        id="blog-schema-org"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: structuredData }}
+      />
     </>
   );
 }
