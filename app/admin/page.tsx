@@ -37,29 +37,29 @@ export default function AdminDashboard() {
   const statsConfig = [
     {
       title: "Total Blogs",
-      value: stats?.totalBlogs.value ?? 0,
-      change: stats?.totalBlogs.change ?? "Loading...",
+      value: stats?.totalBlogs?.value ?? 0,
+      change: stats?.totalBlogs?.change ?? "Loading...",
       icon: FileText,
       color: "text-blue-600"
     },
     {
       title: "Published Blogs",  
-      value: stats?.publishedBlogs.value ?? 0,
-      change: stats?.publishedBlogs.change ?? "Loading...",
+      value: stats?.publishedBlogs?.value ?? 0,
+      change: stats?.publishedBlogs?.change ?? "Loading...",
       icon: BookOpen,
       color: "text-green-600"
     },
     {
       title: "Testimonials",
-      value: stats?.testimonials.value ?? 0,
-      change: stats?.testimonials.change ?? "Loading...",
+      value: stats?.testimonials?.value ?? 0,
+      change: stats?.testimonials?.change ?? "Loading...",
       icon: MessageSquare,
       color: "text-purple-600"
     },
     {
       title: "Users",
-      value: stats?.users.value ?? 0,
-      change: stats?.users.change ?? "Loading...",
+      value: stats?.users?.value ?? 0,
+      change: stats?.users?.change ?? "Loading...",
       icon: Users,
       color: "text-orange-600"
     }
