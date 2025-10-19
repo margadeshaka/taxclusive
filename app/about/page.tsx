@@ -33,7 +33,7 @@ export default function AboutPage() {
           url: "https://www.taxclusive.com",
           logo: "https://www.taxclusive.com/logo.png",
           description:
-            "A trusted Chartered Accountancy firm committed to delivering excellence in financial, taxation, and compliance services.",
+            "A trusted tax and financial services firm committed to delivering excellence in financial, taxation, and compliance services.",
           foundingDate: "2010-01-01",
           founders: [
             {

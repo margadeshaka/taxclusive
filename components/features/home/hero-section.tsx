@@ -14,7 +14,7 @@ export default function HeroSection() {
               <div className="minimal-border">
                 <h1 className="prose-minimal">
                   <span className="block text-base font-medium text-muted-foreground uppercase tracking-widest mb-2">
-                    Chartered Accountants
+                    Tax & Financial Services
                   </span>
                   Excellence in Financial Advisory
                 </h1>
@@ -63,7 +63,7 @@ export default function HeroSection() {
                 src="/home.png"
                 width={500}
                 height={500}
-                alt="Professional chartered accountants providing expert financial services"
+                alt="Professional tax and financial services experts"
                 className="object-cover rounded-sm shadow-sm"
                 priority
               />

@@ -1,6 +1,6 @@
 # Taxclusive
 
-Welcome to the Taxclusive project - a modern web application for a Chartered Accountancy firm committed to delivering excellence in financial and taxation services.
+Welcome to the Taxclusive project - a modern web application for a professional tax and financial services firm committed to delivering excellence in taxation and financial advisory.
 
 ## 📋 Project Overview
 
@@ -93,7 +93,7 @@ pnpm test:watch
 
 ## 🏢 About Us
 
-We are a Chartered Accountancy firm based in Noida, serving clients PAN India.
+We are a professional tax and financial services firm based in Noida, serving clients PAN India.
 
 ### 🌟 Our Key Services
 
@@ -107,7 +107,7 @@ We are a Chartered Accountancy firm based in Noida, serving clients PAN India.
 
 ### 💼 Why Choose Us?
 
-- Experienced Chartered Accountants
+- Experienced Tax and Financial Professionals
 - Transparent and Timely Service
 - Customized Solutions for Individuals & Businesses
 - Strong Data Security and Compliance

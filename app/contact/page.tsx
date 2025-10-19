@@ -383,13 +383,13 @@ export default function ContactPage() {
       <Script id="contact-schema-org" type="application/ld+json">
         {generateStructuredData("Organization", {
           "@type": ["AccountingService", "LocalBusiness", "Organization"],
-          name: "Taxclusive - Chartered Accountants",
-          alternateName: "Taxclusive CA Services",
+          name: "Taxclusive - Tax & Financial Services",
+          alternateName: "Taxclusive Tax Services",
           url: "https://www.taxclusive.com",
           logo: "https://www.taxclusive.com/logo.png",
           image: "https://www.taxclusive.com/about.png",
           description:
-            "Leading Chartered Accountancy firm in Gurugram providing expert CA services, tax planning, GST compliance and financial advisory.",
+            "Leading tax and financial services firm in Gurugram providing expert tax planning, GST compliance and financial advisory.",
           contactPoint: [
             {
               "@type": "ContactPoint",

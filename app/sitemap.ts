@@ -106,7 +106,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.6,
     },
     {
-      url: `${baseUrl}/blogs/chartered-accountant-services`,
+      url: `${baseUrl}/blogs/tax-and-financial-services`,
       lastModified: "2024-12-05",
       changeFrequency: "monthly" as const,
       priority: 0.6,
@@ -150,13 +150,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Location-based pages for local SEO
   const locationPages = [
     {
-      url: `${baseUrl}/ca-services-gurugram`,
+      url: `${baseUrl}/tax-services-gurugram`,
       lastModified: currentDate,
       changeFrequency: "monthly" as const,
       priority: 0.7,
     },
     {
-      url: `${baseUrl}/chartered-accountant-delhi`,
+      url: `${baseUrl}/tax-services-delhi`,
       lastModified: currentDate,
       changeFrequency: "monthly" as const,
       priority: 0.7,

@@ -13,7 +13,7 @@ import { generateMetadata as generatePageMetadata } from "@/lib/metadata";
 // Generate metadata for the blogs page
 export const metadata: Metadata = generatePageMetadata({
   title: "Expert Financial Insights & Tax Updates | Taxclusive Blog",
-  description: "Stay updated with the latest tax laws, financial planning tips, and business insights from our expert chartered accountants. Professional advice you can trust.",
+  description: "Stay updated with the latest tax laws, financial planning tips, and business insights from our expert tax and financial professionals. Professional advice you can trust.",
   url: "https://taxexclusive.com/blogs",
 });
 
@@ -37,7 +37,7 @@ export default async function BlogsPage() {
               </h1>
               <p className="prose-minimal text-center max-w-3xl mx-auto">
                 Stay ahead with expert insights on taxation, financial planning, and business strategy. 
-                Our chartered accountants share practical advice to help you make informed financial decisions.
+                Our tax and financial professionals share practical advice to help you make informed financial decisions.
               </p>
             </div>
           </div>

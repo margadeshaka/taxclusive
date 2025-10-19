@@ -288,17 +288,17 @@ export const defaultConfig: WebsiteConfiguration = {
       name: "Taxclusive",
       tagline: "Your Trusted Financial Partner",
       description:
-        "Leading Chartered Accountancy firm in Gurugram providing expert tax planning, GST compliance, audit services & financial advisory. Trusted by 500+ clients across India.",
+        "Leading tax and financial services firm in Gurugram providing expert tax planning, GST compliance, audit services & financial advisory. Trusted by 500+ clients across India.",
       keywords: [
-        "chartered accountant gurugram",
-        "CA services",
+        "tax services gurugram",
+        "financial services",
         "tax planning",
         "GST compliance",
         "audit services",
         "financial advisory",
         "business registration",
         "tax consultant",
-        "accounting firm gurugram",
+        "tax firm gurugram",
       ],
       author: "Taxclusive Team",
       locale: "en_IN",
@@ -306,17 +306,17 @@ export const defaultConfig: WebsiteConfiguration = {
     },
 
     business: {
-      legalName: "Taxclusive Chartered Accountants LLP",
+      legalName: "Taxclusive Financial Services LLP",
       displayName: "Taxclusive",
       description:
-        "Leading Chartered Accountancy firm in Gurugram providing expert CA services across India",
+        "Leading tax and financial services firm in Gurugram providing expert services across India",
       foundingDate: "2010",
       numberOfEmployees: "25",
       slogan: "Your Trusted Financial Partner",
       mission:
         "To provide exceptional financial and tax advisory services that empower businesses and individuals to achieve their financial goals through expert guidance, innovative solutions, and unwavering integrity.",
       vision:
-        "To be the most trusted and preferred chartered accountancy firm in India, recognized for our expertise, client-centric approach, and contribution to the financial success of our clients.",
+        "To be the most trusted and preferred tax and financial services firm in India, recognized for our expertise, client-centric approach, and contribution to the financial success of our clients.",
       values: [
         "Integrity and Ethics",
         "Client-First Approach",
@@ -392,10 +392,10 @@ export const defaultConfig: WebsiteConfiguration = {
 
       credentials: [
         {
-          name: "Chartered Accountant",
-          issuingOrganization: "Institute of Chartered Accountants of India",
-          abbreviation: "ICAI",
-          url: "https://www.icai.org",
+          name: "Tax Professional",
+          issuingOrganization: "Professional Tax Services Association",
+          abbreviation: "PTSA",
+          url: "https://taxclusive.com",
         },
       ],
 
@@ -415,10 +415,10 @@ export const defaultConfig: WebsiteConfiguration = {
     pages: {
       home: {
         hero: {
-          title: "Expert Chartered Accountants in Gurugram",
+          title: "Expert Tax & Financial Services in Gurugram",
           subtitle: "Your Trusted Financial Partner",
           description:
-            "Leading CA firm providing comprehensive tax planning, audit, GST compliance, and financial advisory services. 35+ years of expertise, 500+ satisfied clients across India.",
+            "Leading tax and financial services firm providing comprehensive tax planning, audit, GST compliance, and financial advisory services. 35+ years of expertise, 500+ satisfied clients across India.",
           primaryCta: {
             text: "Book Free Consultation",
             url: "/contact",
@@ -431,10 +431,10 @@ export const defaultConfig: WebsiteConfiguration = {
         },
 
         services: {
-          title: "Comprehensive CA Services",
+          title: "Comprehensive Tax & Financial Services",
           subtitle: "Professional Excellence in Every Service",
           description:
-            "From tax planning to business advisory, we provide end-to-end chartered accountancy services tailored to your needs.",
+            "From tax planning to business advisory, we provide end-to-end tax and financial services tailored to your needs.",
           items: [
             {
               id: "tax-planning",
@@ -528,7 +528,7 @@ export const defaultConfig: WebsiteConfiguration = {
               id: "real-estate",
               name: "Real Estate & Construction",
               description:
-                "Specialized CA services for real estate developers, construction companies, and property investors.",
+                "Specialized tax and financial services for real estate developers, construction companies, and property investors.",
               icon: "home",
               url: "/expertise/real-estate",
             },
@@ -596,7 +596,7 @@ export const defaultConfig: WebsiteConfiguration = {
         cta: {
           title: "Ready to Transform Your Financial Management?",
           description:
-            "Join 500+ satisfied clients who trust Taxclusive for their chartered accountancy needs.",
+            "Join 500+ satisfied clients who trust Taxclusive for their tax and financial service needs.",
           primaryButton: {
             text: "Schedule Free Consultation",
             url: "/contact",
@@ -613,20 +613,20 @@ export const defaultConfig: WebsiteConfiguration = {
           title: "About Taxclusive",
           subtitle: "35+ Years of Professional Excellence",
           description:
-            "We are a leading chartered accountancy firm committed to providing exceptional financial and tax advisory services with integrity, expertise, and client-first approach.",
+            "We are a leading tax and financial services firm committed to providing exceptional financial and tax advisory services with integrity, expertise, and client-first approach.",
           image: "/images/about-hero.jpg",
         },
 
         story: {
           title: "Our Story",
           content:
-            "Founded in 2010 with a vision to provide comprehensive and reliable chartered accountancy services, Taxclusive has grown to become one of the most trusted CA firms in Gurugram. Our journey began with a simple commitment: to help businesses and individuals achieve their financial goals through expert guidance and unwavering integrity.\n\nOver the years, we have built a reputation for excellence, serving over 500 clients across various industries. Our team of experienced chartered accountants combines traditional accounting principles with modern technology to deliver efficient, accurate, and timely services.",
+            "Founded in 2010 with a vision to provide comprehensive and reliable tax and financial services, Taxclusive has grown to become one of the most trusted firms in Gurugram. Our journey began with a simple commitment: to help businesses and individuals achieve their financial goals through expert guidance and unwavering integrity.\n\nOver the years, we have built a reputation for excellence, serving over 500 clients across various industries. Our team of experienced tax and financial professionals combines traditional principles with modern technology to deliver efficient, accurate, and timely services.",
           timeline: [
             {
               year: "2010",
               title: "Foundation",
               description:
-                "Taxclusive was established with a mission to provide reliable CA services.",
+                "Taxclusive was established with a mission to provide reliable tax and financial services.",
             },
             {
               year: "2015",
@@ -646,7 +646,7 @@ export const defaultConfig: WebsiteConfiguration = {
             {
               year: "2023",
               title: "Continued Excellence",
-              description: "Recognized as a leading CA firm in the Delhi NCR region.",
+              description: "Recognized as a leading tax and financial services firm in the Delhi NCR region.",
             },
           ],
         },
@@ -654,14 +654,14 @@ export const defaultConfig: WebsiteConfiguration = {
         team: {
           title: "Meet Our Expert Team",
           description:
-            "Our team of qualified chartered accountants brings decades of combined experience and specialized expertise.",
+            "Our team of qualified tax and financial professionals brings decades of combined experience and specialized expertise.",
           members: [
             {
               id: "ca-1",
-              name: "CA Rajesh Sharma",
+              name: "Rajesh Sharma",
               role: "Managing Partner",
               description:
-                "Leading chartered accountant with 20+ years of experience in tax planning and audit services.",
+                "Leading tax professional with 20+ years of experience in tax planning and audit services.",
               qualifications: ["CA", "MBA Finance"],
               experience: "20+ years",
               specialties: ["Tax Planning", "Corporate Audit", "Financial Advisory"],
@@ -672,7 +672,7 @@ export const defaultConfig: WebsiteConfiguration = {
             },
             {
               id: "ca-2",
-              name: "CA Priya Gupta",
+              name: "Priya Gupta",
               role: "Senior Partner",
               description:
                 "Expert in GST compliance and business registration with comprehensive industry knowledge.",
@@ -734,7 +734,7 @@ export const defaultConfig: WebsiteConfiguration = {
               id: "experience",
               metric: "35+",
               label: "Years of Experience",
-              description: "Combined team experience in chartered accountancy",
+              description: "Combined team experience in tax and financial services",
             },
             {
               id: "industries",
@@ -754,10 +754,10 @@ export const defaultConfig: WebsiteConfiguration = {
 
       services: {
         hero: {
-          title: "Comprehensive CA Services",
+          title: "Comprehensive Tax & Financial Services",
           subtitle: "Professional Solutions for All Your Financial Needs",
           description:
-            "From tax planning to business advisory, we offer a complete range of chartered accountancy services designed to support your financial success.",
+            "From tax planning to business advisory, we offer a complete range of tax and financial services designed to support your financial success.",
         },
 
         categories: [
@@ -871,7 +871,7 @@ export const defaultConfig: WebsiteConfiguration = {
           title: "Contact Us",
           subtitle: "Get Expert Financial Guidance Today",
           description:
-            "Ready to transform your financial management? Our team of expert chartered accountants is here to help.",
+            "Ready to transform your financial management? Our team of expert tax and financial professionals is here to help.",
         },
 
         form: {
@@ -963,7 +963,7 @@ export const defaultConfig: WebsiteConfiguration = {
           title: "Frequently Asked Questions",
           subtitle: "Find Answers to Common Questions",
           description:
-            "Get quick answers to the most frequently asked questions about our chartered accountancy services.",
+            "Get quick answers to the most frequently asked questions about our tax and financial services.",
         },
 
         categories: [
@@ -1095,7 +1095,7 @@ export const defaultConfig: WebsiteConfiguration = {
 
       footer: {
         description:
-          "Leading Chartered Accountancy firm providing expert financial and tax advisory services across India.",
+          "Leading tax and financial services firm providing expert financial and tax advisory services across India.",
         sections: [
           {
             id: "services",
@@ -1207,20 +1207,20 @@ export const defaultConfig: WebsiteConfiguration = {
 
     seo: {
       defaultTitle:
-        "Taxclusive - Expert Chartered Accountants in Gurugram | CA Services | Tax Planning",
-      titleTemplate: "%s | Taxclusive - Professional CA Services",
+        "Taxclusive - Expert Tax & Financial Services in Gurugram | Tax Planning & Advisory",
+      titleTemplate: "%s | Taxclusive - Professional Tax & Financial Services",
       defaultDescription:
-        "Leading Chartered Accountancy firm in Gurugram. Expert tax planning, GST compliance, audit, business registration & financial advisory services. 35+ years experience. Call +919782799042",
+        "Leading tax and financial services firm in Gurugram. Expert tax planning, GST compliance, audit, business registration & financial advisory services. 35+ years experience. Call +919782799042",
       keywords: [
-        "chartered accountant gurugram",
-        "CA services",
+        "tax services gurugram",
+        "financial services",
         "tax planning",
         "GST compliance",
         "audit services",
         "financial advisory",
         "business registration",
         "tax consultant",
-        "accounting firm gurugram",
+        "tax firm gurugram",
       ],
       openGraph: {
         type: "website",
@@ -1231,7 +1231,7 @@ export const defaultConfig: WebsiteConfiguration = {
             url: "/images/og-image.jpg",
             width: 1200,
             height: 630,
-            alt: "Taxclusive - Expert Chartered Accountants in Gurugram",
+            alt: "Taxclusive - Expert Tax & Financial Services in Gurugram",
           },
         ],
       },

@@ -52,7 +52,7 @@ export default function ServicesSection() {
             <span>Our Services</span>
           </div>
           <h2 className="prose-minimal text-center">
-            Comprehensive CA Services
+            Comprehensive Tax & Financial Services
           </h2>
           <p className="prose-minimal text-center max-w-3xl mx-auto">
             From tax planning to business formation, we provide end-to-end financial services 
@@ -102,7 +102,7 @@ export default function ServicesSection() {
           <div className="mt-8 p-6 bg-primary/5 rounded-sm border border-primary/20">
             <h3 className="text-lg font-semibold mb-2">Need Expert Advice?</h3>
             <p className="text-muted-foreground mb-4">
-              Get personalized consultation from our experienced chartered accountants.
+              Get personalized consultation from our experienced tax and financial professionals.
             </p>
             <ConsistentButton asChild>
               <Link href="/appointment">

@@ -241,10 +241,10 @@ export function migrateConfig(
  * Predefined configuration presets for different business types
  */
 export const CONFIG_PRESETS = {
-  CHARTERED_ACCOUNTANT: {
-    name: "Chartered Accountant Preset",
+  TAX_AND_FINANCIAL_SERVICES: {
+    name: "Tax and Financial Services Preset",
     theme: {
-      name: "Professional CA Theme",
+      name: "Professional Tax Services Theme",
       colors: {
         light: {
           ...defaultConfig.theme.colors.light,
@@ -270,7 +270,7 @@ export const CONFIG_PRESETS = {
           ...defaultConfig.content.pages.home,
           hero: {
             ...defaultConfig.content.pages.home.hero,
-            title: "Professional Chartered Accountancy Services",
+            title: "Professional Tax and Financial Services",
             subtitle: "Your Trusted Financial Partner",
           },
         },

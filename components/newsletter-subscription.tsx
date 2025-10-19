@@ -100,7 +100,7 @@ export default function NewsletterSubscription({ className }: { className?: stri
           <h3 className="font-bold">Subscribe to Our Newsletter</h3>
           <p className="text-muted-foreground mt-2">
             Stay updated with the latest tax regulations, compliance deadlines, and expert financial
-            tips from our chartered accountants. Subscribe to receive curated insights straight to
+            tips from our tax professionals. Subscribe to receive curated insights straight to
             your inbox.
           </p>
         </div>

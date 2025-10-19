@@ -50,7 +50,7 @@ export default function Home() {
           url: "https://www.taxexclusive.com",
           logo: "https://www.taxexclusive.com/logo.png",
           description:
-            "Professional chartered accountancy firm providing comprehensive accounting, taxation, and financial advisory services across Delhi NCR.",
+            "Professional tax and financial services firm providing comprehensive accounting, taxation, and financial advisory services across Delhi NCR.",
           contactPoint: [
             {
               "@type": "ContactPoint",

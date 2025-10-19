@@ -47,10 +47,10 @@ async function main() {
     {
       title: 'Welcome to Taxclusive',
       slug: 'welcome-to-taxclusive',
-      excerpt: 'Learn about our comprehensive chartered accountancy services and how we can help your business grow.',
+      excerpt: 'Learn about our comprehensive tax and financial services and how we can help your business grow.',
       content: `# Welcome to Taxclusive
 
-We are delighted to welcome you to Taxclusive, your trusted partner in comprehensive chartered accountancy services.
+We are delighted to welcome you to Taxclusive, your trusted partner in comprehensive tax and financial services.
 
 ## Our Mission
 
@@ -64,7 +64,7 @@ At Taxclusive, we believe in **mastering taxes and delivering excellence**. Our 
 ## Why Choose Us?
 
 ### 1. Experienced Team
-Our qualified Chartered Accountants bring over 15 years of combined experience in taxation and financial management.
+Our qualified tax and financial professionals bring over 15 years of combined experience in taxation and financial management.
 
 ### 2. Comprehensive Services
 From individual tax returns to complex corporate restructuring, we handle it all with precision and care.

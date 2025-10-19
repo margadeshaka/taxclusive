@@ -7,7 +7,7 @@ test.describe('Public Website Navigation', () => {
     
     // Check homepage elements
     await expect(page).toHaveTitle(/Taxclusive/)
-    await expect(page.locator('h1')).toContainText('Chartered Accountants')
+    await expect(page.locator('h1')).toContainText('Tax & Financial Services')
     await expect(page.locator('.stat-number').first()).toBeVisible()
     
     // Navigate to About page

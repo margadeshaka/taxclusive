@@ -10,11 +10,11 @@ export const SEO_CONFIG = {
   // Default site information
   site: {
     name: "Taxclusive",
-    title: "Taxclusive - Expert Chartered Accountants in Delhi NCR | Gurugram, Noida, Ghaziabad",
+    title: "Taxclusive - Expert Tax & Financial Services in Delhi NCR | Gurugram, Noida, Ghaziabad",
     description:
-      "Leading Chartered Accountancy firm in Delhi NCR providing expert tax planning, GST compliance, audit services & financial advisory in Gurugram, Delhi, Noida, Ghaziabad, Faridabad. 35+ years experience, 500+ clients.",
+      "Leading tax and financial services firm in Delhi NCR providing expert tax planning, GST compliance, audit services & financial advisory in Gurugram, Delhi, Noida, Ghaziabad, Faridabad. 35+ years experience, 500+ clients.",
     keywords:
-      "chartered accountant gurugram, CA services delhi ncr, tax planning gurugram, GST compliance delhi, audit services noida, financial advisory ghaziabad, business registration faridabad, chartered accountant near me, CA firm haryana, tax consultant delhi, income tax gurugram, GST registration delhi ncr, company incorporation gurugram, accounting firm delhi, best CA gurugram, top chartered accountant delhi, tax planning services noida, GST filing ghaziabad, audit services faridabad",
+      "tax services gurugram, financial services delhi ncr, tax planning gurugram, GST compliance delhi, audit services noida, financial advisory ghaziabad, business registration faridabad, tax consultant near me, tax firm haryana, tax consultant delhi, income tax gurugram, GST registration delhi ncr, company incorporation gurugram, financial services delhi, tax planning services noida, GST filing ghaziabad, audit services faridabad",
     author: "Taxclusive Team",
     locale: "en_IN",
     language: "en-IN",
@@ -22,10 +22,10 @@ export const SEO_CONFIG = {
 
   // Business information
   business: {
-    name: "Taxclusive - Chartered Accountants",
-    legalName: "Taxclusive Chartered Accountants LLP",
+    name: "Taxclusive - Tax & Financial Services",
+    legalName: "Taxclusive Financial Services LLP",
     description:
-      "Leading Chartered Accountancy firm in Gurugram providing expert CA services across India",
+      "Leading tax and financial services firm in Gurugram providing expert services across India",
     foundingDate: "2010",
     numberOfEmployees: "25",
     slogan: "Your Trusted Financial Partner",
@@ -315,7 +315,7 @@ export function generateStructuredDataConfig(
       },
       hasOfferCatalog: {
         "@type": "OfferCatalog",
-        name: "Chartered Accountancy Services",
+        name: "Tax and Financial Services",
         itemListElement: business.services.map((service) => ({
           "@type": "Offer",
           itemOffered: {

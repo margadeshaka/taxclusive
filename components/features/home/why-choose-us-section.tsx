@@ -4,7 +4,7 @@ const features = [
   {
     icon: Users,
     title: "Expert Team",
-    description: "Qualified Chartered Accountants with 15+ years of experience in taxation and financial advisory."
+    description: "Qualified tax and financial professionals with 15+ years of experience in taxation and financial advisory."
   },
   {
     icon: Award,

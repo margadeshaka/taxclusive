@@ -164,7 +164,7 @@ export default async function BlogPost({ params }: BlogPageProps) {
                 <div className="mt-16 p-8 bg-primary/5 rounded-sm border border-primary/20 text-center">
                   <h3 className="text-xl font-semibold mb-4">Need Expert Financial Advice?</h3>
                   <p className="text-muted-foreground mb-6">
-                    Get personalized consultation from our experienced chartered accountants.
+                    Get personalized consultation from our experienced tax and financial professionals.
                   </p>
                   <ConsistentButton asChild>
                     <Link href="/appointment">

@@ -9,7 +9,7 @@ export function AboutHeroSection() {
               About Our Firm
             </h1>
             <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-              We are a trusted Chartered Accountancy firm committed to delivering excellence in
+              We are a trusted tax and financial services firm committed to delivering excellence in
               financial, taxation, and compliance services. With a client-centric approach and
               deep industry expertise, we empower businesses and individuals to navigate complex
               financial landscapes with confidence. Our mission is to provide transparent,

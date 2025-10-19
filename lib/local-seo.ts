@@ -19,9 +19,9 @@ export function generateLocalBusinessStructuredData(): string {
       name: business.name,
       legalName: business.legalName,
       alternateName: [
-        "Taxclusive CA Services",
-        "Taxclusive Chartered Accountants Delhi NCR",
-        "Best CA in Gurugram",
+        "Taxclusive Tax Services",
+        "Taxclusive Financial Services Delhi NCR",
+        "Best Tax Firm in Gurugram",
         "Top Tax Consultant Delhi",
       ],
       url: business.contact.website,
@@ -151,9 +151,9 @@ export function generateLocalBusinessStructuredData(): string {
           credentialCategory: "Professional Certification",
           recognizedBy: {
             "@type": "Organization",
-            name: "Institute of Chartered Accountants of India",
-            abbreviation: "ICAI",
-            url: "https://icai.org",
+            name: "Professional Tax Services Association",
+            abbreviation: "PTSA",
+            url: "https://taxclusive.com",
           },
         },
       ],
@@ -161,7 +161,7 @@ export function generateLocalBusinessStructuredData(): string {
       // Service catalog with local keywords
       hasOfferCatalog: {
         "@type": "OfferCatalog",
-        name: "Chartered Accountancy Services in Delhi NCR",
+        name: "Tax and Financial Services in Delhi NCR",
         itemListElement: business.services.map((service) => ({
           "@type": "Offer",
           itemOffered: {
@@ -185,7 +185,7 @@ export function generateLocalBusinessStructuredData(): string {
 
       // Awards and recognition (example - customize as needed)
       award: [
-        "Best CA Firm in Gurugram 2023",
+        "Best Tax Firm in Gurugram 2023",
         "Excellence in Tax Planning Services",
         "Top Rated Financial Advisory Firm Delhi NCR",
       ],
@@ -203,13 +203,13 @@ export function generateLocalBusinessStructuredData(): string {
       memberOf: [
         {
           "@type": "Organization",
-          name: "Institute of Chartered Accountants of India",
-          url: "https://icai.org",
+          name: "Federation of Indian Chambers of Commerce & Industry",
+          url: "https://ficci.in",
         },
         {
           "@type": "Organization",
-          name: "Federation of Indian Chambers of Commerce & Industry",
-          url: "https://ficci.in",
+          name: "Professional Tax Services Network",
+          url: "https://taxclusive.com",
         },
       ],
 
@@ -269,7 +269,7 @@ export function generateLocalServiceStructuredData(serviceDetails: {
         serviceSmsNumber: business.contact.phone,
       },
       category: "Professional Services",
-      serviceType: "Chartered Accountancy",
+      serviceType: "Tax and Financial Services",
       priceRange: business.priceRange,
       hoursAvailable: {
         "@type": "OpeningHoursSpecification",
@@ -297,15 +297,15 @@ export function generateLocalFAQStructuredData(): string {
           name: "Which areas in Delhi NCR do you serve?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "We provide chartered accountancy services across Delhi NCR including Gurugram, New Delhi, Noida, Ghaziabad, Faridabad, Greater Noida, Manesar, and surrounding areas. Our main office is located in Gurugram with easy access from all NCR locations.",
+            text: "We provide tax and financial services across Delhi NCR including Gurugram, New Delhi, Noida, Ghaziabad, Faridabad, Greater Noida, Manesar, and surrounding areas. Our main office is located in Gurugram with easy access from all NCR locations.",
           },
         },
         {
           "@type": "Question",
-          name: "Do you provide CA services in Gurugram?",
+          name: "Do you provide tax services in Gurugram?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "Yes, we are based in Gurugram and provide comprehensive chartered accountancy services including tax planning, GST compliance, audit services, and financial advisory to businesses and individuals in Gurugram and surrounding areas.",
+            text: "Yes, we are based in Gurugram and provide comprehensive tax and financial services including tax planning, GST compliance, audit services, and financial advisory to businesses and individuals in Gurugram and surrounding areas.",
           },
         },
         {
@@ -326,7 +326,7 @@ export function generateLocalFAQStructuredData(): string {
         },
         {
           "@type": "Question",
-          name: "What makes you the best CA firm in Delhi NCR?",
+          name: "What makes you the best tax firm in Delhi NCR?",
           acceptedAnswer: {
             "@type": "Answer",
             text: "With 35+ years of experience, 500+ satisfied clients, and deep expertise in Delhi NCR business landscape, we provide personalized service, timely compliance, and strategic tax planning. Our local presence and understanding of regional business challenges sets us apart.",

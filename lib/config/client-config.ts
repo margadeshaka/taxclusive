@@ -9,12 +9,12 @@ export const clientConfig = {
     name: "Taxclusive",
     tagline: "Your Trusted Financial Partner",
     description:
-      "Leading Chartered Accountancy firm in Gurugram providing expert tax planning, GST compliance, audit services & financial advisory. Trusted by 500+ clients across India.",
+      "Leading tax and financial services firm in Gurugram providing expert tax planning, GST compliance, audit services & financial advisory. Trusted by 500+ clients across India.",
     language: "en-IN",
   },
 
   business: {
-    legalName: "Taxclusive Chartered Accountants LLP",
+    legalName: "Taxclusive Financial Services LLP",
     displayName: "Taxclusive",
     phone: "+919782799042",
     email: "contact@taxclusive.com",

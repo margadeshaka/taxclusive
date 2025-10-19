@@ -78,11 +78,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "WebSite",
-              name: "Taxclusive - Expert Chartered Accountants Delhi NCR",
-              alternateName: ["Taxclusive CA Services", "Best CA in Gurugram"],
+              name: "Taxclusive - Expert Tax & Financial Services Delhi NCR",
+              alternateName: ["Taxclusive Tax Services", "Best Tax Firm in Gurugram"],
               url: "https://www.taxclusive.com",
               description:
-                "Leading Chartered Accountancy firm providing expert CA services across Delhi NCR - Gurugram, Delhi, Noida, Ghaziabad, Faridabad",
+                "Leading tax and financial services firm providing expert services across Delhi NCR - Gurugram, Delhi, Noida, Ghaziabad, Faridabad",
               inLanguage: "en-IN",
               potentialAction: [
                 {

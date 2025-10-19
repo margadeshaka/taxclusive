@@ -10,7 +10,7 @@ test.describe('Comprehensive User Journeys', () => {
       
       // Check hero section
       await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
-      await expect(page.getByText(/chartered accountancy/i)).toBeVisible();
+      await expect(page.getByText(/tax.*financial services/i)).toBeVisible();
 
       // 2. Navigate through services
       await page.getByRole('link', { name: /services/i }).click();
