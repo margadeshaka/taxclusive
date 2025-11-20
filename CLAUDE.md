@@ -62,6 +62,7 @@ ANALYZE=true pnpm build  # Analyze bundle size
 - **Styling**: Tailwind CSS + Shadcn UI components
 - **Database**: PostgreSQL with Prisma ORM
 - **Authentication**: NextAuth.js with credentials provider
+- **Bot Protection**: Google reCAPTCHA v3 for all forms
 - **Data Fetching**: SWR for client-side data fetching and caching
 - **Email**: AWS SES
 - **Testing**: Jest (unit), Playwright (E2E)
@@ -139,8 +140,26 @@ ANALYZE=true pnpm build  # Analyze bundle size
    - Client-side and server-side validation
    - Type-safe form data with Zod inference
 
+8. **Bot Protection with Google reCAPTCHA v3**
+   - Invisible reCAPTCHA v3 protection on all user-facing forms
+   - Client-side: `RecaptchaProvider` component wraps the entire app
+   - Custom hooks: `useRecaptchaForm` for form-level integration
+   - Server-side verification: `verifyRecaptcha` utility in `lib/recaptcha.ts`
+   - Protected forms:
+     - Newsletter subscription (action: `newsletter_signup`, threshold: 0.3)
+     - Contact forms (action: `contact_form`/`contact_message`, threshold: 0.5)
+     - Appointment booking (action: `appointment_booking`, threshold: 0.5)
+     - Query submission (action: `query_submission`, threshold: 0.5)
+     - Admin login (action: `admin_login`, threshold: 0.7)
+   - Score-based security: Higher scores (0.7+) for critical actions like login
+   - API routes validate tokens before processing requests
+   - Compliance: All forms display required Google reCAPTCHA disclosure text
+
 ### Critical Files & Their Purposes
-- `lib/auth.ts` - NextAuth configuration with JWT strategy and role injection
+- `lib/auth.ts` - NextAuth configuration with JWT strategy, role injection, and reCAPTCHA verification
+- `lib/recaptcha.ts` - Server-side reCAPTCHA v3 verification utility with score-based validation
+- `components/recaptcha-provider.tsx` - Client-side reCAPTCHA provider component
+- `hooks/use-recaptcha-form.ts` - Custom React hook for integrating reCAPTCHA with forms
 - `lib/api-client.ts` - Enhanced fetch wrapper with retry, timeout, interceptors, rate limiting
 - `lib/api/response-handler.ts` - Standardized API response formatting
 - `lib/config/website-config.ts` - Comprehensive configuration type definitions
@@ -154,14 +173,78 @@ ANALYZE=true pnpm build  # Analyze bundle size
 
 ### Environment Variables Required
 ```
-DATABASE_URL          # PostgreSQL connection string
-NEXTAUTH_URL          # Application URL (e.g., http://localhost:3000)
-NEXTAUTH_SECRET       # Secret for JWT encryption (generate with: openssl rand -base64 32)
-AWS_REGION            # AWS region for SES (e.g., us-east-1)
-AWS_ACCESS_KEY_ID     # AWS IAM credentials for SES
-AWS_SECRET_ACCESS_KEY # AWS IAM secret key
-AWS_SES_FROM_EMAIL    # Verified SES sender email address
+DATABASE_URL                      # PostgreSQL connection string
+NEXTAUTH_URL                      # Application URL (e.g., http://localhost:3000)
+NEXTAUTH_SECRET                   # Secret for JWT encryption (generate with: openssl rand -base64 32)
+NEXT_PUBLIC_RECAPTCHA_SITE_KEY    # Google reCAPTCHA v3 site key (public)
+RECAPTCHA_SECRET_KEY              # Google reCAPTCHA v3 secret key (server-side only)
+AWS_REGION                        # AWS region for SES (e.g., us-east-1)
+AWS_ACCESS_KEY_ID                 # AWS IAM credentials for SES
+AWS_SECRET_ACCESS_KEY             # AWS IAM secret key
+AWS_SES_FROM_EMAIL                # Verified SES sender email address
 ```
+
+### Setting Up Google reCAPTCHA v3
+
+1. **Get reCAPTCHA Keys**:
+   - Visit https://www.google.com/recaptcha/admin
+   - Register your site with reCAPTCHA v3
+   - Copy the Site Key (public) and Secret Key (private)
+
+2. **Configure Environment Variables**:
+   ```bash
+   # Add to .env.local
+   NEXT_PUBLIC_RECAPTCHA_SITE_KEY="your-site-key-here"
+   RECAPTCHA_SECRET_KEY="your-secret-key-here"
+   ```
+
+3. **How It Works**:
+   - **Client-side**: `RecaptchaProvider` in `app/layout.tsx` loads reCAPTCHA script globally
+   - **Form Integration**: Use `useRecaptchaForm` hook in any form component
+   - **Token Generation**: reCAPTCHA executes invisibly when form is submitted
+   - **Server Verification**: API routes verify tokens using `verifyRecaptcha` function
+   - **Score-based Decision**: Tokens include score (0.0-1.0) indicating bot likelihood
+
+4. **Security Thresholds**:
+   - **0.3**: Low-risk actions (newsletter signup)
+   - **0.5**: Moderate-risk actions (contact forms, appointments)
+   - **0.7+**: High-risk actions (admin login, payments)
+
+5. **Adding reCAPTCHA to New Forms**:
+   ```tsx
+   import { useRecaptchaForm } from '@/hooks/use-recaptcha-form';
+
+   function MyForm() {
+     const { executeRecaptchaForForm, isExecuting } = useRecaptchaForm({
+       action: 'my_form_action',
+       onError: (error) => console.error(error)
+     });
+
+     const handleSubmit = async (data) => {
+       const token = await executeRecaptchaForForm();
+       if (!token) return;
+
+       // Submit with token
+       await submitForm({ ...data, recaptchaToken: token });
+     };
+   }
+   ```
+
+6. **API Route Verification**:
+   ```ts
+   import { verifyRecaptcha } from '@/lib/recaptcha';
+
+   export async function POST(req: NextRequest) {
+     const { recaptchaToken, ...data } = await req.json();
+
+     const result = await verifyRecaptcha(recaptchaToken, 'my_form_action', 0.5);
+     if (!result.success) {
+       return NextResponse.json({ error: 'Verification failed' }, { status: 403 });
+     }
+
+     // Process request
+   }
+   ```
 
 ### Important Development Notes
 

@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { useRecaptchaForm } from "@/hooks/use-recaptcha-form"
 
 export default function AdminLogin() {
   const [email, setEmail] = useState("")
@@ -18,15 +19,33 @@ export default function AdminLogin() {
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
 
+  // Initialize reCAPTCHA for login form
+  const { executeRecaptchaForForm, isExecuting } = useRecaptchaForm({
+    action: 'admin_login',
+    onError: (error) => {
+      setError(error.message)
+    },
+  })
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
     setError("")
 
     try {
+      // Execute reCAPTCHA first
+      const recaptchaToken = await executeRecaptchaForForm()
+
+      if (!recaptchaToken) {
+        setError("Security verification failed. Please try again.")
+        setIsLoading(false)
+        return
+      }
+
       const result = await signIn("credentials", {
         email,
         password,
+        recaptchaToken,
         redirect: false,
       })
 
@@ -92,10 +111,31 @@ export default function AdminLogin() {
                 <AlertDescription>{error}</AlertDescription>
               </Alert>
             )}
-            <Button type="submit" className="w-full" disabled={isLoading}>
-              {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            <Button type="submit" className="w-full" disabled={isLoading || isExecuting}>
+              {(isLoading || isExecuting) && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Sign In
             </Button>
+            <p className="text-xs text-muted-foreground text-center">
+              This site is protected by reCAPTCHA and the Google{" "}
+              <a
+                href="https://policies.google.com/privacy"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary hover:underline"
+              >
+                Privacy Policy
+              </a>{" "}
+              and{" "}
+              <a
+                href="https://policies.google.com/terms"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary hover:underline"
+              >
+                Terms of Service
+              </a>{" "}
+              apply.
+            </p>
           </form>
         </CardContent>
       </Card>

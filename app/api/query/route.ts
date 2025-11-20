@@ -1,12 +1,31 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { sendEmail, formatQueryEmail } from "@/lib/email";
+import { verifyRecaptcha } from "@/lib/recaptcha";
 
 export async function POST(req: NextRequest) {
   try {
     // Parse the request body
     const body = await req.json();
-    const { fullName, email, phone, category, priority, subject, query, files } = body;
+    const { fullName, email, phone, category, priority, subject, query, files, recaptchaToken } = body;
+
+    // Verify reCAPTCHA token
+    const recaptchaResult = await verifyRecaptcha(
+      recaptchaToken,
+      'query_submission',
+      0.5 // Moderate security for query submissions
+    );
+
+    if (!recaptchaResult.success) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Security verification failed. Please try again.",
+          errors: { recaptcha: recaptchaResult.error || "reCAPTCHA verification failed" },
+        },
+        { status: 403 }
+      );
+    }
 
     // Validate required fields
     if (!fullName || !email || !category || !subject || !query) {

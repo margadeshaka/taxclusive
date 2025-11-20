@@ -15,6 +15,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useRecaptchaForm } from "@/hooks/use-recaptcha-form";
 import { useToast } from "@/hooks/use-toast";
 import { emailService } from "@/lib/email-client";
 import { newsletterSubscriptionSchema } from "@/lib/validation";
@@ -47,6 +48,18 @@ export default function NewsletterSubscription({ className }: { className?: stri
     },
   });
 
+  // Initialize reCAPTCHA for this form
+  const { executeRecaptchaForForm, isExecuting } = useRecaptchaForm({
+    action: 'newsletter_signup',
+    onError: (error) => {
+      toast({
+        title: "Security verification failed",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+
   /**
    * Handles the form submission for newsletter subscription
    *
@@ -58,8 +71,24 @@ export default function NewsletterSubscription({ className }: { className?: stri
     setIsSubmitting(true);
 
     try {
-      // Submit using email service
-      const result = await emailService.submitNewsletterForm(data);
+      // Execute reCAPTCHA first
+      const recaptchaToken = await executeRecaptchaForForm();
+
+      if (!recaptchaToken) {
+        toast({
+          title: "Security verification failed",
+          description: "Please try again. If the problem persists, contact support.",
+          variant: "destructive",
+        });
+        setIsSubmitting(false);
+        return;
+      }
+
+      // Submit using email service with reCAPTCHA token
+      const result = await emailService.submitNewsletterForm({
+        ...data,
+        recaptchaToken,
+      });
 
       if (result.success) {
         // Show success message
@@ -123,8 +152,8 @@ export default function NewsletterSubscription({ className }: { className?: stri
                       aria-required="true"
                     />
                   </FormControl>
-                  <Button type="submit" disabled={isSubmitting}>
-                    {isSubmitting ? (
+                  <Button type="submit" disabled={isSubmitting || isExecuting}>
+                    {isSubmitting || isExecuting ? (
                       <>
                         <Loader className="h-4 w-4 animate-spin" />
                       </>
@@ -143,6 +172,25 @@ export default function NewsletterSubscription({ className }: { className?: stri
               Privacy Policy
             </a>{" "}
             and consent to receive updates from our company.
+            This site is protected by reCAPTCHA and the Google{" "}
+            <a
+              href="https://policies.google.com/privacy"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary hover:underline"
+            >
+              Privacy Policy
+            </a>{" "}
+            and{" "}
+            <a
+              href="https://policies.google.com/terms"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary hover:underline"
+            >
+              Terms of Service
+            </a>{" "}
+            apply.
           </p>
         </form>
       </Form>

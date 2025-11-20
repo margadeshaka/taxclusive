@@ -5,6 +5,7 @@ import { useState } from "react";
 
 import Footer from "@/components/footer";
 import Header from "@/components/header";
+import { useRecaptchaForm } from "@/hooks/use-recaptcha-form";
 import { emailService } from "@/lib/email-client";
 
 export default function AskQueryPage() {
@@ -13,9 +14,40 @@ export default function AskQueryPage() {
     success: false,
     message: "",
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  async function handleSubmit(formData: FormData) {
+  // Initialize reCAPTCHA for query submission
+  const { executeRecaptchaForForm, isExecuting } = useRecaptchaForm({
+    action: 'query_submission',
+    onError: (error) => {
+      setFormStatus({
+        submitted: true,
+        success: false,
+        message: error.message,
+      });
+    },
+  });
+
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setIsSubmitting(true);
+    setFormStatus({ submitted: false, success: false, message: "" });
+
     try {
+      // Execute reCAPTCHA first
+      const recaptchaToken = await executeRecaptchaForForm();
+
+      if (!recaptchaToken) {
+        setFormStatus({
+          submitted: true,
+          success: false,
+          message: "Security verification failed. Please try again.",
+        });
+        setIsSubmitting(false);
+        return;
+      }
+
+      const formData = new FormData(event.currentTarget);
       const fileInput = formData.get("file-upload") as File;
       const files = fileInput && fileInput.name !== "undefined" ? [fileInput.name] : [];
 
@@ -28,6 +60,7 @@ export default function AskQueryPage() {
         subject: formData.get("subject") as string,
         query: formData.get("query") as string,
         files,
+        recaptchaToken,
       };
 
       const result = await emailService.submitQueryForm(data);
@@ -36,12 +69,19 @@ export default function AskQueryPage() {
         success: result.success,
         message: result.message,
       });
+
+      // Reset form on success
+      if (result.success) {
+        (event.target as HTMLFormElement).reset();
+      }
     } catch (error) {
       setFormStatus({
         submitted: true,
         success: false,
         message: "An unexpected error occurred. Please try again later.",
       });
+    } finally {
+      setIsSubmitting(false);
     }
   }
 
@@ -171,7 +211,7 @@ export default function AskQueryPage() {
                 </div>
               )}
 
-              <form action={handleSubmit} className="space-y-6">
+              <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="space-y-2">
                   <label
                     htmlFor="full-name"
@@ -341,13 +381,35 @@ export default function AskQueryPage() {
 
                 <button
                   type="submit"
+                  disabled={isSubmitting || isExecuting}
                   className="inline-flex h-10 w-full items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
                 >
-                  Submit Query
+                  {isSubmitting || isExecuting ? "Submitting..." : "Submit Query"}
                 </button>
 
                 <p className="text-xs text-muted-foreground text-center">
                   Fields marked with <span className="text-red-500">*</span> are required
+                </p>
+                <p className="text-xs text-muted-foreground text-center">
+                  This site is protected by reCAPTCHA and the Google{" "}
+                  <a
+                    href="https://policies.google.com/privacy"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary hover:underline"
+                  >
+                    Privacy Policy
+                  </a>{" "}
+                  and{" "}
+                  <a
+                    href="https://policies.google.com/terms"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary hover:underline"
+                  >
+                    Terms of Service
+                  </a>{" "}
+                  apply.
                 </p>
               </form>
             </div>

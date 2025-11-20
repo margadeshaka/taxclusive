@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { useRecaptchaForm } from "@/hooks/use-recaptcha-form";
 import { useToast } from "@/hooks/use-toast";
 import { emailService } from "@/lib/email-client";
 import { simpleContactFormSchema } from "@/lib/validation";
@@ -41,12 +42,40 @@ export default function ContactSection() {
     },
   });
 
+  // Initialize reCAPTCHA for this form
+  const { executeRecaptchaForForm, isExecuting } = useRecaptchaForm({
+    action: 'contact_message',
+    onError: (error) => {
+      toast({
+        title: "Security verification failed",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+
   async function onSubmit(data: FormValues) {
     setIsSubmitting(true);
 
     try {
-      // Submit the form using the email service
-      const result = await emailService.submitMessageForm(data);
+      // Execute reCAPTCHA first
+      const recaptchaToken = await executeRecaptchaForForm();
+
+      if (!recaptchaToken) {
+        toast({
+          title: "Security verification failed",
+          description: "Please try again. If the problem persists, contact support.",
+          variant: "destructive",
+        });
+        setIsSubmitting(false);
+        return;
+      }
+
+      // Submit the form using the email service with reCAPTCHA token
+      const result = await emailService.submitMessageForm({
+        ...data,
+        recaptchaToken,
+      });
 
       if (result.success) {
         // Show success message
@@ -203,8 +232,8 @@ export default function ContactSection() {
                     </FormItem>
                   )}
                 />
-                <Button type="submit" className="w-full" disabled={isSubmitting}>
-                  {isSubmitting ? (
+                <Button type="submit" className="w-full" disabled={isSubmitting || isExecuting}>
+                  {isSubmitting || isExecuting ? (
                     <>
                       <Loader className="mr-2 h-4 w-4 animate-spin" />
                       Sending...
@@ -213,6 +242,27 @@ export default function ContactSection() {
                     "Send Message"
                   )}
                 </Button>
+                <p className="text-xs text-muted-foreground">
+                  This site is protected by reCAPTCHA and the Google{" "}
+                  <a
+                    href="https://policies.google.com/privacy"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary hover:underline"
+                  >
+                    Privacy Policy
+                  </a>{" "}
+                  and{" "}
+                  <a
+                    href="https://policies.google.com/terms"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary hover:underline"
+                  >
+                    Terms of Service
+                  </a>{" "}
+                  apply.
+                </p>
               </form>
             </Form>
           </div>

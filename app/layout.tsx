@@ -6,6 +6,7 @@ import Script from "next/script";
 import type React from "react";
 
 import ContactButtons from "@/components/contact-buttons";
+import { RecaptchaProvider } from "@/components/recaptcha-provider";
 import { ErrorBoundary } from "@/components/shared";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
@@ -56,9 +57,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Analytics/>
           <SpeedInsights/>
           <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
-            {children}
-            <ContactButtons />
-            <Toaster />
+            <RecaptchaProvider>
+              {children}
+              <ContactButtons />
+              <Toaster />
+            </RecaptchaProvider>
           </ThemeProvider>
         </ErrorBoundary>
         {/* Enhanced Local Business Structured Data */}

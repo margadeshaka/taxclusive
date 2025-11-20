@@ -3,6 +3,7 @@ import { useState } from "react";
 
 import Footer from "@/components/footer";
 import Header from "@/components/header";
+import { useRecaptchaForm } from "@/hooks/use-recaptcha-form";
 import { emailService } from "@/lib/email-client";
 
 export default function AppointmentPage() {
@@ -11,9 +12,40 @@ export default function AppointmentPage() {
     success: false,
     message: "",
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  async function handleSubmit(formData: FormData) {
+  // Initialize reCAPTCHA for appointment booking
+  const { executeRecaptchaForForm, isExecuting } = useRecaptchaForm({
+    action: 'appointment_booking',
+    onError: (error) => {
+      setFormStatus({
+        submitted: true,
+        success: false,
+        message: error.message,
+      });
+    },
+  });
+
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setIsSubmitting(true);
+    setFormStatus({ submitted: false, success: false, message: "" });
+
     try {
+      // Execute reCAPTCHA first
+      const recaptchaToken = await executeRecaptchaForForm();
+
+      if (!recaptchaToken) {
+        setFormStatus({
+          submitted: true,
+          success: false,
+          message: "Security verification failed. Please try again.",
+        });
+        setIsSubmitting(false);
+        return;
+      }
+
+      const formData = new FormData(event.currentTarget);
       const fullName = formData.get("full-name") as string;
       const nameParts = fullName.split(" ");
       const firstName = nameParts[0];
@@ -29,6 +61,7 @@ export default function AppointmentPage() {
         time: formData.get("preferred-time") as string,
         meetingType: formData.get("meeting-type") as string,
         message: formData.get("message") as string,
+        recaptchaToken,
       };
 
       const result = await emailService.submitAppointmentForm(data);
@@ -37,12 +70,19 @@ export default function AppointmentPage() {
         success: result.success,
         message: result.message,
       });
+
+      // Reset form on success
+      if (result.success) {
+        (event.target as HTMLFormElement).reset();
+      }
     } catch (error) {
       setFormStatus({
         submitted: true,
         success: false,
         message: "An unexpected error occurred. Please try again later.",
       });
+    } finally {
+      setIsSubmitting(false);
     }
   }
 
@@ -75,7 +115,7 @@ export default function AppointmentPage() {
                 </div>
               )}
 
-              <form action={handleSubmit} className="space-y-6">
+              <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="space-y-2">
                   <label htmlFor="full-name" className="text-sm font-medium leading-none">
                     Full Name <span className="text-red-500">*</span>
@@ -210,17 +250,36 @@ export default function AppointmentPage() {
 
                 <button
                   type="submit"
-                  className="inline-flex h-10 w-full items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90"
+                  disabled={isSubmitting || isExecuting}
+                  className="inline-flex h-10 w-full items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
                 >
-                  Book Appointment
+                  {isSubmitting || isExecuting ? "Booking..." : "Book Appointment"}
                 </button>
 
-                {/* <p className="text-xs text-muted-foreground text-center">
-                  By booking an appointment, you agree to our{" "}
-                  <Link href="/terms" className="text-primary hover:underline">Terms of Service</Link>{" "}
+                <p className="text-xs text-muted-foreground text-center">
+                  Fields marked with <span className="text-red-500">*</span> are required
+                </p>
+                <p className="text-xs text-muted-foreground text-center">
+                  This site is protected by reCAPTCHA and the Google{" "}
+                  <a
+                    href="https://policies.google.com/privacy"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary hover:underline"
+                  >
+                    Privacy Policy
+                  </a>{" "}
                   and{" "}
-                  <Link href="/privacy" className="text-primary hover:underline">Privacy Policy</Link>.
-                </p> */}
+                  <a
+                    href="https://policies.google.com/terms"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary hover:underline"
+                  >
+                    Terms of Service
+                  </a>{" "}
+                  apply.
+                </p>
               </form>
             </div>
           </div>

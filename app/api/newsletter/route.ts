@@ -1,12 +1,31 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { sendEmail, formatNewsletterEmail } from "@/lib/email";
+import { verifyRecaptcha } from "@/lib/recaptcha";
 
 export async function POST(req: NextRequest) {
   try {
     // Parse the request body
     const body = await req.json();
-    const { email } = body;
+    const { email, recaptchaToken } = body;
+
+    // Verify reCAPTCHA token
+    const recaptchaResult = await verifyRecaptcha(
+      recaptchaToken,
+      'newsletter_signup',
+      0.3 // Low-risk action, lower threshold
+    );
+
+    if (!recaptchaResult.success) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Security verification failed. Please try again.",
+          errors: { recaptcha: recaptchaResult.error || "reCAPTCHA verification failed" },
+        },
+        { status: 403 }
+      );
+    }
 
     // Validate required fields
     if (!email) {
