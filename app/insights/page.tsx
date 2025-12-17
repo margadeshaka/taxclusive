@@ -1,41 +1,10 @@
-"use client";
-
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
 
 import Footer from "@/components/footer";
 import Header from "@/components/header";
-import { emailService } from "@/lib/email-client";
 
 export default function InsightsPage() {
-  const [formStatus, setFormStatus] = useState({
-    submitted: false,
-    success: false,
-    message: "",
-  });
-
-  async function handleSubmit(formData: FormData) {
-    try {
-      const data = {
-        email: formData.get("email") as string,
-      };
-
-      const result = await emailService.submitNewsletterForm(data);
-      setFormStatus({
-        submitted: true,
-        success: result.success,
-        message: result.message,
-      });
-    } catch (error) {
-      setFormStatus({
-        submitted: true,
-        success: false,
-        message: "An unexpected error occurred. Please try again later.",
-      });
-    }
-  }
-
   return (
     <div className="flex min-h-screen flex-col">
       <Header />
@@ -375,46 +344,6 @@ export default function InsightsPage() {
                       </Link>
                     </div>
                   </div> */}
-                  <div className="rounded-lg border bg-background p-6 shadow-sm">
-                    <h3 className="text-lg font-bold mb-4">Subscribe to Our Newsletter</h3>
-                    <p className="text-muted-foreground mb-4">
-                      Stay updated with our latest insights and news. Subscribe to our newsletter
-                      for regular updates.
-                    </p>
-
-                    {formStatus.submitted && (
-                      <div
-                        className={`p-4 mb-6 rounded-md ${formStatus.success ? "bg-green-50 border border-green-200 text-green-800" : "bg-red-50 border border-red-200 text-red-800"}`}
-                      >
-                        <p className="text-sm font-medium">{formStatus.message}</p>
-                      </div>
-                    )}
-
-                    <form action={handleSubmit} className="space-y-4">
-                      <div className="space-y-2">
-                        <label
-                          htmlFor="email"
-                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                        >
-                          Email
-                        </label>
-                        <input
-                          id="email"
-                          name="email"
-                          type="email"
-                          className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                          placeholder="Enter your email"
-                          required
-                        />
-                      </div>
-                      <button
-                        type="submit"
-                        className="inline-flex h-10 w-full items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
-                      >
-                        Subscribe
-                      </button>
-                    </form>
-                  </div>
                   <div className="rounded-lg border bg-primary/10 p-6 shadow-sm">
                     <h3 className="text-lg font-bold mb-4">Need Financial Guidance?</h3>
                     <p className="text-muted-foreground mb-4">

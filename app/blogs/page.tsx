@@ -5,7 +5,6 @@ import Link from "next/link";
 
 import Footer from "@/components/footer";
 import Header from "@/components/header";
-import NewsletterSubscription from "@/components/newsletter-subscription";
 import { fetchAllBlogs } from "@/lib/api/blogs";
 import { formatDate, calculateReadingTime } from "@/lib/date-utils";
 import { generateMetadata as generatePageMetadata } from "@/lib/metadata";
@@ -174,25 +173,9 @@ export default async function BlogsPage() {
           </div>
         </section>
 
-        {/* Call to action */}
-        <section className="w-full py-16">
-          <div className="container px-4 md:px-6">
-            <div className="text-center p-12 bg-primary/5 rounded-sm border border-primary/20">
-              <h2 className="text-2xl font-semibold mb-4">Stay Updated</h2>
-              <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
-                Don&apos;t miss out on the latest tax updates, financial tips, and business insights. 
-                Subscribe to our newsletter for expert advice delivered to your inbox.
-              </p>
-              <Link href="#newsletter" className="minimal-button-primary">
-                Subscribe to Newsletter
-              </Link>
-            </div>
-          </div>
-        </section>
       </main>
-      
+
       <Footer />
-      <NewsletterSubscription />
     </div>
   );
 }

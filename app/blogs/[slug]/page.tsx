@@ -7,7 +7,6 @@ import { notFound } from "next/navigation";
 import Footer from "@/components/footer";
 import Header from "@/components/header";
 import { MarkdownRenderer } from "@/components/markdown-renderer";
-import NewsletterSubscription from "@/components/newsletter-subscription";
 import { ConsistentButton } from "@/components/ui/consistent-button";
 import { fetchBlogBySlug, fetchAllBlogs } from "@/lib/api/blogs";
 import { formatDate, calculateReadingTime } from "@/lib/date-utils";
@@ -191,12 +190,6 @@ export default async function BlogPost({ params }: BlogPageProps) {
             </div>
           </section>
 
-          {/* Newsletter subscription */}
-          <section className="w-full py-12 md:py-16 lg:py-20">
-            <div className="container px-4 md:px-6">
-              <NewsletterSubscription />
-            </div>
-          </section>
         </main>
         
         <Footer />

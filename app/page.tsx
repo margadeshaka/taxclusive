@@ -19,9 +19,6 @@ const ExpertiseSection = dynamicImport(
 );
 const InsightsSection = dynamicImport(() => import("@/components/features/home/insights-section"));
 const ContactSection = dynamicImport(() => import("@/components/features/home/contact-section"));
-const NewsletterSubscription = dynamicImport(() => import("@/components/newsletter-subscription"), {
-  loading: () => <div className="w-full py-12 animate-pulse"></div>,
-});
 
 export default function Home() {
   return (
@@ -35,11 +32,6 @@ export default function Home() {
         <ExpertiseSection />
         <InsightsSection />
         <ContactSection />
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-muted">
-          <div className="container px-4 md:px-6">
-            <NewsletterSubscription />
-          </div>
-        </section>
       </main>
       <Footer />
 
