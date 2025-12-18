@@ -89,7 +89,6 @@ prisma/migrations/dev
 *.old
 
 # Package manager
-pnpm-lock.yaml
 package-lock.json
 yarn.lock
 
