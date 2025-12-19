@@ -39,9 +39,9 @@ export async function verifyRecaptcha(
 ): Promise<RecaptchaVerificationResult> {
   const secretKey = process.env.RECAPTCHA_SECRET_KEY;
 
-  // Skip reCAPTCHA in development if not configured or token is missing
+  // Skip reCAPTCHA in development if not configured, token is missing, or dev token is used
   if (process.env.NODE_ENV === 'development') {
-    if (!secretKey || !token) {
+    if (!secretKey || !token || token === 'dev-token-skip-verification') {
       console.warn('reCAPTCHA: Skipping verification in development mode');
       return {
         success: true,
