@@ -39,6 +39,18 @@ export async function verifyRecaptcha(
 ): Promise<RecaptchaVerificationResult> {
   const secretKey = process.env.RECAPTCHA_SECRET_KEY;
 
+  // Skip reCAPTCHA in development if not configured or token is missing
+  if (process.env.NODE_ENV === 'development') {
+    if (!secretKey || !token) {
+      console.warn('reCAPTCHA: Skipping verification in development mode');
+      return {
+        success: true,
+        score: 1.0,
+        action: expectedAction,
+      };
+    }
+  }
+
   // Validate environment configuration
   if (!secretKey) {
     console.error('reCAPTCHA: RECAPTCHA_SECRET_KEY is not configured');
@@ -74,6 +86,9 @@ export async function verifyRecaptcha(
     }
 
     const data: RecaptchaVerificationResponse = await response.json();
+
+    // Debug logging
+    console.log('reCAPTCHA verification response:', JSON.stringify(data, null, 2));
 
     // Check if verification was successful
     if (!data.success) {

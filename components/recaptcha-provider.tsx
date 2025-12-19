@@ -37,6 +37,8 @@ export function RecaptchaProvider({ children }: RecaptchaProviderProps) {
 
   useEffect(() => {
     // Check if reCAPTCHA is configured
+    console.log('reCAPTCHA Provider: siteKey =', siteKey ? siteKey.substring(0, 10) + '...' : 'NOT SET');
+
     if (!siteKey) {
       console.error('reCAPTCHA: NEXT_PUBLIC_RECAPTCHA_SITE_KEY is not configured');
       return;
@@ -57,13 +59,15 @@ export function RecaptchaProvider({ children }: RecaptchaProviderProps) {
     script.defer = true;
 
     script.onload = () => {
+      console.log('reCAPTCHA script loaded successfully');
       window.grecaptcha.ready(() => {
+        console.log('reCAPTCHA is ready');
         setIsReady(true);
       });
     };
 
-    script.onerror = () => {
-      console.error('Failed to load reCAPTCHA script');
+    script.onerror = (e) => {
+      console.error('Failed to load reCAPTCHA script:', e);
     };
 
     document.head.appendChild(script);

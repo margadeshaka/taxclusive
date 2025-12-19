@@ -43,6 +43,7 @@ export class EmailService {
     phone: string;
     subject: string;
     message: string;
+    recaptchaToken?: string;
   }): Promise<EmailServiceResponse> {
     // Validate required fields
     if (
@@ -120,6 +121,7 @@ export class EmailService {
     time: string;
     meetingType: string;
     message?: string;
+    recaptchaToken?: string;
   }): Promise<EmailServiceResponse> {
     // Validate required fields
     if (
@@ -209,6 +211,7 @@ export class EmailService {
    */
   async submitNewsletterForm(formData: {
     email: string;
+    recaptchaToken?: string;
   }): Promise<EmailServiceResponse> {
     // Validate required fields
     if (!formData.email) {
@@ -274,6 +277,7 @@ export class EmailService {
     subject: string;
     query: string;
     files?: string[];
+    recaptchaToken?: string;
   }): Promise<EmailServiceResponse> {
     // Validate required fields
     if (
@@ -348,6 +352,7 @@ export class EmailService {
     phone?: string;
     subject: string;
     message: string;
+    recaptchaToken?: string;
   }): Promise<EmailServiceResponse> {
     // Validate required fields
     if (!formData.name || !formData.email || !formData.subject || !formData.message) {

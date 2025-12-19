@@ -46,6 +46,30 @@ export interface EmailData {
  * @returns A promise that resolves when the email is sent
  */
 export async function sendEmail(data: EmailData): Promise<void> {
+  // Skip email sending in development mode if AWS credentials are not properly configured
+  if (process.env.NODE_ENV === 'development') {
+    const accessKey = process.env.AWS_ACCESS_KEY_ID || '';
+    const secretKey = process.env.AWS_SECRET_ACCESS_KEY || '';
+
+    // Check if credentials are missing or are placeholder values
+    const isPlaceholder = (val: string) =>
+      !val ||
+      val.includes('your-') ||
+      val === 'AKIA...' ||
+      val.length < 16;
+
+    if (isPlaceholder(accessKey) || isPlaceholder(secretKey)) {
+      console.log('=== Development Mode: Email would be sent ===');
+      console.log('To:', emailRecipient.email);
+      console.log('From:', emailSender.email);
+      console.log('Subject:', data.subject);
+      console.log('Reply-To:', data.replyTo || 'none');
+      console.log('Text Preview:', data.text.substring(0, 200) + '...');
+      console.log('==============================================');
+      return;
+    }
+  }
+
   try {
     const params = {
       Destination: {
