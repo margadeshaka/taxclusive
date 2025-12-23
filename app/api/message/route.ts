@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
     const recaptchaResult = await verifyRecaptcha(
       recaptchaToken,
       'contact_message',
-      0.5 // Moderate security for contact forms
+      0.3 // Lower threshold to reduce false positives
     );
 
     if (!recaptchaResult.success) {

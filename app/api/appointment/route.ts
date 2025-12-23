@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
     const recaptchaResult = await verifyRecaptcha(
       recaptchaToken,
       'appointment_booking',
-      0.5 // Moderate security for appointment bookings
+      0.3 // Lower threshold to reduce false positives
     );
 
     if (!recaptchaResult.success) {

@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
     const recaptchaResult = await verifyRecaptcha(
       recaptchaToken,
       'query_submission',
-      0.5 // Moderate security for query submissions
+      0.3 // Lower threshold to reduce false positives
     );
 
     if (!recaptchaResult.success) {
