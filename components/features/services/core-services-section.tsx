@@ -20,6 +20,7 @@ const coreServices = [
       { text: "International taxation" },
       { text: "Tax compliance" },
     ],
+    href: "/services/tax-planning",
   },
   {
     icon: BarChart,
@@ -31,6 +32,7 @@ const coreServices = [
       { text: "Internal control assessments" },
       { text: "Compliance audits" },
     ],
+    href: "/services/audit-assurance",
   },
   {
     icon: PieChart,
@@ -42,6 +44,7 @@ const coreServices = [
       { text: "Investment advisory" },
       { text: "Risk management" },
     ],
+    href: "/services/financial-advisory",
   },
   {
     icon: Calculator,

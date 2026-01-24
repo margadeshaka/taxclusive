@@ -1,4 +1,4 @@
-import { Calculator, FileText, TrendingUp, Building, Users, ShieldCheck } from "lucide-react";
+import { Calculator, FileText, TrendingUp, Building, Users, ShieldCheck, ArrowRight } from "lucide-react";
 import Link from "next/link";
 
 import { ConsistentButton } from "@/components/ui/consistent-button";
@@ -9,37 +9,42 @@ const services = [
     icon: Calculator,
     title: "Income Tax Services",
     description: "Complete income tax planning, filing, and compliance services for individuals and businesses.",
-    features: ["Tax Return Filing", "Tax Planning", "Appeals & Assessments", "Advance Tax Calculation"]
+    features: ["Tax Return Filing", "Tax Planning", "Appeals & Assessments", "Advance Tax Calculation"],
+    href: "/services/tax-planning",
   },
   {
     icon: FileText,
     title: "GST Services",
     description: "End-to-end GST registration, filing, and compliance management.",
-    features: ["GST Registration", "Monthly/Quarterly Filing", "Input Tax Credit", "GST Audit"]
+    features: ["GST Registration", "Monthly/Quarterly Filing", "Input Tax Credit", "GST Audit"],
+    href: "/services/gst-compliance",
   },
   {
     icon: Building,
     title: "Company Formation",
     description: "Complete assistance in company incorporation and regulatory compliance.",
-    features: ["Private Limited Company", "LLP Formation", "Partnership Firms", "Proprietorship"]
+    features: ["Private Limited Company", "LLP Formation", "Partnership Firms", "Proprietorship"],
+    href: "/services/business-registration",
   },
   {
     icon: TrendingUp,
     title: "Financial Advisory",
     description: "Strategic financial planning and investment advisory services.",
-    features: ["Investment Planning", "Retirement Planning", "Insurance Advisory", "Wealth Management"]
+    features: ["Investment Planning", "Retirement Planning", "Insurance Advisory", "Wealth Management"],
+    href: "/services/financial-advisory",
   },
   {
     icon: ShieldCheck,
     title: "Audit & Assurance",
     description: "Independent audit services to ensure financial accuracy and compliance.",
-    features: ["Statutory Audit", "Internal Audit", "Tax Audit", "Concurrent Audit"]
+    features: ["Statutory Audit", "Internal Audit", "Tax Audit", "Concurrent Audit"],
+    href: "/services/audit-assurance",
   },
   {
     icon: Users,
     title: "Bookkeeping",
     description: "Professional bookkeeping and accounting services for small to medium businesses.",
-    features: ["Daily Bookkeeping", "Financial Statements", "Payroll Management", "Expense Tracking"]
+    features: ["Daily Bookkeeping", "Financial Statements", "Payroll Management", "Expense Tracking"],
   }
 ];
 
@@ -63,19 +68,19 @@ export default function ServicesSection() {
         <div className={`grid ${SPACING.gap.lg} md:grid-cols-2 lg:grid-cols-3`}>
           {services.map((service, index) => {
             const Icon = service.icon;
-            return (
-              <div key={index} className="minimal-card animate-fade-in">
+            const cardContent = (
+              <>
                 <div className={`flex items-center ${SPACING.gap.sm} mb-4`}>
                   <div className="flex h-12 w-12 items-center justify-center rounded-sm bg-primary text-primary-foreground">
                     <Icon className="h-6 w-6" />
                   </div>
                   <h3 className="text-xl font-semibold">{service.title}</h3>
                 </div>
-                
+
                 <p className="text-muted-foreground mb-6 leading-relaxed">
                   {service.description}
                 </p>
-                
+
                 <div className="space-y-2">
                   <div className="text-sm font-medium text-foreground mb-3">Key Services:</div>
                   <ul className="space-y-1">
@@ -87,6 +92,26 @@ export default function ServicesSection() {
                     ))}
                   </ul>
                 </div>
+
+                {service.href && (
+                  <div className="mt-4 flex items-center text-primary font-medium text-sm group-hover:underline">
+                    Learn More <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </div>
+                )}
+              </>
+            );
+
+            if (service.href) {
+              return (
+                <Link key={index} href={service.href} className="minimal-card animate-fade-in group block">
+                  {cardContent}
+                </Link>
+              );
+            }
+
+            return (
+              <div key={index} className="minimal-card animate-fade-in">
+                {cardContent}
               </div>
             );
           })}
