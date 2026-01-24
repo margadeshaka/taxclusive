@@ -44,12 +44,13 @@ export async function generateMetadata({ params }: BlogPageProps): Promise<Metad
 
     return generateBlogMetadata({
       title: blog.title,
-      description: blog.excerpt || blog.content?.substring(0, 160) + "...",
-      image: blog.featured_image?.url,
-      url: `https://taxexclusive.com/blogs/${slug}`,
-      publishedTime: blog.published_at,
-      authorName: blog.author?.name || "Taxclusive Team",
-      tags: blog.tags?.map((tag: { name: string }) => tag.name),
+      description: blog.excerpt || blog.content?.substring(0, 160),
+      image: blog.coverImage,
+      type: "article",
+      canonical: `/blogs/${slug}`,
+      publishedTime: blog.publishedAt?.toISOString(),
+      author: blog.author?.name || "Taxclusive Team",
+      keywords: blog.tags?.map((tag: { name: string }) => tag.name),
     });
   } catch (error) {
     return {

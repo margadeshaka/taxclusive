@@ -42,10 +42,14 @@ export default function ServicesPage() {
           },
           description:
             "Comprehensive accounting, taxation, and financial advisory services tailored to meet your unique needs.",
-          areaServed: {
-            "@type": "Country",
-            name: "United States",
-          },
+          areaServed: [
+            { "@type": "City", name: "Gurugram" },
+            { "@type": "City", name: "Delhi" },
+            { "@type": "City", name: "Noida" },
+            { "@type": "City", name: "Ghaziabad" },
+            { "@type": "City", name: "Faridabad" },
+            { "@type": "City", name: "Greater Noida" },
+          ],
           hasOfferCatalog: {
             "@type": "OfferCatalog",
             name: "Financial Services",
