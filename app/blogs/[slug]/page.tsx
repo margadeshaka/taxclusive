@@ -10,7 +10,7 @@ import { MarkdownRenderer } from "@/components/markdown-renderer";
 import { ConsistentButton } from "@/components/ui/consistent-button";
 import { fetchBlogBySlug, fetchAllBlogs } from "@/lib/api/blogs";
 import { formatDate, calculateReadingTime } from "@/lib/date-utils";
-import { generateMetadata as generateBlogMetadata } from "@/lib/metadata";
+import { generateMetadata as generateBlogMetadata, generateArticleStructuredData } from "@/lib/metadata";
 
 interface BlogPageProps {
   params: Promise<{ slug: string }>;
@@ -43,14 +43,18 @@ export async function generateMetadata({ params }: BlogPageProps): Promise<Metad
     }
 
     return generateBlogMetadata({
-      title: blog.title,
-      description: blog.excerpt || blog.content?.substring(0, 160),
-      image: blog.coverImage,
+      title: blog.metaTitle || blog.title,
+      description: blog.metaDescription || blog.excerpt || blog.content?.substring(0, 160),
+      image: blog.ogImage || blog.coverImage,
       type: "article",
       canonical: `/blogs/${slug}`,
-      publishedTime: blog.publishedAt?.toISOString(),
+      publishedTime: blog.publishedAt?.toISOString?.() || blog.published_at,
+      modifiedTime: blog.updatedAt?.toISOString?.() || blog.updated_at,
       author: blog.author?.name || "Taxclusive Team",
-      keywords: blog.tags?.map((tag: { name: string }) => tag.name),
+      keywords: [
+        ...(blog.focusKeyword ? [blog.focusKeyword] : []),
+        ...(blog.tags?.map((tag: { name: string }) => tag.name) || []),
+      ],
     });
   } catch (error) {
     return {
@@ -71,12 +75,27 @@ export default async function BlogPost({ params }: BlogPageProps) {
 
     const publishedDate = formatDate(blog.published_at);
     const readingTime = calculateReadingTime(blog.content || '');
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.taxclusive.com";
 
     return (
       <div className="flex min-h-screen flex-col">
         <Header />
-        
+
         <main className="flex-1">
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: generateArticleStructuredData({
+                title: blog.title,
+                description: blog.excerpt || blog.content?.substring(0, 160) || "",
+                author: blog.author?.name || "Taxclusive Team",
+                publishedTime: blog.published_at || new Date().toISOString(),
+                modifiedTime: blog.updated_at,
+                image: blog.coverImage,
+                url: `${baseUrl}/blogs/${slug}`,
+              }),
+            }}
+          />
           <article className="w-full py-12 md:py-16 lg:py-20">
             <div className="container px-4 md:px-6">
               <div className="mx-auto max-w-4xl">
