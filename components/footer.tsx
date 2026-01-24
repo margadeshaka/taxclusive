@@ -25,7 +25,7 @@ export default function Footer() {
         Footer
       </h2>
       <div className="container py-12 md:py-16">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-5">
           <div className="space-y-4">
             <Image src={getLogoSrc()} alt="Taxclusive Logo" width={250} height={100} />
             <p className="text-sm text-muted-foreground max-w-xs">
@@ -100,15 +100,23 @@ export default function Footer() {
             <ul className="space-y-2">
               <li>
                 <Link
-                  href="/services"
+                  href="/services/tax-planning"
                   className="text-sm text-muted-foreground hover:text-primary transition-colors"
                 >
-                  Taxation Services
+                  Tax Planning
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/services"
+                  href="/services/gst-compliance"
+                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                >
+                  GST Compliance
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/services/audit-assurance"
                   className="text-sm text-muted-foreground hover:text-primary transition-colors"
                 >
                   Audit & Assurance
@@ -116,34 +124,71 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/services"
+                  href="/services/business-registration"
+                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                >
+                  Business Registration
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/services/financial-advisory"
                   className="text-sm text-muted-foreground hover:text-primary transition-colors"
                 >
                   Financial Advisory
                 </Link>
               </li>
+            </ul>
+          </div>
+          <div>
+            <h3 className="text-sm font-semibold mb-4">Locations</h3>
+            <ul className="space-y-2">
               <li>
                 <Link
-                  href="/services"
+                  href="/locations/gurugram"
                   className="text-sm text-muted-foreground hover:text-primary transition-colors"
                 >
-                  Bookkeeping
+                  Gurugram
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/services"
+                  href="/locations/delhi"
                   className="text-sm text-muted-foreground hover:text-primary transition-colors"
                 >
-                  Payroll Services
+                  Delhi
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/services"
+                  href="/locations/noida"
                   className="text-sm text-muted-foreground hover:text-primary transition-colors"
                 >
-                  Business Consulting
+                  Noida
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/locations/ghaziabad"
+                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                >
+                  Ghaziabad
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/locations/faridabad"
+                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                >
+                  Faridabad
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/locations/greater-noida"
+                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                >
+                  Greater Noida
                 </Link>
               </li>
             </ul>
