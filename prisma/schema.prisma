@@ -87,6 +87,10 @@ model Blog {
   coverImage  String?
   status      BlogStatus @default(DRAFT)
   featured    Boolean    @default(false)
+  metaTitle       String?
+  metaDescription String?
+  focusKeyword    String?
+  ogImage         String?
   publishedAt DateTime?
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
