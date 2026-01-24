@@ -33,7 +33,7 @@ export async function generateMetadata({ params }: ServicePageProps): Promise<Me
     description: service.metaDescription,
     keywords: service.keywords,
     canonical: `/services/${slug}`,
-    type: "service",
+    type: "website",
   });
 }
 
