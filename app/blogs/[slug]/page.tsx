@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { RelatedPosts } from "@/components/blog/related-posts";
 import Footer from "@/components/footer";
 import Header from "@/components/header";
 import { MarkdownRenderer } from "@/components/markdown-renderer";
@@ -196,19 +197,10 @@ export default async function BlogPost({ params }: BlogPageProps) {
           </article>
 
           {/* Related blogs section */}
-          <section className="w-full py-12 md:py-16 lg:py-20 bg-muted">
-            <div className="container px-4 md:px-6">
-              <h2 className="text-3xl font-semibold text-center mb-12">
-                More Insights
-              </h2>
-              <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-                {/* Related blogs will be populated here */}
-                <div className="text-center text-muted-foreground">
-                  Check out our other blog posts for more insights.
-                </div>
-              </div>
-            </div>
-          </section>
+          <RelatedPosts
+            currentSlug={slug}
+            tagNames={blog.tags?.map((tag: { name: string }) => tag.name) || []}
+          />
 
         </main>
         
