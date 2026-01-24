@@ -51,22 +51,27 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 
-    const { 
-      title, 
-      excerpt, 
-      content, 
-      coverImage, 
-      status, 
-      featured, 
-      tags = [] 
+    const {
+      title,
+      excerpt,
+      content,
+      coverImage,
+      status,
+      featured,
+      tags = [],
+      slug: customSlug,
+      metaTitle,
+      metaDescription,
+      focusKeyword,
+      ogImage,
     } = await req.json()
 
     if (!title || !content) {
       return NextResponse.json({ error: "Title and content are required" }, { status: 400 })
     }
 
-    // Generate slug from title
-    let slug = generateSlug(title)
+    // Use custom slug if provided, otherwise generate from title
+    let slug = customSlug && customSlug.trim() !== "" ? customSlug.trim() : generateSlug(title)
     
     // Ensure slug is unique
     let counter = 1
@@ -104,6 +109,10 @@ export async function POST(req: NextRequest) {
         featured: featured || false,
         publishedAt: status === "PUBLISHED" ? new Date() : null,
         authorId: session.user.id,
+        metaTitle: metaTitle || null,
+        metaDescription: metaDescription || null,
+        focusKeyword: focusKeyword || null,
+        ogImage: ogImage || null,
         tags: {
           connect: tagConnections
         }

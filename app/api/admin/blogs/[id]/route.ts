@@ -61,14 +61,19 @@ export async function PUT(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 
-    const { 
-      title, 
-      excerpt, 
-      content, 
-      coverImage, 
-      status, 
-      featured, 
-      tags = [] 
+    const {
+      title,
+      excerpt,
+      content,
+      coverImage,
+      status,
+      featured,
+      tags = [],
+      slug: customSlug,
+      metaTitle,
+      metaDescription,
+      focusKeyword,
+      ogImage,
     } = await req.json()
 
     const { id: blogId } = await params
@@ -85,18 +90,34 @@ export async function PUT(
 
     let slug = currentBlog.slug
 
-    // If title changed, generate new slug
-    if (title !== currentBlog.title) {
-      slug = generateSlug(title)
-      
+    // If custom slug is provided and different from current, use it
+    if (customSlug && customSlug.trim() !== "" && customSlug.trim() !== currentBlog.slug) {
+      slug = customSlug.trim()
+
       // Ensure slug is unique (excluding current blog)
       let counter = 1
       const originalSlug = slug
-      while (await prisma.blog.findFirst({ 
-        where: { 
-          slug, 
-          id: { not: blogId } 
-        } 
+      while (await prisma.blog.findFirst({
+        where: {
+          slug,
+          id: { not: blogId }
+        }
+      })) {
+        slug = `${originalSlug}-${counter}`
+        counter++
+      }
+    } else if (title !== currentBlog.title && (!customSlug || customSlug.trim() === "")) {
+      // If title changed and no custom slug, generate new slug
+      slug = generateSlug(title)
+
+      // Ensure slug is unique (excluding current blog)
+      let counter = 1
+      const originalSlug = slug
+      while (await prisma.blog.findFirst({
+        where: {
+          slug,
+          id: { not: blogId }
+        }
       })) {
         slug = `${originalSlug}-${counter}`
         counter++
@@ -130,9 +151,13 @@ export async function PUT(
         coverImage,
         status: status as "DRAFT" | "PUBLISHED" | "ARCHIVED",
         featured,
-        publishedAt: status === "PUBLISHED" && currentBlog.status !== "PUBLISHED" 
-          ? new Date() 
+        publishedAt: status === "PUBLISHED" && currentBlog.status !== "PUBLISHED"
+          ? new Date()
           : currentBlog.publishedAt,
+        metaTitle: metaTitle || null,
+        metaDescription: metaDescription || null,
+        focusKeyword: focusKeyword || null,
+        ogImage: ogImage || null,
         tags: {
           set: tagConnections
         }

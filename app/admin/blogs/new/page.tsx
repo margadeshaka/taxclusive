@@ -7,6 +7,7 @@ import { useState } from "react"
 
 import { AdminWrapper } from "@/components/admin/admin-wrapper"
 import { RichTextEditor } from "@/components/admin/rich-text-editor"
+import { SEOScorePanel } from "@/components/admin/seo-score-panel"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -17,6 +18,15 @@ import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/components/ui/use-toast"
 
 
+function generateSlug(title: string): string {
+  return title
+    .toLowerCase()
+    .replace(/[^a-z0-9 -]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-")
+    .trim()
+}
+
 export default function NewBlogPage() {
   const [formData, setFormData] = useState({
     title: "",
@@ -25,7 +35,12 @@ export default function NewBlogPage() {
     coverImage: "",
     status: "DRAFT",
     featured: false,
-    tags: ""
+    tags: "",
+    slug: "",
+    metaTitle: "",
+    metaDescription: "",
+    focusKeyword: "",
+    ogImage: "",
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const { toast } = useToast()
@@ -48,7 +63,12 @@ export default function NewBlogPage() {
         },
         body: JSON.stringify({
           ...formData,
-          tags: tagsArray
+          tags: tagsArray,
+          slug: formData.slug,
+          metaTitle: formData.metaTitle,
+          metaDescription: formData.metaDescription,
+          focusKeyword: formData.focusKeyword,
+          ogImage: formData.ogImage,
         }),
       })
 
@@ -110,7 +130,14 @@ export default function NewBlogPage() {
                   <Input
                     id="title"
                     value={formData.title}
-                    onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                    onChange={(e) => {
+                      const newTitle = e.target.value
+                      setFormData((prev) => ({
+                        ...prev,
+                        title: newTitle,
+                        slug: prev.slug === "" || prev.slug === generateSlug(prev.title) ? generateSlug(newTitle) : prev.slug,
+                      }))
+                    }}
                     placeholder="Enter blog title"
                     required
                     disabled={isSubmitting}
@@ -183,9 +210,9 @@ export default function NewBlogPage() {
 
             <Card>
               <CardHeader>
-                <CardTitle>Media & SEO</CardTitle>
+                <CardTitle>Media & Tags</CardTitle>
                 <CardDescription>
-                  Add images and optimize for search engines
+                  Add images and categorize your post
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -215,6 +242,91 @@ export default function NewBlogPage() {
                 </div>
               </CardContent>
             </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>SEO Settings</CardTitle>
+                <CardDescription>
+                  Optimize for search engines
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="slug">URL Slug</Label>
+                  <Input
+                    id="slug"
+                    value={formData.slug}
+                    onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
+                    placeholder="auto-generated-from-title"
+                    disabled={isSubmitting}
+                  />
+                  <div className="text-xs text-muted-foreground">
+                    /blogs/{formData.slug || "your-post-slug"}
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="metaTitle">Meta Title</Label>
+                  <Input
+                    id="metaTitle"
+                    value={formData.metaTitle}
+                    onChange={(e) => setFormData({ ...formData, metaTitle: e.target.value })}
+                    placeholder="SEO title (defaults to post title)"
+                    disabled={isSubmitting}
+                  />
+                  <div className="text-xs text-muted-foreground">
+                    {formData.metaTitle.length}/60
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="metaDescription">Meta Description</Label>
+                  <Textarea
+                    id="metaDescription"
+                    value={formData.metaDescription}
+                    onChange={(e) => setFormData({ ...formData, metaDescription: e.target.value })}
+                    placeholder="Brief description for search results"
+                    disabled={isSubmitting}
+                    rows={3}
+                  />
+                  <div className="text-xs text-muted-foreground">
+                    {formData.metaDescription.length}/160
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="focusKeyword">Focus Keyword</Label>
+                  <Input
+                    id="focusKeyword"
+                    value={formData.focusKeyword}
+                    onChange={(e) => setFormData({ ...formData, focusKeyword: e.target.value })}
+                    placeholder="Primary keyword for this post"
+                    disabled={isSubmitting}
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="ogImage">OG Image URL</Label>
+                  <Input
+                    id="ogImage"
+                    value={formData.ogImage}
+                    onChange={(e) => setFormData({ ...formData, ogImage: e.target.value })}
+                    placeholder="Defaults to cover image"
+                    disabled={isSubmitting}
+                  />
+                </div>
+              </CardContent>
+            </Card>
+
+            <SEOScorePanel
+              title={formData.title}
+              metaTitle={formData.metaTitle}
+              metaDescription={formData.metaDescription}
+              focusKeyword={formData.focusKeyword}
+              slug={formData.slug}
+              content={formData.content}
+              coverImage={formData.coverImage}
+            />
 
             <div className="flex gap-2">
               <Button
