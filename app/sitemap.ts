@@ -1,176 +1,60 @@
 import { MetadataRoute } from "next";
 
+import { prisma } from "@/lib/prisma";
+
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.taxclusive.com";
 
-// Required for static export
-export const dynamic = "force-static";
+export const dynamic = "force-dynamic";
+export const revalidate = 3600;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const currentDate = new Date().toISOString();
+  let blogEntries: MetadataRoute.Sitemap = [];
+  try {
+    const blogs = await prisma.blog.findMany({
+      where: { status: "PUBLISHED" },
+      select: { slug: true, updatedAt: true },
+      orderBy: { publishedAt: "desc" },
+    });
+    blogEntries = blogs.map((blog) => ({
+      url: `${baseUrl}/blogs/${blog.slug}`,
+      lastModified: blog.updatedAt,
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
+    }));
+  } catch {
+    blogEntries = [];
+  }
 
-  // Static pages with their SEO priorities
-  const staticPages = [
-    {
-      url: baseUrl,
-      lastModified: currentDate,
-      changeFrequency: "weekly" as const,
-      priority: 1.0,
-    },
-    {
-      url: `${baseUrl}/about`,
-      lastModified: currentDate,
-      changeFrequency: "monthly" as const,
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/services`,
-      lastModified: currentDate,
-      changeFrequency: "monthly" as const,
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/expertise`,
-      lastModified: currentDate,
-      changeFrequency: "monthly" as const,
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/contact`,
-      lastModified: currentDate,
-      changeFrequency: "monthly" as const,
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/faq`,
-      lastModified: currentDate,
-      changeFrequency: "monthly" as const,
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/blogs`,
-      lastModified: currentDate,
-      changeFrequency: "weekly" as const,
-      priority: 0.7,
-    },
-    // Additional pages discovered in the codebase
-    {
-      url: `${baseUrl}/appointment`,
-      lastModified: currentDate,
-      changeFrequency: "monthly" as const,
-      priority: 0.6,
-    },
-    {
-      url: `${baseUrl}/insights`,
-      lastModified: currentDate,
-      changeFrequency: "weekly" as const,
-      priority: 0.6,
-    },
-    {
-      url: `${baseUrl}/ask-query`,
-      lastModified: currentDate,
-      changeFrequency: "monthly" as const,
-      priority: 0.5,
-    },
+  const staticPages: MetadataRoute.Sitemap = [
+    { url: baseUrl, lastModified: new Date(), changeFrequency: "weekly" as const, priority: 1.0 },
+    { url: `${baseUrl}/about`, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 0.9 },
+    { url: `${baseUrl}/services`, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 0.9 },
+    { url: `${baseUrl}/expertise`, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 0.8 },
+    { url: `${baseUrl}/contact`, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 0.8 },
+    { url: `${baseUrl}/faq`, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 0.7 },
+    { url: `${baseUrl}/blogs`, lastModified: new Date(), changeFrequency: "weekly" as const, priority: 0.7 },
+    { url: `${baseUrl}/appointment`, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 0.6 },
+    { url: `${baseUrl}/insights`, lastModified: new Date(), changeFrequency: "weekly" as const, priority: 0.6 },
+    { url: `${baseUrl}/ask-query`, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 0.5 },
   ];
 
-  // Dynamic blog posts - these can be fetched from CMS in the future
-  const blogPosts = [
-    {
-      url: `${baseUrl}/blogs/tax-planning-strategies-2024`,
-      lastModified: "2024-12-18",
-      changeFrequency: "monthly" as const,
-      priority: 0.6,
-    },
-    {
-      url: `${baseUrl}/blogs/gst-compliance-guide`,
-      lastModified: "2024-12-15",
-      changeFrequency: "monthly" as const,
-      priority: 0.6,
-    },
-    {
-      url: `${baseUrl}/blogs/business-registration-process`,
-      lastModified: "2024-12-12",
-      changeFrequency: "monthly" as const,
-      priority: 0.6,
-    },
-    {
-      url: `${baseUrl}/blogs/financial-planning-tips`,
-      lastModified: "2024-12-10",
-      changeFrequency: "monthly" as const,
-      priority: 0.6,
-    },
-    {
-      url: `${baseUrl}/blogs/income-tax-filing-guide`,
-      lastModified: "2024-12-08",
-      changeFrequency: "monthly" as const,
-      priority: 0.6,
-    },
-    {
-      url: `${baseUrl}/blogs/tax-and-financial-services`,
-      lastModified: "2024-12-05",
-      changeFrequency: "monthly" as const,
-      priority: 0.6,
-    },
-  ];
+  const servicePages: MetadataRoute.Sitemap = [
+    "tax-planning", "gst-compliance", "audit-assurance", "business-registration", "financial-advisory",
+  ].map((slug) => ({
+    url: `${baseUrl}/services/${slug}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly" as const,
+    priority: 0.8,
+  }));
 
-  // Service-specific pages for better SEO targeting
-  const servicePages = [
-    {
-      url: `${baseUrl}/services/tax-planning`,
-      lastModified: currentDate,
-      changeFrequency: "monthly" as const,
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/services/gst-compliance`,
-      lastModified: currentDate,
-      changeFrequency: "monthly" as const,
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/services/audit-assurance`,
-      lastModified: currentDate,
-      changeFrequency: "monthly" as const,
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/services/business-registration`,
-      lastModified: currentDate,
-      changeFrequency: "monthly" as const,
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/services/financial-advisory`,
-      lastModified: currentDate,
-      changeFrequency: "monthly" as const,
-      priority: 0.8,
-    },
-  ];
+  const locationPages: MetadataRoute.Sitemap = [
+    "gurugram", "delhi", "noida", "ghaziabad", "faridabad", "greater-noida",
+  ].map((city) => ({
+    url: `${baseUrl}/locations/${city}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly" as const,
+    priority: 0.8,
+  }));
 
-  // Location-based pages for local SEO
-  const locationPages = [
-    {
-      url: `${baseUrl}/tax-services-gurugram`,
-      lastModified: currentDate,
-      changeFrequency: "monthly" as const,
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/tax-services-delhi`,
-      lastModified: currentDate,
-      changeFrequency: "monthly" as const,
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/tax-consultant-noida`,
-      lastModified: currentDate,
-      changeFrequency: "monthly" as const,
-      priority: 0.6,
-    },
-  ];
-
-  // TODO: In the future, fetch blog posts dynamically from Strapi CMS
-  // const dynamicBlogPosts = await fetchBlogPostsFromCMS()
-
-  return [...staticPages, ...blogPosts, ...servicePages, ...locationPages];
+  return [...staticPages, ...servicePages, ...locationPages, ...blogEntries];
 }
