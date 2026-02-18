@@ -79,7 +79,7 @@ jest.mock('next-auth/react', () => ({
   }),
   signIn: jest.fn(),
   signOut: jest.fn(),
-  SessionProvider: ({ children }: { children: React.ReactNode }) => children,
+  SessionProvider: ({ children }) => children,
 }));
 
 // Mock Prisma
@@ -112,14 +112,14 @@ jest.mock('@/lib/prisma', () => ({
 }));
 
 // Global test utilities
-global.createMockFile = (name: string, content: string, type = 'text/plain') => {
+global.createMockFile = (name, content, type = 'text/plain') => {
   return new File([content], name, { type });
 };
 
 // Suppress console errors in tests unless explicitly needed
 const originalError = console.error;
 beforeAll(() => {
-  console.error = (...args: any[]) => {
+  console.error = (...args) => {
     if (
       typeof args[0] === 'string' &&
       args[0].includes('Warning: ReactDOM.render is no longer supported')
@@ -135,4 +135,6 @@ afterAll(() => {
 });
 
 // Import MSW server setup
-require('./__tests__/mocks/server');
+// TODO: Re-enable after configuring MSW v2 with Jest
+// MSW v2 requires additional jest config for ESM compatibility
+// require('./__tests__/mocks/server');
