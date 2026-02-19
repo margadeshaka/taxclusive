@@ -1,5 +1,18 @@
 import useSWR from "swr";
-import { fetchAllBlogs, fetchBlogById } from "@/lib/api/blogs";
+
+async function fetchAllBlogsFromApi() {
+  const res = await fetch("/api/public/blogs");
+  if (!res.ok) throw new Error("Failed to fetch blogs");
+  const json = await res.json();
+  return json.data ?? [];
+}
+
+async function fetchBlogByIdFromApi(id: string) {
+  const res = await fetch(`/api/public/blogs/${id}`);
+  if (!res.ok) throw new Error("Failed to fetch blog");
+  const json = await res.json();
+  return json.data ?? null;
+}
 
 // Default SWR configuration for better caching and performance
 const defaultSWRConfig = {
@@ -76,7 +89,7 @@ const defaultSWRConfig = {
 export function useBlogs() {
   const { data, error, isLoading, mutate } = useSWR(
     'all-blogs',
-    fetchAllBlogs,
+    fetchAllBlogsFromApi,
     defaultSWRConfig
   );
 
@@ -96,7 +109,7 @@ export function useBlogs() {
 export function useBlog(id: string) {
   const { data, error, isLoading, mutate } = useSWR(
     id ? `blog-${id}` : null,
-    () => fetchBlogById(id),
+    () => fetchBlogByIdFromApi(id),
     defaultSWRConfig
   );
 
