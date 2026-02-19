@@ -136,7 +136,7 @@ export default function BlogEditPage({ params }: BlogEditPageProps) {
     } catch (error) {
       toast({
         title: "Error",
-        description: "An error occurred",
+        description: error instanceof Error ? error.message : "Network error - failed to update blog",
         variant: "destructive"
       })
     } finally {

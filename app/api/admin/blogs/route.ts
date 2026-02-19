@@ -105,7 +105,7 @@ export async function POST(req: NextRequest) {
         excerpt,
         content,
         coverImage,
-        status: status as "DRAFT" | "PUBLISHED" | "ARCHIVED" || "DRAFT",
+        status: (["DRAFT", "PUBLISHED", "ARCHIVED"].includes(status) ? status : "DRAFT") as "DRAFT" | "PUBLISHED" | "ARCHIVED",
         featured: featured || false,
         publishedAt: status === "PUBLISHED" ? new Date() : null,
         authorId: session.user.id,

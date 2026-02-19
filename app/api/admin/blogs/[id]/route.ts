@@ -149,7 +149,7 @@ export async function PUT(
         excerpt,
         content,
         coverImage,
-        status: status as "DRAFT" | "PUBLISHED" | "ARCHIVED",
+        status: (["DRAFT", "PUBLISHED", "ARCHIVED"].includes(status) ? status : "DRAFT") as "DRAFT" | "PUBLISHED" | "ARCHIVED",
         featured,
         publishedAt: status === "PUBLISHED" && currentBlog.status !== "PUBLISHED"
           ? new Date()
