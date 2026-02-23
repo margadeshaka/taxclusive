@@ -134,50 +134,82 @@ function isSpecialLine(line: string): boolean {
          /^\d+\.\s/.test(line);
 }
 
-// Format inline markdown (bold, italic, code, links)
-function formatInlineMarkdown(text: string): React.ReactNode {
-  const result: React.ReactNode[] = [];
-  let key = 0;
-  
-  // Split by inline code first to avoid processing markdown inside code
-  const codeParts = text.split(/(`[^`]+`)/);
-  
-  codeParts.forEach((part, _index) => {
-    if (part.startsWith('`') && part.endsWith('`')) {
-      // Inline code
-      result.push(
-        <code key={key++} className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm">
-          {part.slice(1, -1)}
+function isSafeHref(href: string): boolean {
+  const trimmed = href.trim();
+  if (!trimmed) return false;
+
+  if (trimmed.startsWith('/') || trimmed.startsWith('#')) {
+    return true;
+  }
+
+  try {
+    const url = new URL(trimmed);
+    return ['http:', 'https:', 'mailto:', 'tel:'].includes(url.protocol);
+  } catch {
+    return false;
+  }
+}
+
+// Format inline markdown (bold, italic, code, links) without raw HTML injection
+function formatInlineMarkdown(text: string, keyPrefix: string = 'inline'): React.ReactNode[] {
+  const nodes: React.ReactNode[] = [];
+  const tokenRegex = /(`[^`]+`)|(\[([^\]]+)\]\(([^)]+)\))|(\*\*([^*]+)\*\*)|(\*([^*]+)\*)/g;
+
+  let lastIndex = 0;
+  let nodeIndex = 0;
+  let match: RegExpExecArray | null;
+
+  while ((match = tokenRegex.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      nodes.push(text.slice(lastIndex, match.index));
+    }
+
+    if (match[1]) {
+      nodes.push(
+        <code key={`${keyPrefix}-code-${nodeIndex++}`} className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm">
+          {match[1].slice(1, -1)}
         </code>
       );
-    } else {
-      // Process other inline formatting
-      let currentText = part;
-      
-      // Bold (**text**)
-      currentText = currentText.replace(/\*\*(.*?)\*\*/g, (match, content) => {
-        return `<strong>${content}</strong>`;
-      });
-      
-      // Italic (*text*)
-      currentText = currentText.replace(/\*(.*?)\*/g, (match, content) => {
-        return `<em>${content}</em>`;
-      });
-      
-      // Links [text](url)
-      currentText = currentText.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (match, text, url) => {
-        return `<a href="${url}" class="font-medium text-primary underline underline-offset-4 hover:text-primary/80">${text}</a>`;
-      });
-      
-      if (currentText) {
-        result.push(
-          <span key={key++} dangerouslySetInnerHTML={{ __html: currentText }} />
+    } else if (match[2]) {
+      const linkText = match[3];
+      const href = match[4];
+      if (isSafeHref(href)) {
+        nodes.push(
+          <a
+            key={`${keyPrefix}-link-${nodeIndex++}`}
+            href={href}
+            className="font-medium text-primary underline underline-offset-4 hover:text-primary/80"
+            target={href.startsWith('http') ? '_blank' : undefined}
+            rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
+          >
+            {formatInlineMarkdown(linkText, `${keyPrefix}-linktext-${nodeIndex}`)}
+          </a>
         );
+      } else {
+        nodes.push(linkText);
       }
+    } else if (match[5]) {
+      nodes.push(
+        <strong key={`${keyPrefix}-bold-${nodeIndex++}`}>
+          {formatInlineMarkdown(match[6], `${keyPrefix}-boldtext-${nodeIndex}`)}
+        </strong>
+      );
+    } else if (match[7]) {
+      nodes.push(
+        <em key={`${keyPrefix}-italic-${nodeIndex++}`}>
+          {formatInlineMarkdown(match[8], `${keyPrefix}-italictext-${nodeIndex}`)}
+        </em>
+      );
     }
-  });
-  
-  return result;
+
+    lastIndex = tokenRegex.lastIndex;
+  }
+
+  if (lastIndex < text.length) {
+    nodes.push(text.slice(lastIndex));
+  }
+
+  return nodes;
 }
 
 export function MarkdownRenderer({ content }: MarkdownRendererProps) {

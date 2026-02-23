@@ -92,11 +92,11 @@ const defaultMetadata: Metadata = {
       },
     ],
     locale: SEO_CONFIG.openGraph.locale,
-    type: SEO_CONFIG.openGraph.type,
+    type: "website",
   },
 
   twitter: {
-    card: SEO_CONFIG.twitter.card,
+    card: "summary_large_image",
     title: "Taxclusive - Expert Tax & Financial Services | Tax Planning",
     description:
       "Leading tax and financial services firm in Gurugram. Expert tax planning, GST compliance, audit & financial advisory services. Trusted by 500+ clients.",
@@ -105,7 +105,17 @@ const defaultMetadata: Metadata = {
     creator: SEO_CONFIG.twitter.creator,
   },
 
-  robots: SEO_CONFIG.robots,
+  robots: {
+    index: SEO_CONFIG.robots.index,
+    follow: SEO_CONFIG.robots.follow,
+    googleBot: {
+      index: SEO_CONFIG.robots.googleBot.index,
+      follow: SEO_CONFIG.robots.googleBot.follow,
+      "max-video-preview": SEO_CONFIG.robots.googleBot["max-video-preview"],
+      "max-image-preview": "large",
+      "max-snippet": SEO_CONFIG.robots.googleBot["max-snippet"],
+    },
+  },
 
   verification: SEO_CONFIG.verification,
 
@@ -135,6 +145,7 @@ export function generateMetadata(options?: {
   breadcrumbs?: { name: string; url: string }[];
 }): Metadata {
   const metadata: Metadata = { ...defaultMetadata };
+  type OpenGraphType = "website" | "article" | "profile";
 
   // Enhanced title handling
   if (options?.title) {
@@ -187,7 +198,10 @@ export function generateMetadata(options?: {
 
   // Enhanced OpenGraph for articles
   if (options?.type === "article" && metadata.openGraph) {
-    metadata.openGraph.type = "article";
+    const openGraphWithType = metadata.openGraph as NonNullable<Metadata["openGraph"]> & {
+      type?: OpenGraphType;
+    };
+    openGraphWithType.type = "article";
     const openGraphExtended = metadata.openGraph as Record<string, unknown>;
     if (options.publishedTime) {
       openGraphExtended.publishedTime = options.publishedTime;
@@ -202,7 +216,10 @@ export function generateMetadata(options?: {
       openGraphExtended.section = options.section;
     }
   } else if (options?.type && metadata.openGraph) {
-    metadata.openGraph.type = options.type;
+    const openGraphWithType = metadata.openGraph as NonNullable<Metadata["openGraph"]> & {
+      type?: OpenGraphType;
+    };
+    openGraphWithType.type = options.type === "service" ? "website" : options.type;
   }
 
   // Enhanced canonical and alternates handling
@@ -215,11 +232,17 @@ export function generateMetadata(options?: {
   }
 
   // Enhanced robots handling
-  if (options?.noIndex && metadata.robots) {
+  if (options?.noIndex) {
     metadata.robots = {
-      ...metadata.robots,
       index: false,
       follow: false,
+      googleBot: {
+        index: false,
+        follow: false,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
     };
   }
 

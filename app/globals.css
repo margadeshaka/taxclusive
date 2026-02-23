@@ -4,6 +4,8 @@
 
 @layer base {
   :root {
+    --font-poppins: "Poppins", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    --font-playfair: "Playfair Display", Georgia, "Times New Roman", serif;
     --background: 0 0% 100%;
     --foreground: 225 73% 40%; /* Royal Blue for text */
     --card: 0 0% 100%;

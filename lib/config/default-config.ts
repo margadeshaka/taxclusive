@@ -1341,6 +1341,8 @@ export const defaultConfig: WebsiteConfiguration = {
         provider: "aws-ses",
         apiKey: process.env.AWS_ACCESS_KEY_ID,
       },
+      calendar: {},
+      chat: {},
       maps: {
         provider: "google",
         apiKey: process.env.GOOGLE_MAPS_API_KEY,

@@ -20,17 +20,9 @@ export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
   const { theme } = useTheme();
-  const [mounted, setMounted] = useState(false);
 
   // Get configuration data
   const { navigation, site, assets } = clientConfig;
-
-  /**
-   * Effect to handle component mounting
-   */
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   /**
    * Effect to handle scroll events and update the header appearance
@@ -107,7 +99,6 @@ export default function Header() {
    * @returns {string} The logo source path
    */
   const getLogoSrc = () => {
-    if (!mounted) return "/logo-black.png"; // Default to light mode logo before mount
     return theme === "dark" ? "/logo.png" : "/logo-black.png";
   };
 
@@ -140,18 +131,24 @@ export default function Header() {
           </Link>
         </div>
         <nav className="hidden md:flex gap-6" aria-label="Main">
-          {navigation.header.menu.map((item) => (
-            <Link
-              key={item.id}
-              href={item.url}
-              className={`text-sm font-medium transition-colors hover:text-primary ${
-                isActive(item.url) ? "text-primary font-bold" : ""
-              }`}
-              {...(item.external && { target: "_blank", rel: "noopener noreferrer" })}
-            >
-              {item.label}
-            </Link>
-          ))}
+          {navigation.header.menu.map((item) => {
+            const isExternal = "external" in item && item.external === true;
+            const externalLinkProps: { target?: "_blank"; rel?: "noopener noreferrer" } =
+              isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {};
+
+            return (
+              <Link
+                key={item.id}
+                href={item.url}
+                className={`text-sm font-medium transition-colors hover:text-primary ${
+                  isActive(item.url) ? "text-primary font-bold" : ""
+                }`}
+                {...externalLinkProps}
+              >
+                {item.label}
+              </Link>
+            );
+          })}
         </nav>
         <div className="hidden md:flex items-center gap-4">
           <SimpleThemeToggle />

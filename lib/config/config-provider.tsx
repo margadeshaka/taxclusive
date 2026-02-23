@@ -253,14 +253,14 @@ export function useSEO() {
 // Hook for color scheme
 export function useColorScheme() {
   const { config } = useConfig();
-  const [isDark, setIsDark] = useState(false);
+  const [isDark, setIsDark] = useState(() =>
+    typeof window !== "undefined" ? window.matchMedia("(prefers-color-scheme: dark)").matches : false
+  );
 
   useEffect(() => {
     // Check system preference
     if (typeof window !== "undefined") {
       const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-      setIsDark(mediaQuery.matches);
-
       const handler = (e: MediaQueryListEvent) => setIsDark(e.matches);
       mediaQuery.addEventListener("change", handler);
       return () => mediaQuery.removeEventListener("change", handler);
@@ -280,26 +280,32 @@ export function useColorScheme() {
 
 // Deep merge two configuration objects
 function mergeConfigs<T extends Record<string, any>>(target: T, source: Partial<T>): T {
-  const result = { ...target };
+  const result: Record<string, unknown> = { ...target };
+  const targetRecord = target as Record<string, unknown>;
+  const sourceRecord = source as Record<string, unknown>;
 
-  for (const key in source) {
-    if (source[key] !== undefined) {
+  for (const key in sourceRecord) {
+    const sourceValue = sourceRecord[key];
+    if (sourceValue !== undefined) {
       if (
-        typeof source[key] === "object" &&
-        source[key] !== null &&
-        !Array.isArray(source[key]) &&
-        typeof target[key] === "object" &&
-        target[key] !== null &&
-        !Array.isArray(target[key])
+        typeof sourceValue === "object" &&
+        sourceValue !== null &&
+        !Array.isArray(sourceValue) &&
+        typeof targetRecord[key] === "object" &&
+        targetRecord[key] !== null &&
+        !Array.isArray(targetRecord[key])
       ) {
-        result[key] = mergeConfigs(target[key], source[key]!);
+        result[key] = mergeConfigs(
+          targetRecord[key] as Record<string, unknown>,
+          sourceValue as Record<string, unknown>
+        );
       } else {
-        result[key] = source[key]!;
+        result[key] = sourceValue;
       }
     }
   }
 
-  return result;
+  return result as T;
 }
 
 // Export utility functions

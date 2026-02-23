@@ -68,51 +68,54 @@ export default function InsightsSection() {
           </div>
         </div>
         <div className="grid gap-8 pt-12 md:grid-cols-2 lg:grid-cols-3">
-          {displayBlogs.map((blog) => (
-            <article key={blog.id} className="group relative overflow-hidden rounded-lg border bg-background shadow-sm transition-all hover:shadow-md">
-              <div className="aspect-video overflow-hidden">
-                <Image
-                  src={blog.coverImage || "/placeholder-blog.jpg"}
-                  width={600}
-                  height={400}
-                  alt={blog.title}
-                  className="object-cover transition-all group-hover:scale-105"
-                  loading="lazy"
-                />
-              </div>
-              <div className="p-6">
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <time dateTime={blog.publishedAt}>
-                    {new Date(blog.publishedAt).toLocaleDateString('en-US', { 
-                      year: 'numeric', 
-                      month: 'long', 
-                      day: 'numeric' 
-                    })}
-                  </time>
-                  {blog.tags && blog.tags.length > 0 && (
-                    <>
-                      <span>•</span>
-                      <span>{blog.tags[0].name}</span>
-                    </>
-                  )}
+          {displayBlogs.map((blog) => {
+            const publishedAt = blog.publishedAt || new Date().toISOString();
+            return (
+              <article key={blog.id} className="group relative overflow-hidden rounded-lg border bg-background shadow-sm transition-all hover:shadow-md">
+                <div className="aspect-video overflow-hidden">
+                  <Image
+                    src={blog.coverImage || "/placeholder-blog.jpg"}
+                    width={600}
+                    height={400}
+                    alt={blog.title}
+                    className="object-cover transition-all group-hover:scale-105"
+                    loading="lazy"
+                  />
                 </div>
-                <h3 className="mt-3 text-xl font-bold">
-                  {blog.title}
-                </h3>
-                <p className="mt-2 line-clamp-3 text-muted-foreground">
-                  {blog.excerpt}
-                </p>
-                <Link
-                  href={`/blogs/${blog.slug}`}
-                  className="mt-4 inline-flex items-center text-sm font-medium text-primary"
-                  aria-label={`Read more about ${blog.title}`}
-                >
-                  Read more 
-                  <ChevronRight className="ml-1 h-4 w-4" aria-hidden="true" />
-                </Link>
-              </div>
-            </article>
-          ))}
+                <div className="p-6">
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <time dateTime={publishedAt}>
+                      {new Date(publishedAt).toLocaleDateString('en-US', { 
+                        year: 'numeric', 
+                        month: 'long', 
+                        day: 'numeric' 
+                      })}
+                    </time>
+                    {blog.tags && blog.tags.length > 0 && (
+                      <>
+                        <span>•</span>
+                        <span>{blog.tags[0].name}</span>
+                      </>
+                    )}
+                  </div>
+                  <h3 className="mt-3 text-xl font-bold">
+                    {blog.title}
+                  </h3>
+                  <p className="mt-2 line-clamp-3 text-muted-foreground">
+                    {blog.excerpt}
+                  </p>
+                  <Link
+                    href={`/blogs/${blog.slug}`}
+                    className="mt-4 inline-flex items-center text-sm font-medium text-primary"
+                    aria-label={`Read more about ${blog.title}`}
+                  >
+                    Read more 
+                    <ChevronRight className="ml-1 h-4 w-4" aria-hidden="true" />
+                  </Link>
+                </div>
+              </article>
+            );
+          })}
         </div>
         <div className="flex justify-center pt-8">
           <Link

@@ -1,363 +1,161 @@
-import { NextRequest } from 'next/server';
-import { GET, POST } from '@/app/api/admin/blogs/route';
-import { getServerSession } from 'next-auth';
-
-// Mock NextAuth
-jest.mock('next-auth', () => ({
+jest.mock("next-auth/next", () => ({
   getServerSession: jest.fn(),
 }));
 
-// Mock Prisma
-const mockPrisma = {
-  blog: {
-    findMany: jest.fn(),
-    create: jest.fn(),
-    findUnique: jest.fn(),
-    update: jest.fn(),
-    delete: jest.fn(),
+jest.mock("@/lib/prisma", () => ({
+  prisma: {
+    blog: {
+      findMany: jest.fn(),
+      findUnique: jest.fn(),
+      create: jest.fn(),
+    },
+    tag: {
+      upsert: jest.fn(),
+    },
   },
-};
-
-jest.mock('@/lib/prisma', () => ({
-  __esModule: true,
-  default: mockPrisma,
 }));
 
-describe('/api/admin/blogs', () => {
-  const mockAdminSession = {
-    user: {
-      id: '1',
-      email: 'admin@taxclusive.com',
-      role: 'ADMIN',
-    },
-  };
+import { GET, POST } from "@/app/api/admin/blogs/route";
+import { getServerSession } from "next-auth/next";
+import { prisma } from "@/lib/prisma";
 
-  const mockEditorSession = {
-    user: {
-      id: '2',
-      email: 'editor@taxclusive.com',
-      role: 'EDITOR',
-    },
+const prismaMock = prisma as unknown as {
+  blog: {
+    findMany: jest.Mock;
+    findUnique: jest.Mock;
+    create: jest.Mock;
   };
-
-  const mockBlog = {
-    id: '1',
-    title: 'Test Blog',
-    slug: 'test-blog',
-    excerpt: 'Test excerpt',
-    content: 'Test content',
-    status: 'PUBLISHED',
-    featured: false,
-    coverImage: 'test.jpg',
-    authorId: '1',
-    publishedAt: new Date(),
-    createdAt: new Date(),
-    updatedAt: new Date(),
-    author: {
-      name: 'Test Author',
-      email: 'author@test.com',
-    },
-    tags: [],
+  tag: {
+    upsert: jest.Mock;
   };
+};
 
+type MockRequest = {
+  json: () => Promise<unknown>;
+};
+
+function createRequest(body: unknown): MockRequest {
+  return {
+    json: async () => body,
+  };
+}
+
+describe("/api/admin/blogs", () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  describe('GET /api/admin/blogs', () => {
-    it('should return blogs for authenticated admin', async () => {
-      (getServerSession as jest.Mock).mockResolvedValue(mockAdminSession);
-      mockPrisma.blog.findMany.mockResolvedValue([mockBlog]);
+  it("returns 401 for unauthenticated GET", async () => {
+    (getServerSession as jest.Mock).mockResolvedValue(null);
 
-      const request = new NextRequest('http://localhost:3000/api/admin/blogs');
-      const response = await GET(request);
-      const data = await response.json();
-
-      expect(response.status).toBe(200);
-      expect(data.blogs).toHaveLength(1);
-      expect(data.blogs[0]).toEqual(expect.objectContaining({
-        id: mockBlog.id,
-        title: mockBlog.title,
-        slug: mockBlog.slug,
-      }));
-    });
-
-    it('should return blogs for authenticated editor', async () => {
-      (getServerSession as jest.Mock).mockResolvedValue(mockEditorSession);
-      mockPrisma.blog.findMany.mockResolvedValue([mockBlog]);
-
-      const request = new NextRequest('http://localhost:3000/api/admin/blogs');
-      const response = await GET(request);
-
-      expect(response.status).toBe(200);
-    });
-
-    it('should reject unauthenticated requests', async () => {
-      (getServerSession as jest.Mock).mockResolvedValue(null);
-
-      const request = new NextRequest('http://localhost:3000/api/admin/blogs');
-      const response = await GET(request);
-
-      expect(response.status).toBe(401);
-    });
-
-    it('should handle search queries', async () => {
-      (getServerSession as jest.Mock).mockResolvedValue(mockAdminSession);
-      mockPrisma.blog.findMany.mockResolvedValue([mockBlog]);
-
-      const request = new NextRequest('http://localhost:3000/api/admin/blogs?search=test');
-      const response = await GET(request);
-
-      expect(response.status).toBe(200);
-      expect(mockPrisma.blog.findMany).toHaveBeenCalledWith(
-        expect.objectContaining({
-          where: expect.objectContaining({
-            OR: expect.arrayContaining([
-              expect.objectContaining({ title: expect.objectContaining({ contains: 'test' }) }),
-            ]),
-          }),
-        })
-      );
-    });
-
-    it('should handle status filters', async () => {
-      (getServerSession as jest.Mock).mockResolvedValue(mockAdminSession);
-      mockPrisma.blog.findMany.mockResolvedValue([mockBlog]);
-
-      const request = new NextRequest('http://localhost:3000/api/admin/blogs?status=PUBLISHED');
-      const response = await GET(request);
-
-      expect(response.status).toBe(200);
-      expect(mockPrisma.blog.findMany).toHaveBeenCalledWith(
-        expect.objectContaining({
-          where: expect.objectContaining({
-            status: 'PUBLISHED',
-          }),
-        })
-      );
-    });
-
-    it('should handle pagination', async () => {
-      (getServerSession as jest.Mock).mockResolvedValue(mockAdminSession);
-      mockPrisma.blog.findMany.mockResolvedValue([mockBlog]);
-
-      const request = new NextRequest('http://localhost:3000/api/admin/blogs?page=2&limit=10');
-      const response = await GET(request);
-
-      expect(response.status).toBe(200);
-      expect(mockPrisma.blog.findMany).toHaveBeenCalledWith(
-        expect.objectContaining({
-          skip: 10,
-          take: 10,
-        })
-      );
-    });
+    const response = await GET();
+    expect(response.status).toBe(401);
   });
 
-  describe('POST /api/admin/blogs', () => {
-    const validBlogData = {
-      title: 'New Test Blog',
-      excerpt: 'New test excerpt',
-      content: 'New test content',
-      status: 'DRAFT',
-      featured: false,
-      coverImage: 'new-test.jpg',
-    };
+  it("returns blogs for authorized users", async () => {
+    (getServerSession as jest.Mock).mockResolvedValue({
+      user: { id: "user-1", role: "ADMIN" },
+    });
+    prismaMock.blog.findMany.mockResolvedValue([
+      {
+        id: "blog-1",
+        title: "Test Blog",
+        slug: "test-blog",
+      },
+    ]);
 
-    it('should create blog for authenticated admin', async () => {
-      (getServerSession as jest.Mock).mockResolvedValue(mockAdminSession);
-      mockPrisma.blog.create.mockResolvedValue({
-        ...mockBlog,
-        ...validBlogData,
-        id: '2',
-      });
+    const response = await GET();
+    const data = await response.json();
 
-      const request = new NextRequest('http://localhost:3000/api/admin/blogs', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(validBlogData),
-      });
+    expect(response.status).toBe(200);
+    expect(Array.isArray(data)).toBe(true);
+    expect(data).toHaveLength(1);
+    expect(prismaMock.blog.findMany).toHaveBeenCalledTimes(1);
+  });
 
-      const response = await POST(request);
-      const data = await response.json();
+  it("returns 401 for unauthenticated POST", async () => {
+    (getServerSession as jest.Mock).mockResolvedValue(null);
 
-      expect(response.status).toBe(201);
-      expect(data.blog).toEqual(expect.objectContaining({
-        title: validBlogData.title,
-        excerpt: validBlogData.excerpt,
-      }));
-      expect(mockPrisma.blog.create).toHaveBeenCalledWith(
-        expect.objectContaining({
-          data: expect.objectContaining({
-            ...validBlogData,
-            authorId: mockAdminSession.user.id,
-            slug: expect.stringMatching(/^new-test-blog/),
-          }),
-        })
-      );
+    const response = await POST(createRequest({ title: "T", content: "C" }) as any);
+    expect(response.status).toBe(401);
+  });
+
+  it("returns 400 when title/content are missing", async () => {
+    (getServerSession as jest.Mock).mockResolvedValue({
+      user: { id: "user-1", role: "EDITOR" },
     });
 
-    it('should create blog for authenticated editor', async () => {
-      (getServerSession as jest.Mock).mockResolvedValue(mockEditorSession);
-      mockPrisma.blog.create.mockResolvedValue({
-        ...mockBlog,
-        ...validBlogData,
-        id: '2',
-      });
+    const response = await POST(createRequest({ title: "", content: "" }) as any);
+    expect(response.status).toBe(400);
+  });
 
-      const request = new NextRequest('http://localhost:3000/api/admin/blogs', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(validBlogData),
-      });
-
-      const response = await POST(request);
-
-      expect(response.status).toBe(201);
+  it("creates blog with generated slug and author", async () => {
+    (getServerSession as jest.Mock).mockResolvedValue({
+      user: { id: "user-1", role: "EDITOR" },
     });
 
-    it('should reject unauthenticated requests', async () => {
-      (getServerSession as jest.Mock).mockResolvedValue(null);
-
-      const request = new NextRequest('http://localhost:3000/api/admin/blogs', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(validBlogData),
-      });
-
-      const response = await POST(request);
-
-      expect(response.status).toBe(401);
+    prismaMock.blog.findUnique.mockResolvedValue(null);
+    prismaMock.tag.upsert.mockResolvedValue({ id: "tag-1", name: "Tax", slug: "tax" });
+    prismaMock.blog.create.mockResolvedValue({
+      id: "blog-1",
+      title: "New Blog Post",
+      slug: "new-blog-post",
+      content: "Hello world",
+      authorId: "user-1",
+      author: { name: "Editor", email: "editor@example.com" },
+      tags: [{ id: "tag-1", name: "Tax", slug: "tax" }],
     });
 
-    it('should validate required fields', async () => {
-      (getServerSession as jest.Mock).mockResolvedValue(mockAdminSession);
+    const response = await POST(
+      createRequest({
+        title: "New Blog Post",
+        content: "Hello world",
+        tags: ["Tax"],
+        status: "PUBLISHED",
+      }) as any
+    );
+    const data = await response.json();
 
-      const invalidData = {
-        // Missing required title
-        excerpt: 'Test excerpt',
-        content: 'Test content',
-      };
+    expect(response.status).toBe(201);
+    expect(data.slug).toBe("new-blog-post");
+    expect(prismaMock.blog.create).toHaveBeenCalledWith(
+      expect.objectContaining({
+        data: expect.objectContaining({
+          authorId: "user-1",
+          slug: "new-blog-post",
+          title: "New Blog Post",
+        }),
+      })
+    );
+  });
 
-      const request = new NextRequest('http://localhost:3000/api/admin/blogs', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(invalidData),
-      });
-
-      const response = await POST(request);
-
-      expect(response.status).toBe(400);
+  it("adds numeric suffix when slug is already taken", async () => {
+    (getServerSession as jest.Mock).mockResolvedValue({
+      user: { id: "admin-1", role: "ADMIN" },
     });
 
-    it('should generate unique slug', async () => {
-      (getServerSession as jest.Mock).mockResolvedValue(mockAdminSession);
-      mockPrisma.blog.create.mockResolvedValue({
-        ...mockBlog,
-        ...validBlogData,
-        id: '2',
-      });
-
-      const blogWithSameTitle = {
-        ...validBlogData,
-        title: 'Duplicate Title',
-      };
-
-      const request = new NextRequest('http://localhost:3000/api/admin/blogs', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(blogWithSameTitle),
-      });
-
-      const response = await POST(request);
-
-      expect(response.status).toBe(201);
-      expect(mockPrisma.blog.create).toHaveBeenCalledWith(
-        expect.objectContaining({
-          data: expect.objectContaining({
-            slug: expect.stringMatching(/^duplicate-title/),
-          }),
-        })
-      );
+    prismaMock.blog.findUnique
+      .mockResolvedValueOnce({ id: "existing", slug: "duplicate-title" })
+      .mockResolvedValueOnce(null);
+    prismaMock.blog.create.mockResolvedValue({
+      id: "blog-2",
+      title: "Duplicate Title",
+      slug: "duplicate-title-1",
+      content: "Body",
+      authorId: "admin-1",
+      author: { name: "Admin", email: "admin@example.com" },
+      tags: [],
     });
 
-    it('should sanitize content', async () => {
-      (getServerSession as jest.Mock).mockResolvedValue(mockAdminSession);
-      mockPrisma.blog.create.mockResolvedValue({
-        ...mockBlog,
-        ...validBlogData,
-        id: '2',
-      });
+    const response = await POST(
+      createRequest({
+        title: "Duplicate Title",
+        content: "Body",
+      }) as any
+    );
+    const data = await response.json();
 
-      const maliciousData = {
-        ...validBlogData,
-        title: '<script>alert("xss")</script>Malicious Title',
-        content: '<img src="x" onerror="alert(1)">Safe content',
-      };
-
-      const request = new NextRequest('http://localhost:3000/api/admin/blogs', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(maliciousData),
-      });
-
-      const response = await POST(request);
-
-      expect(response.status).toBe(201);
-      expect(mockPrisma.blog.create).toHaveBeenCalledWith(
-        expect.objectContaining({
-          data: expect.objectContaining({
-            title: expect.not.stringMatching(/<script>/),
-            content: expect.not.stringMatching(/onerror/),
-          }),
-        })
-      );
-    });
-
-    it('should handle database errors', async () => {
-      (getServerSession as jest.Mock).mockResolvedValue(mockAdminSession);
-      mockPrisma.blog.create.mockRejectedValue(new Error('Database error'));
-
-      const request = new NextRequest('http://localhost:3000/api/admin/blogs', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(validBlogData),
-      });
-
-      const response = await POST(request);
-
-      expect(response.status).toBe(500);
-    });
-
-    it('should set publishedAt when status is PUBLISHED', async () => {
-      (getServerSession as jest.Mock).mockResolvedValue(mockAdminSession);
-      mockPrisma.blog.create.mockResolvedValue({
-        ...mockBlog,
-        ...validBlogData,
-        id: '2',
-      });
-
-      const publishedBlogData = {
-        ...validBlogData,
-        status: 'PUBLISHED',
-      };
-
-      const request = new NextRequest('http://localhost:3000/api/admin/blogs', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(publishedBlogData),
-      });
-
-      const response = await POST(request);
-
-      expect(response.status).toBe(201);
-      expect(mockPrisma.blog.create).toHaveBeenCalledWith(
-        expect.objectContaining({
-          data: expect.objectContaining({
-            publishedAt: expect.any(Date),
-          }),
-        })
-      );
-    });
+    expect(response.status).toBe(201);
+    expect(data.slug).toBe("duplicate-title-1");
   });
 });

@@ -1,7 +1,6 @@
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { Playfair_Display, Poppins } from "next/font/google";
 import Script from "next/script";
 import type React from "react";
 
@@ -16,21 +15,6 @@ import {
   generateLocalFAQStructuredData,
 } from "@/lib/local-seo";
 import { generateMetadata as generateSiteMetadata } from "@/lib/metadata";
-
-// Load fonts with explicit weights (Next.js requirement)
-const playfair = Playfair_Display({
-  subsets: ["latin"],
-  variable: "--font-playfair",
-  display: "swap",
-  weight: ["400", "500", "600", "700"],
-});
-
-const poppins = Poppins({
-  weight: ["400", "500", "600", "700"],
-  subsets: ["latin"],
-  variable: "--font-poppins",
-  display: "swap",
-});
 
 // Generate site-wide metadata
 export const metadata = generateSiteMetadata();
@@ -52,7 +36,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="apple-touch-icon" href={clientConfig.assets.logo.appleTouchIcon} />
         <link rel="manifest" href="/site.webmanifest" />
       </head>
-      <body className={`${playfair.variable} ${poppins.variable} font-sans`}>
+      <body className="font-sans">
         <ErrorBoundary>
           <Analytics/>
           <SpeedInsights/>

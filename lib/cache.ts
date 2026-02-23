@@ -56,7 +56,7 @@ export function get<T>(key: string): T | undefined {
     return undefined;
   }
 
-  return entry.data;
+  return entry.data as T;
 }
 
 /**
@@ -69,8 +69,10 @@ export function set<T>(key: string, data: T, ttl?: number): void {
   // Ensure we don't exceed the maximum cache size
   if (cache.size >= config.maxSize && !cache.has(key)) {
     // Remove the oldest entry
-    const oldestKey = cache.keys().next().value;
-    cache.delete(oldestKey);
+    const oldestKey = cache.keys().next().value as string | undefined;
+    if (oldestKey) {
+      cache.delete(oldestKey);
+    }
   }
 
   const expiry = Date.now() + (ttl || config.defaultTTL);

@@ -39,8 +39,8 @@ export default function Home() {
       <Script id="home-schema-org" type="application/ld+json">
         {generateStructuredData("Organization", {
           name: "Taxclusive",
-          url: "https://www.taxexclusive.com",
-          logo: "https://www.taxexclusive.com/logo.png",
+          url: "https://www.taxclusive.com",
+          logo: "https://www.taxclusive.com/logo.png",
           description:
             "Professional tax and financial services firm providing comprehensive accounting, taxation, and financial advisory services across Delhi NCR.",
           contactPoint: [

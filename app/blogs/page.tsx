@@ -13,7 +13,7 @@ import { generateMetadata as generatePageMetadata } from "@/lib/metadata";
 export const metadata: Metadata = generatePageMetadata({
   title: "Expert Financial Insights & Tax Updates | Taxclusive Blog",
   description: "Stay updated with the latest tax laws, financial planning tips, and business insights from our expert tax and financial professionals. Professional advice you can trust.",
-  url: "https://taxexclusive.com/blogs",
+  canonical: "/blogs",
 });
 
 export default async function BlogsPage() {

@@ -11,7 +11,7 @@ interface DynamicImportOptions {
  * @param options - Configuration options
  * @returns Dynamically imported component with loading and error states
  */
-export function dynamicImport<T>(
+export function dynamicImport<T extends object>(
   importFn: () => Promise<{ default: ComponentType<T> }>,
   options: DynamicImportOptions = {}
 ) {
@@ -26,7 +26,7 @@ export function dynamicImport<T>(
   return function DynamicComponent(props: T) {
     return (
       <Suspense fallback={<LoadingComponent />}>
-        <LazyComponent {...props} />
+        <LazyComponent {...(props as any)} />
       </Suspense>
     );
   };

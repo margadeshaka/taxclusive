@@ -32,9 +32,9 @@ declare global {
 }
 
 export function RecaptchaProvider({ children }: RecaptchaProviderProps) {
-  const [isReady, setIsReady] = useState(false);
   const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
   const isDev = process.env.NODE_ENV === 'development';
+  const [isReady, setIsReady] = useState(() => isDev && !siteKey);
 
   useEffect(() => {
     // Check if reCAPTCHA is configured
@@ -43,11 +43,6 @@ export function RecaptchaProvider({ children }: RecaptchaProviderProps) {
 
     if (!siteKey) {
       console.warn('reCAPTCHA: NEXT_PUBLIC_RECAPTCHA_SITE_KEY is not configured');
-      // In development, mark as ready even without key to allow form testing
-      if (isDev) {
-        console.log('reCAPTCHA: Development mode - marking as ready without key');
-        setIsReady(true);
-      }
       return;
     }
 
@@ -94,7 +89,7 @@ export function RecaptchaProvider({ children }: RecaptchaProviderProps) {
         badge.remove();
       }
     };
-  }, [siteKey]);
+  }, [siteKey, isDev]);
 
   const executeRecaptcha = async (action: string): Promise<string> => {
     // In development mode without a site key, return a dev token

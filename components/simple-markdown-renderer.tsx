@@ -5,12 +5,16 @@ interface SimpleMarkdownRendererProps {
 }
 
 export function SimpleMarkdownRenderer({ content }: SimpleMarkdownRendererProps) {
-  // For now, just render the content as-is
-  // In production, you'd want to use a proper markdown parser
+  const lines = content.split("\n");
+
   return (
-    <div 
-      className="prose prose-gray max-w-none prose-minimal leading-relaxed"
-      dangerouslySetInnerHTML={{ __html: content.replace(/\n/g, '<br />') }}
-    />
+    <div className="prose prose-gray max-w-none prose-minimal leading-relaxed">
+      {lines.map((line, index) => (
+        <span key={`line-${index}`}>
+          {line}
+          {index < lines.length - 1 ? <br /> : null}
+        </span>
+      ))}
+    </div>
   );
 }

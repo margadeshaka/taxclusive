@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { Prisma } from "@prisma/client";
 
 import { prisma } from "@/lib/prisma";
 import { formatDate } from "@/lib/date-utils";
@@ -8,8 +9,18 @@ interface RelatedPostsProps {
   tagNames: string[];
 }
 
+type RelatedBlog = Prisma.BlogGetPayload<{
+  select: {
+    title: true;
+    slug: true;
+    excerpt: true;
+    publishedAt: true;
+    createdAt: true;
+  };
+}>;
+
 export async function RelatedPosts({ currentSlug, tagNames }: RelatedPostsProps) {
-  let relatedBlogs = [];
+  let relatedBlogs: RelatedBlog[] = [];
 
   try {
     // First try to find blogs with matching tags

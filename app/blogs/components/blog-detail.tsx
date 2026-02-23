@@ -4,6 +4,7 @@ import { ChevronLeft } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
+import { MarkdownRenderer } from "@/components/markdown-renderer";
 import { useBlogs } from "@/hooks/use-blogs";
 
 interface BlogDetailProps {
@@ -12,7 +13,7 @@ interface BlogDetailProps {
 
 export function BlogDetail({ id }: BlogDetailProps) {
   const { blogs, isLoading, isError } = useBlogs();
-  const blog = blogs?.find((blog) => blog.id === parseInt(id));
+  const blog = blogs?.find((blog) => String(blog.id) === id);
   if (isLoading) {
     return (
       <div className="flex justify-center py-12">
@@ -97,7 +98,11 @@ export function BlogDetail({ id }: BlogDetailProps) {
         <div className="mt-8">
           {blog.blocks.map((block, index) => {
             if (block.__component === "shared.rich-text") {
-              return <div key={index} dangerouslySetInnerHTML={{ __html: block.body }} />;
+              return (
+                <div key={index} className="mb-6">
+                  <MarkdownRenderer content={block.body || ""} />
+                </div>
+              );
             }
             return null;
           })}

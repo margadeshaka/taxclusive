@@ -2,8 +2,11 @@
 
 import React, { createContext, useContext, useState, ReactNode } from "react";
 
-import { fetchBlogs, fetchBlogById } from "@/lib/api";
-import { Blog } from "@/lib/types";
+import { fetchAllBlogs as fetchAllBlogsFromApi, fetchBlogById } from "@/lib/api";
+
+type BlogListItem = Awaited<ReturnType<typeof fetchAllBlogsFromApi>>[number];
+type BlogDetail = NonNullable<Awaited<ReturnType<typeof fetchBlogById>>>;
+type Blog = BlogListItem | BlogDetail;
 
 // Define the shape of the context state
 interface BlogContextState {
@@ -41,7 +44,7 @@ export const BlogProvider: React.FC<BlogProviderProps> = ({ children }) => {
     setLoading(true);
     setError(null);
     try {
-      const data = await fetchBlogs();
+      const data = await fetchAllBlogsFromApi();
       setBlogs(data);
     } catch (err) {
       setError(err instanceof Error ? err : new Error("An error occurred while fetching blogs"));
@@ -86,3 +89,5 @@ export const BlogProvider: React.FC<BlogProviderProps> = ({ children }) => {
     </BlogContext.Provider>
   );
 };
+
+export const BlogContextProvider = BlogProvider;

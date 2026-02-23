@@ -4,18 +4,11 @@ import { Mail, Phone, MapPin } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useTheme } from "next-themes";
-import { useState, useEffect } from "react";
 
 export default function Footer() {
   const { theme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   const getLogoSrc = () => {
-    if (!mounted) return "/logo-black.png";
     return theme === "dark" ? "/logo.png" : "/logo-black.png";
   };
 

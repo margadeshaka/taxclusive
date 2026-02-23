@@ -8,8 +8,14 @@ export const metadata: Metadata = generateMetadata({
   title: "Blogs & Insights | Taxclusive",
   description:
     "Stay updated with the latest trends, insights, and expert advice on taxation, accounting, and financial management.",
-  keywords:
-    "tax blogs, accounting insights, financial management, tax planning tips, business finance, tax updates",
+  keywords: [
+    "tax blogs",
+    "accounting insights",
+    "financial management",
+    "tax planning tips",
+    "business finance",
+    "tax updates",
+  ],
   canonical: "/blogs",
   type: "article",
 });

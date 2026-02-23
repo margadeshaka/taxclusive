@@ -1,85 +1,81 @@
-import useSWR from "swr";
+import useSWR, { type SWRConfiguration } from "swr";
 
-async function fetchAllBlogsFromApi() {
+export interface BlogTag {
+  name: string;
+  slug?: string;
+}
+
+export interface BlogBlock {
+  __component: string;
+  body?: string | null;
+}
+
+export interface BlogImage {
+  url: string;
+  alt?: string | null;
+}
+
+export interface BlogSummary {
+  id: string | number;
+  title: string;
+  slug: string;
+  excerpt?: string | null;
+  description?: string | null;
+  content?: string | null;
+  status?: string;
+  featured?: boolean;
+  publishedAt?: string | null;
+  tags?: BlogTag[];
+  blocks?: BlogBlock[];
+  cover?: BlogImage | null;
+  coverImage?: string | null;
+}
+
+function normalizeBlog(raw: any): BlogSummary {
+  return {
+    id: raw.id,
+    title: raw.title || "Untitled Blog Post",
+    slug: raw.slug || "",
+    excerpt: raw.excerpt ?? null,
+    description: raw.description ?? raw.excerpt ?? null,
+    content: raw.content ?? null,
+    status: raw.status,
+    featured: raw.featured ?? false,
+    publishedAt: raw.publishedAt ?? raw.published_at ?? null,
+    tags: Array.isArray(raw.tags) ? raw.tags : [],
+    blocks: Array.isArray(raw.blocks) ? raw.blocks : [],
+    cover: raw.cover ?? raw.featured_image ?? null,
+    coverImage: raw.coverImage ?? raw.featured_image?.url ?? raw.cover?.url ?? null,
+  };
+}
+
+async function fetchAllBlogsFromApi(): Promise<BlogSummary[]> {
   const res = await fetch("/api/public/blogs");
   if (!res.ok) throw new Error("Failed to fetch blogs");
   const json = await res.json();
-  return json.data ?? [];
+
+  const blogs = Array.isArray(json.data) ? json.data : [];
+  return blogs.map(normalizeBlog);
 }
 
-async function fetchBlogByIdFromApi(id: string) {
+async function fetchBlogByIdFromApi(id: string): Promise<BlogSummary | null> {
   const res = await fetch(`/api/public/blogs/${id}`);
   if (!res.ok) throw new Error("Failed to fetch blog");
   const json = await res.json();
-  return json.data ?? null;
+  return json.data ? normalizeBlog(json.data) : null;
 }
 
-// Default SWR configuration for better caching and performance
-const defaultSWRConfig = {
-  revalidateOnFocus: false, // Don't revalidate when window gets focus
-  revalidateIfStale: false, // Don't revalidate if data is stale
-  revalidateOnReconnect: true, // Revalidate when browser regains connection
-  dedupingInterval: 60000, // Dedupe requests within 1 minute
-  focusThrottleInterval: 10000, // Throttle focus events to 10 seconds
-  loadingTimeout: 5000, // Show loading state after 5 seconds
-  errorRetryCount: 3, // Retry failed requests 3 times
-  errorRetryInterval: 5000, // Wait 5 seconds between retries
-  suspense: false, // Don't use React Suspense
-  keepPreviousData: true, // Keep previous data while revalidating
-  // Use localStorage for persistent caching between sessions
-  provider: () => {
-    // Use localStorage for persistent caching if available
-    const map = new Map();
-    const storage = typeof window !== "undefined" ? localStorage : null;
-
-    // Initialize cache from localStorage
-    if (storage) {
-      try {
-        const cache = JSON.parse(storage.getItem("swr-cache") || "{}");
-        Object.keys(cache).forEach((key) => {
-          const item = cache[key];
-          // Only use cached items that are less than 24 hours old
-          if (item && Date.now() - item.timestamp < 86400000) {
-            map.set(key, item.data);
-          }
-        });
-      } catch (e) {
-        console.error("Error loading SWR cache from localStorage:", e);
-      }
-    }
-
-    // Return provider methods
-    return {
-      get: (key: string) => map.get(key),
-      set: (key: string, value: any) => {
-        map.set(key, value);
-        if (storage) {
-          try {
-            // Get current cache
-            const cache = JSON.parse(storage.getItem("swr-cache") || "{}");
-            // Update cache with new value and timestamp
-            cache[key] = { data: value, timestamp: Date.now() };
-            // Save back to localStorage
-            storage.setItem("swr-cache", JSON.stringify(cache));
-          } catch (e) {
-            console.error("Error saving SWR cache to localStorage:", e);
-          }
-        }
-      },
-      delete: (key: string) => {
-        map.delete(key);
-        if (storage) {
-          try {
-            const cache = JSON.parse(storage.getItem("swr-cache") || "{}");
-            delete cache[key];
-            storage.setItem("swr-cache", JSON.stringify(cache));
-          } catch (e) {
-            console.error("Error deleting from SWR cache in localStorage:", e);
-          }
-        }
-      },
-    };
-  },
+const defaultSWRConfig: SWRConfiguration = {
+  revalidateOnFocus: false,
+  revalidateIfStale: false,
+  revalidateOnReconnect: true,
+  dedupingInterval: 60000,
+  focusThrottleInterval: 10000,
+  loadingTimeout: 5000,
+  errorRetryCount: 3,
+  errorRetryInterval: 5000,
+  suspense: false,
+  keepPreviousData: true,
 };
 
 /**
@@ -87,8 +83,8 @@ const defaultSWRConfig = {
  * @returns Object containing blogs data, loading state, error state, and mutate function
  */
 export function useBlogs() {
-  const { data, error, isLoading, mutate } = useSWR(
-    'all-blogs',
+  const { data, error, isLoading, mutate } = useSWR<BlogSummary[]>(
+    "all-blogs",
     fetchAllBlogsFromApi,
     defaultSWRConfig
   );
@@ -107,7 +103,7 @@ export function useBlogs() {
  * @returns Object containing blog data, loading state, error state, and mutate function
  */
 export function useBlog(id: string) {
-  const { data, error, isLoading, mutate } = useSWR(
+  const { data, error, isLoading, mutate } = useSWR<BlogSummary | null>(
     id ? `blog-${id}` : null,
     () => fetchBlogByIdFromApi(id),
     defaultSWRConfig

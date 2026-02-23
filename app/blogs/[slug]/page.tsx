@@ -46,7 +46,7 @@ export async function generateMetadata({ params }: BlogPageProps): Promise<Metad
     return generateBlogMetadata({
       title: blog.metaTitle || blog.title,
       description: blog.metaDescription || blog.excerpt || blog.content?.substring(0, 160),
-      image: blog.ogImage || blog.coverImage,
+      image: blog.ogImage || blog.coverImage || undefined,
       type: "article",
       canonical: `/blogs/${slug}`,
       publishedTime: blog.publishedAt?.toISOString?.() || blog.published_at,
@@ -92,7 +92,7 @@ export default async function BlogPost({ params }: BlogPageProps) {
                 author: blog.author?.name || "Taxclusive Team",
                 publishedTime: blog.published_at || new Date().toISOString(),
                 modifiedTime: blog.updated_at,
-                image: blog.coverImage,
+                image: blog.coverImage || undefined,
                 url: `${baseUrl}/blogs/${slug}`,
               }),
             }}

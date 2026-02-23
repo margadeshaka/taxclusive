@@ -3,6 +3,23 @@
  * Main entry point for the website configuration system
  */
 
+import { WEBSITE_CONFIG_CONSTANTS } from "./constants";
+import { defaultConfig } from "./default-config";
+import {
+  backupConfig,
+  createConfig,
+  exportConfig,
+  generateColorPalette,
+  importConfig,
+  restoreConfig,
+} from "./config-utils";
+import { getConfigHealth, validateConfig } from "./config-validator";
+import type {
+  ContentConfiguration,
+  ThemeConfiguration,
+  WebsiteConfiguration,
+} from "./website-config";
+
 // =============================================================================
 // MAIN EXPORTS
 // =============================================================================
@@ -370,12 +387,6 @@ export const CONFIG_PRESETS = {
     },
   },
 } as const;
-
-// =============================================================================
-// RE-EXPORT CORE FUNCTIONS
-// =============================================================================
-
-import { createConfig, generateColorPalette } from "./config-utils";
 
 // Make sure all exports are available at the top level
 export default {

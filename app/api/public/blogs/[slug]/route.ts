@@ -4,10 +4,11 @@ import { fetchBlogBySlug } from '@/lib/api/blogs';
 
 export async function GET(
   request: Request,
-  { params }: { params: { slug: string } }
+  { params }: { params: Promise<{ slug: string }> }
 ) {
   try {
-    const blog = await fetchBlogBySlug(params.slug);
+    const { slug } = await params;
+    const blog = await fetchBlogBySlug(slug);
     
     if (!blog) {
       return NextResponse.json(

@@ -8,7 +8,6 @@ import {
   AuthorizationError,
   NotFoundError,
   RateLimitError,
-  handleError,
 } from "./error-handler";
 import { rateLimitedFetch } from "./rate-limit";
 
@@ -37,12 +36,28 @@ const responseInterceptors: ResponseInterceptor[] = [];
 // Error interceptors array
 const errorInterceptors: ErrorInterceptor[] = [];
 
+function toHeaderRecord(headers?: HeadersInit): Record<string, string> {
+  if (!headers) {
+    return {};
+  }
+
+  if (headers instanceof Headers) {
+    return Object.fromEntries(headers.entries());
+  }
+
+  if (Array.isArray(headers)) {
+    return Object.fromEntries(headers);
+  }
+
+  return { ...headers };
+}
+
 // Add CSRF token to all non-GET requests
 addRequestInterceptor((url, options) => {
   // Only add CSRF token to non-GET requests
   if (options.method && options.method.toUpperCase() !== "GET") {
     // Create headers object if it doesn't exist
-    const headers = options.headers || {};
+    const headers = toHeaderRecord(options.headers);
 
     // Add CSRF token to headers
     if (typeof window !== "undefined") {
@@ -130,7 +145,7 @@ export interface RequestOptions extends RequestInit {
   timeout?: number;
   retries?: number;
   retryDelay?: number;
-  cache?: "default" | "no-store" | "reload" | "force-cache" | "only-if-cached";
+  cache?: RequestCache;
   skipInterceptors?: boolean;
 }
 
@@ -157,13 +172,9 @@ export async function fetchWithRetry(url: string, options: RequestOptions = {}):
   try {
     // Apply request interceptors if not skipped
     let interceptedUrl = url;
-    let interceptedOptions = {
-      ...options,
-      timeout,
-      retries,
-      retryDelay,
-      cache,
+    let interceptedOptions: RequestOptions = {
       ...fetchOptions,
+      cache,
     };
 
     if (!skipInterceptors && requestInterceptors.length > 0) {
@@ -175,11 +186,18 @@ export async function fetchWithRetry(url: string, options: RequestOptions = {}):
     }
 
     // Add the signal to the fetch options
-    const fetchWithTimeout = {
-      ...interceptedOptions,
+    const {
+      timeout: _timeout,
+      retries: _retries,
+      retryDelay: _retryDelay,
+      skipInterceptors: _skipInterceptors,
+      ...requestInit
+    } = interceptedOptions;
+
+    const fetchWithTimeout: RequestInit = {
+      ...requestInit,
       signal: controller.signal,
       cache,
-      skipInterceptors: true, // Skip interceptors for retry requests to avoid infinite loops
     };
 
     try {

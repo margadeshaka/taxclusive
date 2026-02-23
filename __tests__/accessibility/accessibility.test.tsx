@@ -2,6 +2,7 @@
  * Accessibility Tests
  * Tests for WCAG compliance, screen reader compatibility, and keyboard navigation
  */
+/* eslint-disable @next/next/no-html-link-for-pages */
 
 import { render, screen, fireEvent } from '@testing-library/react';
 import { axe, toHaveNoViolations } from 'jest-axe';

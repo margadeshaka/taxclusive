@@ -21,11 +21,8 @@ let userConfig = undefined
 const nextConfig = {
   // Remove static export to enable API routes
   // output: 'export',
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
   typescript: {
-    ignoreBuildErrors: true,
+    ignoreBuildErrors: false,
   },
   
   // SEO and Performance Optimizations
@@ -51,7 +48,6 @@ const nextConfig = {
     dangerouslyAllowSVG: true,
     contentDispositionType: 'attachment',
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
-    domains: ['beneficial-bell-dbe99c11c9.strapiapp.com', 'www.taxclusive.com', 'taxclusive.com'],
     remotePatterns: [
       {
         protocol: 'https',
@@ -124,14 +120,6 @@ const nextConfig = {
     parallelServerBuildTraces: true,
     parallelServerCompiles: true,
     optimizePackageImports: ['@/components', '@/lib', '@/hooks'],
-    turbo: {
-      rules: {
-        '*.svg': {
-          loaders: ['@svgr/webpack'],
-          as: '*.js',
-        },
-      },
-    },
   },
   
   // Better error handling in production

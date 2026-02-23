@@ -11,6 +11,13 @@ export class AppError extends Error {
   }
 }
 
+export class NetworkError extends AppError {
+  constructor(message: string = "Network request failed", statusCode: number = 503, details?: any) {
+    super(message, statusCode, "NETWORK_ERROR", details);
+    this.name = "NetworkError";
+  }
+}
+
 export class ValidationError extends AppError {
   constructor(message: string, details?: any) {
     super(message, 400, "VALIDATION_ERROR", details);
@@ -54,7 +61,10 @@ export class RateLimitError extends AppError {
 }
 
 // Error handler utility
-export function handleError(error: unknown): {
+export function handleError(
+  error: unknown,
+  context?: Record<string, unknown>
+): {
   message: string;
   statusCode: number;
   code?: string;
@@ -66,7 +76,7 @@ export function handleError(error: unknown): {
       message: error.message,
       statusCode: error.statusCode,
       code: error.code,
-      details: error.details,
+      details: context ? { ...error.details, context } : error.details,
     };
   }
 
@@ -79,6 +89,7 @@ export function handleError(error: unknown): {
         message: "A record with this value already exists",
         statusCode: 409,
         code: "DUPLICATE_ENTRY",
+        details: context,
       };
     }
     
@@ -87,6 +98,7 @@ export function handleError(error: unknown): {
         message: "Record not found",
         statusCode: 404,
         code: "NOT_FOUND",
+        details: context,
       };
     }
   }
@@ -97,6 +109,7 @@ export function handleError(error: unknown): {
       message: error.message,
       statusCode: 500,
       code: "INTERNAL_ERROR",
+      details: context,
     };
   }
 
@@ -105,6 +118,7 @@ export function handleError(error: unknown): {
     message: "An unexpected error occurred",
     statusCode: 500,
     code: "UNKNOWN_ERROR",
+    details: context,
   };
 }
 
@@ -125,4 +139,16 @@ export function asyncHandler<T extends (...args: any[]) => Promise<any>>(
       );
     }
   }) as T;
+}
+
+export async function withErrorHandling<T>(
+  promise: Promise<T>,
+  context?: Record<string, unknown>
+): Promise<T | null> {
+  try {
+    return await promise;
+  } catch (error) {
+    handleError(error, context);
+    return null;
+  }
 }

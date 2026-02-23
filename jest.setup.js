@@ -3,8 +3,29 @@ import "@testing-library/jest-dom";
 
 // Polyfill fetch for Node.js environment
 import { TextEncoder, TextDecoder } from "util";
+import { ReadableStream, WritableStream, TransformStream } from "stream/web";
 global.TextEncoder = TextEncoder;
 global.TextDecoder = TextDecoder;
+if (!global.ReadableStream) global.ReadableStream = ReadableStream;
+if (!global.WritableStream) global.WritableStream = WritableStream;
+if (!global.TransformStream) global.TransformStream = TransformStream;
+
+const {
+  Blob: EdgeBlob,
+  File: EdgeFile,
+  FormData: EdgeFormData,
+  Headers: EdgeHeaders,
+  Request: EdgeRequest,
+  Response: EdgeResponse,
+} = require("next/dist/compiled/@edge-runtime/primitives/fetch");
+
+// Polyfill Fetch API primitives required by Next.js route handlers in Jest.
+if (!global.Headers) global.Headers = EdgeHeaders;
+if (!global.Request) global.Request = EdgeRequest;
+if (!global.Response) global.Response = EdgeResponse;
+if (!global.FormData) global.FormData = EdgeFormData;
+if (!global.Blob) global.Blob = EdgeBlob;
+if (!global.File) global.File = EdgeFile;
 
 // Mock fetch for tests
 global.fetch = jest.fn();

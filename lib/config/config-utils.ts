@@ -411,27 +411,33 @@ export function getResponsiveImageSrcSet(
 // PRIVATE HELPER FUNCTIONS
 // =============================================================================
 
-function deepMerge<T>(target: T, source: Partial<T>): T {
-  const result = { ...target };
+function deepMerge<T extends object>(target: T, source: Partial<T>): T {
+  const result = { ...target } as Record<string, unknown>;
+  const targetRecord = target as Record<string, unknown>;
+  const sourceRecord = source as Record<string, unknown>;
 
-  for (const key in source) {
-    if (source[key] !== undefined) {
+  for (const key in sourceRecord) {
+    const sourceValue = sourceRecord[key];
+    if (sourceValue !== undefined) {
       if (
-        typeof source[key] === "object" &&
-        source[key] !== null &&
-        !Array.isArray(source[key]) &&
-        typeof result[key] === "object" &&
-        result[key] !== null &&
-        !Array.isArray(result[key])
+        typeof sourceValue === "object" &&
+        sourceValue !== null &&
+        !Array.isArray(sourceValue) &&
+        typeof targetRecord[key] === "object" &&
+        targetRecord[key] !== null &&
+        !Array.isArray(targetRecord[key])
       ) {
-        result[key] = deepMerge(result[key], source[key]!);
+        result[key] = deepMerge(
+          targetRecord[key] as Record<string, unknown>,
+          sourceValue as Record<string, unknown>
+        );
       } else {
-        result[key] = source[key]!;
+        result[key] = sourceValue;
       }
     }
   }
 
-  return result;
+  return result as T;
 }
 
 function generateColorVariables(colors: any, indent: string = "  "): string {

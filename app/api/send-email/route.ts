@@ -1,30 +1,50 @@
 import { NextRequest, NextResponse } from "next/server";
+import { getServerSession } from "next-auth/next";
+import { z } from "zod";
 
+import { authOptions } from "@/lib/auth";
 import { sendEmail } from "@/lib/email";
+
+const sendEmailSchema = z.object({
+  subject: z.string().trim().min(1).max(200),
+  text: z.string().trim().min(1).max(10000),
+  html: z.string().optional(),
+  replyTo: z.string().email().optional(),
+});
 
 export async function POST(req: NextRequest) {
   try {
-    // Parse the request body
-    const body = await req.json();
-    const { subject, text, html, replyTo } = body;
+    const session = await getServerSession(authOptions);
 
-    // Validate required fields
-    if (!subject || !text) {
+    if (!session || !["ADMIN", "EDITOR"].includes(session.user.role)) {
       return NextResponse.json(
         {
           success: false,
-          message: "Subject and text are required",
+          message: "Unauthorized",
+        },
+        { status: 401 }
+      );
+    }
+
+    const body = await req.json();
+    const parsed = sendEmailSchema.safeParse(body);
+
+    if (!parsed.success) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Invalid request payload",
+          errors: parsed.error.flatten().fieldErrors,
         },
         { status: 400 }
       );
     }
 
-    // Send email using the existing email service
     await sendEmail({
-      subject,
-      text,
-      html: html || text,
-      replyTo,
+      subject: parsed.data.subject,
+      text: parsed.data.text,
+      html: parsed.data.html || parsed.data.text,
+      replyTo: parsed.data.replyTo,
     });
 
     return NextResponse.json({
@@ -42,16 +62,4 @@ export async function POST(req: NextRequest) {
       { status: 500 }
     );
   }
-}
-
-// Handle preflight requests for CORS
-export async function OPTIONS() {
-  return new NextResponse(null, {
-    status: 200,
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "POST, OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type",
-    },
-  });
 }

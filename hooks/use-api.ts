@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import { fetchWithRetry } from "@/lib/api-client";
+import { fetchWithRetry, RequestOptions } from "@/lib/api-client";
 import { handleError, withErrorHandling } from "@/lib/error-handler";
 
 interface UseApiState<T> {
@@ -9,18 +9,19 @@ interface UseApiState<T> {
 }
 
 interface UseApiReturn<T> extends UseApiState<T> {
-  execute: (url: string, options?: RequestInit) => Promise<T | null>;
+  execute: (url: string, options?: RequestOptions) => Promise<T | null>;
   reset: () => void;
 }
 
-export function useApi<T = any>(): UseApiReturn<T> {
+export function useApi<T = unknown>(): UseApiReturn<T> {
   const [state, setState] = useState<UseApiState<T>>({
     data: null,
     loading: false,
     error: null,
   });
 
-  const execute = useCallback(async (url: string, options: RequestInit = {}): Promise<T | null> => {
+  const execute = useCallback(
+    async (url: string, options: RequestOptions = {}): Promise<T | null> => {
     setState(prev => ({ ...prev, loading: true, error: null }));
 
     try {
@@ -39,7 +40,9 @@ export function useApi<T = any>(): UseApiReturn<T> {
       handleError(err, { url, options });
       return null;
     }
-  }, []);
+    },
+    []
+  );
 
   const reset = useCallback(() => {
     setState({ data: null, loading: false, error: null });
@@ -53,7 +56,7 @@ export function useApi<T = any>(): UseApiReturn<T> {
 }
 
 // Hook for safe async operations with error handling
-export function useSafeAsync<T extends any[], R>(
+export function useSafeAsync<T extends unknown[], R>(
   asyncFn: (...args: T) => Promise<R>
 ): [(...args: T) => Promise<R | null>, boolean, Error | null] {
   const [loading, setLoading] = useState(false);

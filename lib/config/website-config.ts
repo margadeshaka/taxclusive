@@ -757,20 +757,3 @@ export interface ConfigValidation {
     };
   };
 }
-
-// =============================================================================
-// EXPORT TYPES
-// =============================================================================
-
-export type {
-  ThemeColors,
-  ThemeConfiguration,
-  ContentConfiguration,
-  AssetConfiguration,
-  FeatureConfiguration,
-  WebsiteConfiguration,
-  ConfigValidation,
-};
-
-// Default export for easy importing
-export default WebsiteConfiguration;

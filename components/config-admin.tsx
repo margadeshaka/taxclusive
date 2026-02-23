@@ -171,7 +171,7 @@ export function ConfigAdmin() {
             )}
 
             {validationResult.deprecated.length > 0 && (
-              <Alert variant="secondary" className="mb-4">
+              <Alert className="mb-4 border-primary/30 bg-primary/5">
                 <AlertTriangle className="h-4 w-4" />
                 <AlertTitle>Deprecated Fields</AlertTitle>
                 <AlertDescription>

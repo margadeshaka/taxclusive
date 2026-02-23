@@ -6,7 +6,7 @@ import { prisma } from "@/lib/prisma"
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions)
@@ -27,7 +27,7 @@ export async function PUT(
       approved 
     } = await req.json()
 
-    const testimonialId = params.id
+    const { id: testimonialId } = await params
 
     const testimonial = await prisma.testimonial.update({
       where: { id: testimonialId },
@@ -61,7 +61,7 @@ export async function PUT(
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions)
@@ -70,7 +70,7 @@ export async function DELETE(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 
-    const testimonialId = params.id
+    const { id: testimonialId } = await params
 
     await prisma.testimonial.delete({
       where: { id: testimonialId }

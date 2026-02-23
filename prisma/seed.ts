@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client'
 import bcrypt from 'bcryptjs'
+import { randomBytes } from 'crypto'
 import dotenv from 'dotenv'
 
 // Load environment variables from .env.local
@@ -7,11 +8,31 @@ dotenv.config({ path: '.env.local' })
 
 const prisma = new PrismaClient()
 
+function getSeedPassword(envVarName: string, label: string): string {
+  const configuredPassword = process.env[envVarName]
+  if (configuredPassword && configuredPassword.length >= 12) {
+    return configuredPassword
+  }
+
+  if (process.env.NODE_ENV === 'development') {
+    const generatedPassword = randomBytes(18).toString('base64url')
+    console.warn(
+      `⚠️ ${envVarName} not set. Generated one-time development password for ${label}: ${generatedPassword}`
+    )
+    return generatedPassword
+  }
+
+  throw new Error(
+    `${envVarName} must be set to a strong password (minimum 12 characters) before running seed in non-development environments.`
+  )
+}
+
 async function main() {
   console.log('🌱 Seeding database...')
 
   // Create admin user
-  const hashedPassword = await bcrypt.hash('admin123', 12)
+  const adminPassword = getSeedPassword('SEED_ADMIN_PASSWORD', 'admin user')
+  const hashedPassword = await bcrypt.hash(adminPassword, 12)
   
   const adminUser = await prisma.user.upsert({
     where: { email: 'admin@taxclusive.com' },
@@ -27,7 +48,8 @@ async function main() {
   console.log('✅ Admin user created:', adminUser.email)
 
   // Create editor user
-  const editorPassword = await bcrypt.hash('editor123', 12)
+  const editorRawPassword = getSeedPassword('SEED_EDITOR_PASSWORD', 'editor user')
+  const editorPassword = await bcrypt.hash(editorRawPassword, 12)
   
   const editorUser = await prisma.user.upsert({
     where: { email: 'editor@taxclusive.com' },

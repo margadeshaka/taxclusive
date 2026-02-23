@@ -7,7 +7,7 @@ import { prisma } from "@/lib/prisma"
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions)
@@ -17,7 +17,7 @@ export async function PUT(
     }
 
     const { email, name, role, password } = await req.json()
-    const userId = params.id
+    const { id: userId } = await params
 
     const updateData: any = {
       email,
@@ -51,7 +51,7 @@ export async function PUT(
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions)
@@ -60,7 +60,7 @@ export async function DELETE(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 
-    const userId = params.id
+    const { id: userId } = await params
 
     // Don't allow deletion of the current user
     if (userId === session.user.id) {

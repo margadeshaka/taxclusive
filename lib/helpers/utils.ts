@@ -109,7 +109,7 @@ export function debounce<T extends (...args: any[]) => any>(
   let timeoutId: NodeJS.Timeout;
   return (...args: Parameters<T>) => {
     clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => func.apply(this, args), delay);
+    timeoutId = setTimeout(() => func(...args), delay);
   };
 }
 
@@ -125,7 +125,7 @@ export function throttle<T extends (...args: any[]) => any>(
     const now = Date.now();
     if (now - lastCall >= delay) {
       lastCall = now;
-      func.apply(this, args);
+      func(...args);
     }
   };
 }
